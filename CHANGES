@@ -1,0 +1,41 @@
+1993-03-02  unknown
+
+	* README: original version
+
+1993-02-22  unknown
+
+	* skeleton.c, warshall.c, main.c, output.c, reader.c, closure.c, NOTES:
+	original version
+
+1992-10-12  unknown
+
+	* yacc.1: original version
+
+1992-10-11  unknown
+
+	* defs.h: original version
+
+1991-01-20  unknown
+
+	* mkpar.c, verbose.c: original version
+
+1991-01-14  unknown
+
+	* lr0.c, Makefile, Makefile.old: original version
+
+1990-07-16  unknown
+
+	* NEW_FEATURES: original version
+
+1990-06-03  unknown
+
+	* ACKNOWLEDGEMENTS: original version
+
+1990-02-05  unknown
+
+	* symtab.c, lalr.c, error.c: original version
+
+1989-11-22  unknown
+
+	* NO_WARRANTY: original version
+

@@ -158,7 +158,7 @@ nextc()
     s = cptr;
     for (;;)
     {
-	switch (*s)
+	switch ((int)(*s))
 	{
 	case '\n':
 	    get_line();

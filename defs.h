@@ -1,7 +1,9 @@
 #include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
-
+#ifdef MSDOS
+#include <stdlib.h>
+#endif
 
 /*  machine-dependent definitions			*/
 /*  the following definitions are for the Tahoe		*/
@@ -22,10 +24,19 @@
 #define	MAXSHORT	32767
 #define MINSHORT	-32768
 #define MAXTABLE	32500
+#ifdef MSDOS
+#define BITS_PER_WORD	16
+#else
 #define BITS_PER_WORD	32
-#define	WORDSIZE(n)	(((n)+(BITS_PER_WORD-1))/BITS_PER_WORD)
+#endif
+#define WORDSIZE(n)	(((n)+(BITS_PER_WORD-1))/BITS_PER_WORD)
+#ifdef MSDOS
+#define BIT(r, n)	((((r)[(n)>>4])>>((n)&15))&1)
+#define SETBIT(r, n)	((r)[(n)>>4]|=((unsigned)1<<((n)&15)))
+#else
 #define	BIT(r, n)	((((r)[(n)>>5])>>((n)&31))&1)
-#define	SETBIT(r, n)	((r)[(n)>>5]|=((unsigned)1<<((n)&31)))
+#define SETBIT(r, n)	((r)[(n)>>5]|=((unsigned)1<<((n)&31)))
+#endif
 
 
 /*  character names  */
@@ -45,10 +56,17 @@
 
 /* defines for constructing filenames */
 
+#ifdef MSDOS
+#define CODE_SUFFIX     "_code.c"
+#define DEFINES_SUFFIX  "_tab.h"
+#define OUTPUT_SUFFIX   "_tab.c"
+#define VERBOSE_SUFFIX  ".out"
+#else
 #define CODE_SUFFIX	".code.c"
 #define	DEFINES_SUFFIX	".tab.h"
 #define	OUTPUT_SUFFIX	".tab.c"
-#define	VERBOSE_SUFFIX	".output"
+#define VERBOSE_SUFFIX	".output"
+#endif
 
 
 /* keyword codes */
@@ -281,9 +299,10 @@ extern int errno;
 
 
 /* system functions */
-
+#ifndef MSDOS
 extern void free();
 extern char *calloc();
 extern char *malloc();
 extern char *realloc();
 extern char *strcpy();
+#endif

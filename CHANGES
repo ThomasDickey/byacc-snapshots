@@ -1,3 +1,7 @@
+1993-12-22  unknown
+
+	* reader.c, defs.h: MSDOS-port
+
 1993-03-02  unknown
 
 	* README: original version

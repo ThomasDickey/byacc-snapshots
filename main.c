@@ -10,7 +10,11 @@ char vflag;
 char *symbol_prefix;
 char *file_prefix = "y";
 char *myname = "yacc";
+#ifdef MSDOS
+char *temp_form = "yaccXXXXXXX";
+#else
 char *temp_form = "yacc.XXXXXXX";
+#endif
 
 int lineno;
 int outline;
@@ -71,7 +75,9 @@ int k;
 }
 
 
-onintr()
+void
+onintr(signo)
+    int signo;
 {
     done(1);
 }
@@ -93,13 +99,27 @@ set_signals()
 #endif
 }
 
-
+#ifdef MSDOS
+usage()
+{
+    fprintf(stderr, "Yacc 1.9 (Berkeley) 02/21/93\n");
+    fprintf(stderr, "usage: %s [-dlrtv] [-b file_prefix] [-p symbol_prefix] filename\n", myname);
+    fprintf(stderr, "\t-b file_prefix   change the default file prefix \"y_\"\n");
+    fprintf(stderr, "\t-p symbol_prefix change the default symbol prefix \"yy\"\n");
+    fprintf(stderr, "\t-d\t\t write the header file \"y_tab.h\"\n");
+    fprintf(stderr, "\t-l\t\t exclude the #line directives in files\n");
+    fprintf(stderr, "\t-r\t\t seperate code and tables into \"y_code.c\" and \"y_tab.c\"\n");
+    fprintf(stderr, "\t-t\t\t include the debugging code in files\n");
+    fprintf(stderr, "\t-v\t\t write the parser description file \"y.out\"\n");
+    exit(1);
+}
+#else
 usage()
 {
     fprintf(stderr, "usage: %s [-dlrtv] [-b file_prefix] [-p symbol_prefix] filename\n", myname);
     exit(1);
 }
-
+#endif
 
 getargs(argc, argv)
 int argc;
@@ -113,7 +133,7 @@ char *argv[];
     {
 	s = argv[i];
 	if (*s != '-') break;
-	switch (*++s)
+	switch ((int)(*++s))
 	{
 	case '\0':
 	    input_file = stdin;
@@ -168,7 +188,7 @@ char *argv[];
 
 	for (;;)
 	{
-	    switch (*++s)
+	    switch ((int)(*++s))
 	    {
 	    case '\0':
 		goto end_of_option;
@@ -227,8 +247,14 @@ create_file_names()
     int i, len;
     char *tmpdir;
 
+#ifdef MSDOS
+    (tmpdir = getenv("TMPDIR")) ||
+       (tmpdir = getenv("TMP")) ||
+       (tmpdir = ".");
+#else
     tmpdir = getenv("TMPDIR");
     if (tmpdir == 0) tmpdir = "/tmp";
+#endif
 
     len = strlen(tmpdir);
     i = len + 13;

@@ -1,19 +1,28 @@
-MANIFEST for byacc, version VMS-port
+MANIFEST for byacc, version t20040328
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
-Makefile                        original version of byacc - 1993
+Makefile.old                    renamed from Makefile
 NEW_FEATURES                    original version of byacc - 1993
 NOTES                           original version of byacc - 1993
 NO_WARRANTY                     original version of byacc - 1993
 README                          original version of byacc - 1993
+aclocal.m4                      macros for configure-script
 closure.c                       original version of byacc - 1993
+config.guess                    configure-script utility
+config.sub                      configure-script utility
+config_h.in                     template for config.h
+configure                       snapshot 2004/3/28
+configure.in                    template for configure-script
 defs.h                          original version of byacc - 1993
 descrip.mms                     build-script for VMS
 error.c                         original version of byacc - 1993
+install-sh                      install-script
 lalr.c                          original version of byacc - 1993
 lr0.c                           original version of byacc - 1993
 main.c                          original version of byacc - 1993
+makefile.in                     template for makefile
+mkdirs.sh                       script to make directories
 mkpar.c                         original version of byacc - 1993
 output.c                        original version of byacc - 1993
 reader.c                        original version of byacc - 1993
@@ -24,6 +33,11 @@ vmsbuild.com                    build-script for VMS
 warshall.c                      original version of byacc - 1993
 yacc.1                          original version of byacc - 1993
 test                            subdirectory
+test/README                     describe contents of "test" subdirectory
+test/calc.output                "-v" output from byacc
+test/calc.tab.c                 c-file for calc.y
+test/calc.tab.h                 header-file for calc.y
+test/calc.y                     example from VMS freeware version of byacc
 test/error.output               original version of byacc - 1993
 test/error.tab.c                original version of byacc - 1993
 test/error.tab.h                original version of byacc - 1993
@@ -32,3 +46,8 @@ test/ftp.output                 original version of byacc - 1993
 test/ftp.tab.c                  original version of byacc - 1993
 test/ftp.tab.h                  original version of byacc - 1993
 test/ftp.y                      original version of byacc - 1993
+test/grammar.output             "-v" output from grammar.y
+test/grammar.tab.c              c-file for grammar.y
+test/grammar.tab.h              h-file for grammar.y
+test/grammar.y                  grammar from cproto
+test/run_test.sh                test-script for byacc

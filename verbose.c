@@ -4,7 +4,7 @@
 
 static short *null_rules;
 
-verbose()
+void verbose(void)
 {
     register int i;
 
@@ -28,7 +28,7 @@ verbose()
 }
 
 
-log_unused()
+void log_unused(void)
 {
     register int i;
     register short *p;
@@ -47,7 +47,7 @@ log_unused()
 }
 
 
-log_conflicts()
+void log_conflicts(void)
 {
     register int i;
 
@@ -75,8 +75,7 @@ log_conflicts()
 }
 
 
-print_state(state)
-int state;
+void print_state(int state)
 {
     if (state)
 	fprintf(verbose_file, "\n\n");
@@ -89,12 +88,13 @@ int state;
 }
 
 
-print_conflicts(state)
-int state;
+void print_conflicts(int state)
 {
     register int symbol, act, number;
     register action *p;
 
+    act = 0;	/* not shift/reduce... */
+    number = -1;
     symbol = -1;
     for (p = parser[state]; p; p = p->next)
     {
@@ -137,8 +137,7 @@ int state;
 }
 
 
-print_core(state)
-int state;
+void print_core(int state)
 {
     register int i;
     register int k;
@@ -173,8 +172,7 @@ int state;
 }
 
 
-print_nulls(state)
-int state;
+void print_nulls(int state)
 {
     register action *p;
     register int i, j, k, nnulls;
@@ -217,8 +215,7 @@ int state;
 }
 
 
-print_actions(stateno)
-int stateno;
+void print_actions(int stateno)
 {
     register action *p;
     register shifts *sp;
@@ -244,8 +241,7 @@ int stateno;
 }
 
 
-print_shifts(p)
-register action *p;
+void print_shifts(register action *p)
 {
     register int count;
     register action *q;
@@ -269,9 +265,7 @@ register action *p;
 }
 
 
-print_reductions(p, defred)
-register action *p;
-register int defred;
+void print_reductions(register action *p, register int defred2)
 {
     register int k, anyreds;
     register action *q;
@@ -292,7 +286,7 @@ register int defred;
     {
 	for (; p; p = p->next)
 	{
-	    if (p->action_code == REDUCE && p->number != defred)
+	    if (p->action_code == REDUCE && p->number != defred2)
 	    {
 		k = p->number - 2;
 		if (p->suppressed == 0)
@@ -301,26 +295,25 @@ register int defred;
 	    }
 	}
 
-        if (defred > 0)
-	    fprintf(verbose_file, "\t.  reduce %d\n", defred - 2);
+        if (defred2 > 0)
+	    fprintf(verbose_file, "\t.  reduce %d\n", defred2 - 2);
     }
 }
 
 
-print_gotos(stateno)
-int stateno;
+void print_gotos(int stateno)
 {
     register int i, k;
     register int as;
-    register short *to_state;
+    register short *to_state2;
     register shifts *sp;
 
     putc('\n', verbose_file);
     sp = shift_table[stateno];
-    to_state = sp->shift;
+    to_state2 = sp->shift;
     for (i = 0; i < sp->nshifts; ++i)
     {
-	k = to_state[i];
+	k = to_state2[i];
 	as = accessing_symbol[k];
 	if (ISVAR(as))
 	    fprintf(verbose_file, "\t%s  goto %d\n", symbol_name[as], k);

@@ -17,7 +17,7 @@ static int lowzero;
 static int high;
 
 
-output()
+void output(void)
 {
     free_itemsets();
     free_shifts();
@@ -40,7 +40,7 @@ output()
 }
 
 
-output_prefix()
+void output_prefix(void)
 {
     if (symbol_prefix == NULL)
 	symbol_prefix = "yy";
@@ -100,7 +100,7 @@ output_prefix()
 }
 
 
-output_rule_data()
+void output_rule_data(void)
 {
     register int i;
     register int j;
@@ -147,7 +147,7 @@ output_rule_data()
 }
 
 
-output_yydefred()
+void output_yydefred(void)
 {
     register int i, j;
 
@@ -174,7 +174,7 @@ output_yydefred()
 }
 
 
-output_actions()
+void output_actions(void)
 {
     nvectors = 2*nstates + nvars;
 
@@ -202,7 +202,7 @@ output_actions()
 }
 
 
-token_actions()
+void token_actions(void)
 {
     register int i, j;
     register int shiftcount, reducecount;
@@ -286,7 +286,7 @@ token_actions()
     FREE(actionrow);
 }
 
-goto_actions()
+void goto_actions(void)
 {
     register int i, j, k;
 
@@ -319,8 +319,7 @@ goto_actions()
 }
 
 int
-default_goto(symbol)
-int symbol;
+default_goto(int symbol)
 {
     register int i;
     register int m;
@@ -355,9 +354,7 @@ int symbol;
 
 
 
-save_column(symbol, default_state)
-int symbol;
-int default_state;
+void save_column(int symbol, int default_state)
 {
     register int i;
     register int m;
@@ -397,7 +394,7 @@ int default_state;
     width[symno] = sp1[-1] - sp[0] + 1;
 }
 
-sort_actions()
+void sort_actions(void)
 {
   register int i;
   register int j;
@@ -432,7 +429,7 @@ sort_actions()
 }
 
 
-pack_table()
+void pack_table(void)
 {
     register int i;
     register int place;
@@ -495,8 +492,7 @@ pack_table()
 /*  order.								*/
 
 int
-matching_vector(vector)
-int vector;
+matching_vector(int vector)
 {
     register int i;
     register int j;
@@ -536,8 +532,7 @@ int vector;
 
 
 int
-pack_vector(vector)
-int vector;
+pack_vector(int vector)
 {
     register int i, j, k, l;
     register int t;
@@ -613,7 +608,7 @@ int vector;
 
 
 
-output_base()
+void output_base(void)
 {
     register int i, j;
 
@@ -679,7 +674,7 @@ output_base()
 
 
 
-output_table()
+void output_table(void)
 {
     register int i;
     register int j;
@@ -711,7 +706,7 @@ output_table()
 
 
 
-output_check()
+void output_check(void)
 {
     register int i;
     register int j;
@@ -741,8 +736,7 @@ output_check()
 
 
 int
-is_C_identifier(name)
-char *name;
+is_C_identifier(char *name)
 {
     register char *s;
     register int c;
@@ -764,7 +758,7 @@ char *name;
 
     if (!isalpha(c) && c != '_' && c != '$')
 	return (0);
-    while (c = *++s)
+    while ((c = *++s) != 0)
     {
 	if (!isalnum(c) && c != '_' && c != '$')
 	    return (0);
@@ -773,7 +767,7 @@ char *name;
 }
 
 
-output_defines()
+void output_defines(void)
 {
     register int c, i;
     register char *s;
@@ -801,7 +795,7 @@ output_defines()
 		    putc(c, code_file);
 		    if (dflag) putc(c, defines_file);
 		}
-		while (c = *++s);
+		while ((c = *++s) != 0);
 	    }
 	    ++outline;
 	    fprintf(code_file, " %d\n", symbol_value[i]);
@@ -825,7 +819,7 @@ output_defines()
 }
 
 
-output_stored_text()
+void output_stored_text(void)
 {
     register int c;
     register FILE *in, *out;
@@ -852,7 +846,7 @@ output_stored_text()
 }
 
 
-output_debug()
+void output_debug(void)
 {
     register int i, j, k, max;
     char **symnam, *s;
@@ -889,7 +883,7 @@ output_debug()
     j = 80;
     for (i = 0; i <= max; ++i)
     {
-	if (s = symnam[i])
+	if ((s = symnam[i]) != 0)
 	{
 	    if (s[0] == '"')
 	    {
@@ -1066,7 +1060,7 @@ output_debug()
 }
 
 
-output_stype()
+void output_stype(void)
 {
     if (!unionized && ntags == 0)
     {
@@ -1076,7 +1070,7 @@ output_stype()
 }
 
 
-output_trailing_text()
+void output_trailing_text(void)
 {
     register int c, last;
     register FILE *in, *out;
@@ -1133,7 +1127,7 @@ output_trailing_text()
 }
 
 
-output_semantic_actions()
+void output_semantic_actions(void)
 {
     register int c, last;
     register FILE *out;
@@ -1170,7 +1164,7 @@ output_semantic_actions()
 }
 
 
-free_itemsets()
+void free_itemsets(void)
 {
     register core *cp, *next;
 
@@ -1183,7 +1177,7 @@ free_itemsets()
 }
 
 
-free_shifts()
+void free_shifts(void)
 {
     register shifts *sp, *next;
 
@@ -1197,7 +1191,7 @@ free_shifts()
 
 
 
-free_reductions()
+void free_reductions(void)
 {
     register reductions *rp, *next;
 

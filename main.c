@@ -1,3 +1,5 @@
+/* $Id: main.c,v 1.5 2004/03/28 19:52:10 tom Exp $ */
+
 #include <signal.h>
 #include "defs.h"
 
@@ -15,13 +17,10 @@ char *temp_form = "yacc.XXXXXXX";
 int lineno;
 int outline;
 
-char *action_file_name;
 char *code_file_name;
 char *defines_file_name;
 char *input_file_name = "";
 char *output_file_name;
-char *text_file_name;
-char *union_file_name;
 char *verbose_file_name;
 
 FILE *action_file;	/*  a temp file, used to save actions associated    */
@@ -59,9 +58,9 @@ char *nullable;
 
 void done(int k)
 {
-    if (action_file) { fclose(action_file); remove(action_file_name); }
-    if (text_file) { fclose(text_file); remove(text_file_name); }
-    if (union_file) { fclose(union_file); remove(union_file_name); }
+    if (action_file) fclose(action_file);
+    if (text_file) fclose(text_file);
+    if (union_file) fclose(union_file);
     exit(k);
 }
 
@@ -213,59 +212,9 @@ allocate(unsigned n)
     return (p);
 }
 
-#ifdef VMS
-#define DEFAULT_TMPDIR "sys$scratch"
-#define PATHCHAR ':'
-#else
-#define DEFAULT_TMPDIR "/tmp"
-#define PATHCHAR '/'
-#endif
-
 void create_file_names(void)
 {
-    int i, len;
-    char *tmpdir;
-
-    tmpdir = getenv("TMPDIR");
-    if (tmpdir == 0) {
-	tmpdir = DEFAULT_TMPDIR;
-    }
-
-    len = strlen(tmpdir);
-    i = len + 13;
-    if (len && tmpdir[len-1] != PATHCHAR)
-	++i;
-
-    action_file_name = MALLOC(i);
-    if (action_file_name == 0) no_space();
-    text_file_name = MALLOC(i);
-    if (text_file_name == 0) no_space();
-    union_file_name = MALLOC(i);
-    if (union_file_name == 0) no_space();
-
-    strcpy(action_file_name, tmpdir);
-    strcpy(text_file_name, tmpdir);
-    strcpy(union_file_name, tmpdir);
-
-    if (len && tmpdir[len - 1] != PATHCHAR)
-    {
-	action_file_name[len] = PATHCHAR;
-	text_file_name[len] = PATHCHAR;
-	union_file_name[len] = PATHCHAR;
-	++len;
-    }
-
-    strcpy(action_file_name + len, temp_form);
-    strcpy(text_file_name + len, temp_form);
-    strcpy(union_file_name + len, temp_form);
-
-    action_file_name[len + 5] = 'a';
-    text_file_name[len + 5] = 't';
-    union_file_name[len + 5] = 'u';
-
-    mktemp(action_file_name);
-    mktemp(text_file_name);
-    mktemp(union_file_name);
+    int len;
 
     len = strlen(file_prefix);
 
@@ -317,13 +266,13 @@ void open_files(void)
 	    open_error(input_file_name);
     }
 
-    action_file = fopen(action_file_name, "w");
+    action_file = tmpfile();
     if (action_file == 0)
-	open_error(action_file_name);
+	open_error("action_file");
 
-    text_file = fopen(text_file_name, "w");
+    text_file = tmpfile();
     if (text_file == 0)
-	open_error(text_file_name);
+	open_error("text_file");
 
     if (vflag)
     {
@@ -337,9 +286,9 @@ void open_files(void)
 	defines_file = fopen(defines_file_name, "w");
 	if (defines_file == 0)
 	    open_error(defines_file_name);
-	union_file = fopen(union_file_name, "w");
+	union_file = tmpfile();
 	if (union_file ==  0)
-	    open_error(union_file_name);
+	    open_error("union_file");
     }
 
     output_file = fopen(output_file_name, "w");
@@ -360,7 +309,6 @@ void open_files(void)
 int
 main(int argc, char *argv[])
 {
-    set_signals();
     getargs(argc, argv);
     open_files();
     reader();

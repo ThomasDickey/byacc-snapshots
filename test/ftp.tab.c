@@ -1,5 +1,5 @@
 #ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
+static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #endif
 #define YYBYACC 1
 #define YYMAJOR 1
@@ -7,6 +7,7 @@ static char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define yyclearin (yychar=(-1))
 #define yyerrok (yyerrflag=0)
 #define YYRECOVERING (yyerrflag!=0)
+extern int yyparse(void);
 #define YYPREFIX "yy"
 #line 26 "ftp.y"
 
@@ -56,7 +57,7 @@ char	cbuf[512];
 char	*fromname;
 
 char	*index();
-#line 60 "ftp.tab.c"
+#line 61 "ftp.tab.c"
 #define A 257
 #define B 258
 #define C 259
@@ -904,13 +905,13 @@ char *filename;
 		reply(504, "SIZE not implemented for Type %c.", "?AEIL"[type]);
 	}
 }
-#line 908 "ftp.tab.c"
+#line 909 "ftp.tab.c"
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
 int
-yyparse()
+yyparse(void)
 {
     register int yym, yyn, yystate;
 #if YYDEBUG
@@ -934,7 +935,7 @@ yyparse()
     *yyssp = yystate = 0;
 
 yyloop:
-    if (yyn = yydefred[yystate]) goto yyreduce;
+    if ((yyn = yydefred[yystate]) != 0) goto yyreduce;
     if (yychar < 0)
     {
         if ((yychar = yylex()) < 0) yychar = 0;
@@ -1684,7 +1685,7 @@ case 73:
 		}
 	}
 break;
-#line 1688 "ftp.tab.c"
+#line 1689 "ftp.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

@@ -15,7 +15,7 @@
 char *banner[] =
 {
     "#ifndef lint",
-    "static char yysccsid[] = \"@(#)yaccpar	1.9 (Berkeley) 02/21/93\";",
+    "static const char yysccsid[] = \"@(#)yaccpar	1.9 (Berkeley) 02/21/93\";",
     "#endif",
     "#define YYBYACC 1",
     "#define YYMAJOR 1",
@@ -23,6 +23,7 @@ char *banner[] =
     "#define yyclearin (yychar=(-1))",
     "#define yyerrok (yyerrflag=0)",
     "#define YYRECOVERING (yyerrflag!=0)",
+    "extern int yyparse(void);",
     0
 };
 
@@ -105,7 +106,7 @@ char *body[] =
     "    *yyssp = yystate = 0;",
     "",
     "yyloop:",
-    "    if (yyn = yydefred[yystate]) goto yyreduce;",
+    "    if ((yyn = yydefred[yystate]) != 0) goto yyreduce;",
     "    if (yychar < 0)",
     "    {",
     "        if ((yychar = yylex()) < 0) yychar = 0;",

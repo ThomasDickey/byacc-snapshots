@@ -1,3 +1,9 @@
+/* $Id: defs.h,v 1.5 2004/03/28 20:27:20 tom Exp $ */
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -207,13 +213,10 @@ extern char *header[];
 extern char *body[];
 extern char *trailer[];
 
-extern char *action_file_name;
 extern char *code_file_name;
 extern char *defines_file_name;
 extern char *input_file_name;
 extern char *output_file_name;
-extern char *text_file_name;
-extern char *union_file_name;
 extern char *verbose_file_name;
 
 extern FILE *action_file;
@@ -283,9 +286,7 @@ extern short final_state;
 extern bucket *lookup(char *);
 extern bucket *make_bucket(char *);
 
-#ifdef __GNUC__
-#define GCC_NORETURN __attribute__((noreturn))
-#else
+#ifndef GCC_NORETURN
 #define GCC_NORETURN /* nothing */
 #endif
 

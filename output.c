@@ -1,3 +1,5 @@
+/* $Id: output.c,v 1.3 2004/03/28 19:49:15 tom Exp $ */
+
 #include "defs.h"
 
 static int nvectors;
@@ -808,9 +810,9 @@ void output_defines(void)
 
     if (dflag && unionized)
     {
-	fclose(union_file);
-	union_file = fopen(union_file_name, "r");
-	if (union_file == NULL) open_error(union_file_name);
+	rewind(union_file);
+	union_file = tmpfile();
+	if (union_file == NULL) open_error("union_file");
 	while ((c = getc(union_file)) != EOF)
 	    putc(c, defines_file);
 	fprintf(defines_file, " YYSTYPE;\nextern YYSTYPE %slval;\n",
@@ -824,10 +826,9 @@ void output_stored_text(void)
     register int c;
     register FILE *in, *out;
 
-    fclose(text_file);
-    text_file = fopen(text_file_name, "r");
+    rewind(text_file);
     if (text_file == NULL)
-	open_error(text_file_name);
+	open_error("text_file");
     in = text_file;
     if ((c = getc(in)) == EOF)
 	return;
@@ -1132,11 +1133,7 @@ void output_semantic_actions(void)
     register int c, last;
     register FILE *out;
 
-    fclose(action_file);
-    action_file = fopen(action_file_name, "r");
-    if (action_file == NULL)
-	open_error(action_file_name);
-
+    rewind(action_file);
     if ((c = getc(action_file)) == EOF)
 	return;
 

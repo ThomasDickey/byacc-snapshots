@@ -1,5 +1,5 @@
 #ifndef lint
-static char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
+static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #endif
 #define YYBYACC 1
 #define YYMAJOR 1
@@ -7,6 +7,7 @@ static char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define yyclearin (yychar=(-1))
 #define yyerrok (yyerrflag=0)
 #define YYRECOVERING (yyerrflag!=0)
+extern int yyparse(void);
 #define YYPREFIX "yy"
 #define YYERRCODE 256
 short yylhs[] = {                                        -1,
@@ -76,13 +77,13 @@ YYSTYPE yyvs[YYSTACKSIZE];
 main(){printf("yyparse() = %d\n",yyparse());}
 yylex(){return-1;}
 yyerror(s)char*s;{printf("%s\n",s);}
-#line 80 "error.tab.c"
+#line 81 "error.tab.c"
 #define YYABORT goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
 #define YYERROR goto yyerrlab
 int
-yyparse()
+yyparse(void)
 {
     register int yym, yyn, yystate;
 #if YYDEBUG
@@ -106,7 +107,7 @@ yyparse()
     *yyssp = yystate = 0;
 
 yyloop:
-    if (yyn = yydefred[yystate]) goto yyreduce;
+    if ((yyn = yydefred[yystate]) != 0) goto yyreduce;
     if (yychar < 0)
     {
         if ((yychar = yylex()) < 0) yychar = 0;

@@ -1,3 +1,24 @@
+2004-02-23  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: RCS_BASE
+
+2004-02-17  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: RCS_BASE
+
+2003-11-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* install-sh: improved quoting
+
+2002-06-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* mkdirs.sh:
+	don't use character range, since some locales don't work as expected
+
+2001-06-22  Thomas E. Dickey  <dickey@clark.net>
+
+	* install-sh: RCS_BASE
+
 2000-11-20  Thomas E. Dickey  <dickey@clark.net>
 
 	* vmsbuild.com: original version

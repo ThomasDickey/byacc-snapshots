@@ -10,11 +10,7 @@ char vflag;
 char *symbol_prefix;
 char *file_prefix = "y";
 char *myname = "yacc";
-#ifdef MSDOS
-char *temp_form = "yaccXXXXXXX";
-#else
 char *temp_form = "yacc.XXXXXXX";
-#endif
 
 int lineno;
 int outline;
@@ -61,29 +57,22 @@ char  *rassoc;
 short **derives;
 char *nullable;
 
-extern char *mktemp();
-extern char *getenv();
-
-
-done(k)
-int k;
+void done(int k)
 {
-    if (action_file) { fclose(action_file); unlink(action_file_name); }
-    if (text_file) { fclose(text_file); unlink(text_file_name); }
-    if (union_file) { fclose(union_file); unlink(union_file_name); }
+    if (action_file) { fclose(action_file); remove(action_file_name); }
+    if (text_file) { fclose(text_file); remove(text_file_name); }
+    if (union_file) { fclose(union_file); remove(union_file_name); }
     exit(k);
 }
 
 
-void
-onintr(signo)
-    int signo;
+void onintr(int sig)
 {
-    done(1);
+    done(EXIT_FAILURE);
 }
 
 
-set_signals()
+void set_signals(void)
 {
 #ifdef SIGINT
     if (signal(SIGINT, SIG_IGN) != SIG_IGN)
@@ -99,31 +88,15 @@ set_signals()
 #endif
 }
 
-#ifdef MSDOS
-usage()
-{
-    fprintf(stderr, "Yacc 1.9 (Berkeley) 02/21/93\n");
-    fprintf(stderr, "usage: %s [-dlrtv] [-b file_prefix] [-p symbol_prefix] filename\n", myname);
-    fprintf(stderr, "\t-b file_prefix   change the default file prefix \"y_\"\n");
-    fprintf(stderr, "\t-p symbol_prefix change the default symbol prefix \"yy\"\n");
-    fprintf(stderr, "\t-d\t\t write the header file \"y_tab.h\"\n");
-    fprintf(stderr, "\t-l\t\t exclude the #line directives in files\n");
-    fprintf(stderr, "\t-r\t\t seperate code and tables into \"y_code.c\" and \"y_tab.c\"\n");
-    fprintf(stderr, "\t-t\t\t include the debugging code in files\n");
-    fprintf(stderr, "\t-v\t\t write the parser description file \"y.out\"\n");
-    exit(1);
-}
-#else
-usage()
-{
-    fprintf(stderr, "usage: %s [-dlrtv] [-b file_prefix] [-p symbol_prefix] filename\n", myname);
-    exit(1);
-}
-#endif
 
-getargs(argc, argv)
-int argc;
-char *argv[];
+void usage(void)
+{
+    fprintf(stderr, "usage: %s [-dlrtv] [-b file_prefix] [-p symbol_prefix] filename\n", myname);
+    exit(1);
+}
+
+
+void getargs(int argc, char *argv[])
 {
     register int i;
     register char *s;
@@ -133,7 +106,7 @@ char *argv[];
     {
 	s = argv[i];
 	if (*s != '-') break;
-	switch ((int)(*++s))
+	switch (*++s)
 	{
 	case '\0':
 	    input_file = stdin;
@@ -188,7 +161,7 @@ char *argv[];
 
 	for (;;)
 	{
-	    switch ((int)(*++s))
+	    switch (*++s)
 	    {
 	    case '\0':
 		goto end_of_option;
@@ -227,8 +200,7 @@ no_more_options:;
 
 
 char *
-allocate(n)
-unsigned n;
+allocate(unsigned n)
 {
     register char *p;
 
@@ -241,24 +213,27 @@ unsigned n;
     return (p);
 }
 
+#ifdef VMS
+#define DEFAULT_TMPDIR "sys$scratch"
+#define PATHCHAR ':'
+#else
+#define DEFAULT_TMPDIR "/tmp"
+#define PATHCHAR '/'
+#endif
 
-create_file_names()
+void create_file_names(void)
 {
     int i, len;
     char *tmpdir;
 
-#ifdef MSDOS
-    (tmpdir = getenv("TMPDIR")) ||
-       (tmpdir = getenv("TMP")) ||
-       (tmpdir = ".");
-#else
     tmpdir = getenv("TMPDIR");
-    if (tmpdir == 0) tmpdir = "/tmp";
-#endif
+    if (tmpdir == 0) {
+	tmpdir = DEFAULT_TMPDIR;
+    }
 
     len = strlen(tmpdir);
     i = len + 13;
-    if (len && tmpdir[len-1] != '/')
+    if (len && tmpdir[len-1] != PATHCHAR)
 	++i;
 
     action_file_name = MALLOC(i);
@@ -272,11 +247,11 @@ create_file_names()
     strcpy(text_file_name, tmpdir);
     strcpy(union_file_name, tmpdir);
 
-    if (len && tmpdir[len - 1] != '/')
+    if (len && tmpdir[len - 1] != PATHCHAR)
     {
-	action_file_name[len] = '/';
-	text_file_name[len] = '/';
-	union_file_name[len] = '/';
+	action_file_name[len] = PATHCHAR;
+	text_file_name[len] = PATHCHAR;
+	union_file_name[len] = PATHCHAR;
 	++len;
     }
 
@@ -331,7 +306,7 @@ create_file_names()
 }
 
 
-open_files()
+void open_files(void)
 {
     create_file_names();
 
@@ -383,9 +358,7 @@ open_files()
 
 
 int
-main(argc, argv)
-int argc;
-char *argv[];
+main(int argc, char *argv[])
 {
     set_signals();
     getargs(argc, argv);

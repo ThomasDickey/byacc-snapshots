@@ -13,8 +13,7 @@ bucket *last_symbol;
 
 
 int
-hash(name)
-char *name;
+hash(char *name)
 {
     register char *s;
     register int c, k;
@@ -22,7 +21,7 @@ char *name;
     assert(name && *name);
     s = name;
     k = *s;
-    while (c = *++s)
+    while ((c = *++s) != 0)
 	k = (31*k + c) & (TABLE_SIZE - 1);
 
     return (k);
@@ -30,8 +29,7 @@ char *name;
 
 
 bucket *
-make_bucket(name)
-char *name;
+make_bucket(char *name)
 {
     register bucket *bp;
 
@@ -57,8 +55,7 @@ char *name;
 
 
 bucket *
-lookup(name)
-char *name;
+lookup(char *name)
 {
     register bucket *bp, **bpp;
 
@@ -80,7 +77,7 @@ char *name;
 }
 
 
-create_symbol_table()
+void create_symbol_table(void)
 {
     register int i;
     register bucket *bp;
@@ -100,14 +97,14 @@ create_symbol_table()
 }
 
 
-free_symbol_table()
+void free_symbol_table(void)
 {
     FREE(symbol_table);
     symbol_table = 0;
 }
 
 
-free_symbols()
+void free_symbols(void)
 {
     register bucket *p, *q;
 

@@ -81,7 +81,7 @@ char *body[] =
     "#define YYACCEPT goto yyaccept",
     "#define YYERROR goto yyerrlab",
     "int",
-    "yyparse()",
+    "yyparse(void)",
     "{",
     "    register int yym, yyn, yystate;",
     "#if YYDEBUG",
@@ -284,8 +284,7 @@ char *trailer[] =
 };
 
 
-write_section(section)
-char *section[];
+void write_section(char *section[])
 {
     register int c;
     register int i;
@@ -293,10 +292,10 @@ char *section[];
     register FILE *f;
 
     f = code_file;
-    for (i = 0; s = section[i]; ++i)
+    for (i = 0; (s = section[i]) != 0; ++i)
     {
 	++outline;
-	while (c = *s)
+	while ((c = *s) != 0)
 	{
 	    putc(c, f);
 	    ++s;

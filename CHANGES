@@ -1,3 +1,30 @@
+2000-11-20  Thomas E. Dickey  <dickey@clark.net>
+
+	* vmsbuild.com: original version
+
+2000-02-14  Thomas E. Dickey  <dickey@clark.net>
+
+	* main.c: fix for VMS port - making pathname for temp-file
+
+	* descrip.mms: original version
+
+2000-02-13  Thomas E. Dickey  <dickey@clark.net>
+
+	* defs.h, verbose.c, reader.c, main.c, skeleton.c, warshall.c, symtab.c, closure.c, mkpar.c, lalr.c, lr0.c, output.c, error.c:
+	ansify
+
+1999-11-30  Thomas E. Dickey  <dickey@clark.net>
+
+	* mkdirs.sh: RCS_BASE
+
+1995-01-01  Thomas E. Dickey  <dickey@clark.net>
+
+	* config_h.in: RCS_BASE
+
+1993-12-23  unknown
+
+	* README.DOS, main.c: MSDOS-port
+
 1993-12-22  unknown
 
 	* reader.c, defs.h: MSDOS-port

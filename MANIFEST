@@ -1,4 +1,4 @@
-MANIFEST for byacc, version MSDOS-16bit
+MANIFEST for byacc, version VMS-port
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -7,9 +7,9 @@ NEW_FEATURES                    original version of byacc - 1993
 NOTES                           original version of byacc - 1993
 NO_WARRANTY                     original version of byacc - 1993
 README                          original version of byacc - 1993
-README.DOS                      notes on an MSDOS 16-bit port
 closure.c                       original version of byacc - 1993
 defs.h                          original version of byacc - 1993
+descrip.mms                     build-script for VMS
 error.c                         original version of byacc - 1993
 lalr.c                          original version of byacc - 1993
 lr0.c                           original version of byacc - 1993
@@ -20,6 +20,7 @@ reader.c                        original version of byacc - 1993
 skeleton.c                      original version of byacc - 1993
 symtab.c                        original version of byacc - 1993
 verbose.c                       original version of byacc - 1993
+vmsbuild.com                    build-script for VMS
 warshall.c                      original version of byacc - 1993
 yacc.1                          original version of byacc - 1993
 test                            subdirectory

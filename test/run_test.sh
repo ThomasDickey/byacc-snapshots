@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.1 2004/03/28 19:30:50 tom Exp $
+# $Id: run_test.sh,v 1.2 2005/05/04 23:01:44 tom Exp $
 #
 echo '** '`date`
 for i in *.y
@@ -20,7 +20,9 @@ do
 				echo "...not found $CMP"
 				continue
 			fi
-			sed -s s/$CMP/$REF/ $CMP >temp$$ \
+			sed	-e s/$CMP/$REF/ \
+				-e /YYPATCH/d \
+				< $CMP >temp$$ \
 				&& mv temp$$ $CMP
 			if ( cmp -s $REF $CMP )
 			then

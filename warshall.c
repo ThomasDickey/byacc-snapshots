@@ -1,6 +1,8 @@
+/* $Id: warshall.c,v 1.4 2005/05/04 21:14:16 tom Exp $ */
+
 #include "defs.h"
 
-void transitive_closure(unsigned *R, int n)
+static void transitive_closure(unsigned *R, int n)
 {
     register int rowsize;
     register unsigned i;
@@ -13,7 +15,7 @@ void transitive_closure(unsigned *R, int n)
     register unsigned *rowi;
 
     rowsize = WORDSIZE(n);
-    relend = R + n*rowsize;
+    relend = R + n * rowsize;
 
     cword = R;
     i = 0;
@@ -60,7 +62,7 @@ void reflexive_transitive_closure(unsigned *R, int n)
     transitive_closure(R, n);
 
     rowsize = WORDSIZE(n);
-    relend = R + n*rowsize;
+    relend = R + n * rowsize;
 
     i = 0;
     rp = R;

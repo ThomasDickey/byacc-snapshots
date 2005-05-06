@@ -1,18 +1,20 @@
-/* $Id: main.c,v 1.5 2004/03/28 19:52:10 tom Exp $ */
+/* $Id: main.c,v 1.12 2005/05/05 00:09:54 tom Exp $ */
 
 #include <signal.h>
+#include <unistd.h>		/* for _exit() */
+
 #include "defs.h"
 
 char dflag;
+char gflag;
 char lflag;
 char rflag;
 char tflag;
 char vflag;
 
 char *symbol_prefix;
-char *file_prefix = "y";
+static char *file_prefix = "y";
 char *myname = "yacc";
-char *temp_form = "yacc.XXXXXXX";
 
 int lineno;
 int outline;
@@ -20,21 +22,23 @@ int outline;
 char *code_file_name;
 char *defines_file_name;
 char *input_file_name = "";
-char *output_file_name;
+char *output_file_name = 0;
 char *verbose_file_name;
+char *graph_file_name;
 
 FILE *action_file;	/*  a temp file, used to save actions associated    */
-			/*  with rules until the parser is written	    */
+			/*  with rules until the parser is written          */
 FILE *code_file;	/*  y.code.c (used when the -r option is specified) */
-FILE *defines_file;	/*  y.tab.h					    */
-FILE *input_file;	/*  the input file				    */
-FILE *output_file;	/*  y.tab.c					    */
-FILE *text_file;	/*  a temp file, used to save text until all	    */
-			/*  symbols have been defined			    */
-FILE *union_file;	/*  a temp file, used to save the union		    */
-			/*  definition until all symbol have been	    */
-			/*  defined					    */
-FILE *verbose_file;	/*  y.output					    */
+FILE *defines_file;	/*  y.tab.h                                         */
+FILE *input_file;	/*  the input file                                  */
+FILE *output_file;	/*  y.tab.c                                         */
+FILE *text_file;	/*  a temp file, used to save text until all        */
+			/*  symbols have been defined                       */
+FILE *union_file;	/*  a temp file, used to save the union             */
+			/*  definition until all symbol have been           */
+			/*  defined                                         */
+FILE *verbose_file;	/*  y.output                                        */
+FILE *graph_file;	/*  y.dot                                           */
 
 int nitems;
 int nrules;
@@ -42,36 +46,51 @@ int nsyms;
 int ntokens;
 int nvars;
 
-int   start_symbol;
-char  **symbol_name;
+int start_symbol;
+char **symbol_name;
+char **symbol_pname;
 short *symbol_value;
 short *symbol_prec;
-char  *symbol_assoc;
+char *symbol_assoc;
 
 short *ritem;
 short *rlhs;
 short *rrhs;
 short *rprec;
-char  *rassoc;
+char *rassoc;
 short **derives;
 char *nullable;
 
+/*
+ * Since fclose() is called via the signal handler, it might die.  Don't loop
+ * if there is a problem closing a file.
+ */
+#define DO_CLOSE(fp) \
+	if (fp != 0) { \
+	    FILE *use = fp; \
+	    fp = 0; \
+	    fclose(use); \
+	}
+
+static int got_intr = 0;
+
 void done(int k)
 {
-    if (action_file) fclose(action_file);
-    if (text_file) fclose(text_file);
-    if (union_file) fclose(union_file);
+    DO_CLOSE(action_file);
+    DO_CLOSE(text_file);
+    DO_CLOSE(union_file);
+    if (got_intr)
+	_exit(EXIT_FAILURE);
     exit(k);
 }
 
-
-void onintr(int sig)
+static void onintr(int sig GCC_UNUSED)
 {
+    got_intr = 1;
     done(EXIT_FAILURE);
 }
 
-
-void set_signals(void)
+static void set_signals(void)
 {
 #ifdef SIGINT
     if (signal(SIGINT, SIG_IGN) != SIG_IGN)
@@ -87,29 +106,89 @@ void set_signals(void)
 #endif
 }
 
-
-void usage(void)
+static void usage(void)
 {
-    fprintf(stderr, "usage: %s [-dlrtv] [-b file_prefix] [-p symbol_prefix] filename\n", myname);
+    static const char *msg[] =
+    {
+	""
+	,"Options:"
+	,"  -b file_prefix        set filename prefix (default \"y.\")"
+	,"  -d                    write definitions (y.tab.h)"
+	,"  -g                    write a graphical description"
+	,"  -l                    suppress #line directives"
+	,"  -o output_file        (default \"y.tab.c\")"
+	,"  -p symbol_prefix      set symbol prefix (default \"yy\")"
+	,"  -r                    produce separate code and table files (y.code.c)"
+	,"  -t                    add debugging support"
+	,"  -v                    write description (y.output)"
+    };
+    unsigned n;
+
+    fflush(stdout);
+    fprintf(stderr, "Usage: %s [options] filename\n", myname);
+    for (n = 0; n < sizeof(msg) / sizeof(msg[0]); ++n)
+	fprintf(stderr, "%s\n", msg[n]);
+
     exit(1);
 }
 
+static void setflag(int ch)
+{
+    switch (ch)
+    {
+    case 'd':
+	dflag = 1;
+	break;
 
-void getargs(int argc, char *argv[])
+    case 'g':
+	gflag = 1;
+	break;
+
+    case 'l':
+	lflag = 1;
+	break;
+
+    case 'r':
+	rflag = 1;
+	break;
+
+    case 't':
+	tflag = 1;
+	break;
+
+    case 'v':
+	vflag = 1;
+	break;
+
+    case 'V':
+	printf("%s - %s\n", myname, VERSION);
+	exit(EXIT_SUCCESS);
+
+    default:
+	usage();
+    }
+}
+
+static void getargs(int argc, char *argv[])
 {
     register int i;
     register char *s;
+    int ch;
 
-    if (argc > 0) myname = argv[0];
+    if (argc > 0)
+	myname = argv[0];
+
     for (i = 1; i < argc; ++i)
     {
 	s = argv[i];
-	if (*s != '-') break;
-	switch (*++s)
+	if (*s != '-')
+	    break;
+	switch (ch = *++s)
 	{
 	case '\0':
 	    input_file = stdin;
-	    if (i + 1 < argc) usage();
+	    if (i + 1 < argc)
+		usage();
 	    return;
 
 	case '-':
@@ -118,20 +197,21 @@ void getargs(int argc, char *argv[])
 
 	case 'b':
 	    if (*++s)
-		 file_prefix = s;
+		file_prefix = s;
 	    else if (++i < argc)
 		file_prefix = argv[i];
 	    else
 		usage();
 	    continue;
 
-	case 'd':
-	    dflag = 1;
-	    break;
-
-	case 'l':
-	    lflag = 1;
-	    break;
+	case 'o':
+	    if (*++s)
+		output_file_name = s;
+	    else if (++i < argc)
+		output_file_name = argv[i];
+	    else
+		usage();
+	    continue;
 
 	case 'p':
 	    if (*++s)
@@ -142,64 +222,33 @@ void getargs(int argc, char *argv[])
 		usage();
 	    continue;
 
-	case 'r':
-	    rflag = 1;
-	    break;
-
-	case 't':
-	    tflag = 1;
-	    break;
-
-	case 'v':
-	    vflag = 1;
-	    break;
-
 	default:
-	    usage();
+	    setflag(ch);
+	    break;
 	}
 
 	for (;;)
 	{
-	    switch (*++s)
+	    switch (ch = *++s)
 	    {
 	    case '\0':
 		goto end_of_option;
 
-	    case 'd':
-		dflag = 1;
-		break;
-
-	    case 'l':
-		lflag = 1;
-		break;
-
-	    case 'r':
-		rflag = 1;
-		break;
-
-	    case 't':
-		tflag = 1;
-		break;
-
-	    case 'v':
-		vflag = 1;
-		break;
-
 	    default:
-		usage();
+		setflag(ch);
+		break;
 	    }
 	}
-end_of_option:;
+      end_of_option:;
     }
 
-no_more_options:;
-    if (i + 1 != argc) usage();
+  no_more_options:;
+    if (i + 1 != argc)
+	usage();
     input_file_name = argv[i];
 }
 
-
-char *
-allocate(unsigned n)
+char *allocate(unsigned n)
 {
     register char *p;
 
@@ -207,55 +256,55 @@ allocate(unsigned n)
     if (n)
     {
 	p = CALLOC(1, n);
-	if (!p) no_space();
+	if (!p)
+	    no_space();
     }
     return (p);
 }
 
-void create_file_names(void)
+#define CREATE_FILE_NAME(dest, suffix) \
+	dest = MALLOC(len + sizeof(suffix)); \
+	if (dest == 0) \
+	    no_space(); \
+	strcpy(dest, file_prefix); \
+	strcpy(dest + len, suffix)
+
+static void create_file_names(void)
 {
     int len;
 
     len = strlen(file_prefix);
 
-    output_file_name = MALLOC(len + 7);
+    /* if "-o filename" was not given */
     if (output_file_name == 0)
-	no_space();
-    strcpy(output_file_name, file_prefix);
-    strcpy(output_file_name + len, OUTPUT_SUFFIX);
+    {
+	CREATE_FILE_NAME(output_file_name, OUTPUT_SUFFIX);
+    }
 
     if (rflag)
     {
-	code_file_name = MALLOC(len + 8);
-	if (code_file_name == 0)
-	    no_space();
-	strcpy(code_file_name, file_prefix);
-	strcpy(code_file_name + len, CODE_SUFFIX);
+	CREATE_FILE_NAME(code_file_name, CODE_SUFFIX);
     }
     else
 	code_file_name = output_file_name;
 
     if (dflag)
     {
-	defines_file_name = MALLOC(len + 7);
-	if (defines_file_name == 0)
-	    no_space();
-	strcpy(defines_file_name, file_prefix);
-	strcpy(defines_file_name + len, DEFINES_SUFFIX);
+	CREATE_FILE_NAME(defines_file_name, DEFINES_SUFFIX);
     }
 
     if (vflag)
     {
-	verbose_file_name = MALLOC(len + 8);
-	if (verbose_file_name == 0)
-	    no_space();
-	strcpy(verbose_file_name, file_prefix);
-	strcpy(verbose_file_name + len, VERBOSE_SUFFIX);
+	CREATE_FILE_NAME(verbose_file_name, VERBOSE_SUFFIX);
+    }
+
+    if (gflag)
+    {
+	CREATE_FILE_NAME(graph_file_name, GRAPH_SUFFIX);
     }
 }
 
-
-void open_files(void)
+static void open_files(void)
 {
     create_file_names();
 
@@ -281,13 +330,30 @@ void open_files(void)
 	    open_error(verbose_file_name);
     }
 
+    if (gflag)
+    {
+	graph_file = fopen(graph_file_name, "w");
+	if (graph_file == 0)
+	    open_error(graph_file_name);
+	fprintf(graph_file, "digraph %s {\n", file_prefix);
+	fprintf(graph_file, "\tedge [fontsize=10];\n");
+	fprintf(graph_file, "\tnode [shape=box,fontsize=10];\n");
+	fprintf(graph_file, "\torientation=landscape;\n");
+	fprintf(graph_file, "\trankdir=LR;\n");
+	fprintf(graph_file, "\t/*\n");
+	fprintf(graph_file, "\tmargin=0.2;\n");
+	fprintf(graph_file, "\tpage=\"8.27,11.69\"; // for A4 printing\n");
+	fprintf(graph_file, "\tratio=auto;\n");
+	fprintf(graph_file, "\t*/\n");
+    }
+
     if (dflag)
     {
 	defines_file = fopen(defines_file_name, "w");
 	if (defines_file == 0)
 	    open_error(defines_file_name);
 	union_file = tmpfile();
-	if (union_file ==  0)
+	if (union_file == 0)
 	    open_error("union_file");
     }
 
@@ -305,18 +371,19 @@ void open_files(void)
 	code_file = output_file;
 }
 
-
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
+    set_signals();
     getargs(argc, argv);
     open_files();
     reader();
     lr0();
     lalr();
     make_parser();
+    graph();
+    finalize_closure();
     verbose();
     output();
     done(0);
-    /*NOTREACHED*/
+    /*NOTREACHED */
 }

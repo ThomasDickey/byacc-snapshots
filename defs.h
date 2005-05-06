@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.5 2004/03/28 20:27:20 tom Exp $ */
+/* $Id: defs.h,v 1.11 2005/05/06 00:46:50 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -11,6 +11,20 @@
 #include <ctype.h>
 #include <stdio.h>
 
+#define YYMAJOR 1
+#define YYMINOR 9
+
+#define CONCAT(first,second)    first #second
+#define CONCAT1(string,number)  CONCAT(string, number)
+#define CONCAT2(first,second)   #first "." #second
+
+#ifdef YYPATCH
+#define VSTRING(a,b) CONCAT2(a,b) CONCAT1(" ",YYPATCH)
+#else
+#define VSTRING(a,b) CONCAT2(a,b)
+#endif
+
+#define VERSION VSTRING(YYMAJOR, YYMINOR)
 
 /*  machine-dependent definitions			*/
 /*  the following definitions are for the Tahoe		*/
@@ -58,14 +72,13 @@
 #define CODE_SUFFIX	"_code.c"
 #define	DEFINES_SUFFIX	"_tab.h"
 #define	OUTPUT_SUFFIX	"_tab.c"
-#define	VERBOSE_SUFFIX	".output"
 #else
 #define CODE_SUFFIX	".code.c"
 #define	DEFINES_SUFFIX	".tab.h"
 #define	OUTPUT_SUFFIX	".tab.c"
-#define	VERBOSE_SUFFIX	".output"
 #endif
-
+#define	VERBOSE_SUFFIX	".output"
+#define GRAPH_SUFFIX    ".dot"
 
 /* keyword codes */
 
@@ -79,6 +92,7 @@
 #define START 7
 #define UNION 8
 #define IDENT 9
+#define EXPECT 10
 
 
 /*  symbol classes  */
@@ -195,6 +209,7 @@ struct action
 /* global variables */
 
 extern char dflag;
+extern char gflag;
 extern char lflag;
 extern char rflag;
 extern char tflag;
@@ -218,6 +233,7 @@ extern char *defines_file_name;
 extern char *input_file_name;
 extern char *output_file_name;
 extern char *verbose_file_name;
+extern char *graph_file_name;
 
 extern FILE *action_file;
 extern FILE *code_file;
@@ -227,6 +243,7 @@ extern FILE *output_file;
 extern FILE *text_file;
 extern FILE *union_file;
 extern FILE *verbose_file;
+extern FILE *graph_file;
 
 extern int nitems;
 extern int nrules;
@@ -240,6 +257,7 @@ extern char line_format[];
 
 extern int   start_symbol;
 extern char  **symbol_name;
+extern char  **symbol_pname;
 extern short *symbol_value;
 extern short *symbol_prec;
 extern char  *symbol_assoc;
@@ -272,6 +290,7 @@ extern short *from_state;
 extern short *to_state;
 
 extern action **parser;
+extern int SRexpect;
 extern int SRtotal;
 extern int RRtotal;
 extern short *SRconflicts;
@@ -280,6 +299,10 @@ extern short *defred;
 extern short *rules_used;
 extern short nunused;
 extern short final_state;
+
+extern short *itemset;
+extern short *itemsetend;
+extern unsigned *ruleset;
 
 /* global functions */
 
@@ -290,10 +313,13 @@ extern bucket *make_bucket(char *);
 #define GCC_NORETURN /* nothing */
 #endif
 
+#ifndef GCC_UNUSED
+#define GCC_UNUSED /* nothing */
+#endif
+
 /* closure.c */
 extern void closure(short *nucleus, int n);
 extern void finalize_closure(void);
-extern void set_EFF(void);
 extern void set_first_derives(void);
 
 /* error.c */
@@ -330,6 +356,9 @@ extern void untyped_lhs(void);
 extern void untyped_rhs(int i, char *s);
 extern void used_reserved(char *s);
 
+/* graph.c */
+extern void graph(void);
+
 /* lalr.c */
 extern int hash(char *name);
 extern void create_symbol_table(void);
@@ -337,41 +366,10 @@ extern void free_symbol_table(void);
 extern void free_symbols(void);
 
 /* lalr.c */
-extern int map_goto(int state, int symbol);
-extern short ** transpose(short **R, int n);
-extern void add_lookback_edge(int stateno, int ruleno, int gotono);
-extern void build_relations(void);
-extern void compute_FOLLOWS(void);
-extern void compute_lookaheads(void);
-extern void digraph(short **relation);
-extern void initialize_F(void);
-extern void initialize_LA(void);
 extern void lalr(void);
-extern void set_accessing_symbol(void);
-extern void set_goto_map(void);
-extern void set_maxrhs(void);
-extern void set_reduction_table(void);
-extern void set_shift_table(void);
-extern void set_state_table(void);
-extern void traverse(int i);
 
 /* lr0.c */
-extern core * new_state(int symbol);
-extern int get_state(int symbol);
-extern void allocate_itemsets(void);
-extern void allocate_storage(void);
-extern void append_states(void);
-extern void free_derives(void);
-extern void free_nullable(void);
-extern void free_storage(void);
-extern void generate_states(void);
-extern void initialize_states(void);
 extern void lr0(void);
-extern void new_itemsets(void);
-extern void save_reductions(void);
-extern void save_shifts(void);
-extern void set_derives(void);
-extern void set_nullable(void);
 extern void show_cores(void);
 extern void show_ritems(void);
 extern void show_rrhs(void);
@@ -379,112 +377,23 @@ extern void show_shifts(void);
 
 /* main.c */
 extern char *allocate(unsigned n);
-extern void create_file_names(void);
 extern void done(int k) GCC_NORETURN;
-extern void getargs(int argc, char *argv[]);
-extern void onintr(int sig);
-extern void open_files(void);
-extern void set_signals(void);
-extern void usage(void);
 
 /* mkpar.c */
-extern action * add_reduce(action *actions, int ruleno, int symbol);
-extern action * add_reductions(int stateno, action *actions);
-extern action * get_shifts(int stateno);
-extern action * parse_actions(int stateno);
-extern int sole_reduction(int stateno);
-extern void defreds(void);
-extern void find_final_state(void);
-extern void free_action_row(action *p);
 extern void free_parser(void);
 extern void make_parser(void);
-extern void remove_conflicts(void);
-extern void total_conflicts(void);
-extern void unused_rules(void);
 
 /* output.c */
-extern int default_goto(int symbol);
-extern int is_C_identifier(char *name);
-extern int matching_vector(int vector);
-extern int pack_vector(int vector);
-extern void free_itemsets(void);
-extern void free_reductions(void);
-extern void free_shifts(void);
-extern void goto_actions(void);
 extern void output(void);
-extern void output_actions(void);
-extern void output_base(void);
-extern void output_check(void);
-extern void output_debug(void);
-extern void output_defines(void);
-extern void output_prefix(void);
-extern void output_rule_data(void);
-extern void output_semantic_actions(void);
-extern void output_stored_text(void);
-extern void output_stype(void);
-extern void output_table(void);
-extern void output_trailing_text(void);
-extern void output_yydefred(void);
-extern void pack_table(void);
-extern void save_column(int symbol, int default_state);
-extern void sort_actions(void);
-extern void token_actions(void);
 
 /* reader.c */
-extern bucket * get_literal(void);
-extern bucket * get_name(void);
-extern char * dup_line(void);
-extern char * get_tag(void);
-extern int get_number(void);
-extern int hexval(int c);
-extern int is_reserved(char *name);
-extern int keyword(void);
-extern int mark_symbol(void);
-extern int nextc(void);
-extern void add_symbol(void);
-extern void advance_to_start(void);
-extern void cachec(int c);
-extern void check_symbols(void);
-extern void copy_action(void);
-extern void copy_ident(void);
-extern void copy_text(void);
-extern void copy_union(void);
-extern void declare_start(void);
-extern void declare_tokens(int assoc);
-extern void declare_types(void);
-extern void end_rule(void);
-extern void expand_items(void);
-extern void expand_rules(void);
-extern void free_tags(void);
-extern void get_line(void);
-extern void initialize_grammar(void);
-extern void insert_empty_rule(void);
-extern void pack_grammar(void);
-extern void pack_names(void);
-extern void pack_symbols(void);
-extern void print_grammar(void);
-extern void read_declarations(void);
-extern void read_grammar(void);
 extern void reader(void);
-extern void skip_comment(void);
-extern void start_rule(bucket *bp, int s_lineno);
 
 /* skeleton.c */
 extern void write_section(char *section[]);
 
 /* verbose.c */
-extern void log_conflicts(void);
-extern void log_unused(void);
-extern void print_actions(int stateno);
-extern void print_conflicts(int state);
-extern void print_core(int state);
-extern void print_gotos(int stateno);
-extern void print_nulls(int state);
-extern void print_reductions(action *p, int defred2);
-extern void print_shifts(action *p);
-extern void print_state(int state);
 extern void verbose(void);
 
 /* warshall.c */
 extern void reflexive_transitive_closure(unsigned *R, int n);
-extern void transitive_closure(unsigned *R, int n);

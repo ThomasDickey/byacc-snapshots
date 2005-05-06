@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.5 2004/03/28 23:05:35 tom Exp $
+# $Id: makefile.in,v 1.8 2005/05/05 00:37:59 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -18,7 +18,7 @@ transform	= @program_transform_name@
 
 DEFINES		=
 EXTRA_CFLAGS	= @EXTRA_CFLAGS@
-CPPFLAGS	= -I$(srcdir) $(DEFINES) -DHAVE_CONFIG_H @CPPFLAGS@
+CPPFLAGS	= -I. -I$(srcdir) $(DEFINES) -DHAVE_CONFIG_H -DYYPATCH=`cat $(srcdir)/VERSION` @CPPFLAGS@
 CFLAGS		= @CFLAGS@ $(CPPFLAGS) $(EXTRA_CFLAGS)
 
 LDFLAGS		= @LDFLAGS@
@@ -45,6 +45,7 @@ H_FILES = \
 C_FILES = \
 	closure.c \
 	error.c \
+	graph.c \
 	lalr.c \
 	lr0.c \
 	main.c \
@@ -59,6 +60,7 @@ C_FILES = \
 OBJS	= \
 	closure$o \
 	error$o \
+	graph$o \
 	lalr$o \
 	lr0$o \
 	main$o \

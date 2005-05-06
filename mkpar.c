@@ -1,7 +1,21 @@
+/* $Id: mkpar.c,v 1.5 2005/05/04 21:24:43 tom Exp $ */
 
 #include "defs.h"
 
+static action *add_reduce(action *actions, int ruleno, int symbol);
+static action *add_reductions(int stateno, action *actions);
+static action *get_shifts(int stateno);
+static action *parse_actions(int stateno);
+static int sole_reduction(int stateno);
+static void defreds(void);
+static void find_final_state(void);
+static void free_action_row(action *p);
+static void remove_conflicts(void);
+static void total_conflicts(void);
+static void unused_rules(void);
+
 action **parser;
+int SRexpect;
 int SRtotal;
 int RRtotal;
 short *SRconflicts;
@@ -25,13 +39,12 @@ void make_parser(void)
     find_final_state();
     remove_conflicts();
     unused_rules();
-    if (SRtotal + RRtotal > 0) total_conflicts();
+    if (SRtotal + RRtotal > 0)
+	total_conflicts();
     defreds();
 }
 
-
-action *
-parse_actions(register int stateno)
+static action *parse_actions(register int stateno)
 {
     register action *actions;
 
@@ -40,9 +53,7 @@ parse_actions(register int stateno)
     return (actions);
 }
 
-
-action *
-get_shifts(int stateno)
+static action *get_shifts(int stateno)
 {
     register action *actions, *temp;
     register shifts *sp;
@@ -75,8 +86,7 @@ get_shifts(int stateno)
     return (actions);
 }
 
-action *
-add_reductions(int stateno, register action *actions)
+static action *add_reductions(int stateno, register action *actions)
 {
     register int i, j, m, n;
     register int ruleno, tokensetsize;
@@ -98,11 +108,9 @@ add_reductions(int stateno, register action *actions)
     return (actions);
 }
 
-
-action *
-add_reduce(
-register action *actions,
-register int ruleno, register int symbol)
+static action *add_reduce(register action *actions,
+			  register int ruleno,
+			  register int symbol)
 {
     register action *temp, *prev, *next;
 
@@ -117,7 +125,7 @@ register int ruleno, register int symbol)
     }
 
     while (next && next->symbol == symbol &&
-	    next->action_code == REDUCE && next->number < ruleno)
+	   next->action_code == REDUCE && next->number < ruleno)
     {
 	prev = next;
 	next = next->next;
@@ -139,8 +147,7 @@ register int ruleno, register int symbol)
     return (actions);
 }
 
-
-void find_final_state(void)
+static void find_final_state(void)
 {
     register int goal, i;
     register short *to_state2;
@@ -152,18 +159,19 @@ void find_final_state(void)
     for (i = p->nshifts - 1; i >= 0; --i)
     {
 	final_state = to_state2[i];
-	if (accessing_symbol[final_state] == goal) break;
+	if (accessing_symbol[final_state] == goal)
+	    break;
     }
 }
 
-
-void unused_rules(void)
+static void unused_rules(void)
 {
     register int i;
     register action *p;
 
-    rules_used = (short *) MALLOC(nrules*sizeof(short));
-    if (rules_used == 0) no_space();
+    rules_used = (short *)MALLOC(nrules * sizeof(short));
+    if (rules_used == 0)
+	no_space();
 
     for (i = 0; i < nrules; ++i)
 	rules_used[i] = 0;
@@ -179,9 +187,11 @@ void unused_rules(void)
 
     nunused = 0;
     for (i = 3; i < nrules; ++i)
-	if (!rules_used[i]) ++nunused;
+	if (!rules_used[i])
+	    ++nunused;
 
-    if (nunused) {
+    if (nunused)
+    {
 	if (nunused == 1)
 	    fprintf(stderr, "%s: 1 rule never reduced\n", myname);
 	else
@@ -189,8 +199,7 @@ void unused_rules(void)
     }
 }
 
-
-void remove_conflicts(void)
+static void remove_conflicts(void)
 {
     register int i;
     register int symbol;
@@ -264,8 +273,7 @@ void remove_conflicts(void)
     }
 }
 
-
-void total_conflicts(void)
+static void total_conflicts(void)
 {
     fprintf(stderr, "%s: ", myname);
     if (SRtotal == 1)
@@ -284,15 +292,13 @@ void total_conflicts(void)
     fprintf(stderr, ".\n");
 }
 
-
-int
-sole_reduction(int stateno)
+static int sole_reduction(int stateno)
 {
     register int count, ruleno;
     register action *p;
 
     count = 0;
-    ruleno = 0; 
+    ruleno = 0;
     for (p = parser[stateno]; p; p = p->next)
     {
 	if (p->action_code == SHIFT && p->suppressed == 0)
@@ -312,8 +318,7 @@ sole_reduction(int stateno)
     return (ruleno);
 }
 
-
-void defreds(void)
+static void defreds(void)
 {
     register int i;
 
@@ -321,26 +326,25 @@ void defreds(void)
     for (i = 0; i < nstates; i++)
 	defred[i] = sole_reduction(i);
 }
- 
-void free_action_row(register action *p)
-{
-  register action *q;
 
-  while (p)
+static void free_action_row(register action *p)
+{
+    register action *q;
+
+    while (p)
     {
-      q = p->next;
-      FREE(p);
-      p = q;
+	q = p->next;
+	FREE(p);
+	p = q;
     }
 }
 
 void free_parser(void)
 {
-  register int i;
+    register int i;
 
-  for (i = 0; i < nstates; i++)
-    free_action_row(parser[i]);
+    for (i = 0; i < nstates; i++)
+	free_action_row(parser[i]);
 
-  FREE(parser);
+    FREE(parser);
 }
-

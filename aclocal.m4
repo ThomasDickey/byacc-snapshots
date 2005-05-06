@@ -1,20 +1,46 @@
-dnl $Id: aclocal.m4,v 1.2 2004/03/28 20:14:05 tom Exp $
+dnl $Id: aclocal.m4,v 1.3 2005/05/03 21:29:40 tom Exp $
 dnl
 dnl Macros for cproto configure script (T.Dickey)
 dnl ---------------------------------------------------------------------------
 dnl ---------------------------------------------------------------------------
-dnl CF_ADD_CFLAGS version: 5 updated: 2002/12/01 00:12:15
+dnl CF_ADD_CFLAGS version: 7 updated: 2004/04/25 17:48:30
 dnl -------------
 dnl Copy non-preprocessor flags to $CFLAGS, preprocessor flags to $CPPFLAGS
 dnl The second parameter if given makes this macro verbose.
+dnl
+dnl Put any preprocessor definitions that use quoted strings in $EXTRA_CPPFLAGS,
+dnl to simplify use of $CPPFLAGS in compiler checks, etc., that are easily
+dnl confused by the quotes (which require backslashes to keep them usable).
 AC_DEFUN([CF_ADD_CFLAGS],
 [
+cf_fix_cppflags=no
 cf_new_cflags=
 cf_new_cppflags=
+cf_new_extra_cppflags=
+
 for cf_add_cflags in $1
 do
+case $cf_fix_cppflags in
+no)
 	case $cf_add_cflags in #(vi
 	-undef|-nostdinc*|-I*|-D*|-U*|-E|-P|-C) #(vi
+		case $cf_add_cflags in
+		-D*)
+			cf_tst_cflags=`echo ${cf_add_cflags} |sed -e 's/^-D[[^=]]*='\''\"[[^"]]*//'`
+
+			test "${cf_add_cflags}" != "${cf_tst_cflags}" \
+			&& test -z "${cf_tst_cflags}" \
+			&& cf_fix_cppflags=yes
+
+			if test $cf_fix_cppflags = yes ; then
+				cf_new_extra_cppflags="$cf_new_extra_cppflags $cf_add_cflags"
+				continue
+			elif test "${cf_tst_cflags}" = "\"'" ; then
+				cf_new_extra_cppflags="$cf_new_extra_cppflags $cf_add_cflags"
+				continue
+			fi
+			;;
+		esac
 		case "$CPPFLAGS" in
 		*$cf_add_cflags) #(vi
 			;;
@@ -27,6 +53,17 @@ do
 		cf_new_cflags="$cf_new_cflags $cf_add_cflags"
 		;;
 	esac
+	;;
+yes)
+	cf_new_extra_cppflags="$cf_new_extra_cppflags $cf_add_cflags"
+
+	cf_tst_cflags=`echo ${cf_add_cflags} |sed -e 's/^[[^"]]*"'\''//'`
+
+	test "${cf_add_cflags}" != "${cf_tst_cflags}" \
+	&& test -z "${cf_tst_cflags}" \
+	&& cf_fix_cppflags=no
+	;;
+esac
 done
 
 if test -n "$cf_new_cflags" ; then
@@ -38,6 +75,13 @@ if test -n "$cf_new_cppflags" ; then
 	ifelse($2,,,[CF_VERBOSE(add to \$CPPFLAGS $cf_new_cppflags)])
 	CPPFLAGS="$cf_new_cppflags $CPPFLAGS"
 fi
+
+if test -n "$cf_new_extra_cppflags" ; then
+	ifelse($2,,,[CF_VERBOSE(add to \$EXTRA_CPPFLAGS $cf_new_extra_cppflags)])
+	EXTRA_CPPFLAGS="$cf_new_extra_cppflags $EXTRA_CPPFLAGS"
+fi
+
+AC_SUBST(EXTRA_CPPFLAGS)
 
 ])dnl
 dnl ---------------------------------------------------------------------------
@@ -140,7 +184,7 @@ ifelse($3,,[    :]dnl
 ])dnl
   ])])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_CHECK_CACHE version: 9 updated: 2004/01/30 15:59:13
+dnl CF_CHECK_CACHE version: 10 updated: 2004/05/23 13:03:31
 dnl --------------
 dnl Check if we're accidentally using a cache from a different machine.
 dnl Derive the system name, as a check for reusing the autoconf cache.
@@ -154,7 +198,7 @@ dnl Note: we would use $ac_config_sub, but that is one of the places where
 dnl autoconf 2.5x broke compatibility with autoconf 2.13
 AC_DEFUN([CF_CHECK_CACHE],
 [
-if test -f $srcdir/config.guess ; then
+if test -f $srcdir/config.guess || test -f $ac_aux_dir/config.guess ; then
 	ifelse([$1],,[AC_CANONICAL_HOST],[$1])
 	system_name="$host_os"
 else
@@ -301,7 +345,7 @@ if test "$GCC" = yes ; then
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_GCC_WARNINGS version: 15 updated: 2003/07/05 18:42:30
+dnl CF_GCC_WARNINGS version: 18 updated: 2004/12/03 20:51:07
 dnl ---------------
 dnl Check if the compiler supports useful warning options.  There's a few that
 dnl we don't use, simply because they're too noisy:
@@ -313,10 +357,36 @@ dnl	-Wwrite-strings (too noisy, but should review occasionally).  This
 dnl		is enabled for ncurses using "--enable-const".
 dnl	-pedantic
 dnl
+dnl Parameter:
+dnl	$1 is an optional list of gcc warning flags that a particular
+dnl		application might want to use, e.g., "no-unused" for
+dnl		-Wno-unused
+dnl Special:
+dnl	If $with_ext_const is "yes", add a check for -Wwrite-strings
+dnl
 AC_DEFUN([CF_GCC_WARNINGS],
 [
+AC_REQUIRE([CF_INTEL_COMPILER])
 AC_REQUIRE([CF_GCC_VERSION])
-if test "$GCC" = yes
+if test "$INTEL_COMPILER" = yes
+then
+# The "-wdXXX" options suppress warnings:
+# remark #1419: external declaration in primary source file
+# remark #193: zero used for undefined preprocessing identifier
+# remark #593: variable "curs_sb_left_arrow" was set but never used
+# remark #810: conversion from "int" to "Dimension={unsigned short}" may lose significant bits
+# remark #869: parameter "tw" was never referenced
+# remark #981: operands are evaluated in unspecified order
+# warning #269: invalid format string conversion
+	EXTRA_CFLAGS="$EXTRA_CFLAGS -Wall \
+ -wd1419 \
+ -wd193 \
+ -wd279 \
+ -wd593 \
+ -wd810 \
+ -wd869 \
+ -wd981"
+elif test "$GCC" = yes
 then
 	cat > conftest.$ac_ext <<EOF
 #line __oline__ "configure"
@@ -338,7 +408,7 @@ EOF
 		Wpointer-arith \
 		Wshadow \
 		Wstrict-prototypes \
-		Wundef $cf_warn_CONST
+		Wundef $cf_warn_CONST $1
 	do
 		CFLAGS="$cf_save_CFLAGS $EXTRA_CFLAGS -$cf_opt"
 		if AC_TRY_EVAL(ac_compile); then
@@ -362,6 +432,40 @@ EOF
 	CFLAGS="$cf_save_CFLAGS"
 fi
 AC_SUBST(EXTRA_CFLAGS)
+])dnl
+dnl ---------------------------------------------------------------------------
+dnl CF_INTEL_COMPILER version: 1 updated: 2004/12/03 20:27:48
+dnl -----------------
+dnl Check if the given compiler is really the Intel compiler for Linux.
+dnl It tries to imitate gcc, but does not return an error when it finds a
+dnl mismatch between prototypes, e.g., as exercised by CF_MISSING_CHECK.
+dnl
+dnl This macro should be run "soon" after AC_PROG_CC, to ensure that it is
+dnl not mistaken for gcc.
+AC_DEFUN([CF_INTEL_COMPILER],[
+AC_REQUIRE([AC_PROG_CC])
+
+INTEL_COMPILER=no
+
+if test "$GCC" = yes ; then
+	case $host_os in
+	linux*|gnu*)
+		AC_MSG_CHECKING(if this is really Intel compiler)
+		cf_save_CFLAGS="$CFLAGS"
+		CFLAGS="$CFLAGS -no-gcc"
+		AC_TRY_COMPILE([],[
+#ifdef __INTEL_COMPILER
+#else
+make an error
+#endif
+],[INTEL_COMPILER=yes
+cf_save_CFLAGS="$cf_save_CFLAGS -we147 -no-gcc"
+],[])
+		CFLAGS="$cf_save_CFLAGS"
+		AC_MSG_RESULT($INTEL_COMPILER)
+		;;
+	esac
+fi
 ])dnl
 dnl ---------------------------------------------------------------------------
 dnl CF_PROG_EXT version: 10 updated: 2004/01/03 19:28:18
@@ -439,9 +543,12 @@ if test "$with_dmalloc" = yes ; then
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_WITH_WARNINGS version: 4 updated: 2003/05/24 15:01:41
+dnl CF_WITH_WARNINGS version: 5 updated: 2004/07/23 14:40:34
 dnl ----------------
 dnl Combine the checks for gcc features into a configure-script option
+dnl
+dnl Parameters:
+dnl	$1 - see CF_GCC_WARNINGS
 AC_DEFUN([CF_WITH_WARNINGS],
 [
 if ( test "$GCC" = yes || test "$GXX" = yes )
@@ -454,7 +561,7 @@ AC_ARG_WITH(warnings,
 AC_MSG_RESULT($cf_opt_with_warnings)
 if test "$cf_opt_with_warnings" != no ; then
 	CF_GCC_ATTRIBUTES
-	CF_GCC_WARNINGS
+	CF_GCC_WARNINGS([$1])
 fi
 fi
 ])dnl

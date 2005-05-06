@@ -1,3 +1,140 @@
+2005-05-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* defs.h: add a fallback for GCC_UNUSED
+
+2005-05-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* makefile.in: add "." to include-path to pickup config.h
+
+	* reader.c:
+	apply fix suggested by Steve Dum for end_rule() in Redhat Bugzilla #112617.
+
+	* output.c:
+	correct a limit check in pack_vector() - report/analysis by William Evans
+
+	* main.c:
+	exit after printing version.  Otherwise "yacc -V" will exit with an erro
+	after printing the usage message.
+
+	* skeleton.c: replace a few -1's with YYEMPTY
+
+	* skeleton.c:
+	delete yynewerror (no one uses it any more, and it just makes compiler warnings)
+
+	* skeleton.c: adapt yygrowstack() and related definitions from FreeBSD
+
+	* yacc.1: add -V option
+
+	* main.c: add -V option to print the version.
+	simplify option-parsing by moving the duplicate logic for setting flags into
+	new function setflag().
+
+	* skeleton.c:
+	move the actual definition of YYMAJOR and YYMINOR to defs.h (as numbers).
+	add YYPATCH here so it can be tested by applications.
+
+	* defs.h:
+	add macros to define VERSION in terms of the (numeric) YYMAJOR, YYMINOR and
+	YYPATCH symbols.
+
+	* lalr.c, lr0.c, mkpar.c, defs.h, closure.c, warshall.c, output.c, verbose.c, graph.c, reader.c, main.c, symtab.c:
+	reduce externs by making static the procedures that are not referenced outside
+	the module in which they are defined.
+
+	* makefile.in:
+	the VERSION file holds the patch-date.  Define YYPATCH, so this will be
+	compiled into the skeleton.
+
+	* VERSION: patch-level for byacc
+
+	* main.c:
+	add "-o" to usage message.  It is too long for a single line; rewrite usage()
+	to show one option per line.
+
+2005-05-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: add -o option, to work with scripts that assume bison.
+	simplify create_file_names() with a macro.
+	simplify done() with a macro.
+	adapt fix from FreeBSD for signal race, e.g., if done() is interrupted by
+	onintr(), do not flush output via exit(), but use _exit() instead.
+
+	* defs.h: remove unnecessary externs for main.c
+
+	* yacc.1: add -o option
+
+	* graph.c: remove unused parameter
+
+	* mkpar.c, defs.h, reader.c:
+	add support for "%expect", a bison feature from FreeBSD sources
+
+	* lr0.c, reader.c, main.c, skeleton.c, graph.c, symtab.c, closure.c, mkpar.c, lalr.c, error.c, warshall.c, verbose.c, output.c:
+	indent'd
+
+	* configure: regenerated for 2005/5/5
+
+	* aclocal.m4: miscellaneous updates (adds CF_INTEL_COMPILER)
+
+2005-04-27  schmitz
+
+	* defs.h, graph.c, lr0.c, main.c, makefile.in, reader.c, yacc.1:
+	Sylvain Schmitz <schmitz@i3s.unice.fr>:
+	add graphical output of the LALR(1) automaton for graphviz,
+	associated with command-line option `-g'
+
+2005-04-16  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2005/2/10
+
+	* config.guess: update to 2005/3/24
+
+2004-03-28  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: RCS_BASE
+
+	* configure.in:
+	add AC_ARG_PROGRAM to make --program-prefix, etc., work.
+
+	* makefile.in: first cut of script to support --program-prefix
+
+	* configure.in:
+	reorder AC_INIT/AC_CONFIG_HEADER to make this "work" with autoconf 2.52
+
+	* makefile.in: modify so DESTDIR works
+
+	* makefile.in: use EXEEXT and OBJEXT
+
+	* configure.in: use CF_PROG_EXT
+	generate a config.h
+
+	* defs.h: make this use the generated config.h
+
+	* skeleton.c: add a forward-reference for yyparse()
+
+	* aclocal.m4: add CF_CHECK_CACHE, needed for CF_PROG_EXT
+
+	* yacc.1: remove the discussion of TMPDIR since it is obsolete
+
+	* skeleton.c: fix a couple of minor compiler-warnings in the skeleton
+
+	* defs.h: remove action_file_name, etc., since we use tmpfile() now.
+
+	* main.c:
+	use tmpfile() for opening the working files.  This quiets a warning
+	advising the use of mkstemp().
+
+	* output.c:
+	Do not close temporary-files here, since they are opened with tmpfile().
+	Just rewind them, and they're ready to read back the data stored in them.
+
+	* makefile.in: turn on "make check" rule
+
+	* yacc.1: various typography fixes prompted by Debian #100947
+
+	* aclocal.m4, makefile.in, configure.in: RCS_BASE
+
+	* README: updated to note that this is not the original
+
 2004-02-23  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.sub: RCS_BASE

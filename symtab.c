@@ -1,19 +1,17 @@
-#include "defs.h"
+/* $Id: symtab.c,v 1.4 2005/05/04 20:42:28 tom Exp $ */
 
+#include "defs.h"
 
 /* TABLE_SIZE is the number of entries in the symbol table. */
 /* TABLE_SIZE must be a power of two.			    */
 
 #define	TABLE_SIZE 1024
 
-
-bucket **symbol_table;
+static bucket **symbol_table = 0;
 bucket *first_symbol;
 bucket *last_symbol;
 
-
-int
-hash(char *name)
+int hash(char *name)
 {
     register char *s;
     register int c, k;
@@ -22,40 +20,39 @@ hash(char *name)
     s = name;
     k = *s;
     while ((c = *++s) != 0)
-	k = (31*k + c) & (TABLE_SIZE - 1);
+	k = (31 * k + c) & (TABLE_SIZE - 1);
 
     return (k);
 }
 
-
-bucket *
-make_bucket(char *name)
+bucket *make_bucket(char *name)
 {
     register bucket *bp;
 
     assert(name);
-    bp = (bucket *) MALLOC(sizeof(bucket));
-    if (bp == 0) no_space();
+    bp = (bucket *)MALLOC(sizeof(bucket));
+    if (bp == 0)
+	no_space();
     bp->link = 0;
     bp->next = 0;
     bp->name = MALLOC(strlen(name) + 1);
-    if (bp->name == 0) no_space();
+    if (bp->name == 0)
+	no_space();
     bp->tag = 0;
     bp->value = UNDEFINED;
     bp->index = 0;
     bp->prec = 0;
-    bp-> class = UNKNOWN;
+    bp->class = UNKNOWN;
     bp->assoc = TOKEN;
 
-    if (bp->name == 0) no_space();
+    if (bp->name == 0)
+	no_space();
     strcpy(bp->name, name);
 
     return (bp);
 }
 
-
-bucket *
-lookup(char *name)
+bucket *lookup(char *name)
 {
     register bucket *bp, **bpp;
 
@@ -64,7 +61,8 @@ lookup(char *name)
 
     while (bp)
     {
-	if (strcmp(name, bp->name) == 0) return (bp);
+	if (strcmp(name, bp->name) == 0)
+	    return (bp);
 	bpp = &bp->link;
 	bp = *bpp;
     }
@@ -76,14 +74,14 @@ lookup(char *name)
     return (bp);
 }
 
-
 void create_symbol_table(void)
 {
     register int i;
     register bucket *bp;
 
-    symbol_table = (bucket **) MALLOC(TABLE_SIZE*sizeof(bucket *));
-    if (symbol_table == 0) no_space();
+    symbol_table = (bucket **)MALLOC(TABLE_SIZE * sizeof(bucket *));
+    if (symbol_table == 0)
+	no_space();
     for (i = 0; i < TABLE_SIZE; i++)
 	symbol_table[i] = 0;
 
@@ -96,13 +94,11 @@ void create_symbol_table(void)
     symbol_table[hash("error")] = bp;
 }
 
-
 void free_symbol_table(void)
 {
     FREE(symbol_table);
     symbol_table = 0;
 }
-
 
 void free_symbols(void)
 {

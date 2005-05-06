@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20040328
+MANIFEST for byacc, version t20050505
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -7,6 +7,7 @@ NEW_FEATURES                    original version of byacc - 1993
 NOTES                           original version of byacc - 1993
 NO_WARRANTY                     original version of byacc - 1993
 README                          original version of byacc - 1993
+VERSION                         patch-level
 aclocal.m4                      macros for configure-script
 closure.c                       original version of byacc - 1993
 config.guess                    configure-script utility
@@ -17,6 +18,7 @@ configure.in                    template for configure-script
 defs.h                          original version of byacc - 1993
 descrip.mms                     build-script for VMS
 error.c                         original version of byacc - 1993
+graph.c                         write the file y.dot in graphviz format
 install-sh                      install-script
 lalr.c                          original version of byacc - 1993
 lr0.c                           original version of byacc - 1993

@@ -1,3 +1,5 @@
+/* $Id: closure.c,v 1.4 2005/05/04 21:15:00 tom Exp $ */
+
 #include "defs.h"
 
 short *itemset;
@@ -7,8 +9,7 @@ unsigned *ruleset;
 static unsigned *first_derives;
 static unsigned *EFF;
 
-
-void set_EFF(void)
+static void set_EFF(void)
 {
     register unsigned *row;
     register int symbol;
@@ -42,7 +43,6 @@ void set_EFF(void)
     print_EFF();
 #endif
 }
-
 
 void set_first_derives(void)
 {
@@ -98,7 +98,6 @@ void set_first_derives(void)
     FREE(EFF);
 }
 
-
 void closure(short *nucleus, int n)
 {
     register int ruleno;
@@ -145,7 +144,7 @@ void closure(short *nucleus, int n)
 	    {
 		if (word & (1 << i))
 		{
-		    itemno = rrhs[ruleno+i];
+		    itemno = rrhs[ruleno + i];
 		    while (csp < csend && *csp < itemno)
 			*itemsetend++ = *csp++;
 		    *itemsetend++ = itemno;
@@ -161,31 +160,27 @@ void closure(short *nucleus, int n)
 	*itemsetend++ = *csp++;
 
 #ifdef	DEBUG
-  print_closure(n);
+    print_closure(n);
 #endif
 }
 
-
-
 void finalize_closure(void)
 {
-  FREE(itemset);
-  FREE(ruleset);
-  FREE(first_derives + ntokens * WORDSIZE(nrules));
+    FREE(itemset);
+    FREE(ruleset);
+    FREE(first_derives + ntokens * WORDSIZE(nrules));
 }
-
 
 #ifdef	DEBUG
 
 void print_closure(int n)
 {
-  register short *isp;
+    register short *isp;
 
-  printf("\n\nn = %d\n\n", n);
-  for (isp = itemset; isp < itemsetend; isp++)
-    printf("   %d\n", *isp);
+    printf("\n\nn = %d\n\n", n);
+    for (isp = itemset; isp < itemsetend; isp++)
+	printf("   %d\n", *isp);
 }
-
 
 void print_EFF(void)
 {
@@ -217,7 +212,6 @@ void print_EFF(void)
     }
 }
 
-
 void print_first_derives(void)
 {
     register int i;
@@ -234,19 +228,19 @@ void print_first_derives(void)
 	rp = first_derives + i * WORDSIZE(nrules);
 	k = BITS_PER_WORD;
 	for (j = 0; j <= nrules; k++, j++)
-        {
-	  if (k >= BITS_PER_WORD)
-	  {
-	      cword = *rp++;
-	      k = 0;
-	  }
+	{
+	    if (k >= BITS_PER_WORD)
+	    {
+		cword = *rp++;
+		k = 0;
+	    }
 
-	  if (cword & (1 << k))
-	    printf("   %d\n", j);
+	    if (cword & (1 << k))
+		printf("   %d\n", j);
 	}
     }
 
-  fflush(stdout);
+    fflush(stdout);
 }
 
 #endif

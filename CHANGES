@@ -1,3 +1,34 @@
+2005-08-13  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: add -V to usage message
+
+	* makefile.in: remove -t option from ctags
+
+	* VERSION: 2005/8/13
+
+2005-08-13  schmitz
+
+	* main.c: Sylvain Schmitz:
+	modify the '-o' option to work like bison's, which sets the file-prefix.
+
+2005-08-13  Matt.Kraai
+
+	* output.c:
+	Debian #322858 (don't close union_file, which contained data).
+	This feature is used in groff.
+
+2005-08-13  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regenerated
+
+	* aclocal.m4: improve checks for Intel compiler warnings
+
+2005-06-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2005/6/2
+
+	* config.guess: update to 2005/5/27
+
 2005-05-05  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* defs.h: add a fallback for GCC_UNUSED

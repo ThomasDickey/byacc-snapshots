@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.12 2005/05/05 00:09:54 tom Exp $ */
+/* $Id: main.c,v 1.14 2005/08/14 00:21:40 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -121,6 +121,7 @@ static void usage(void)
 	,"  -r                    produce separate code and table files (y.code.c)"
 	,"  -t                    add debugging support"
 	,"  -v                    write description (y.output)"
+	,"  -V                    show version information and exit"
     };
     unsigned n;
 
@@ -263,7 +264,7 @@ char *allocate(unsigned n)
 }
 
 #define CREATE_FILE_NAME(dest, suffix) \
-	dest = MALLOC(len + sizeof(suffix)); \
+	dest = MALLOC(len + strlen(suffix) + 1); \
 	if (dest == 0) \
 	    no_space(); \
 	strcpy(dest, file_prefix); \
@@ -271,9 +272,31 @@ char *allocate(unsigned n)
 
 static void create_file_names(void)
 {
-    int len;
+    register int len;
+    register char *defines_suffix;
+    register char *prefix;
 
-    len = strlen(file_prefix);
+    prefix = NULL;
+    defines_suffix = DEFINES_SUFFIX;
+
+    /* compute the file_prefix from the user provided output_file_name */
+    if (output_file_name != 0)
+    {
+	if (!(prefix = strstr(output_file_name, ".tab.c"))
+	    && (prefix = strstr(output_file_name, ".c")))
+	    defines_suffix = ".h";
+    }
+
+    if (prefix != NULL)
+    {
+	len = prefix - output_file_name;
+	file_prefix = (char *)MALLOC(len);
+	if (file_prefix == 0)
+	    no_space();
+	strncpy(file_prefix, output_file_name, len);
+    }
+    else
+	len = strlen(file_prefix);
 
     /* if "-o filename" was not given */
     if (output_file_name == 0)
@@ -290,7 +313,7 @@ static void create_file_names(void)
 
     if (dflag)
     {
-	CREATE_FILE_NAME(defines_file_name, DEFINES_SUFFIX);
+	CREATE_FILE_NAME(defines_file_name, defines_suffix);
     }
 
     if (vflag)
@@ -301,6 +324,11 @@ static void create_file_names(void)
     if (gflag)
     {
 	CREATE_FILE_NAME(graph_file_name, GRAPH_SUFFIX);
+    }
+
+    if (prefix != NULL)
+    {
+	FREE(file_prefix);
     }
 }
 

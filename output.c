@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.6 2005/05/05 00:12:02 tom Exp $ */
+/* $Id: output.c,v 1.7 2005/08/13 23:30:42 Matt.Kraai Exp $ */
 
 #include "defs.h"
 
@@ -844,9 +844,6 @@ static void output_defines(void)
     if (dflag && unionized)
     {
 	rewind(union_file);
-	union_file = tmpfile();
-	if (union_file == NULL)
-	    open_error("union_file");
 	while ((c = getc(union_file)) != EOF)
 	    putc(c, defines_file);
 	fprintf(defines_file, " YYSTYPE;\nextern YYSTYPE %slval;\n",

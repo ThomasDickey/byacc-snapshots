@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.8 2005/05/05 00:37:59 tom Exp $
+# $Id: makefile.in,v 1.9 2005/08/14 00:02:20 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -119,7 +119,7 @@ check:	$(THIS)$x
 	cd test && $(SHELL) ./run_test.sh
 
 tags: $(H_FILES) $(C_FILES) 
-	ctags -t $(C_FILES) $(H_FILES)
+	ctags $(C_FILES) $(H_FILES)
 
 depend:
 	makedepend -- $(CPPFLAGS) -- $(C_FILES)

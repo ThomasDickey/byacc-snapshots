@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.8 2005/05/05 00:23:08 tom Exp $ */
+/* $Id: reader.c,v 1.9 2007/05/09 23:22:09 tom Exp $ */
 
 #include "defs.h"
 
@@ -871,7 +871,10 @@ static char *get_tag(void)
     for (i = 0; i < ntags; ++i)
     {
 	if (strcmp(cache, tag_table[i]) == 0)
+	{
+	    FREE(t_line);
 	    return (tag_table[i]);
+	}
     }
 
     if (ntags >= tagmax)
@@ -1447,6 +1450,7 @@ static void copy_action(void)
 	if (depth > 0)
 	    goto loop;
 	fprintf(f, "\nbreak;\n");
+	free(a_line);
 	return;
 
     case '{':
@@ -1457,6 +1461,7 @@ static void copy_action(void)
 	if (--depth > 0)
 	    goto loop;
 	fprintf(f, "\nbreak;\n");
+	free(a_line);
 	return;
 
     case '\'':
@@ -1967,3 +1972,21 @@ void reader(void)
     free_symbols();
     print_grammar();
 }
+
+#ifdef NO_LEAKS
+void reader_leaks(void)
+{
+    DO_FREE(line);
+    DO_FREE(rrhs);
+    DO_FREE(rlhs);
+    DO_FREE(rprec);
+    DO_FREE(ritem);
+    DO_FREE(rassoc);
+    DO_FREE(cache);
+    DO_FREE(name_pool);
+    DO_FREE(symbol_name);
+    DO_FREE(symbol_prec);
+    DO_FREE(symbol_assoc);
+    DO_FREE(symbol_value);
+}
+#endif

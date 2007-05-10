@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.11 2005/05/06 00:46:50 tom Exp $ */
+/* $Id: defs.h,v 1.12 2007/05/09 23:17:59 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -134,6 +134,8 @@
 #define	NEW(t)		((t*)allocate(sizeof(t)))
 #define	NEW2(n,t)	((t*)allocate((unsigned)((n)*sizeof(t))))
 #define REALLOC(p,n)	(realloc((char*)(p),(unsigned)(n)))
+
+#define DO_FREE(x)	if (x) { FREE(x); x = 0; }
 
 
 /*  the structure of a symbol table entry  */
@@ -397,3 +399,11 @@ extern void verbose(void);
 
 /* warshall.c */
 extern void reflexive_transitive_closure(unsigned *R, int n);
+
+#ifdef NO_LEAKS
+extern void lr0_leaks(void);
+extern void lalr_leaks(void);
+extern void mkpar_leaks(void);
+extern void output_leaks(void);
+extern void reader_leaks(void);
+#endif

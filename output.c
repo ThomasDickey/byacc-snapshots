@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.7 2005/08/13 23:30:42 Matt.Kraai Exp $ */
+/* $Id: output.c,v 1.8 2007/05/09 23:22:28 tom Exp $ */
 
 #include "defs.h"
 
@@ -1240,3 +1240,12 @@ static void free_reductions(void)
 	FREE(rp);
     }
 }
+
+#ifdef NO_LEAKS
+void output_leaks(void)
+{
+    DO_FREE(tally);
+    DO_FREE(width);
+    DO_FREE(order);
+}
+#endif

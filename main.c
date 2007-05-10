@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.14 2005/08/14 00:21:40 tom Exp $ */
+/* $Id: main.c,v 1.17 2007/05/09 23:31:35 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -8,6 +8,7 @@
 char dflag;
 char gflag;
 char lflag;
+char oflag;
 char rflag;
 char tflag;
 char vflag;
@@ -76,11 +77,42 @@ static int got_intr = 0;
 
 void done(int k)
 {
+    DO_CLOSE(input_file);
+    DO_CLOSE(output_file);
+
     DO_CLOSE(action_file);
+    DO_CLOSE(defines_file);
+    DO_CLOSE(graph_file);
     DO_CLOSE(text_file);
     DO_CLOSE(union_file);
+    DO_CLOSE(verbose_file);
+
     if (got_intr)
 	_exit(EXIT_FAILURE);
+
+#ifdef NO_LEAKS
+    if (rflag)
+	DO_FREE(code_file_name);
+
+    if (dflag)
+	DO_FREE(defines_file_name);
+
+    if (oflag)
+	DO_FREE(output_file_name);
+
+    if (vflag)
+	DO_FREE(verbose_file_name);
+
+    if (gflag)
+	DO_FREE(graph_file_name);
+
+    lr0_leaks();
+    lalr_leaks();
+    mkpar_leaks();
+    output_leaks();
+    reader_leaks();
+#endif
+
     exit(k);
 }
 
@@ -290,10 +322,10 @@ static void create_file_names(void)
     if (prefix != NULL)
     {
 	len = prefix - output_file_name;
-	file_prefix = (char *)MALLOC(len);
+	file_prefix = (char *)MALLOC(len + 1);
 	if (file_prefix == 0)
 	    no_space();
-	strncpy(file_prefix, output_file_name, len);
+	strncpy(file_prefix, output_file_name, len)[len] = 0;
     }
     else
 	len = strlen(file_prefix);
@@ -301,6 +333,7 @@ static void create_file_names(void)
     /* if "-o filename" was not given */
     if (output_file_name == 0)
     {
+	oflag = 1;
 	CREATE_FILE_NAME(output_file_name, OUTPUT_SUFFIX);
     }
 

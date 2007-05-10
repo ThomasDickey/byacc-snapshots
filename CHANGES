@@ -1,3 +1,15 @@
+2007-03-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* mkdirs.sh: improved version for "make -j"
+
+2006-12-22  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: update to 2006/12/22
+
+2006-12-08  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2006/12/08
+
 2005-08-13  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c: add -V to usage message

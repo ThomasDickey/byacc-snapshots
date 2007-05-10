@@ -1,4 +1,4 @@
-/* $Id: mkpar.c,v 1.5 2005/05/04 21:24:43 tom Exp $ */
+/* $Id: mkpar.c,v 1.6 2007/05/09 23:21:20 tom Exp $ */
 
 #include "defs.h"
 
@@ -348,3 +348,13 @@ void free_parser(void)
 
     FREE(parser);
 }
+
+#ifdef NO_LEAKS
+void mkpar_leaks(void)
+{
+    DO_FREE(defred);
+    DO_FREE(rules_used);
+    DO_FREE(SRconflicts);
+    DO_FREE(RRconflicts);
+}
+#endif

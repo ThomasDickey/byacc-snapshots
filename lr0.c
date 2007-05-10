@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.5 2005/05/04 21:24:43 tom Exp $ */
+/* $Id: lr0.c,v 1.6 2007/05/09 23:21:03 tom Exp $ */
 
 #include "defs.h"
 
@@ -15,11 +15,6 @@ static void save_reductions(void);
 static void save_shifts(void);
 static void set_derives(void);
 static void set_nullable(void);
-
-#ifdef NO_LEAKS
-static void free_derives(void);
-static void free_nullable(void);
-#endif
 
 int nstates;
 core *first_state;
@@ -497,14 +492,6 @@ static void set_derives(void)
 #endif
 }
 
-#ifdef NO_LEAKS
-static void free_derives(void)
-{
-    FREE(derives[start_symbol]);
-    FREE(derives);
-}
-#endif
-
 #ifdef	DEBUG
 void print_derives(void)
 {
@@ -576,16 +563,18 @@ static void set_nullable(void)
 #endif
 }
 
-#ifdef NO_LEAKS
-static void free_nullable(void)
-{
-    FREE(nullable);
-}
-#endif
-
 void lr0(void)
 {
     set_derives();
     set_nullable();
     generate_states();
 }
+
+#ifdef NO_LEAKS
+void lr0_leaks(void)
+{
+    DO_FREE(derives[start_symbol]);
+    DO_FREE(derives);
+    DO_FREE(nullable);
+}
+#endif

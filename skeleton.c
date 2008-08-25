@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.9 2005/05/04 23:39:36 tom Exp $ */
+/* $Id: skeleton.c,v 1.10 2008/08/24 20:51:41 tom Exp $ */
 
 #include "defs.h"
 
@@ -275,7 +275,10 @@ char *body[] =
     "                YYPREFIX, yystate, yyn, yyrule[yyn]);",
     "#endif",
     "    yym = yylen[yyn];",
-    "    yyval = yyvsp[1-yym];",
+    "    if (yym)",
+    "        yyval = yyvsp[1-yym];",
+    "    else",
+    "        memset(&yyval, 0, sizeof yyval);",
     "    switch (yyn)",
     "    {",
     0

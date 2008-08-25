@@ -397,7 +397,10 @@ yyreduce:
                 YYPREFIX, yystate, yyn, yyrule[yyn]);
 #endif
     yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
+    if (yym)
+        yyval = yyvsp[1-yym];
+    else
+        memset(&yyval, 0, sizeof yyval);
     switch (yyn)
     {
 case 3:
@@ -460,7 +463,7 @@ case 18:
 #line 60 "calc.y"
 {  yyval = base * yyvsp[-1] + yyvsp[0]; }
 break;
-#line 465 "calc.tab.c"
+#line 468 "calc.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

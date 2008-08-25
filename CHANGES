@@ -1,3 +1,36 @@
+2008-03-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2008-03-08
+
+	* config.guess: update to 2008-03-12
+
+2007-05-09  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: close graph, verbose files if opened, on exit.
+
+	* main.c:
+	audit memory leaks - valgrind reported some memory still in use on exit.
+
+	* lalr.c, output.c, reader.c, mkpar.c, lr0.c:
+	add hook for auditing memory leaks
+
+	* defs.h: add hooks for auditing memory leaks
+
+	* configure: regen'd
+
+	* configure.in:
+	use CF_DISABLE_LEAKS, which combines --disable-leaks, --with-valgrind,
+	--with-dbmalloc and --with-dmalloc
+
+	* aclocal.m4: add CF_DISABLE_LEAKS and CF_WITH_VALGRIND
+
+	* aclocal.m4: improve version-checking in CF_GCC_VERSION
+	rework dbmalloc/dmalloc options using CF_NO_LEAKS_OPTION macro
+
+	* VERSION: 2007/5/9
+
+	* main.c: file_prefix did not always have a trailing null.
+
 2007-03-25  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* mkdirs.sh: improved version for "make -j"

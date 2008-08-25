@@ -1,4 +1,4 @@
-/* $Id: lalr.c,v 1.5 2007/05/09 23:24:05 tom Exp $ */
+/* $Id: lalr.c,v 1.6 2008/08/24 21:32:03 tom Exp $ */
 
 #include "defs.h"
 
@@ -623,6 +623,15 @@ static void traverse(register int i)
 #ifdef NO_LEAKS
 void lalr_leaks(void)
 {
-    DO_FREE(includes);
+    int i;
+
+    if (includes != 0)
+    {
+	for (i = 0; i < ngotos; i++)
+	{
+	    free(includes[i]);
+	}
+	DO_FREE(includes);
+    }
 }
 #endif

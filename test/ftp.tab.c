@@ -1099,7 +1099,10 @@ yyreduce:
                 YYPREFIX, yystate, yyn, yyrule[yyn]);
 #endif
     yym = yylen[yyn];
-    yyval = yyvsp[1-yym];
+    if (yym)
+        yyval = yyvsp[1-yym];
+    else
+        memset(&yyval, 0, sizeof yyval);
     switch (yyn)
     {
 case 2:
@@ -1741,7 +1744,7 @@ case 73:
 		}
 	}
 break;
-#line 1746 "ftp.tab.c"
+#line 1749 "ftp.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

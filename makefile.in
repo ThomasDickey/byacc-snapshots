@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.9 2005/08/14 00:02:20 tom Exp $
+# $Id: makefile.in,v 1.10 2008/08/25 19:22:45 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -125,5 +125,8 @@ depend:
 	makedepend -- $(CPPFLAGS) -- $(C_FILES)
 
 $(OBJS) : defs.h
+
+main$o \
+skeleton$o : makefile VERSION
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.

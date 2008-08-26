@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.8 2007/05/09 23:22:28 tom Exp $ */
+/* $Id: output.c,v 1.12 2008/08/25 23:38:58 tom Exp $ */
 
 #include "defs.h"
 
@@ -67,63 +67,104 @@ void output(void)
     write_section(trailer);
 }
 
+static void write_char(FILE * out, int c)
+{
+    if (c == '\n')
+	++outline;
+    putc(c, out);
+}
+
+static void write_code_lineno(FILE * out)
+{
+    if (!lflag)
+	fprintf(out, line_format, (outline++) + 1, code_file_name);
+}
+
+static void write_input_lineno(FILE * out)
+{
+    if (!lflag)
+    {
+	++outline;
+	fprintf(out, line_format, lineno, input_file_name);
+    }
+}
+
+static void define_prefixed(const char *name)
+{
+    ++outline;
+    fprintf(code_file, "#define %-10s %s%s\n", name, symbol_prefix, name + 2);
+}
+
 static void output_prefix(void)
 {
     if (symbol_prefix == NULL)
 	symbol_prefix = "yy";
     else
     {
-	++outline;
-	fprintf(code_file, "#define yyparse %sparse\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yylex %slex\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyerror %serror\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yychar %schar\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyval %sval\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yylval %slval\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yydebug %sdebug\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yynerrs %snerrs\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyerrflag %serrflag\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyss %sss\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyssp %sssp\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyvs %svs\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyvsp %svsp\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yylhs %slhs\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yylen %slen\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yydefred %sdefred\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yydgoto %sdgoto\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yysindex %ssindex\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyrindex %srindex\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yygindex %sgindex\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yytable %stable\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yycheck %scheck\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyname %sname\n", symbol_prefix);
-	++outline;
-	fprintf(code_file, "#define yyrule %srule\n", symbol_prefix);
+	define_prefixed("yyparse");
+	define_prefixed("yylex");
+	define_prefixed("yyerror");
+	define_prefixed("yychar");
+	define_prefixed("yyval");
+	define_prefixed("yydebug");
+	define_prefixed("yynerrs");
+	define_prefixed("yyerrflag");
+	define_prefixed("yyss");
+	define_prefixed("yyssp");
+	define_prefixed("yyvs");
+	define_prefixed("yyvsp");
+	define_prefixed("yylhs");
+	define_prefixed("yylen");
+	define_prefixed("yydefred");
+	define_prefixed("yydgoto");
+	define_prefixed("yysindex");
+	define_prefixed("yyrindex");
+	define_prefixed("yygindex");
+	define_prefixed("yytable");
+	define_prefixed("yycheck");
+	define_prefixed("yyname");
+	define_prefixed("yyrule");
     }
     ++outline;
     fprintf(code_file, "#define YYPREFIX \"%s\"\n", symbol_prefix);
+}
+
+static void output_newline(void)
+{
+    if (!rflag)
+	++outline;
+    putc('\n', output_file);
+}
+
+static void output_line(const char *value)
+{
+    fputs(value, output_file);
+    output_newline();
+}
+
+static void output_int(int value)
+{
+    fprintf(output_file, "%5d,", value);
+}
+
+static void start_int_table(const char *name, int value)
+{
+    int need = 47 - (int)(strlen(symbol_prefix) + strlen(name));
+    if (need < 6)
+	need = 6;
+    fprintf(output_file, "short %s%s[] = {%*d,", symbol_prefix, name, need, value);
+}
+
+static void start_str_table(const char *name)
+{
+    fprintf(output_file, "char *%s%s[] = {", symbol_prefix, name);
+    output_newline();
+}
+
+static void end_table(void)
+{
+    output_newline();
+    output_line("};");
 }
 
 static void output_rule_data(void)
@@ -131,56 +172,46 @@ static void output_rule_data(void)
     register int i;
     register int j;
 
-    fprintf(output_file, "short %slhs[] = {%42d,", symbol_prefix,
-	    symbol_value[start_symbol]);
+    start_int_table("lhs", symbol_value[start_symbol]);
 
     j = 10;
     for (i = 3; i < nrules; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
-	fprintf(output_file, "%5d,", symbol_value[rlhs[i]]);
+	output_int(symbol_value[rlhs[i]]);
     }
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
 
-    fprintf(output_file, "short %slen[] = {%42d,", symbol_prefix, 2);
+    start_int_table("len", 2);
 
     j = 10;
     for (i = 3; i < nrules; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    j++;
 
-	fprintf(output_file, "%5d,", rrhs[i + 1] - rrhs[i] - 1);
+	output_int(rrhs[i + 1] - rrhs[i] - 1);
     }
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
 }
 
 static void output_yydefred(void)
 {
     register int i, j;
 
-    fprintf(output_file, "short %sdefred[] = {%39d,", symbol_prefix,
-	    (defred[0] ? defred[0] - 2 : 0));
+    start_int_table("defred", (defred[0] ? defred[0] - 2 : 0));
 
     j = 10;
     for (i = 1; i < nstates; i++)
@@ -189,18 +220,14 @@ static void output_yydefred(void)
 	    ++j;
 	else
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 
-	fprintf(output_file, "%5d,", (defred[i] ? defred[i] - 2 : 0));
+	output_int((defred[i] ? defred[i] - 2 : 0));
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
 }
 
 static void output_actions(void)
@@ -321,7 +348,7 @@ static void goto_actions(void)
     state_count = NEW2(nstates, short);
 
     k = default_goto(start_symbol + 1);
-    fprintf(output_file, "short %sdgoto[] = {%40d,", symbol_prefix, k);
+    start_int_table("dgoto", k);
     save_column(start_symbol + 1, k);
 
     j = 10;
@@ -329,22 +356,18 @@ static void goto_actions(void)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
 	k = default_goto(i);
-	fprintf(output_file, "%5d,", k);
+	output_int(k);
 	save_column(i, k);
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
     FREE(state_count);
 }
 
@@ -640,69 +663,59 @@ static void output_base(void)
 {
     register int i, j;
 
-    fprintf(output_file, "short %ssindex[] = {%39d,", symbol_prefix, base[0]);
+    start_int_table("sindex", base[0]);
 
     j = 10;
     for (i = 1; i < nstates; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
-	fprintf(output_file, "%5d,", base[i]);
+	output_int(base[i]);
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\nshort %srindex[] = {%39d,", symbol_prefix,
-	    base[nstates]);
+    end_table();
+
+    start_int_table("rindex", base[nstates]);
 
     j = 10;
     for (i = nstates + 1; i < 2 * nstates; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
-	fprintf(output_file, "%5d,", base[i]);
+	output_int(base[i]);
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\nshort %sgindex[] = {%39d,", symbol_prefix,
-	    base[2 * nstates]);
+    end_table();
+
+    start_int_table("gindex", base[2 * nstates]);
 
     j = 10;
     for (i = 2 * nstates + 1; i < nvectors - 1; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
-	fprintf(output_file, "%5d,", base[i]);
+	output_int(base[i]);
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
     FREE(base);
 }
 
@@ -713,28 +726,23 @@ static void output_table(void)
 
     ++outline;
     fprintf(code_file, "#define YYTABLESIZE %d\n", high);
-    fprintf(output_file, "short %stable[] = {%40d,", symbol_prefix,
-	    table[0]);
+    start_int_table("table", table[0]);
 
     j = 10;
     for (i = 1; i <= high; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
-	fprintf(output_file, "%5d,", table[i]);
+	output_int(table[i]);
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
     FREE(table);
 }
 
@@ -743,28 +751,23 @@ static void output_check(void)
     register int i;
     register int j;
 
-    fprintf(output_file, "short %scheck[] = {%40d,", symbol_prefix,
-	    check[0]);
+    start_int_table("check", check[0]);
 
     j = 10;
     for (i = 1; i <= high; i++)
     {
 	if (j >= 10)
 	{
-	    if (!rflag)
-		++outline;
-	    putc('\n', output_file);
+	    output_newline();
 	    j = 1;
 	}
 	else
 	    ++j;
 
-	fprintf(output_file, "%5d,", check[i]);
+	output_int(check[i]);
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
     FREE(check);
 }
 
@@ -863,17 +866,12 @@ static void output_stored_text(void)
     if ((c = getc(in)) == EOF)
 	return;
     out = code_file;
-    if (c == '\n')
-	++outline;
-    putc(c, out);
+    write_char(out, c);
     while ((c = getc(in)) != EOF)
     {
-	if (c == '\n')
-	    ++outline;
-	putc(c, out);
+	write_char(out, c);
     }
-    if (!lflag)
-	fprintf(out, line_format, ++outline + 1, code_file_name);
+    write_code_lineno(out);
 }
 
 static void output_debug(void)
@@ -883,17 +881,22 @@ static void output_debug(void)
 
     ++outline;
     fprintf(code_file, "#define YYFINAL %d\n", final_state);
+
     outline += 3;
-    fprintf(code_file, "#ifndef YYDEBUG\n#define YYDEBUG %d\n#endif\n",
-	    tflag);
+    fprintf(code_file, "#ifndef YYDEBUG\n#define YYDEBUG %d\n#endif\n", tflag);
+
     if (rflag)
-	fprintf(output_file, "#ifndef YYDEBUG\n#define YYDEBUG %d\n#endif\n",
-		tflag);
+    {
+	fprintf(output_file, "#ifndef YYDEBUG\n");
+	fprintf(output_file, "#define YYDEBUG %d\n", tflag);
+	fprintf(output_file, "#endif\n");
+    }
 
     max = 0;
     for (i = 2; i < ntokens; ++i)
 	if (symbol_value[i] > max)
 	    max = symbol_value[i];
+
     ++outline;
     fprintf(code_file, "#define YYMAXTOKEN %d\n", max);
 
@@ -909,9 +912,9 @@ static void output_debug(void)
 	symnam[symbol_value[i]] = symbol_name[i];
     symnam[0] = "end-of-file";
 
-    if (!rflag)
-	++outline;
-    fprintf(output_file, "#if YYDEBUG\nchar *%sname[] = {", symbol_prefix);
+    output_line("#if YYDEBUG");
+
+    start_str_table("name");
     j = 80;
     for (i = 0; i <= max; ++i)
     {
@@ -933,9 +936,7 @@ static void output_debug(void)
 		j += k;
 		if (j > 80)
 		{
-		    if (!rflag)
-			++outline;
-		    putc('\n', output_file);
+		    output_newline();
 		    j = k;
 		}
 		fprintf(output_file, "\"\\\"");
@@ -962,9 +963,7 @@ static void output_debug(void)
 		    j += 7;
 		    if (j > 80)
 		    {
-			if (!rflag)
-			    ++outline;
-			putc('\n', output_file);
+			output_newline();
 			j = 7;
 		    }
 		    fprintf(output_file, "\"'\\\"'\",");
@@ -985,9 +984,7 @@ static void output_debug(void)
 		    j += k;
 		    if (j > 80)
 		    {
-			if (!rflag)
-			    ++outline;
-			putc('\n', output_file);
+			output_newline();
 			j = k;
 		    }
 		    fprintf(output_file, "\"'");
@@ -1014,9 +1011,7 @@ static void output_debug(void)
 		j += k;
 		if (j > 80)
 		{
-		    if (!rflag)
-			++outline;
-		    putc('\n', output_file);
+		    output_newline();
 		    j = k;
 		}
 		putc('"', output_file);
@@ -1033,22 +1028,16 @@ static void output_debug(void)
 	    j += 2;
 	    if (j > 80)
 	    {
-		if (!rflag)
-		    ++outline;
-		putc('\n', output_file);
+		output_newline();
 		j = 2;
 	    }
 	    fprintf(output_file, "0,");
 	}
     }
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "\n};\n");
+    end_table();
     FREE(symnam);
 
-    if (!rflag)
-	++outline;
-    fprintf(output_file, "char *%srule[] = {\n", symbol_prefix);
+    start_str_table("rule");
     for (i = 2; i < nrules; ++i)
     {
 	fprintf(output_file, "\"%s :", symbol_name[rlhs[i]]);
@@ -1094,14 +1083,12 @@ static void output_debug(void)
 	    else
 		fprintf(output_file, " %s", s);
 	}
-	if (!rflag)
-	    ++outline;
-	fprintf(output_file, "\",\n");
+	fprintf(output_file, "\",");
+	output_newline();
     }
 
-    if (!rflag)
-	outline += 2;
-    fprintf(output_file, "};\n#endif\n");
+    end_table();
+    output_line("#endif");
 }
 
 static void output_stype(void)
@@ -1129,48 +1116,33 @@ static void output_trailing_text(void)
 	++lineno;
 	if ((c = getc(in)) == EOF)
 	    return;
-	if (!lflag)
-	{
-	    ++outline;
-	    fprintf(out, line_format, lineno, input_file_name);
-	}
-	if (c == '\n')
-	    ++outline;
-	putc(c, out);
+	write_input_lineno(out);
+	write_char(out, c);
 	last = c;
     }
     else
     {
-	if (!lflag)
-	{
-	    ++outline;
-	    fprintf(out, line_format, lineno, input_file_name);
-	}
+	write_input_lineno(out);
 	do
 	{
 	    putc(c, out);
 	}
 	while ((c = *++cptr) != '\n');
-	++outline;
-	putc('\n', out);
+	write_char(out, c);
 	last = '\n';
     }
 
     while ((c = getc(in)) != EOF)
     {
-	if (c == '\n')
-	    ++outline;
-	putc(c, out);
+	write_char(out, c);
 	last = c;
     }
 
     if (last != '\n')
     {
-	++outline;
-	putc('\n', out);
+	write_char(out, '\n');
     }
-    if (!lflag)
-	fprintf(out, line_format, ++outline + 1, code_file_name);
+    write_code_lineno(out);
 }
 
 static void output_semantic_actions(void)
@@ -1184,25 +1156,19 @@ static void output_semantic_actions(void)
 
     out = code_file;
     last = c;
-    if (c == '\n')
-	++outline;
-    putc(c, out);
+    write_char(out, c);
     while ((c = getc(action_file)) != EOF)
     {
-	if (c == '\n')
-	    ++outline;
-	putc(c, out);
+	write_char(out, c);
 	last = c;
     }
 
     if (last != '\n')
     {
-	++outline;
-	putc('\n', out);
+	write_char(out, '\n');
     }
 
-    if (!lflag)
-	fprintf(out, line_format, ++outline + 1, code_file_name);
+    write_code_lineno(out);
 }
 
 static void free_itemsets(void)

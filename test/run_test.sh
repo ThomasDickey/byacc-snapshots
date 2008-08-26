@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.2 2005/05/04 23:01:44 tom Exp $
+# $Id: run_test.sh,v 1.3 2008/08/25 20:22:14 tom Exp $
 #
 echo '** '`date`
 for i in *.y
@@ -11,7 +11,7 @@ do
 	*)
 		root=`basename $i .y`
 		ROOT="test-$root"
-		../yacc -v -d -b $ROOT $i
+		../yacc -v -d -p ${root}_ -b $ROOT $i
 		for type in .output .tab.c .tab.h
 		do
 			REF=${root}${type}

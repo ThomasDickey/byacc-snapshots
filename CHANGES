@@ -1,3 +1,18 @@
+2008-08-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* lalr.c: improved memory-leak checking by freeing data in includes[]
+
+	* configure: regen'd
+
+	* skeleton.c: Add fix for stack discussed
+		http://undeadly.org/cgi?action=article&sid=20080708155228
+	and applied
+		http://www.openbsd.org/cgi-bin/cvsweb/src/usr.bin/yacc/skeleton.c.diff?r1=1.28&r2=1.29
+
+	* aclocal.m4: resync with my-autoconf (no major changes)
+
 2008-03-14  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.sub: update to 2008-03-08

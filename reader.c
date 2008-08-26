@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.9 2007/05/09 23:22:09 tom Exp $ */
+/* $Id: reader.c,v 1.11 2008/08/25 23:45:11 tom Exp $ */
 
 #include "defs.h"
 
@@ -8,6 +8,9 @@
 /*  will be expanded to accomodate it.					*/
 
 #define LINESIZE 100
+
+#define L_CURL '{'
+#define R_CURL '}'
 
 static void start_rule(bucket *bp, int s_lineno);
 
@@ -267,7 +270,7 @@ static int keyword(void)
     else
     {
 	++cptr;
-	if (c == '{')
+	if (c == L_CURL)
 	    return (TEXT);
 	if (c == '%' || c == '\\')
 	    return (MARK);
@@ -430,7 +433,7 @@ static void copy_text(void)
 
     case '%':
     case '\\':
-	if (*cptr == '}')
+	if (*cptr == R_CURL)
 	{
 	    if (need_newline)
 		putc('\n', f);
@@ -482,11 +485,11 @@ static void copy_union(void)
 	    unterminated_union(u_lineno, u_line, u_cptr);
 	goto loop;
 
-    case '{':
+    case L_CURL:
 	++depth;
 	goto loop;
 
-    case '}':
+    case R_CURL:
 	if (--depth == 0)
 	{
 	    fprintf(text_file, " YYSTYPE;\n");
@@ -1313,6 +1316,13 @@ static void add_symbol(void)
     pitem[nitems - 1] = bp;
 }
 
+static char *after_blanks(char *s)
+{
+    while (*s != '\0' && isspace(*s))
+	++s;
+    return s;
+}
+
 static void copy_action(void)
 {
     register int c;
@@ -1334,6 +1344,13 @@ static void copy_action(void)
 	fprintf(f, line_format, lineno, input_file_name);
     if (*cptr == '=')
 	++cptr;
+
+    /* avoid putting curly-braces in first column, to ease editing */
+    if (*after_blanks(cptr) == L_CURL)
+    {
+	putc('\t', f);
+	cptr = after_blanks(cptr);
+    }
 
     n = 0;
     for (i = nitems - 1; pitem[i]; --i)
@@ -1453,11 +1470,11 @@ static void copy_action(void)
 	free(a_line);
 	return;
 
-    case '{':
+    case L_CURL:
 	++depth;
 	goto loop;
 
-    case '}':
+    case R_CURL:
 	if (--depth > 0)
 	    goto loop;
 	fprintf(f, "\nbreak;\n");
@@ -1607,7 +1624,7 @@ static void read_grammar(void)
 	    || c == '\''
 	    || c == '"')
 	    add_symbol();
-	else if (c == '{' || c == '=')
+	else if (c == L_CURL || c == '=')
 	    copy_action();
 	else if (c == '|')
 	{

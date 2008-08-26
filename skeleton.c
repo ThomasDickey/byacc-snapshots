@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.10 2008/08/24 20:51:41 tom Exp $ */
+/* $Id: skeleton.c,v 1.12 2008/08/25 20:50:44 tom Exp $ */
 
 #include "defs.h"
 
@@ -21,6 +21,7 @@ char *banner[] =
     "#endif",
     "",
     "#include <stdlib.h>",
+    "#include <string.h>",
     "",
     "#define YYBYACC 1",
     CONCAT1("#define YYMAJOR ", YYMAJOR),
@@ -93,7 +94,7 @@ char *header[] =
     "static short   *yyss;",
     "static short   *yysslim;",
     "static YYSTYPE *yyvs;",
-    "static int      yystacksize;",
+    "static unsigned yystacksize;",
     0
 };
 
@@ -102,7 +103,8 @@ char *body[] =
     "/* allocate initial stack or double stack size, up to YYMAXDEPTH */",
     "static int yygrowstack(void)",
     "{",
-    "    int newsize, i;",
+    "    int i;",
+    "    unsigned newsize;",
     "    short *newss;",
     "    YYSTYPE *newvs;",
     "",
@@ -157,11 +159,13 @@ char *body[] =
     "    yynerrs = 0;",
     "    yyerrflag = 0;",
     "    yychar = YYEMPTY;",
+    "    yystate = 0;",
     "",
     "    if (yyss == NULL && yygrowstack()) goto yyoverflow;",
     "    yyssp = yyss;",
     "    yyvsp = yyvs;",
-    "    *yyssp = yystate = 0;",
+    "    yystate = 0;",
+    "    *yyssp = 0;",
     "",
     "yyloop:",
     "    if ((yyn = yydefred[yystate]) != 0) goto yyreduce;",
@@ -191,7 +195,8 @@ char *body[] =
     "        {",
     "            goto yyoverflow;",
     "        }",
-    "        *++yyssp = yystate = yytable[yyn];",
+    "        yystate = yytable[yyn];",
+    "        *++yyssp = yytable[yyn];",
     "        *++yyvsp = yylval;",
     "        yychar = YYEMPTY;",
     "        if (yyerrflag > 0)  --yyerrflag;",
@@ -232,7 +237,8 @@ char *body[] =
     "                {",
     "                    goto yyoverflow;",
     "                }",
-    "                *++yyssp = yystate = yytable[yyn];",
+    "                yystate = yytable[yyn];",
+    "                *++yyssp = yytable[yyn];",
     "                *++yyvsp = yylval;",
     "                goto yyloop;",
     "            }",
@@ -332,7 +338,7 @@ char *trailer[] =
     "    {",
     "        goto yyoverflow;",
     "    }",
-    "    *++yyssp = yystate;",
+    "    *++yyssp = (short) yystate;",
     "    *++yyvsp = yyval;",
     "    goto yyloop;",
     "",

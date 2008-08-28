@@ -1499,7 +1499,7 @@ echo "configure:1487: checking for $CC warning options" >&5
 		Wpointer-arith \
 		Wshadow \
 		Wstrict-prototypes \
-		Wundef $cf_warn_CONST 
+		Wundef $cf_warn_CONST Wwrite-strings
 	do
 		CFLAGS="$cf_save_CFLAGS $EXTRA_CFLAGS -$cf_opt"
 		if { (eval echo configure:1506: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then

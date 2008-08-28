@@ -9,12 +9,24 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define YYMAJOR 1
 #define YYMINOR 9
 
-#define YYEMPTY (-1)
-#define yyclearin    (yychar = YYEMPTY)
-#define yyerrok      (yyerrflag = 0)
-#define YYRECOVERING (yyerrflag != 0)
+#define YYEMPTY        (-1)
+#define yyclearin      (yychar = YYEMPTY)
+#define yyerrok        (yyerrflag = 0)
+#define YYRECOVERING() (yyerrflag != 0)
 
-extern int yyparse(void);
+/* compatibility with bison */
+#ifdef YYPARSE_PARAM
+/* compatibility with FreeBSD */
+#ifdef YYPARSE_PARAM_TYPE
+#define YYPARSE_DECL() yyparse(YYPARSE_PARAM_TYPE YYPARSE_PARAM)
+#else
+#define YYPARSE_DECL() yyparse(void *YYPARSE_PARAM)
+#endif
+#else
+#define YYPARSE_DECL() yyparse(void)
+#endif /* YYPARSE_PARAM */
+
+extern int YYPARSE_DECL();
 
 static int yygrowstack(void);
 #define yyparse    grammar_parse
@@ -132,7 +144,7 @@ haveAnsiParam (void)
     }
     return FALSE;
 }
-#line 136 "grammar.tab.c"
+#line 148 "grammar.tab.c"
 #define T_IDENTIFIER 257
 #define T_TYPEDEF_NAME 258
 #define T_DEFINE_NAME 259
@@ -169,7 +181,7 @@ haveAnsiParam (void)
 #define T_ASMARG 290
 #define T_VA_DCL 291
 #define YYERRCODE 256
-short grammar_lhs[] = {                                  -1,
+static const short grammar_lhs[] = {                     -1,
     0,    0,   26,   26,   27,   27,   27,   27,   27,   27,
    27,   31,   30,   30,   28,   28,   34,   28,   32,   32,
    33,   33,   35,   35,   37,   38,   29,   39,   29,   36,
@@ -183,7 +195,7 @@ short grammar_lhs[] = {                                  -1,
    18,   18,   24,   24,   12,   12,   12,   13,   13,   13,
    13,   13,   13,   13,
 };
-short grammar_len[] = {                                   2,
+static const short grammar_len[] = {                      2,
     0,    1,    1,    2,    1,    1,    1,    1,    3,    2,
     2,    2,    3,    3,    2,    3,    0,    5,    2,    1,
     0,    1,    1,    3,    0,    0,    7,    0,    5,    0,
@@ -197,7 +209,7 @@ short grammar_len[] = {                                   2,
     1,    3,    1,    2,    1,    2,    1,    3,    2,    1,
     4,    3,    3,    2,
 };
-short grammar_defred[] = {                                0,
+static const short grammar_defred[] = {                   0,
     0,    0,    0,    0,   77,    0,   62,   40,    0,   42,
    43,   20,   44,    0,   46,   47,   48,   49,   54,   50,
    51,   52,   53,   76,   66,   67,   55,   56,   57,   61,
@@ -214,14 +226,14 @@ short grammar_defred[] = {                                0,
    29,  114,    0,    0,    0,  109,    0,   93,   95,  102,
    18,    0,    0,  108,  113,  112,    0,   24,   27,  111,
 };
-short grammar_dgoto[] = {                                33,
+static const short grammar_dgoto[] = {                   33,
    87,   35,   36,   37,   38,   39,   40,   69,   70,   41,
    42,  119,  120,  100,  101,  102,  103,  104,   43,   44,
    59,   60,   45,   46,   47,   48,   49,   50,   51,   52,
    77,   53,  127,  109,  128,   97,   94,  143,   72,   98,
   112,
 };
-short grammar_sindex[] = {                               -2,
+static const short grammar_sindex[] = {                  -2,
    -3,   27, -239, -177,    0,    0,    0,    0, -274,    0,
     0,    0,    0, -246,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -238,7 +250,7 @@ short grammar_sindex[] = {                               -2,
     0,    0,   53,   55,  417,    0,  -33,    0,    0,    0,
     0,   27, -188,    0,    0,    0,   57,    0,    0,    0,
 };
-short grammar_rindex[] = {                               99,
+static const short grammar_rindex[] = {                  99,
     0,    0,  275,    0,    0,  -38,    0,    0,  481,    0,
     0,    0,    0,  509,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -255,7 +267,7 @@ short grammar_rindex[] = {                               99,
     0,    0,    0,    0,    0,    0,   35,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
 };
-short grammar_gindex[] = {                                0,
+static const short grammar_gindex[] = {                   0,
    11,  -17,    0,    0,   13,    0,    0,    0,   20,    8,
   -43,   -1,   -8,  -89,    0,   -9,    0,    0,    0,  -44,
     0,    0,    4,    0,    0,    0,   70,  -53,    0,    0,
@@ -263,7 +275,7 @@ short grammar_gindex[] = {                                0,
     0,
 };
 #define YYTABLESIZE 924
-short grammar_table[] = {                                58,
+static const short grammar_table[] = {                   58,
    78,   58,   58,   58,   73,   58,  135,   61,   88,   57,
    34,    5,   56,   62,   85,   58,   68,   63,   96,    7,
    58,   98,   78,   64,   98,   84,  134,  107,   80,    3,
@@ -358,7 +370,7 @@ short grammar_table[] = {                                58,
    17,   18,   19,   20,   21,   22,   23,   24,   25,   26,
    27,   28,   29,   30,
 };
-short grammar_check[] = {                                38,
+static const short grammar_check[] = {                   38,
    44,   40,   41,   42,   40,   44,   40,    4,   62,    2,
     0,  257,  258,  288,   59,    3,   34,  264,   72,  259,
    59,   41,   61,  290,   44,   41,  116,   41,   47,   42,
@@ -459,7 +471,7 @@ short grammar_check[] = {                                38,
 #endif
 #define YYMAXTOKEN 291
 #if YYDEBUG
-char *grammar_name[] = {
+static const char *grammar_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,"'&'",0,"'('","')'","'*'",0,"','",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"';'",0,
@@ -475,7 +487,7 @@ char *grammar_name[] = {
 "T_TYPE_QUALIFIER","T_BRACKETS","T_LBRACE","T_MATCHRBRACE","T_ELLIPSIS",
 "T_INITIALIZER","T_STRING_LITERAL","T_ASM","T_ASMARG","T_VA_DCL",
 };
-char *grammar_rule[] = {
+static const char *grammar_rule[] = {
 "$accept : program",
 "program :",
 "program : translation_unit",
@@ -786,7 +798,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 790 "grammar.tab.c"
+#line 802 "grammar.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(void)
 {
@@ -824,16 +836,17 @@ static int yygrowstack(void)
     return 0;
 }
 
-#define YYABORT goto yyabort
+#define YYABORT  goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
-#define YYERROR goto yyerrlab
+#define YYERROR  goto yyerrlab
+
 int
-yyparse(void)
+YYPARSE_DECL()
 {
-    register int yym, yyn, yystate;
+    int yym, yyn, yystate;
 #if YYDEBUG
-    register const char *yys;
+    const char *yys;
 
     if ((yys = getenv("YYDEBUG")) != 0)
     {
@@ -1646,7 +1659,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1650 "grammar.tab.c"
+#line 1663 "grammar.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

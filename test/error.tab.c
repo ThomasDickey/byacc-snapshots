@@ -9,12 +9,24 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define YYMAJOR 1
 #define YYMINOR 9
 
-#define YYEMPTY (-1)
-#define yyclearin    (yychar = YYEMPTY)
-#define yyerrok      (yyerrflag = 0)
-#define YYRECOVERING (yyerrflag != 0)
+#define YYEMPTY        (-1)
+#define yyclearin      (yychar = YYEMPTY)
+#define yyerrok        (yyerrflag = 0)
+#define YYRECOVERING() (yyerrflag != 0)
 
-extern int yyparse(void);
+/* compatibility with bison */
+#ifdef YYPARSE_PARAM
+/* compatibility with FreeBSD */
+#ifdef YYPARSE_PARAM_TYPE
+#define YYPARSE_DECL() yyparse(YYPARSE_PARAM_TYPE YYPARSE_PARAM)
+#else
+#define YYPARSE_DECL() yyparse(void *YYPARSE_PARAM)
+#endif
+#else
+#define YYPARSE_DECL() yyparse(void)
+#endif /* YYPARSE_PARAM */
+
+extern int YYPARSE_DECL();
 
 static int yygrowstack(void);
 #define yyparse    error_parse
@@ -42,29 +54,29 @@ static int yygrowstack(void);
 #define yyrule     error_rule
 #define YYPREFIX "error_"
 #define YYERRCODE 256
-short error_lhs[] = {                                    -1,
+static const short error_lhs[] = {                       -1,
     0,
 };
-short error_len[] = {                                     2,
+static const short error_len[] = {                        2,
     1,
 };
-short error_defred[] = {                                  0,
+static const short error_defred[] = {                     0,
     1,    0,
 };
-short error_dgoto[] = {                                   2,
+static const short error_dgoto[] = {                      2,
 };
-short error_sindex[] = {                               -256,
+static const short error_sindex[] = {                  -256,
     0,    0,
 };
-short error_rindex[] = {                                  0,
+static const short error_rindex[] = {                     0,
     0,    0,
 };
-short error_gindex[] = {                                  0,
+static const short error_gindex[] = {                     0,
 };
 #define YYTABLESIZE 0
-short error_table[] = {                                   1,
+static const short error_table[] = {                      1,
 };
-short error_check[] = {                                 256,
+static const short error_check[] = {                    256,
 };
 #define YYFINAL 2
 #ifndef YYDEBUG
@@ -72,11 +84,11 @@ short error_check[] = {                                 256,
 #endif
 #define YYMAXTOKEN 0
 #if YYDEBUG
-char *error_name[] = {
+static const char *error_name[] = {
 
 "end-of-file",
 };
-char *error_rule[] = {
+static const char *error_rule[] = {
 "$accept : S",
 "S : error",
 
@@ -122,7 +134,7 @@ static unsigned yystacksize;
 main(){printf("yyparse() = %d\n",yyparse());}
 yylex(){return-1;}
 yyerror(s)char*s;{printf("%s\n",s);}
-#line 126 "error.tab.c"
+#line 138 "error.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(void)
 {
@@ -160,16 +172,17 @@ static int yygrowstack(void)
     return 0;
 }
 
-#define YYABORT goto yyabort
+#define YYABORT  goto yyabort
 #define YYREJECT goto yyabort
 #define YYACCEPT goto yyaccept
-#define YYERROR goto yyerrlab
+#define YYERROR  goto yyerrlab
+
 int
-yyparse(void)
+YYPARSE_DECL()
 {
-    register int yym, yyn, yystate;
+    int yym, yyn, yystate;
 #if YYDEBUG
-    register const char *yys;
+    const char *yys;
 
     if ((yys = getenv("YYDEBUG")) != 0)
     {

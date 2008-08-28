@@ -1,3 +1,67 @@
+2008-08-27  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* skeleton.c:
+	better implementation of YYPARSE_PARAM, using YYPARSE_DECL() macro
+
+	* skeleton.c:
+	change YYRECOVERING to YYRECOVERING(), for compatibility with other yacc's.
+
+	* configure: regen'd
+
+	* configure.in: add -Wwrite-strings to warnings
+
+	* skeleton.c:
+	add YYPARSE_PARAM (bison) and YYPARSE_PARAM_TYPE (FreeBSD) features.
+
+	* main.c, defs.h, output.c, skeleton.c, symtab.c, error.c, reader.c:
+	fixes for gcc -Wwrite-strings
+
+	* output.c: realign columns in start_table()
+
+	* output.c:
+	generate the tables as static-const (this is an interface change)
+
+	* output.c: reorder functions to eliminate forward-references
+
+2008-08-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* warshall.c, verbose.c, symtab.c, skeleton.c, reader.c, output.c, mkpar.c, main.c, lr0.c, lalr.c, graph.c, error.c, closure.c:
+	remove 'register' keywords
+
+2008-08-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c:
+	improve the left-curly fix by testing after blanks, to avoid having a
+	" {" at the beginning of a line.
+
+	* output.c:
+	move the remaining newline-counting into write_XXX functions.
+
+	* output.c:
+	simplify part of the output_file formatting using new functions, e.g.,
+	start_int_table(), output_newline().
+
+	* reader.c:
+	modify copy_action() to indent the first character, it if is is left-curly
+	brace.  That makes the output look more like the original, as well as makes
+	it simpler to edit (not confuse editors which look for a left-curly in the
+	first column as if it were the beginning of a function).
+
+	* skeleton.c: minor fixes to avoid gcc -Wconversion warnings
+
+	* output.c: align the #define's produced for "-p" option
+
+	* output.c: simplify output_prefix() with new define_prefixed()
+
+	* skeleton.c: include string.h, for memset()
+	change stack size to unsigned to fix gcc -Wconversion warnings.
+
+	* VERSION: bump to 2008/8/25
+
+	* makefile.in: add dependency on VERSION file.
+
 2008-08-24  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: bump

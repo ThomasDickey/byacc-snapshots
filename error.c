@@ -1,10 +1,10 @@
-/* $Id: error.c,v 1.3 2005/05/03 23:09:25 tom Exp $ */
+/* $Id: error.c,v 1.5 2008/08/27 22:47:56 tom Exp $ */
 
 /* routines for printing error messages  */
 
 #include "defs.h"
 
-void fatal(char *msg)
+void fatal(const char *msg)
 {
     fprintf(stderr, "%s: f - %s\n", myname, msg);
     done(2);
@@ -16,7 +16,7 @@ void no_space(void)
     done(2);
 }
 
-void open_error(char *filename)
+void open_error(const char *filename)
 {
     fprintf(stderr, "%s: f - cannot open \"%s\"\n", myname, filename);
     done(2);
@@ -31,7 +31,7 @@ void unexpected_EOF(void)
 
 void print_pos(char *st_line, char *st_cptr)
 {
-    register char *s;
+    char *s;
 
     if (st_line == 0)
 	return;

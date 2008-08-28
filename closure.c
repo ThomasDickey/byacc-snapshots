@@ -1,4 +1,4 @@
-/* $Id: closure.c,v 1.4 2005/05/04 21:15:00 tom Exp $ */
+/* $Id: closure.c,v 1.5 2008/08/26 21:20:16 tom Exp $ */
 
 #include "defs.h"
 
@@ -11,12 +11,12 @@ static unsigned *EFF;
 
 static void set_EFF(void)
 {
-    register unsigned *row;
-    register int symbol;
-    register short *sp;
-    register int rowsize;
-    register int i;
-    register int rule;
+    unsigned *row;
+    int symbol;
+    short *sp;
+    int rowsize;
+    int i;
+    int rule;
 
     rowsize = WORDSIZE(nvars);
     EFF = NEW2(nvars * rowsize, unsigned);
@@ -46,12 +46,12 @@ static void set_EFF(void)
 
 void set_first_derives(void)
 {
-    register unsigned *rrow;
-    register unsigned *vrow;
-    register int j;
-    register unsigned k;
-    register unsigned cword = 0;
-    register short *rp;
+    unsigned *rrow;
+    unsigned *vrow;
+    int j;
+    unsigned k;
+    unsigned cword = 0;
+    short *rp;
 
     int rule;
     int i;
@@ -100,13 +100,13 @@ void set_first_derives(void)
 
 void closure(short *nucleus, int n)
 {
-    register int ruleno;
-    register unsigned word;
-    register unsigned i;
-    register short *csp;
-    register unsigned *dsp;
-    register unsigned *rsp;
-    register int rulesetsize;
+    int ruleno;
+    unsigned word;
+    unsigned i;
+    short *csp;
+    unsigned *dsp;
+    unsigned *rsp;
+    int rulesetsize;
 
     short *csend;
     unsigned *rsend;
@@ -175,7 +175,7 @@ void finalize_closure(void)
 
 void print_closure(int n)
 {
-    register short *isp;
+    short *isp;
 
     printf("\n\nn = %d\n\n", n);
     for (isp = itemset; isp < itemsetend; isp++)
@@ -184,10 +184,10 @@ void print_closure(int n)
 
 void print_EFF(void)
 {
-    register int i, j;
-    register unsigned *rowp;
-    register unsigned word;
-    register unsigned k;
+    int i, j;
+    unsigned *rowp;
+    unsigned word;
+    unsigned k;
 
     printf("\n\nEpsilon Free Firsts\n");
 
@@ -214,11 +214,11 @@ void print_EFF(void)
 
 void print_first_derives(void)
 {
-    register int i;
-    register int j;
-    register unsigned *rp;
-    register unsigned cword = 0;
-    register unsigned k;
+    int i;
+    int j;
+    unsigned *rp;
+    unsigned cword = 0;
+    unsigned k;
 
     printf("\n\n\nFirst Derives\n");
 

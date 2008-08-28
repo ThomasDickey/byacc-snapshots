@@ -1,4 +1,4 @@
-/* $Id: graph.c,v 1.4 2005/05/04 20:58:38 tom Exp $ */
+/* $Id: graph.c,v 1.5 2008/08/26 21:31:42 tom Exp $ */
 
 #include "defs.h"
 
@@ -9,11 +9,11 @@ static unsigned int larno;
 
 void graph(void)
 {
-    register int i;
-    register int j;
-    register shifts *sp;
-    register int sn;
-    register int as;
+    int i;
+    int j;
+    shifts *sp;
+    int sn;
+    int as;
 
     if (!gflag)
 	return;
@@ -49,10 +49,10 @@ void graph(void)
 
 static void graph_state(int stateno)
 {
-    register short *isp;
-    register int rule;
-    register short *sp;
-    register short *sp1;
+    short *isp;
+    int rule;
+    short *sp;
+    short *sp1;
 
     larno = lookaheads[stateno];
     fprintf(graph_file, "\n\tq%d [label=\"%d:\\l", stateno, stateno);
@@ -87,9 +87,9 @@ static void graph_state(int stateno)
 
 static void graph_LA(int ruleno)
 {
-    register int i;
-    register int tokensetsize;
-    register unsigned *rowp;
+    int i;
+    int tokensetsize;
+    unsigned *rowp;
 
     tokensetsize = WORDSIZE(ntokens);
 

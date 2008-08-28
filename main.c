@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.17 2007/05/09 23:31:35 tom Exp $ */
+/* $Id: main.c,v 1.19 2008/08/27 22:53:42 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -13,16 +13,20 @@ char rflag;
 char tflag;
 char vflag;
 
-char *symbol_prefix;
-static char *file_prefix = "y";
-char *myname = "yacc";
+const char *symbol_prefix;
+const char *myname = "yacc";
 
 int lineno;
 int outline;
 
+static char empty_string[] = "";
+static char default_file_prefix[] = "y";
+
+static char *file_prefix = default_file_prefix;
+
 char *code_file_name;
 char *defines_file_name;
-char *input_file_name = "";
+char *input_file_name = empty_string;
 char *output_file_name = 0;
 char *verbose_file_name;
 char *graph_file_name;
@@ -204,8 +208,8 @@ static void setflag(int ch)
 
 static void getargs(int argc, char *argv[])
 {
-    register int i;
-    register char *s;
+    int i;
+    char *s;
     int ch;
 
     if (argc > 0)
@@ -283,7 +287,7 @@ static void getargs(int argc, char *argv[])
 
 char *allocate(unsigned n)
 {
-    register char *p;
+    char *p;
 
     p = NULL;
     if (n)
@@ -304,9 +308,9 @@ char *allocate(unsigned n)
 
 static void create_file_names(void)
 {
-    register int len;
-    register char *defines_suffix;
-    register char *prefix;
+    int len;
+    const char *defines_suffix;
+    char *prefix;
 
     prefix = NULL;
     defines_suffix = DEFINES_SUFFIX;

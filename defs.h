@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.12 2007/05/09 23:17:59 tom Exp $ */
+/* $Id: defs.h,v 1.13 2008/08/27 22:52:12 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -216,19 +216,19 @@ extern char lflag;
 extern char rflag;
 extern char tflag;
 extern char vflag;
-extern char *symbol_prefix;
+extern const char *symbol_prefix;
 
-extern char *myname;
+extern const char *myname;
 extern char *cptr;
 extern char *line;
 extern int lineno;
 extern int outline;
 
-extern char *banner[];
-extern char *tables[];
-extern char *header[];
-extern char *body[];
-extern char *trailer[];
+extern const char *banner[];
+extern const char *tables[];
+extern const char *header[];
+extern const char *body[];
+extern const char *trailer[];
 
 extern char *code_file_name;
 extern char *defines_file_name;
@@ -308,8 +308,8 @@ extern unsigned *ruleset;
 
 /* global functions */
 
-extern bucket *lookup(char *);
-extern bucket *make_bucket(char *);
+extern bucket *lookup(const char *);
+extern bucket *make_bucket(const char *);
 
 #ifndef GCC_NORETURN
 #define GCC_NORETURN /* nothing */
@@ -328,12 +328,12 @@ extern void set_first_derives(void);
 extern void default_action_warning(void);
 extern void dollar_error(int a_lineno, char *a_line, char *a_cptr);
 extern void dollar_warning(int a_lineno, int i);
-extern void fatal(char *msg);
+extern void fatal(const char *msg);
 extern void illegal_character(char *c_cptr);
 extern void illegal_tag(int t_lineno, char *t_line, char *t_cptr);
 extern void no_grammar(void);
 extern void no_space(void);
-extern void open_error(char *filename);
+extern void open_error(const char *filename);
 extern void over_unionized(char *u_cptr);
 extern void prec_redeclared(void);
 extern void print_pos(char *st_line, char *st_cptr);
@@ -362,7 +362,7 @@ extern void used_reserved(char *s);
 extern void graph(void);
 
 /* lalr.c */
-extern int hash(char *name);
+extern int hash(const char *name);
 extern void create_symbol_table(void);
 extern void free_symbol_table(void);
 extern void free_symbols(void);
@@ -392,7 +392,7 @@ extern void output(void);
 extern void reader(void);
 
 /* skeleton.c */
-extern void write_section(char *section[]);
+extern void write_section(const char *section[]);
 
 /* verbose.c */
 extern void verbose(void);

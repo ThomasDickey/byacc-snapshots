@@ -1,4 +1,4 @@
-/* $Id: mkpar.c,v 1.7 2008/08/26 22:25:26 tom Exp $ */
+/* $Id: mkpar.c,v 1.8 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -28,7 +28,8 @@ short final_state;
 static int SRcount;
 static int RRcount;
 
-void make_parser(void)
+void
+make_parser(void)
 {
     int i;
 
@@ -44,7 +45,8 @@ void make_parser(void)
     defreds();
 }
 
-static action *parse_actions(int stateno)
+static action *
+parse_actions(int stateno)
 {
     action *actions;
 
@@ -53,7 +55,8 @@ static action *parse_actions(int stateno)
     return (actions);
 }
 
-static action *get_shifts(int stateno)
+static action *
+get_shifts(int stateno)
 {
     action *actions, *temp;
     shifts *sp;
@@ -86,7 +89,8 @@ static action *get_shifts(int stateno)
     return (actions);
 }
 
-static action *add_reductions(int stateno, action *actions)
+static action *
+add_reductions(int stateno, action *actions)
 {
     int i, j, m, n;
     int ruleno, tokensetsize;
@@ -108,9 +112,10 @@ static action *add_reductions(int stateno, action *actions)
     return (actions);
 }
 
-static action *add_reduce(action *actions,
-			  int ruleno,
-			  int symbol)
+static action *
+add_reduce(action *actions,
+	   int ruleno,
+	   int symbol)
 {
     action *temp, *prev, *next;
 
@@ -147,7 +152,8 @@ static action *add_reduce(action *actions,
     return (actions);
 }
 
-static void find_final_state(void)
+static void
+find_final_state(void)
 {
     int goal, i;
     short *to_state2;
@@ -164,7 +170,8 @@ static void find_final_state(void)
     }
 }
 
-static void unused_rules(void)
+static void
+unused_rules(void)
 {
     int i;
     action *p;
@@ -199,7 +206,8 @@ static void unused_rules(void)
     }
 }
 
-static void remove_conflicts(void)
+static void
+remove_conflicts(void)
 {
     int i;
     int symbol;
@@ -273,7 +281,8 @@ static void remove_conflicts(void)
     }
 }
 
-static void total_conflicts(void)
+static void
+total_conflicts(void)
 {
     fprintf(stderr, "%s: ", myname);
     if (SRtotal == 1)
@@ -292,7 +301,8 @@ static void total_conflicts(void)
     fprintf(stderr, ".\n");
 }
 
-static int sole_reduction(int stateno)
+static int
+sole_reduction(int stateno)
 {
     int count, ruleno;
     action *p;
@@ -318,7 +328,8 @@ static int sole_reduction(int stateno)
     return (ruleno);
 }
 
-static void defreds(void)
+static void
+defreds(void)
 {
     int i;
 
@@ -327,7 +338,8 @@ static void defreds(void)
 	defred[i] = sole_reduction(i);
 }
 
-static void free_action_row(action *p)
+static void
+free_action_row(action *p)
 {
     action *q;
 
@@ -339,7 +351,8 @@ static void free_action_row(action *p)
     }
 }
 
-void free_parser(void)
+void
+free_parser(void)
 {
     int i;
 
@@ -350,7 +363,8 @@ void free_parser(void)
 }
 
 #ifdef NO_LEAKS
-void mkpar_leaks(void)
+void
+mkpar_leaks(void)
 {
     DO_FREE(defred);
     DO_FREE(rules_used);

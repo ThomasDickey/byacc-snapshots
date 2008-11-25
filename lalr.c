@@ -1,4 +1,4 @@
-/* $Id: lalr.c,v 1.7 2008/08/26 22:24:20 tom Exp $ */
+/* $Id: lalr.c,v 1.8 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -49,7 +49,8 @@ static short *INDEX;
 static short *VERTICES;
 static int top;
 
-void lalr(void)
+void
+lalr(void)
 {
     tokensetsize = WORDSIZE(ntokens);
 
@@ -66,7 +67,8 @@ void lalr(void)
     compute_lookaheads();
 }
 
-static void set_state_table(void)
+static void
+set_state_table(void)
 {
     core *sp;
 
@@ -75,7 +77,8 @@ static void set_state_table(void)
 	state_table[sp->number] = sp;
 }
 
-static void set_accessing_symbol(void)
+static void
+set_accessing_symbol(void)
 {
     core *sp;
 
@@ -84,7 +87,8 @@ static void set_accessing_symbol(void)
 	accessing_symbol[sp->number] = sp->accessing_symbol;
 }
 
-static void set_shift_table(void)
+static void
+set_shift_table(void)
 {
     shifts *sp;
 
@@ -93,7 +97,8 @@ static void set_shift_table(void)
 	shift_table[sp->number] = sp;
 }
 
-static void set_reduction_table(void)
+static void
+set_reduction_table(void)
 {
     reductions *rp;
 
@@ -102,7 +107,8 @@ static void set_reduction_table(void)
 	reduction_table[rp->number] = rp;
 }
 
-static void set_maxrhs(void)
+static void
+set_maxrhs(void)
 {
     short *itemp;
     short *item_end;
@@ -129,7 +135,8 @@ static void set_maxrhs(void)
     maxrhs = max;
 }
 
-static void initialize_LA(void)
+static void
+initialize_LA(void)
 {
     int i, j, k;
     reductions *rp;
@@ -165,7 +172,8 @@ static void initialize_LA(void)
     }
 }
 
-static void set_goto_map(void)
+static void
+set_goto_map(void)
 {
     shifts *sp;
     int i;
@@ -234,7 +242,8 @@ static void set_goto_map(void)
 
 /*  Map_goto maps a state/symbol pair into its numeric representation.	*/
 
-static int map_goto(int state, int symbol)
+static int
+map_goto(int state, int symbol)
 {
     int high;
     int low;
@@ -258,7 +267,8 @@ static int map_goto(int state, int symbol)
     }
 }
 
-static void initialize_F(void)
+static void
+initialize_F(void)
 {
     int i;
     int j;
@@ -333,7 +343,8 @@ static void initialize_F(void)
     FREE(edge);
 }
 
-static void build_relations(void)
+static void
+build_relations(void)
 {
     int i;
     int j;
@@ -426,7 +437,8 @@ static void build_relations(void)
     FREE(states);
 }
 
-static void add_lookback_edge(int stateno, int ruleno, int gotono)
+static void
+add_lookback_edge(int stateno, int ruleno, int gotono)
 {
     int i, k;
     int found;
@@ -450,7 +462,8 @@ static void add_lookback_edge(int stateno, int ruleno, int gotono)
     lookback[i] = sp;
 }
 
-static short **transpose(short **R2, int n)
+static short **
+transpose(short **R2, int n)
 {
     short **new_R;
     short **temp_R;
@@ -503,12 +516,14 @@ static short **transpose(short **R2, int n)
     return (new_R);
 }
 
-static void compute_FOLLOWS(void)
+static void
+compute_FOLLOWS(void)
 {
     digraph(includes);
 }
 
-static void compute_lookaheads(void)
+static void
+compute_lookaheads(void)
 {
     int i, n;
     unsigned *fp1, *fp2, *fp3;
@@ -541,7 +556,8 @@ static void compute_lookaheads(void)
     FREE(F);
 }
 
-static void digraph(short **relation)
+static void
+digraph(short **relation)
 {
     int i;
 
@@ -565,7 +581,8 @@ static void digraph(short **relation)
     FREE(VERTICES);
 }
 
-static void traverse(int i)
+static void
+traverse(int i)
 {
     unsigned *fp1;
     unsigned *fp2;
@@ -621,7 +638,8 @@ static void traverse(int i)
 }
 
 #ifdef NO_LEAKS
-void lalr_leaks(void)
+void
+lalr_leaks(void)
 {
     int i;
 

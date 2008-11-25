@@ -1,4 +1,4 @@
-/* $Id: verbose.c,v 1.5 2008/08/26 22:29:21 tom Exp $ */
+/* $Id: verbose.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -15,7 +15,8 @@ static void print_reductions(action *p, int defred2);
 
 static short *null_rules;
 
-void verbose(void)
+void
+verbose(void)
 {
     int i;
 
@@ -40,7 +41,8 @@ void verbose(void)
     fprintf(verbose_file, "%d grammar rules, %d states\n", nrules - 2, nstates);
 }
 
-static void log_unused(void)
+static void
+log_unused(void)
 {
     int i;
     short *p;
@@ -58,7 +60,8 @@ static void log_unused(void)
     }
 }
 
-static void log_conflicts(void)
+static void
+log_conflicts(void)
 {
     int i;
 
@@ -85,7 +88,8 @@ static void log_conflicts(void)
     }
 }
 
-static void print_state(int state)
+static void
+print_state(int state)
 {
     if (state)
 	fprintf(verbose_file, "\n\n");
@@ -97,7 +101,8 @@ static void print_state(int state)
     print_actions(state);
 }
 
-static void print_conflicts(int state)
+static void
+print_conflicts(int state)
 {
     int symbol, act, number;
     action *p;
@@ -145,7 +150,8 @@ static void print_conflicts(int state)
     }
 }
 
-static void print_core(int state)
+static void
+print_core(int state)
 {
     int i;
     int k;
@@ -180,7 +186,8 @@ static void print_core(int state)
     }
 }
 
-static void print_nulls(int state)
+static void
+print_nulls(int state)
 {
     action *p;
     int i, j, k, nnulls;
@@ -222,7 +229,8 @@ static void print_nulls(int state)
     fprintf(verbose_file, "\n");
 }
 
-static void print_actions(int stateno)
+static void
+print_actions(int stateno)
 {
     action *p;
     shifts *sp;
@@ -247,7 +255,8 @@ static void print_actions(int stateno)
     }
 }
 
-static void print_shifts(action *p)
+static void
+print_shifts(action *p)
 {
     int count;
     action *q;
@@ -270,7 +279,8 @@ static void print_shifts(action *p)
     }
 }
 
-static void print_reductions(action *p, int defred2)
+static void
+print_reductions(action *p, int defred2)
 {
     int k, anyreds;
     action *q;
@@ -305,7 +315,8 @@ static void print_reductions(action *p, int defred2)
     }
 }
 
-static void print_gotos(int stateno)
+static void
+print_gotos(int stateno)
 {
     int i, k;
     int as;

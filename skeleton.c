@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.17 2008/08/28 00:12:01 tom Exp $ */
+/* $Id: skeleton.c,v 1.18 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -367,7 +367,8 @@ const char *trailer[] =
     0
 };
 
-void write_section(const char *section[])
+void
+write_section(const char *section[])
 {
     int c;
     int i;

@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.19 2008/08/27 22:53:42 tom Exp $ */
+/* $Id: main.c,v 1.20 2008/11/24 21:30:35 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -79,7 +79,8 @@ char *nullable;
 
 static int got_intr = 0;
 
-void done(int k)
+void
+done(int k)
 {
     DO_CLOSE(input_file);
     DO_CLOSE(output_file);
@@ -120,13 +121,15 @@ void done(int k)
     exit(k);
 }
 
-static void onintr(int sig GCC_UNUSED)
+static void
+onintr(int sig GCC_UNUSED)
 {
     got_intr = 1;
     done(EXIT_FAILURE);
 }
 
-static void set_signals(void)
+static void
+set_signals(void)
 {
 #ifdef SIGINT
     if (signal(SIGINT, SIG_IGN) != SIG_IGN)
@@ -142,7 +145,8 @@ static void set_signals(void)
 #endif
 }
 
-static void usage(void)
+static void
+usage(void)
 {
     static const char *msg[] =
     {
@@ -169,7 +173,8 @@ static void usage(void)
     exit(1);
 }
 
-static void setflag(int ch)
+static void
+setflag(int ch)
 {
     switch (ch)
     {
@@ -206,7 +211,8 @@ static void setflag(int ch)
     }
 }
 
-static void getargs(int argc, char *argv[])
+static void
+getargs(int argc, char *argv[])
 {
     int i;
     char *s;
@@ -285,7 +291,8 @@ static void getargs(int argc, char *argv[])
     input_file_name = argv[i];
 }
 
-char *allocate(unsigned n)
+char *
+allocate(unsigned n)
 {
     char *p;
 
@@ -306,7 +313,8 @@ char *allocate(unsigned n)
 	strcpy(dest, file_prefix); \
 	strcpy(dest + len, suffix)
 
-static void create_file_names(void)
+static void
+create_file_names(void)
 {
     int len;
     const char *defines_suffix;
@@ -369,7 +377,8 @@ static void create_file_names(void)
     }
 }
 
-static void open_files(void)
+static void
+open_files(void)
 {
     create_file_names();
 
@@ -436,7 +445,8 @@ static void open_files(void)
 	code_file = output_file;
 }
 
-int main(int argc, char *argv[])
+int
+main(int argc, char *argv[])
 {
     set_signals();
     getargs(argc, argv);

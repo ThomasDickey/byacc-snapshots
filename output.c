@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.17 2008/08/27 22:50:46 tom Exp $ */
+/* $Id: output.c,v 1.18 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -18,20 +18,23 @@ static short *check;
 static int lowzero;
 static int high;
 
-static void write_char(FILE * out, int c)
+static void
+write_char(FILE * out, int c)
 {
     if (c == '\n')
 	++outline;
     putc(c, out);
 }
 
-static void write_code_lineno(FILE * out)
+static void
+write_code_lineno(FILE * out)
 {
     if (!lflag)
 	fprintf(out, line_format, (outline++) + 1, code_file_name);
 }
 
-static void write_input_lineno(FILE * out)
+static void
+write_input_lineno(FILE * out)
 {
     if (!lflag)
     {
@@ -40,13 +43,15 @@ static void write_input_lineno(FILE * out)
     }
 }
 
-static void define_prefixed(const char *name)
+static void
+define_prefixed(const char *name)
 {
     ++outline;
     fprintf(code_file, "#define %-10s %s%s\n", name, symbol_prefix, name + 2);
 }
 
-static void output_prefix(void)
+static void
+output_prefix(void)
 {
     if (symbol_prefix == NULL)
 	symbol_prefix = "yy";
@@ -80,25 +85,29 @@ static void output_prefix(void)
     fprintf(code_file, "#define YYPREFIX \"%s\"\n", symbol_prefix);
 }
 
-static void output_newline(void)
+static void
+output_newline(void)
 {
     if (!rflag)
 	++outline;
     putc('\n', output_file);
 }
 
-static void output_line(const char *value)
+static void
+output_line(const char *value)
 {
     fputs(value, output_file);
     output_newline();
 }
 
-static void output_int(int value)
+static void
+output_int(int value)
 {
     fprintf(output_file, "%5d,", value);
 }
 
-static void start_int_table(const char *name, int value)
+static void
+start_int_table(const char *name, int value)
 {
     int need = 34 - (int)(strlen(symbol_prefix) + strlen(name));
 
@@ -109,7 +118,8 @@ static void start_int_table(const char *name, int value)
 	    symbol_prefix, name, need, value);
 }
 
-static void start_str_table(const char *name)
+static void
+start_str_table(const char *name)
 {
     fprintf(output_file,
 	    "static const char *%s%s[] = {",
@@ -117,13 +127,15 @@ static void start_str_table(const char *name)
     output_newline();
 }
 
-static void end_table(void)
+static void
+end_table(void)
 {
     output_newline();
     output_line("};");
 }
 
-static void output_rule_data(void)
+static void
+output_rule_data(void)
 {
     int i;
     int j;
@@ -163,7 +175,8 @@ static void output_rule_data(void)
     end_table();
 }
 
-static void output_yydefred(void)
+static void
+output_yydefred(void)
 {
     int i, j;
 
@@ -186,7 +199,8 @@ static void output_yydefred(void)
     end_table();
 }
 
-static void token_actions(void)
+static void
+token_actions(void)
 {
     int i, j;
     int shiftcount, reducecount;
@@ -270,7 +284,8 @@ static void token_actions(void)
     FREE(actionrow);
 }
 
-static int default_goto(int symbol)
+static int
+default_goto(int symbol)
 {
     int i;
     int m;
@@ -304,7 +319,8 @@ static int default_goto(int symbol)
     return (default_state);
 }
 
-static void save_column(int symbol, int default_state)
+static void
+save_column(int symbol, int default_state)
 {
     int i;
     int m;
@@ -345,7 +361,8 @@ static void save_column(int symbol, int default_state)
     width[symno] = sp1[-1] - sp[0] + 1;
 }
 
-static void goto_actions(void)
+static void
+goto_actions(void)
 {
     int i, j, k;
 
@@ -375,7 +392,8 @@ static void goto_actions(void)
     FREE(state_count);
 }
 
-static void sort_actions(void)
+static void
+sort_actions(void)
 {
     int i;
     int j;
@@ -425,7 +443,8 @@ static void sort_actions(void)
 /*  faster.  Also, it depends on the vectors being in a specific	*/
 /*  order.								*/
 
-static int matching_vector(int vector)
+static int
+matching_vector(int vector)
 {
     int i;
     int j;
@@ -462,7 +481,8 @@ static int matching_vector(int vector)
     return (-1);
 }
 
-static int pack_vector(int vector)
+static int
+pack_vector(int vector)
 {
     int i, j, k, l;
     int t;
@@ -543,7 +563,8 @@ static int pack_vector(int vector)
     }
 }
 
-static void pack_table(void)
+static void
+pack_table(void)
 {
     int i;
     int place;
@@ -588,7 +609,8 @@ static void pack_table(void)
     FREE(pos);
 }
 
-static void output_base(void)
+static void
+output_base(void)
 {
     int i, j;
 
@@ -648,7 +670,8 @@ static void output_base(void)
     FREE(base);
 }
 
-static void output_table(void)
+static void
+output_table(void)
 {
     int i;
     int j;
@@ -675,7 +698,8 @@ static void output_table(void)
     FREE(table);
 }
 
-static void output_check(void)
+static void
+output_check(void)
 {
     int i;
     int j;
@@ -700,7 +724,8 @@ static void output_check(void)
     FREE(check);
 }
 
-static void output_actions(void)
+static void
+output_actions(void)
 {
     nvectors = 2 * nstates + nvars;
 
@@ -727,7 +752,8 @@ static void output_actions(void)
     output_check();
 }
 
-static int is_C_identifier(char *name)
+static int
+is_C_identifier(char *name)
 {
     char *s;
     int c;
@@ -757,7 +783,8 @@ static int is_C_identifier(char *name)
     return (1);
 }
 
-static void output_defines(void)
+static void
+output_defines(void)
 {
     int c, i;
     char *s;
@@ -810,7 +837,8 @@ static void output_defines(void)
     }
 }
 
-static void output_stored_text(void)
+static void
+output_stored_text(void)
 {
     int c;
     FILE *in, *out;
@@ -830,7 +858,8 @@ static void output_stored_text(void)
     write_code_lineno(out);
 }
 
-static void output_debug(void)
+static void
+output_debug(void)
 {
     int i, j, k, max;
     const char **symnam;
@@ -1048,7 +1077,8 @@ static void output_debug(void)
     output_line("#endif");
 }
 
-static void output_stype(void)
+static void
+output_stype(void)
 {
     if (!unionized && ntags == 0)
     {
@@ -1057,7 +1087,8 @@ static void output_stype(void)
     }
 }
 
-static void output_trailing_text(void)
+static void
+output_trailing_text(void)
 {
     int c, last;
     FILE *in, *out;
@@ -1102,7 +1133,8 @@ static void output_trailing_text(void)
     write_code_lineno(out);
 }
 
-static void output_semantic_actions(void)
+static void
+output_semantic_actions(void)
 {
     int c, last;
     FILE *out;
@@ -1128,7 +1160,8 @@ static void output_semantic_actions(void)
     write_code_lineno(out);
 }
 
-static void free_itemsets(void)
+static void
+free_itemsets(void)
 {
     core *cp, *next;
 
@@ -1140,7 +1173,8 @@ static void free_itemsets(void)
     }
 }
 
-static void free_shifts(void)
+static void
+free_shifts(void)
 {
     shifts *sp, *next;
 
@@ -1152,7 +1186,8 @@ static void free_shifts(void)
     }
 }
 
-static void free_reductions(void)
+static void
+free_reductions(void)
 {
     reductions *rp, *next;
 
@@ -1164,7 +1199,8 @@ static void free_reductions(void)
     }
 }
 
-void output(void)
+void
+output(void)
 {
     free_itemsets();
     free_shifts();
@@ -1188,7 +1224,8 @@ void output(void)
 }
 
 #ifdef NO_LEAKS
-void output_leaks(void)
+void
+output_leaks(void)
 {
     DO_FREE(tally);
     DO_FREE(width);

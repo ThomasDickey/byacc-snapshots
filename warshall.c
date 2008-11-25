@@ -1,8 +1,9 @@
-/* $Id: warshall.c,v 1.5 2008/08/26 22:29:34 tom Exp $ */
+/* $Id: warshall.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
-static void transitive_closure(unsigned *R, int n)
+static void
+transitive_closure(unsigned *R, int n)
 {
     int rowsize;
     unsigned i;
@@ -52,7 +53,8 @@ static void transitive_closure(unsigned *R, int n)
     }
 }
 
-void reflexive_transitive_closure(unsigned *R, int n)
+void
+reflexive_transitive_closure(unsigned *R, int n)
 {
     int rowsize;
     unsigned i;

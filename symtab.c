@@ -1,4 +1,4 @@
-/* $Id: symtab.c,v 1.6 2008/08/27 22:49:45 tom Exp $ */
+/* $Id: symtab.c,v 1.7 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -11,7 +11,8 @@ static bucket **symbol_table = 0;
 bucket *first_symbol;
 bucket *last_symbol;
 
-int hash(const char *name)
+int
+hash(const char *name)
 {
     const char *s;
     int c, k;
@@ -25,7 +26,8 @@ int hash(const char *name)
     return (k);
 }
 
-bucket *make_bucket(const char *name)
+bucket *
+make_bucket(const char *name)
 {
     bucket *bp;
 
@@ -52,7 +54,8 @@ bucket *make_bucket(const char *name)
     return (bp);
 }
 
-bucket *lookup(const char *name)
+bucket *
+lookup(const char *name)
 {
     bucket *bp, **bpp;
 
@@ -74,7 +77,8 @@ bucket *lookup(const char *name)
     return (bp);
 }
 
-void create_symbol_table(void)
+void
+create_symbol_table(void)
 {
     int i;
     bucket *bp;
@@ -94,13 +98,15 @@ void create_symbol_table(void)
     symbol_table[hash("error")] = bp;
 }
 
-void free_symbol_table(void)
+void
+free_symbol_table(void)
 {
     FREE(symbol_table);
     symbol_table = 0;
 }
 
-void free_symbols(void)
+void
+free_symbols(void)
 {
     bucket *p, *q;
 

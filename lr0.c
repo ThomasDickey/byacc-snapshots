@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.7 2008/08/26 22:24:54 tom Exp $ */
+/* $Id: lr0.c,v 1.8 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -37,7 +37,8 @@ static short **kernel_base;
 static short **kernel_end;
 static short *kernel_items;
 
-static void allocate_itemsets(void)
+static void
+allocate_itemsets(void)
 {
     short *itemp;
     short *item_end;
@@ -78,7 +79,8 @@ static void allocate_itemsets(void)
     kernel_end = NEW2(nsyms, short *);
 }
 
-static void allocate_storage(void)
+static void
+allocate_storage(void)
 {
     allocate_itemsets();
     shiftset = NEW2(nsyms, short);
@@ -86,7 +88,8 @@ static void allocate_storage(void)
     state_set = NEW2(nitems, core *);
 }
 
-static void append_states(void)
+static void
+append_states(void)
 {
     int i;
     int j;
@@ -114,7 +117,8 @@ static void append_states(void)
     }
 }
 
-static void free_storage(void)
+static void
+free_storage(void)
 {
     FREE(shift_symbol);
     FREE(redset);
@@ -125,7 +129,8 @@ static void free_storage(void)
     FREE(state_set);
 }
 
-static void generate_states(void)
+static void
+generate_states(void)
 {
     allocate_storage();
     itemset = NEW2(nitems, short);
@@ -149,7 +154,8 @@ static void generate_states(void)
     free_storage();
 }
 
-static int get_state(int symbol)
+static int
+get_state(int symbol)
 {
     int key;
     short *isp1;
@@ -210,7 +216,8 @@ static int get_state(int symbol)
     return (sp->number);
 }
 
-static void initialize_states(void)
+static void
+initialize_states(void)
 {
     int i;
     short *start_derives;
@@ -237,7 +244,8 @@ static void initialize_states(void)
     nstates = 1;
 }
 
-static void new_itemsets(void)
+static void
+new_itemsets(void)
 {
     int i;
     int shiftcount;
@@ -271,7 +279,8 @@ static void new_itemsets(void)
     nshifts = shiftcount;
 }
 
-static core *new_state(int symbol)
+static core *
+new_state(int symbol)
 {
     int n;
     core *p;
@@ -309,7 +318,8 @@ static core *new_state(int symbol)
 
 /* show_cores is used for debugging */
 
-void show_cores(void)
+void
+show_cores(void)
 {
     core *p;
     int i, j, k, n;
@@ -345,7 +355,8 @@ void show_cores(void)
 
 /* show_ritems is used for debugging */
 
-void show_ritems(void)
+void
+show_ritems(void)
 {
     int i;
 
@@ -354,7 +365,8 @@ void show_ritems(void)
 }
 
 /* show_rrhs is used for debugging */
-void show_rrhs(void)
+void
+show_rrhs(void)
 {
     int i;
 
@@ -364,7 +376,8 @@ void show_rrhs(void)
 
 /* show_shifts is used for debugging */
 
-void show_shifts(void)
+void
+show_shifts(void)
 {
     shifts *p;
     int i, j, k;
@@ -382,7 +395,8 @@ void show_shifts(void)
     }
 }
 
-static void save_shifts(void)
+static void
+save_shifts(void)
 {
     shifts *p;
     short *sp1;
@@ -414,7 +428,8 @@ static void save_shifts(void)
     }
 }
 
-static void save_reductions(void)
+static void
+save_reductions(void)
 {
     short *isp;
     short *rp1;
@@ -462,7 +477,8 @@ static void save_reductions(void)
     }
 }
 
-static void set_derives(void)
+static void
+set_derives(void)
 {
     int i, k;
     int lhs;
@@ -493,7 +509,8 @@ static void set_derives(void)
 }
 
 #ifdef	DEBUG
-void print_derives(void)
+void
+print_derives(void)
 {
     int i;
     short *sp;
@@ -514,7 +531,8 @@ void print_derives(void)
 }
 #endif
 
-static void set_nullable(void)
+static void
+set_nullable(void)
 {
     int i, j;
     int empty;
@@ -563,7 +581,8 @@ static void set_nullable(void)
 #endif
 }
 
-void lr0(void)
+void
+lr0(void)
 {
     set_derives();
     set_nullable();
@@ -571,7 +590,8 @@ void lr0(void)
 }
 
 #ifdef NO_LEAKS
-void lr0_leaks(void)
+void
+lr0_leaks(void)
 {
     DO_FREE(derives[start_symbol]);
     DO_FREE(derives);

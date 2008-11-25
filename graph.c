@@ -1,4 +1,4 @@
-/* $Id: graph.c,v 1.5 2008/08/26 21:31:42 tom Exp $ */
+/* $Id: graph.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -7,7 +7,8 @@ static void graph_LA(int ruleno);
 
 static unsigned int larno;
 
-void graph(void)
+void
+graph(void)
 {
     int i;
     int j;
@@ -47,7 +48,8 @@ void graph(void)
     FREE(symbol_pname);
 }
 
-static void graph_state(int stateno)
+static void
+graph_state(int stateno)
 {
     short *isp;
     int rule;
@@ -85,7 +87,8 @@ static void graph_state(int stateno)
     fprintf(graph_file, "\"];");
 }
 
-static void graph_LA(int ruleno)
+static void
+graph_LA(int ruleno)
 {
     int i;
     int tokensetsize;

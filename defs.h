@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.13 2008/08/27 22:52:12 tom Exp $ */
+/* $Id: defs.h,v 1.14 2008/11/24 21:30:35 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -50,21 +50,19 @@
 #define	BIT(r, n)	((((r)[(n)>>5])>>((n)&31))&1)
 #define	SETBIT(r, n)	((r)[(n)>>5]|=((unsigned)1<<((n)&31)))
 
-
 /*  character names  */
 
-#define	NUL		'\0'    /*  the null character  */
-#define	NEWLINE		'\n'    /*  line feed  */
-#define	SP		' '     /*  space  */
-#define	BS		'\b'    /*  backspace  */
-#define	HT		'\t'    /*  horizontal tab  */
-#define	VT		'\013'  /*  vertical tab  */
-#define	CR		'\r'    /*  carriage return  */
-#define	FF		'\f'    /*  form feed  */
-#define	QUOTE		'\''    /*  single quote  */
-#define	DOUBLE_QUOTE	'\"'    /*  double quote  */
-#define	BACKSLASH	'\\'    /*  backslash  */
-
+#define	NUL		'\0'	/*  the null character  */
+#define	NEWLINE		'\n'	/*  line feed  */
+#define	SP		' '	/*  space  */
+#define	BS		'\b'	/*  backspace  */
+#define	HT		'\t'	/*  horizontal tab  */
+#define	VT		'\013'	/*  vertical tab  */
+#define	CR		'\r'	/*  carriage return  */
+#define	FF		'\f'	/*  form feed  */
+#define	QUOTE		'\''	/*  single quote  */
+#define	DOUBLE_QUOTE	'\"'	/*  double quote  */
+#define	BACKSLASH	'\\'	/*  backslash  */
 
 /* defines for constructing filenames */
 
@@ -94,24 +92,20 @@
 #define IDENT 9
 #define EXPECT 10
 
-
 /*  symbol classes  */
 
 #define UNKNOWN 0
 #define TERM 1
 #define NONTERM 2
 
-
 /*  the undefined value  */
 
 #define UNDEFINED (-1)
-
 
 /*  action codes  */
 
 #define SHIFT 1
 #define REDUCE 2
-
 
 /*  character macros  */
 
@@ -119,12 +113,10 @@
 #define	IS_OCTAL(c)	((c) >= '0' && (c) <= '7')
 #define	NUMERIC_VALUE(c)	((c) - '0')
 
-
 /*  symbol macros  */
 
 #define ISTOKEN(s)	((s) < start_symbol)
 #define ISVAR(s)	((s) >= start_symbol)
-
 
 /*  storage allocation macros  */
 
@@ -136,7 +128,6 @@
 #define REALLOC(p,n)	(realloc((char*)(p),(unsigned)(n)))
 
 #define DO_FREE(x)	if (x) { FREE(x); x = 0; }
-
 
 /*  the structure of a symbol table entry  */
 
@@ -154,7 +145,6 @@ struct bucket
     char assoc;
 };
 
-
 /*  the structure of the LR(0) state machine  */
 
 typedef struct core core;
@@ -168,7 +158,6 @@ struct core
     short items[1];
 };
 
-
 /*  the structure used to record shifts  */
 
 typedef struct shifts shifts;
@@ -180,7 +169,6 @@ struct shifts
     short shift[1];
 };
 
-
 /*  the structure used to store reductions  */
 
 typedef struct reductions reductions;
@@ -191,7 +179,6 @@ struct reductions
     short nreds;
     short rules[1];
 };
-
 
 /*  the structure used to represent parser actions  */
 
@@ -206,7 +193,6 @@ struct action
     char assoc;
     char suppressed;
 };
-
 
 /* global variables */
 
@@ -257,18 +243,18 @@ extern int ntags;
 extern char unionized;
 extern char line_format[];
 
-extern int   start_symbol;
-extern char  **symbol_name;
-extern char  **symbol_pname;
+extern int start_symbol;
+extern char **symbol_name;
+extern char **symbol_pname;
 extern short *symbol_value;
 extern short *symbol_prec;
-extern char  *symbol_assoc;
+extern char *symbol_assoc;
 
 extern short *ritem;
 extern short *rlhs;
 extern short *rrhs;
 extern short *rprec;
-extern char  *rassoc;
+extern char *rassoc;
 
 extern short **derives;
 extern char *nullable;
@@ -312,11 +298,11 @@ extern bucket *lookup(const char *);
 extern bucket *make_bucket(const char *);
 
 #ifndef GCC_NORETURN
-#define GCC_NORETURN /* nothing */
+#define GCC_NORETURN		/* nothing */
 #endif
 
 #ifndef GCC_UNUSED
-#define GCC_UNUSED /* nothing */
+#define GCC_UNUSED		/* nothing */
 #endif
 
 /* closure.c */

@@ -1,4 +1,4 @@
-/* $Id: closure.c,v 1.5 2008/08/26 21:20:16 tom Exp $ */
+/* $Id: closure.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -9,7 +9,8 @@ unsigned *ruleset;
 static unsigned *first_derives;
 static unsigned *EFF;
 
-static void set_EFF(void)
+static void
+set_EFF(void)
 {
     unsigned *row;
     int symbol;
@@ -44,7 +45,8 @@ static void set_EFF(void)
 #endif
 }
 
-void set_first_derives(void)
+void
+set_first_derives(void)
 {
     unsigned *rrow;
     unsigned *vrow;
@@ -98,7 +100,8 @@ void set_first_derives(void)
     FREE(EFF);
 }
 
-void closure(short *nucleus, int n)
+void
+closure(short *nucleus, int n)
 {
     int ruleno;
     unsigned word;
@@ -164,7 +167,8 @@ void closure(short *nucleus, int n)
 #endif
 }
 
-void finalize_closure(void)
+void
+finalize_closure(void)
 {
     FREE(itemset);
     FREE(ruleset);
@@ -173,7 +177,8 @@ void finalize_closure(void)
 
 #ifdef	DEBUG
 
-void print_closure(int n)
+void
+print_closure(int n)
 {
     short *isp;
 
@@ -182,7 +187,8 @@ void print_closure(int n)
 	printf("   %d\n", *isp);
 }
 
-void print_EFF(void)
+void
+print_EFF(void)
 {
     int i, j;
     unsigned *rowp;
@@ -212,7 +218,8 @@ void print_EFF(void)
     }
 }
 
-void print_first_derives(void)
+void
+print_first_derives(void)
 {
     int i;
     int j;

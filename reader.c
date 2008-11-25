@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.13 2008/08/27 22:40:15 tom Exp $ */
+/* $Id: reader.c,v 1.14 2008/11/24 21:30:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -42,7 +42,8 @@ static char *name_pool;
 
 char line_format[] = "#line %d \"%s\"\n";
 
-static void cachec(int c)
+static void
+cachec(int c)
 {
     assert(cinc >= 0);
     if (cinc >= cache_size)
@@ -56,7 +57,8 @@ static void cachec(int c)
     ++cinc;
 }
 
-static void get_line(void)
+static void
+get_line(void)
 {
     FILE *f = input_file;
     int c;
@@ -112,7 +114,8 @@ static void get_line(void)
     }
 }
 
-static char *dup_line(void)
+static char *
+dup_line(void)
 {
     char *p, *s, *t;
 
@@ -132,7 +135,8 @@ static char *dup_line(void)
     return (p);
 }
 
-static void skip_comment(void)
+static void
+skip_comment(void)
 {
     char *s;
 
@@ -161,7 +165,8 @@ static void skip_comment(void)
     }
 }
 
-static int nextc(void)
+static int
+nextc(void)
 {
     char *s;
 
@@ -223,7 +228,8 @@ static int nextc(void)
     }
 }
 
-static int keyword(void)
+static int
+keyword(void)
 {
     int c;
     char *t_cptr = cptr;
@@ -287,7 +293,8 @@ static int keyword(void)
     /*NOTREACHED */
 }
 
-static void copy_ident(void)
+static void
+copy_ident(void)
 {
     int c;
     FILE *f = output_file;
@@ -317,7 +324,8 @@ static void copy_ident(void)
     }
 }
 
-static void copy_text(void)
+static void
+copy_text(void)
 {
     int c;
     int quote;
@@ -450,7 +458,8 @@ static void copy_text(void)
     }
 }
 
-static void copy_union(void)
+static void
+copy_union(void)
 {
     int c;
     int quote;
@@ -602,7 +611,8 @@ static void copy_union(void)
     }
 }
 
-static int hexval(int c)
+static int
+hexval(int c)
 {
     if (c >= '0' && c <= '9')
 	return (c - '0');
@@ -613,7 +623,8 @@ static int hexval(int c)
     return (-1);
 }
 
-static bucket *get_literal(void)
+static bucket *
+get_literal(void)
 {
     int c, quote;
     int i;
@@ -791,7 +802,8 @@ static bucket *get_literal(void)
     return (bp);
 }
 
-static int is_reserved(char *name)
+static int
+is_reserved(char *name)
 {
     char *s;
 
@@ -812,7 +824,8 @@ static int is_reserved(char *name)
     return (0);
 }
 
-static bucket *get_name(void)
+static bucket *
+get_name(void)
 {
     int c;
 
@@ -827,7 +840,8 @@ static bucket *get_name(void)
     return (lookup(cache));
 }
 
-static int get_number(void)
+static int
+get_number(void)
 {
     int c;
     int n;
@@ -839,7 +853,8 @@ static int get_number(void)
     return (n);
 }
 
-static char *get_tag(void)
+static char *
+get_tag(void)
 {
     int c;
     int i;
@@ -901,7 +916,8 @@ static char *get_tag(void)
     return (s);
 }
 
-static void declare_tokens(int assoc)
+static void
+declare_tokens(int assoc)
 {
     int c;
     bucket *bp;
@@ -972,7 +988,8 @@ static void declare_tokens(int assoc)
  * as it really isn't part of the yacc
  * grammar only a flag for yacc proper.
  */
-static void declare_expect(int assoc)
+static void
+declare_expect(int assoc)
 {
     int c;
 
@@ -1012,7 +1029,8 @@ static void declare_expect(int assoc)
     }
 }
 
-static void declare_types(void)
+static void
+declare_types(void)
 {
     int c;
     bucket *bp;
@@ -1041,7 +1059,8 @@ static void declare_types(void)
     }
 }
 
-static void declare_start(void)
+static void
+declare_start(void)
 {
     int c;
     bucket *bp;
@@ -1059,7 +1078,8 @@ static void declare_start(void)
     goal = bp;
 }
 
-static void read_declarations(void)
+static void
+read_declarations(void)
 {
     int c, k;
 
@@ -1114,7 +1134,8 @@ static void read_declarations(void)
     }
 }
 
-static void initialize_grammar(void)
+static void
+initialize_grammar(void)
 {
     nitems = 4;
     maxitems = 300;
@@ -1148,7 +1169,8 @@ static void initialize_grammar(void)
     rassoc[2] = TOKEN;
 }
 
-static void expand_items(void)
+static void
+expand_items(void)
 {
     maxitems += 300;
     pitem = (bucket **)REALLOC(pitem, maxitems * sizeof(bucket *));
@@ -1156,7 +1178,8 @@ static void expand_items(void)
 	no_space();
 }
 
-static void expand_rules(void)
+static void
+expand_rules(void)
 {
     maxrules += 100;
     plhs = (bucket **)REALLOC(plhs, maxrules * sizeof(bucket *));
@@ -1170,7 +1193,8 @@ static void expand_rules(void)
 	no_space();
 }
 
-static void advance_to_start(void)
+static void
+advance_to_start(void)
 {
     int c;
     bucket *bp;
@@ -1222,7 +1246,8 @@ static void advance_to_start(void)
     ++cptr;
 }
 
-static void start_rule(bucket *bp, int s_lineno)
+static void
+start_rule(bucket *bp, int s_lineno)
 {
     if (bp->class == TERM)
 	terminal_lhs(s_lineno);
@@ -1234,7 +1259,8 @@ static void start_rule(bucket *bp, int s_lineno)
     rassoc[nrules] = TOKEN;
 }
 
-static void end_rule(void)
+static void
+end_rule(void)
 {
     int i;
 
@@ -1257,7 +1283,8 @@ static void end_rule(void)
     ++nrules;
 }
 
-static void insert_empty_rule(void)
+static void
+insert_empty_rule(void)
 {
     bucket *bp, **bpp;
 
@@ -1286,7 +1313,8 @@ static void insert_empty_rule(void)
     rassoc[nrules - 1] = TOKEN;
 }
 
-static void add_symbol(void)
+static void
+add_symbol(void)
 {
     int c;
     bucket *bp;
@@ -1316,14 +1344,16 @@ static void add_symbol(void)
     pitem[nitems - 1] = bp;
 }
 
-static char *after_blanks(char *s)
+static char *
+after_blanks(char *s)
 {
     while (*s != '\0' && isspace(*s))
 	++s;
     return s;
 }
 
-static void copy_action(void)
+static void
+copy_action(void)
 {
     int c;
     int i, n;
@@ -1563,7 +1593,8 @@ static void copy_action(void)
     }
 }
 
-static int mark_symbol(void)
+static int
+mark_symbol(void)
 {
     int c;
     bucket *bp;
@@ -1605,7 +1636,8 @@ static int mark_symbol(void)
     return (0);
 }
 
-static void read_grammar(void)
+static void
+read_grammar(void)
 {
     int c;
 
@@ -1643,7 +1675,8 @@ static void read_grammar(void)
     end_rule();
 }
 
-static void free_tags(void)
+static void
+free_tags(void)
 {
     int i;
 
@@ -1658,7 +1691,8 @@ static void free_tags(void)
     FREE(tag_table);
 }
 
-static void pack_names(void)
+static void
+pack_names(void)
 {
     bucket *bp;
     char *p, *s, *t;
@@ -1684,7 +1718,8 @@ static void pack_names(void)
     }
 }
 
-static void check_symbols(void)
+static void
+check_symbols(void)
 {
     bucket *bp;
 
@@ -1701,7 +1736,8 @@ static void check_symbols(void)
     }
 }
 
-static void protect_string(char *src, char **des)
+static void
+protect_string(char *src, char **des)
 {
     unsigned len;
     char *s;
@@ -1733,7 +1769,8 @@ static void protect_string(char *src, char **des)
     }
 }
 
-static void pack_symbols(void)
+static void
+pack_symbols(void)
 {
     bucket *bp;
     bucket **v;
@@ -1873,7 +1910,8 @@ static void pack_symbols(void)
     FREE(v);
 }
 
-static void pack_grammar(void)
+static void
+pack_grammar(void)
 {
     int i, j;
     int assoc, prec2;
@@ -1936,7 +1974,8 @@ static void pack_grammar(void)
     FREE(pitem);
 }
 
-static void print_grammar(void)
+static void
+print_grammar(void)
 {
     int i, j, k;
     int spacing = 0;
@@ -1974,7 +2013,8 @@ static void print_grammar(void)
     }
 }
 
-void reader(void)
+void
+reader(void)
 {
     write_section(banner);
     create_symbol_table();
@@ -1991,7 +2031,8 @@ void reader(void)
 }
 
 #ifdef NO_LEAKS
-void reader_leaks(void)
+void
+reader_leaks(void)
 {
     DO_FREE(line);
     DO_FREE(rrhs);

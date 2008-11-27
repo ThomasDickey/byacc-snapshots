@@ -1,4 +1,4 @@
-/* $Id: mkpar.c,v 1.8 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: mkpar.c,v 1.9 2008/11/26 22:36:10 tom Exp $ */
 
 #include "defs.h"
 
@@ -15,9 +15,13 @@ static void total_conflicts(void);
 static void unused_rules(void);
 
 action **parser;
+
 int SRexpect;
+int RRexpect;
+
 int SRtotal;
 int RRtotal;
+
 short *SRconflicts;
 short *RRconflicts;
 short *defred;
@@ -299,6 +303,21 @@ total_conflicts(void)
 	fprintf(stderr, "%d reduce/reduce conflicts", RRtotal);
 
     fprintf(stderr, ".\n");
+
+    if (SRexpect >= 0 && SRtotal != SRexpect)
+    {
+	fprintf(stderr, "%s: ", myname);
+	fprintf(stderr, "expected %d shift/reduce conflict%s.\n",
+		SRexpect, PLURAL(SRexpect));
+	exit_code = EXIT_FAILURE;
+    }
+    if (RRexpect >= 0 && RRtotal != RRexpect)
+    {
+	fprintf(stderr, "%s: ", myname);
+	fprintf(stderr, "expected %d reduce/reduce conflict%s.\n",
+		RRexpect, PLURAL(RRexpect));
+	exit_code = EXIT_FAILURE;
+    }
 }
 
 static int

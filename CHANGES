@@ -1,3 +1,8 @@
+2008-11-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* closure.c, defs.h, error.c, graph.c, lalr.c, lr0.c, main.c, mkpar.c, output.c, reader.c, skeleton.c, symtab.c, verbose.c, warshall.c:
+	change indent-style (request by Perry E. Metzger)
+
 2008-08-27  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: bump

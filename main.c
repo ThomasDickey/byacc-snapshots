@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.20 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: main.c,v 1.21 2008/11/26 22:41:12 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -57,6 +57,8 @@ char **symbol_pname;
 short *symbol_value;
 short *symbol_prec;
 char *symbol_assoc;
+
+int exit_code;
 
 short *ritem;
 short *rlhs;
@@ -448,6 +450,10 @@ open_files(void)
 int
 main(int argc, char *argv[])
 {
+    SRexpect = -1;
+    RRexpect = -1;
+    exit_code = EXIT_SUCCESS;
+
     set_signals();
     getargs(argc, argv);
     open_files();
@@ -459,6 +465,6 @@ main(int argc, char *argv[])
     finalize_closure();
     verbose();
     output();
-    done(0);
+    done(exit_code);
     /*NOTREACHED */
 }

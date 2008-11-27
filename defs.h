@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.14 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: defs.h,v 1.15 2008/11/26 22:36:34 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -91,6 +91,7 @@
 #define UNION 8
 #define IDENT 9
 #define EXPECT 10
+#define EXPECT_RR 11
 
 /*  symbol classes  */
 
@@ -128,6 +129,9 @@
 #define REALLOC(p,n)	(realloc((char*)(p),(unsigned)(n)))
 
 #define DO_FREE(x)	if (x) { FREE(x); x = 0; }
+
+/* messages */
+#define PLURAL(n) ((n) > 1 ? "s" : "")
 
 /*  the structure of a symbol table entry  */
 
@@ -209,6 +213,7 @@ extern char *cptr;
 extern char *line;
 extern int lineno;
 extern int outline;
+extern int exit_code;
 
 extern const char *banner[];
 extern const char *tables[];
@@ -279,6 +284,7 @@ extern short *to_state;
 
 extern action **parser;
 extern int SRexpect;
+extern int RRexpect;
 extern int SRtotal;
 extern int RRtotal;
 extern short *SRconflicts;

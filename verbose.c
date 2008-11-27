@@ -1,4 +1,4 @@
-/* $Id: verbose.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: verbose.c,v 1.7 2008/11/26 22:48:00 tom Exp $ */
 
 #include "defs.h"
 
@@ -71,18 +71,16 @@ log_conflicts(void)
 	if (SRconflicts[i] || RRconflicts[i])
 	{
 	    fprintf(verbose_file, "State %d contains ", i);
-	    if (SRconflicts[i] == 1)
-		fprintf(verbose_file, "1 shift/reduce conflict");
-	    else if (SRconflicts[i] > 1)
-		fprintf(verbose_file, "%d shift/reduce conflicts",
-			SRconflicts[i]);
+	    if (SRconflicts[i] > 0)
+		fprintf(verbose_file, "%d shift/reduce conflict%s",
+			SRconflicts[i],
+			PLURAL(SRconflicts[i]));
 	    if (SRconflicts[i] && RRconflicts[i])
 		fprintf(verbose_file, ", ");
-	    if (RRconflicts[i] == 1)
-		fprintf(verbose_file, "1 reduce/reduce conflict");
-	    else if (RRconflicts[i] > 1)
-		fprintf(verbose_file, "%d reduce/reduce conflicts",
-			RRconflicts[i]);
+	    if (RRconflicts[i] > 0)
+		fprintf(verbose_file, "%d reduce/reduce conflict%s",
+			RRconflicts[i],
+			PLURAL(RRconflicts[i]));
 	    fprintf(verbose_file, ".\n");
 	}
     }

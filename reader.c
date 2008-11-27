@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.14 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: reader.c,v 1.15 2008/11/26 22:32:57 tom Exp $ */
 
 #include "defs.h"
 
@@ -246,7 +246,7 @@ keyword(void)
 		    c = tolower(c);
 		cachec(c);
 	    }
-	    else if (isdigit(c) || c == '_' || c == '.' || c == '$')
+	    else if (isdigit(c) || c == '-' || c == '_' || c == '.' || c == '$')
 		cachec(c);
 	    else
 		break;
@@ -272,6 +272,8 @@ keyword(void)
 	    return (IDENT);
 	if (strcmp(cache, "expect") == 0)
 	    return (EXPECT);
+	if (strcmp(cache, "expect-rr") == 0)
+	    return (EXPECT_RR);
     }
     else
     {
@@ -993,7 +995,7 @@ declare_expect(int assoc)
 {
     int c;
 
-    if (assoc != EXPECT)
+    if (assoc != EXPECT && assoc != EXPECT_RR)
 	++prec;
 
     /*
@@ -1008,7 +1010,10 @@ declare_expect(int assoc)
     {
 	if (isdigit(c))
 	{
-	    SRexpect = get_number();
+	    if (assoc == EXPECT)
+		SRexpect = get_number();
+	    else
+		RRexpect = get_number();
 	    break;
 	}
 	/*
@@ -1120,6 +1125,7 @@ read_declarations(void)
 	    break;
 
 	case EXPECT:
+	case EXPECT_RR:
 	    declare_expect(k);
 	    break;
 

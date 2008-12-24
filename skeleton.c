@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.18 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: skeleton.c,v 1.19 2008/12/24 14:52:28 tom Exp $ */
 
 #include "defs.h"
 
@@ -225,9 +225,7 @@ const char *body[] =
     "",
     "    yyerror(\"syntax error\");",
     "",
-    "#ifdef lint",
     "    goto yyerrlab;",
-    "#endif",
     "",
     "yyerrlab:",
     "    ++yynerrs;",

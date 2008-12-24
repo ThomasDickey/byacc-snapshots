@@ -1,3 +1,9 @@
+2008-11-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* verbose.c, main.c, defs.h, mkpar.c, reader.c:
+	completed implementation of "%expect" (report by Perry E. Metzger).
+	add "%expect-rr", which is (unlike bison) allowable in LALR parsers.
+
 2008-11-24  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* closure.c, defs.h, error.c, graph.c, lalr.c, lr0.c, main.c, mkpar.c, output.c, reader.c, skeleton.c, symtab.c, verbose.c, warshall.c:

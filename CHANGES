@@ -1,3 +1,10 @@
+2008-12-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* skeleton.c:
+	remove ifdef-lint from goto yyerrlab, to quiet gcc warning
+
 2008-11-26  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* verbose.c, main.c, defs.h, mkpar.c, reader.c:

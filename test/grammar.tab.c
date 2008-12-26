@@ -912,9 +912,7 @@ yyloop:
 
     yyerror("syntax error");
 
-#ifdef lint
     goto yyerrlab;
-#endif
 
 yyerrlab:
     ++yynerrs;
@@ -1659,7 +1657,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1663 "grammar.tab.c"
+#line 1661 "grammar.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

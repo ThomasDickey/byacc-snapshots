@@ -374,9 +374,7 @@ yyloop:
 
     yyerror("syntax error");
 
-#ifdef lint
     goto yyerrlab;
-#endif
 
 yyerrlab:
     ++yynerrs;
@@ -507,7 +505,7 @@ case 18:
 #line 60 "calc.y"
 	{  yyval = base * yyvsp[-1] + yyvsp[0]; }
 break;
-#line 511 "calc.tab.c"
+#line 509 "calc.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

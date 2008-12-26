@@ -1076,9 +1076,7 @@ yyloop:
 
     yyerror("syntax error");
 
-#ifdef lint
     goto yyerrlab;
-#endif
 
 yyerrlab:
     ++yynerrs;
@@ -1788,7 +1786,7 @@ case 73:
 		}
 	}
 break;
-#line 1792 "ftp.tab.c"
+#line 1790 "ftp.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.18 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: output.c,v 1.19 2009/02/22 00:06:43 tom Exp $ */
 
 #include "defs.h"
 
@@ -62,6 +62,7 @@ output_prefix(void)
 	define_prefixed("yyerror");
 	define_prefixed("yychar");
 	define_prefixed("yyval");
+	define_prefixed("yylval");
 	define_prefixed("yydebug");
 	define_prefixed("yynerrs");
 	define_prefixed("yyerrflag");

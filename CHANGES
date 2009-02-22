@@ -1,3 +1,13 @@
+2009-02-21  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* output.c: restore "yylval" symbol, omitted in cleanup on 2008/8/25
+
+2008-12-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen with autoconf-2.52 (patched)
+
 2008-12-24  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: bump

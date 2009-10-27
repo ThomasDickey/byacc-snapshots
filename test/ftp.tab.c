@@ -34,6 +34,7 @@ static int yygrowstack(void);
 #define yyerror    ftp_error
 #define yychar     ftp_char
 #define yyval      ftp_val
+#define yylval     ftp_lval
 #define yydebug    ftp_debug
 #define yynerrs    ftp_nerrs
 #define yyerrflag  ftp_errflag
@@ -101,7 +102,7 @@ char	cbuf[512];
 char	*fromname;
 
 char	*index();
-#line 105 "ftp.tab.c"
+#line 106 "ftp.tab.c"
 #define A 257
 #define B 258
 #define C 259
@@ -962,7 +963,7 @@ char *filename;
 		reply(504, "SIZE not implemented for Type %c.", "?AEIL"[type]);
 	}
 }
-#line 966 "ftp.tab.c"
+#line 967 "ftp.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(void)
 {
@@ -1786,7 +1787,7 @@ case 73:
 		}
 	}
 break;
-#line 1790 "ftp.tab.c"
+#line 1791 "ftp.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

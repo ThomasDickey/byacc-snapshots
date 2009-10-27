@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.10 2008/08/25 19:22:45 tom Exp $
+# $Id: makefile.in,v 1.11 2009/10/26 23:49:57 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -103,7 +103,7 @@ $(THIS).man : $(THIS).1
 	- nroff -man $(srcdir)/$(THIS).1 >$@
 
 mostlyclean :
-	- rm -f core .nfs* *$o *.bak *.BAK *.log *.man *.out
+	- rm -f core .nfs* *$o *.bak *.BAK *.man *.out
 
 clean : mostlyclean
 	- rm -f $(THIS)$x

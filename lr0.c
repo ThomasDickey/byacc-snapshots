@@ -1,9 +1,9 @@
-/* $Id: lr0.c,v 1.8 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: lr0.c,v 1.9 2009/10/27 09:20:39 tom Exp $ */
 
 #include "defs.h"
 
 static core *new_state(int symbol);
-static int get_state(int symbol);
+static Value_t get_state(int symbol);
 static void allocate_itemsets(void);
 static void allocate_storage(void);
 static void append_states(void);
@@ -30,12 +30,12 @@ static reductions *last_reduction;
 static int nshifts;
 static short *shift_symbol;
 
-static short *redset;
-static short *shiftset;
+static Value_t *redset;
+static Value_t *shiftset;
 
-static short **kernel_base;
-static short **kernel_end;
-static short *kernel_items;
+static Value_t **kernel_base;
+static Value_t **kernel_end;
+static Value_t *kernel_items;
 
 static void
 allocate_itemsets(void)
@@ -93,7 +93,7 @@ append_states(void)
 {
     int i;
     int j;
-    int symbol;
+    Value_t symbol;
 
 #ifdef	TRACE
     fprintf(stderr, "Entering append_states()\n");
@@ -154,7 +154,7 @@ generate_states(void)
     free_storage();
 }
 
-static int
+static Value_t
 get_state(int symbol)
 {
     int key;
@@ -219,7 +219,7 @@ get_state(int symbol)
 static void
 initialize_states(void)
 {
-    int i;
+    unsigned i;
     short *start_derives;
     core *p;
 
@@ -235,7 +235,7 @@ initialize_states(void)
     p->link = 0;
     p->number = 0;
     p->accessing_symbol = 0;
-    p->nitems = i;
+    p->nitems = (Value_t) i;
 
     for (i = 0; start_derives[i] >= 0; ++i)
 	p->items[i] = rrhs[start_derives[i]];
@@ -247,11 +247,11 @@ initialize_states(void)
 static void
 new_itemsets(void)
 {
-    int i;
+    Value_t i;
     int shiftcount;
     short *isp;
     short *ksp;
-    int symbol;
+    Value_t symbol;
 
     for (i = 0; i < nsyms; i++)
 	kernel_end[i] = 0;
@@ -271,7 +271,7 @@ new_itemsets(void)
 		ksp = kernel_base[symbol];
 	    }
 
-	    *ksp++ = i + 1;
+	    *ksp++ = (Value_t) (i + 1);
 	    kernel_end[symbol] = ksp;
 	}
     }
@@ -282,7 +282,7 @@ new_itemsets(void)
 static core *
 new_state(int symbol)
 {
-    int n;
+    unsigned n;
     core *p;
     short *isp1;
     short *isp2;
@@ -297,12 +297,12 @@ new_state(int symbol)
 
     isp1 = kernel_base[symbol];
     iend = kernel_end[symbol];
-    n = iend - isp1;
+    n = (unsigned)(iend - isp1);
 
     p = (core *)allocate((unsigned)(sizeof(core) + (n - 1) * sizeof(short)));
-    p->accessing_symbol = symbol;
-    p->number = nstates;
-    p->nitems = n;
+    p->accessing_symbol = (Value_t) symbol;
+    p->number = (Value_t) nstates;
+    p->nitems = (Value_t) n;
 
     isp2 = p->items;
     while (isp1 < iend)
@@ -404,10 +404,10 @@ save_shifts(void)
     short *send;
 
     p = (shifts *)allocate((unsigned)(sizeof(shifts) +
-				        (nshifts - 1) * sizeof(short)));
+				        (unsigned)(nshifts - 1) * sizeof(short)));
 
     p->number = this_state->number;
-    p->nshifts = nshifts;
+    p->nshifts = (Value_t) nshifts;
 
     sp1 = shiftset;
     sp2 = p->shift;
@@ -435,7 +435,7 @@ save_reductions(void)
     short *rp1;
     short *rp2;
     int item;
-    int count;
+    Value_t count;
     reductions *p;
     short *rend;
 
@@ -445,14 +445,15 @@ save_reductions(void)
 	item = ritem[*isp];
 	if (item < 0)
 	{
-	    redset[count++] = -item;
+	    redset[count++] = (Value_t) - item;
 	}
     }
 
     if (count)
     {
 	p = (reductions *)allocate((unsigned)(sizeof(reductions) +
-					        (count - 1) * sizeof(short)));
+					        (unsigned)(count - 1) *
+					      sizeof(short)));
 
 	p->number = this_state->number;
 	p->nreds = count;
@@ -480,7 +481,7 @@ save_reductions(void)
 static void
 set_derives(void)
 {
-    int i, k;
+    Value_t i, k;
     int lhs;
     short *rules;
 

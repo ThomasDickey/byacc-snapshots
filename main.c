@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.21 2008/11/26 22:41:12 tom Exp $ */
+/* $Id: main.c,v 1.23 2009/10/27 09:06:44 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -51,21 +51,21 @@ int nsyms;
 int ntokens;
 int nvars;
 
-int start_symbol;
+Value_t start_symbol;
 char **symbol_name;
 char **symbol_pname;
-short *symbol_value;
+Value_t *symbol_value;
 short *symbol_prec;
 char *symbol_assoc;
 
 int exit_code;
 
-short *ritem;
-short *rlhs;
-short *rrhs;
-short *rprec;
-char *rassoc;
-short **derives;
+Value_t *ritem;
+Value_t *rlhs;
+Value_t *rrhs;
+Value_t *rprec;
+Assoc_t *rassoc;
+Value_t **derives;
 char *nullable;
 
 /*
@@ -318,7 +318,7 @@ allocate(unsigned n)
 static void
 create_file_names(void)
 {
-    int len;
+    size_t len;
     const char *defines_suffix;
     char *prefix;
 
@@ -335,7 +335,7 @@ create_file_names(void)
 
     if (prefix != NULL)
     {
-	len = prefix - output_file_name;
+	len = (size_t) (prefix - output_file_name);
 	file_prefix = (char *)MALLOC(len + 1);
 	if (file_prefix == 0)
 	    no_space();

@@ -1,3 +1,19 @@
+2009-10-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c, defs.h: introduce some typedefs for portability, etc.
+
+	* makefile.in:
+	don't remove "*.log" in mostlyclean rule since it interferes with regression
+	script.
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
+2009-08-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: update to 2009-08-19
+
 2009-02-21  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: bump

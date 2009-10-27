@@ -1,4 +1,4 @@
-/* $Id: verbose.c,v 1.7 2008/11/26 22:48:00 tom Exp $ */
+/* $Id: verbose.c,v 1.8 2009/10/27 09:12:43 tom Exp $ */
 
 #include "defs.h"
 
@@ -23,7 +23,7 @@ verbose(void)
     if (!vflag)
 	return;
 
-    null_rules = (short *)MALLOC(nrules * sizeof(short));
+    null_rules = (short *)MALLOC((unsigned)nrules * sizeof(short));
     if (null_rules == 0)
 	no_space();
     fprintf(verbose_file, "\f\n");
@@ -188,7 +188,7 @@ static void
 print_nulls(int state)
 {
     action *p;
-    int i, j, k, nnulls;
+    Value_t i, j, k, nnulls;
 
     nnulls = 0;
     for (p = parser[state]; p; p = p->next)
@@ -210,7 +210,7 @@ print_nulls(int state)
 		else if (i != null_rules[j])
 		{
 		    ++nnulls;
-		    for (k = nnulls - 1; k > j; --k)
+		    for (k = (Value_t) (nnulls - 1); k > j; --k)
 			null_rules[k] = null_rules[k - 1];
 		    null_rules[j] = i;
 		}

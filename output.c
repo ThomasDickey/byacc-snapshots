@@ -1,20 +1,20 @@
-/* $Id: output.c,v 1.19 2009/02/22 00:06:43 tom Exp $ */
+/* $Id: output.c,v 1.21 2009/10/27 10:55:05 tom Exp $ */
 
 #include "defs.h"
 
 static int nvectors;
 static int nentries;
-static short **froms;
-static short **tos;
-static short *tally;
-static short *width;
-static short *state_count;
-static short *order;
-static short *base;
-static short *pos;
+static Value_t **froms;
+static Value_t **tos;
+static Value_t *tally;
+static Value_t *width;
+static Value_t *state_count;
+static Value_t *order;
+static Value_t *base;
+static Value_t *pos;
 static int maxtable;
-static short *table;
-static short *check;
+static Value_t *table;
+static Value_t *check;
 static int lowzero;
 static int high;
 
@@ -204,12 +204,12 @@ static void
 token_actions(void)
 {
     int i, j;
-    int shiftcount, reducecount;
+    Value_t shiftcount, reducecount;
     int max, min;
-    short *actionrow, *r, *s;
+    Value_t *actionrow, *r, *s;
     action *p;
 
-    actionrow = NEW2(2 * ntokens, short);
+    actionrow = NEW2(2 * ntokens, Value_t);
     for (i = 0; i < nstates; ++i)
     {
 	if (parser[i])
@@ -242,8 +242,8 @@ token_actions(void)
 	    width[nstates + i] = 0;
 	    if (shiftcount > 0)
 	    {
-		froms[i] = r = NEW2(shiftcount, short);
-		tos[i] = s = NEW2(shiftcount, short);
+		froms[i] = r = NEW2(shiftcount, Value_t);
+		tos[i] = s = NEW2(shiftcount, Value_t);
 		min = MAXSHORT;
 		max = 0;
 		for (j = 0; j < ntokens; ++j)
@@ -258,12 +258,12 @@ token_actions(void)
 			*s++ = actionrow[j];
 		    }
 		}
-		width[i] = max - min + 1;
+		width[i] = (Value_t) (max - min + 1);
 	    }
 	    if (reducecount > 0)
 	    {
-		froms[nstates + i] = r = NEW2(reducecount, short);
-		tos[nstates + i] = s = NEW2(reducecount, short);
+		froms[nstates + i] = r = NEW2(reducecount, Value_t);
+		tos[nstates + i] = s = NEW2(reducecount, Value_t);
 		min = MAXSHORT;
 		max = 0;
 		for (j = 0; j < ntokens; ++j)
@@ -275,10 +275,10 @@ token_actions(void)
 			if (max < symbol_value[j])
 			    max = symbol_value[j];
 			*r++ = symbol_value[j];
-			*s++ = actionrow[ntokens + j] - 2;
+			*s++ = (Value_t) (actionrow[ntokens + j] - 2);
 		    }
 		}
-		width[nstates + i] = max - min + 1;
+		width[nstates + i] = (Value_t) (max - min + 1);
 	    }
 	}
     }
@@ -326,10 +326,10 @@ save_column(int symbol, int default_state)
     int i;
     int m;
     int n;
-    short *sp;
-    short *sp1;
-    short *sp2;
-    int count;
+    Value_t *sp;
+    Value_t *sp1;
+    Value_t *sp2;
+    Value_t count;
     int symno;
 
     m = goto_map[symbol];
@@ -346,8 +346,8 @@ save_column(int symbol, int default_state)
 
     symno = symbol_value[symbol] + 2 * nstates;
 
-    froms[symno] = sp1 = sp = NEW2(count, short);
-    tos[symno] = sp2 = NEW2(count, short);
+    froms[symno] = sp1 = sp = NEW2(count, Value_t);
+    tos[symno] = sp2 = NEW2(count, Value_t);
 
     for (i = m; i < n; i++)
     {
@@ -359,7 +359,7 @@ save_column(int symbol, int default_state)
     }
 
     tally[symno] = count;
-    width[symno] = sp1[-1] - sp[0] + 1;
+    width[symno] = (Value_t) (sp1[-1] - sp[0] + 1);
 }
 
 static void
@@ -367,7 +367,7 @@ goto_actions(void)
 {
     int i, j, k;
 
-    state_count = NEW2(nstates, short);
+    state_count = NEW2(nstates, Value_t);
 
     k = default_goto(start_symbol + 1);
     start_int_table("dgoto", k);
@@ -396,13 +396,13 @@ goto_actions(void)
 static void
 sort_actions(void)
 {
-    int i;
+    Value_t i;
     int j;
     int k;
     int t;
     int w;
 
-    order = NEW2(nvectors, short);
+    order = NEW2(nvectors, Value_t);
     nentries = 0;
 
     for (i = 0; i < nvectors; i++)
@@ -489,8 +489,8 @@ pack_vector(int vector)
     int t;
     int loc;
     int ok;
-    short *from;
-    short *to;
+    Value_t *from;
+    Value_t *to;
     int newmax;
 
     i = order[vector];
@@ -523,10 +523,10 @@ pack_vector(int vector)
 		    newmax += 200;
 		}
 		while (newmax <= loc);
-		table = (short *)REALLOC(table, newmax * sizeof(short));
+		table = (Value_t *) REALLOC(table, (unsigned)newmax * sizeof(Value_t));
 		if (table == 0)
 		    no_space();
-		check = (short *)REALLOC(check, newmax * sizeof(short));
+		check = (Value_t *) REALLOC(check, (unsigned)newmax * sizeof(Value_t));
 		if (check == 0)
 		    no_space();
 		for (l = maxtable; l < newmax; ++l)
@@ -568,15 +568,15 @@ static void
 pack_table(void)
 {
     int i;
-    int place;
+    Value_t place;
     int state;
 
-    base = NEW2(nvectors, short);
-    pos = NEW2(nentries, short);
+    base = NEW2(nvectors, Value_t);
+    pos = NEW2(nentries, Value_t);
 
     maxtable = 1000;
-    table = NEW2(maxtable, short);
-    check = NEW2(maxtable, short);
+    table = NEW2(maxtable, Value_t);
+    check = NEW2(maxtable, Value_t);
 
     lowzero = 0;
     high = 0;
@@ -589,7 +589,7 @@ pack_table(void)
 	state = matching_vector(i);
 
 	if (state < 0)
-	    place = pack_vector(i);
+	    place = (Value_t) pack_vector(i);
 	else
 	    place = base[state];
 
@@ -730,10 +730,10 @@ output_actions(void)
 {
     nvectors = 2 * nstates + nvars;
 
-    froms = NEW2(nvectors, short *);
-    tos = NEW2(nvectors, short *);
-    tally = NEW2(nvectors, short);
-    width = NEW2(nvectors, short);
+    froms = NEW2(nvectors, Value_t *);
+    tos = NEW2(nvectors, Value_t *);
+    tally = NEW2(nvectors, Value_t);
+    width = NEW2(nvectors, Value_t);
 
     token_actions();
     FREE(lookaheads);
@@ -887,7 +887,7 @@ output_debug(void)
     ++outline;
     fprintf(code_file, "#define YYMAXTOKEN %d\n", max);
 
-    symnam = (const char **)MALLOC((max + 1) * sizeof(char *));
+    symnam = (const char **)MALLOC((unsigned)(max + 1) * sizeof(char *));
     if (symnam == 0)
 	no_space();
 
@@ -994,7 +994,7 @@ output_debug(void)
 	    }
 	    else
 	    {
-		k = strlen(s) + 3;
+		k = (int)strlen(s) + 3;
 		j += k;
 		if (j > 80)
 		{

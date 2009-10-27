@@ -1,9 +1,9 @@
-/* $Id: closure.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: closure.c,v 1.7 2009/10/27 09:30:14 tom Exp $ */
 
 #include "defs.h"
 
-short *itemset;
-short *itemsetend;
+Value_t *itemset;
+Value_t *itemsetend;
 unsigned *ruleset;
 
 static unsigned *first_derives;
@@ -103,18 +103,18 @@ set_first_derives(void)
 void
 closure(short *nucleus, int n)
 {
-    int ruleno;
+    unsigned ruleno;
     unsigned word;
     unsigned i;
-    short *csp;
+    Value_t *csp;
     unsigned *dsp;
     unsigned *rsp;
     int rulesetsize;
 
-    short *csend;
+    Value_t *csend;
     unsigned *rsend;
     int symbol;
-    int itemno;
+    Value_t itemno;
 
     rulesetsize = WORDSIZE(nrules);
     rsp = ruleset;

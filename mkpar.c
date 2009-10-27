@@ -1,4 +1,4 @@
-/* $Id: mkpar.c,v 1.9 2008/11/26 22:36:10 tom Exp $ */
+/* $Id: mkpar.c,v 1.10 2009/10/27 10:50:13 tom Exp $ */
 
 #include "defs.h"
 
@@ -22,15 +22,15 @@ int RRexpect;
 int SRtotal;
 int RRtotal;
 
-short *SRconflicts;
-short *RRconflicts;
-short *defred;
-short *rules_used;
-short nunused;
-short final_state;
+Value_t *SRconflicts;
+Value_t *RRconflicts;
+Value_t *defred;
+Value_t *rules_used;
+Value_t nunused;
+Value_t final_state;
 
-static int SRcount;
-static int RRcount;
+static Value_t SRcount;
+static Value_t RRcount;
 
 void
 make_parser(void)
@@ -64,16 +64,16 @@ get_shifts(int stateno)
 {
     action *actions, *temp;
     shifts *sp;
-    short *to_state2;
-    int i, k;
-    int symbol;
+    Value_t *to_state2;
+    Value_t i, k;
+    Value_t symbol;
 
     actions = 0;
     sp = shift_table[stateno];
     if (sp)
     {
 	to_state2 = sp->shift;
-	for (i = sp->nshifts - 1; i >= 0; i--)
+	for (i = (Value_t) (sp->nshifts - 1); i >= 0; i--)
 	{
 	    k = to_state2[i];
 	    symbol = accessing_symbol[k];
@@ -142,8 +142,8 @@ add_reduce(action *actions,
 
     temp = NEW(action);
     temp->next = next;
-    temp->symbol = symbol;
-    temp->number = ruleno;
+    temp->symbol = (Value_t) symbol;
+    temp->number = (Value_t) ruleno;
     temp->prec = rprec[ruleno];
     temp->action_code = REDUCE;
     temp->assoc = rassoc[ruleno];
@@ -160,7 +160,7 @@ static void
 find_final_state(void)
 {
     int goal, i;
-    short *to_state2;
+    Value_t *to_state2;
     shifts *p;
 
     p = shift_table[0];
@@ -180,7 +180,7 @@ unused_rules(void)
     int i;
     action *p;
 
-    rules_used = (short *)MALLOC(nrules * sizeof(short));
+    rules_used = (Value_t *) MALLOC((unsigned)nrules * sizeof(Value_t));
     if (rules_used == 0)
 	no_space();
 
@@ -219,8 +219,8 @@ remove_conflicts(void)
 
     SRtotal = 0;
     RRtotal = 0;
-    SRconflicts = NEW2(nstates, short);
-    RRconflicts = NEW2(nstates, short);
+    SRconflicts = NEW2(nstates, Value_t);
+    RRconflicts = NEW2(nstates, Value_t);
     for (i = 0; i < nstates; i++)
     {
 	SRcount = 0;
@@ -352,9 +352,9 @@ defreds(void)
 {
     int i;
 
-    defred = NEW2(nstates, short);
+    defred = NEW2(nstates, Value_t);
     for (i = 0; i < nstates; i++)
-	defred[i] = sole_reduction(i);
+	defred[i] = (Value_t) sole_reduction(i);
 }
 
 static void

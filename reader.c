@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.15 2008/11/26 22:32:57 tom Exp $ */
+/* $Id: reader.c,v 1.18 2009/10/27 09:04:07 tom Exp $ */
 
 #include "defs.h"
 
@@ -27,7 +27,7 @@ char *cptr, *line;
 static int linesize;
 
 static bucket *goal;
-static int prec;
+static Value_t prec;
 static int gensym;
 static char last_was_action;
 
@@ -37,7 +37,7 @@ static bucket **pitem;
 static int maxrules;
 static bucket **plhs;
 
-static int name_pool_size;
+static size_t name_pool_size;
 static char *name_pool;
 
 char line_format[] = "#line %d \"%s\"\n";
@@ -53,7 +53,7 @@ cachec(int c)
 	if (cache == 0)
 	    no_space();
     }
-    cache[cinc] = c;
+    cache[cinc] = (char)c;
     ++cinc;
 }
 
@@ -90,7 +90,7 @@ get_line(void)
     ++lineno;
     for (;;)
     {
-	line[i] = c;
+	line[i] = (char)c;
 	if (c == '\n')
 	{
 	    cptr = line;
@@ -842,15 +842,15 @@ get_name(void)
     return (lookup(cache));
 }
 
-static int
+static Value_t
 get_number(void)
 {
     int c;
-    int n;
+    Value_t n;
 
     n = 0;
     for (c = *cptr; isdigit(c); c = *++cptr)
-	n = 10 * n + (c - '0');
+	n = (Value_t) (10 * n + (c - '0'));
 
     return (n);
 }
@@ -902,8 +902,8 @@ get_tag(void)
 	tagmax += 16;
 	tag_table = (char **)
 	    (tag_table
-	     ? REALLOC(tag_table, tagmax * sizeof(char *))
-	     : MALLOC(tagmax * sizeof(char *)));
+	     ? REALLOC(tag_table, (unsigned)tagmax * sizeof(char *))
+	     : MALLOC((unsigned)tagmax * sizeof(char *)));
 	if (tag_table == 0)
 	    no_space();
     }
@@ -923,7 +923,7 @@ declare_tokens(int assoc)
 {
     int c;
     bucket *bp;
-    int value;
+    Value_t value;
     char *tag = 0;
 
     if (assoc != TOKEN)
@@ -964,7 +964,7 @@ declare_tokens(int assoc)
 	{
 	    if (bp->prec && prec != bp->prec)
 		reprec_warning(bp->name);
-	    bp->assoc = assoc;
+	    bp->assoc = (Assoc_t) assoc;
 	    bp->prec = prec;
 	}
 
@@ -1145,7 +1145,7 @@ initialize_grammar(void)
 {
     nitems = 4;
     maxitems = 300;
-    pitem = (bucket **)MALLOC(maxitems * sizeof(bucket *));
+    pitem = (bucket **)MALLOC((unsigned)maxitems * sizeof(bucket *));
     if (pitem == 0)
 	no_space();
     pitem[0] = 0;
@@ -1155,19 +1155,19 @@ initialize_grammar(void)
 
     nrules = 3;
     maxrules = 100;
-    plhs = (bucket **)MALLOC(maxrules * sizeof(bucket *));
+    plhs = (bucket **)MALLOC((unsigned)maxrules * sizeof(bucket *));
     if (plhs == 0)
 	no_space();
     plhs[0] = 0;
     plhs[1] = 0;
     plhs[2] = 0;
-    rprec = (short *)MALLOC(maxrules * sizeof(short));
+    rprec = (short *)MALLOC((unsigned)maxrules * sizeof(short));
     if (rprec == 0)
 	no_space();
     rprec[0] = 0;
     rprec[1] = 0;
     rprec[2] = 0;
-    rassoc = (char *)MALLOC(maxrules * sizeof(char));
+    rassoc = (char *)MALLOC((unsigned)maxrules * sizeof(char));
     if (rassoc == 0)
 	no_space();
     rassoc[0] = TOKEN;
@@ -1179,7 +1179,7 @@ static void
 expand_items(void)
 {
     maxitems += 300;
-    pitem = (bucket **)REALLOC(pitem, maxitems * sizeof(bucket *));
+    pitem = (bucket **)REALLOC(pitem, (unsigned)maxitems * sizeof(bucket *));
     if (pitem == 0)
 	no_space();
 }
@@ -1188,13 +1188,13 @@ static void
 expand_rules(void)
 {
     maxrules += 100;
-    plhs = (bucket **)REALLOC(plhs, maxrules * sizeof(bucket *));
+    plhs = (bucket **)REALLOC(plhs, (unsigned)maxrules * sizeof(bucket *));
     if (plhs == 0)
 	no_space();
-    rprec = (short *)REALLOC(rprec, maxrules * sizeof(short));
+    rprec = (short *)REALLOC(rprec, (unsigned)maxrules * sizeof(short));
     if (rprec == 0)
 	no_space();
-    rassoc = (char *)REALLOC(rassoc, maxrules * sizeof(char));
+    rassoc = (char *)REALLOC(rassoc, (unsigned)maxrules * sizeof(char));
     if (rassoc == 0)
 	no_space();
 }
@@ -1780,7 +1780,7 @@ pack_symbols(void)
 {
     bucket *bp;
     bucket **v;
-    int i, j, k, n;
+    Value_t i, j, k, n;
 
     nsyms = 2;
     ntokens = 1;
@@ -1790,23 +1790,23 @@ pack_symbols(void)
 	if (bp->class == TERM)
 	    ++ntokens;
     }
-    start_symbol = ntokens;
+    start_symbol = (Value_t) ntokens;
     nvars = nsyms - ntokens;
 
-    symbol_name = (char **)MALLOC(nsyms * sizeof(char *));
+    symbol_name = (char **)MALLOC((unsigned)nsyms * sizeof(char *));
     if (symbol_name == 0)
 	no_space();
-    symbol_value = (short *)MALLOC(nsyms * sizeof(short));
+    symbol_value = (short *)MALLOC((unsigned)nsyms * sizeof(short));
     if (symbol_value == 0)
 	no_space();
-    symbol_prec = (short *)MALLOC(nsyms * sizeof(short));
+    symbol_prec = (short *)MALLOC((unsigned)nsyms * sizeof(short));
     if (symbol_prec == 0)
 	no_space();
     symbol_assoc = MALLOC(nsyms);
     if (symbol_assoc == 0)
 	no_space();
 
-    v = (bucket **)MALLOC(nsyms * sizeof(bucket *));
+    v = (bucket **)MALLOC((unsigned)nsyms * sizeof(bucket *));
     if (v == 0)
 	no_space();
 
@@ -1814,7 +1814,7 @@ pack_symbols(void)
     v[start_symbol] = 0;
 
     i = 1;
-    j = start_symbol + 1;
+    j = (Value_t) (start_symbol + 1);
     for (bp = first_symbol; bp; bp = bp->next)
     {
 	if (bp->class == TERM)
@@ -1827,8 +1827,8 @@ pack_symbols(void)
     for (i = 1; i < ntokens; ++i)
 	v[i]->index = i;
 
-    goal->index = start_symbol + 1;
-    k = start_symbol + 2;
+    goal->index = (Index_t) (start_symbol + 1);
+    k = (Value_t) (start_symbol + 2);
     while (++i < nsyms)
 	if (v[i] != goal)
 	{
@@ -1838,7 +1838,7 @@ pack_symbols(void)
 
     goal->value = 0;
     k = 1;
-    for (i = start_symbol + 1; i < nsyms; ++i)
+    for (i = (Value_t) (start_symbol + 1); i < nsyms; ++i)
     {
 	if (v[i] != goal)
 	{
@@ -1905,7 +1905,7 @@ pack_symbols(void)
 
     if (gflag)
     {
-	symbol_pname = (char **)MALLOC(nsyms * sizeof(char *));
+	symbol_pname = (char **)MALLOC((unsigned)nsyms * sizeof(char *));
 	if (symbol_pname == 0)
 	    no_space();
 
@@ -1919,19 +1919,21 @@ pack_symbols(void)
 static void
 pack_grammar(void)
 {
-    int i, j;
-    int assoc, prec2;
+    int i;
+    Value_t j;
+    Assoc_t assoc;
+    Value_t prec2;
 
-    ritem = (short *)MALLOC(nitems * sizeof(short));
+    ritem = (short *)MALLOC((unsigned)nitems * sizeof(short));
     if (ritem == 0)
 	no_space();
-    rlhs = (short *)MALLOC(nrules * sizeof(short));
+    rlhs = (short *)MALLOC((unsigned)nrules * sizeof(short));
     if (rlhs == 0)
 	no_space();
-    rrhs = (short *)MALLOC((nrules + 1) * sizeof(short));
+    rrhs = (short *)MALLOC((unsigned)(nrules + 1) * sizeof(short));
     if (rrhs == 0)
 	no_space();
-    rprec = (short *)REALLOC(rprec, nrules * sizeof(short));
+    rprec = (short *)REALLOC(rprec, (unsigned)nrules * sizeof(short));
     if (rprec == 0)
 	no_space();
     rassoc = REALLOC(rassoc, nrules);
@@ -1966,7 +1968,7 @@ pack_grammar(void)
 	    }
 	    ++j;
 	}
-	ritem[j] = -i;
+	ritem[j] = (Value_t) - i;
 	++j;
 	if (rprec[i] == UNDEFINED)
 	{
@@ -1983,8 +1985,8 @@ pack_grammar(void)
 static void
 print_grammar(void)
 {
-    int i, j, k;
-    int spacing = 0;
+    int i, k;
+    size_t j, spacing = 0;
     FILE *f = verbose_file;
 
     if (!vflag)
@@ -2004,7 +2006,7 @@ print_grammar(void)
 	{
 	    fprintf(f, "%4d  ", i - 2);
 	    j = spacing;
-	    while (--j >= 0)
+	    while (j-- != 0)
 		putc(' ', f);
 	    putc('|', f);
 	}

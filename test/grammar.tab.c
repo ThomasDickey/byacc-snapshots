@@ -34,6 +34,7 @@ static int yygrowstack(void);
 #define yyerror    grammar_error
 #define yychar     grammar_char
 #define yyval      grammar_val
+#define yylval     grammar_lval
 #define yydebug    grammar_debug
 #define yynerrs    grammar_nerrs
 #define yyerrflag  grammar_errflag
@@ -144,7 +145,7 @@ haveAnsiParam (void)
     }
     return FALSE;
 }
-#line 148 "grammar.tab.c"
+#line 149 "grammar.tab.c"
 #define T_IDENTIFIER 257
 #define T_TYPEDEF_NAME 258
 #define T_DEFINE_NAME 259
@@ -798,7 +799,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 802 "grammar.tab.c"
+#line 803 "grammar.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(void)
 {
@@ -1657,7 +1658,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1661 "grammar.tab.c"
+#line 1662 "grammar.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

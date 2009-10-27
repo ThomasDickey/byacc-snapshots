@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.15 2008/11/26 22:36:34 tom Exp $ */
+/* $Id: defs.h,v 1.20 2009/10/27 10:47:43 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -125,13 +125,18 @@
 #define	FREE(x)		(free((char*)(x)))
 #define MALLOC(n)	(malloc((unsigned)(n)))
 #define	NEW(t)		((t*)allocate(sizeof(t)))
-#define	NEW2(n,t)	((t*)allocate((unsigned)((n)*sizeof(t))))
+#define	NEW2(n,t)	((t*)allocate(((unsigned)(n)*sizeof(t))))
 #define REALLOC(p,n)	(realloc((char*)(p),(unsigned)(n)))
 
 #define DO_FREE(x)	if (x) { FREE(x); x = 0; }
 
 /* messages */
 #define PLURAL(n) ((n) > 1 ? "s" : "")
+
+typedef char Assoc_t;
+typedef char Class_t;
+typedef short Index_t;
+typedef short Value_t;
 
 /*  the structure of a symbol table entry  */
 
@@ -142,11 +147,11 @@ struct bucket
     struct bucket *next;
     char *name;
     char *tag;
-    short value;
-    short index;
-    short prec;
-    char class;
-    char assoc;
+    Value_t value;
+    Index_t index;
+    Value_t prec;
+    Class_t class;
+    Assoc_t assoc;
 };
 
 /*  the structure of the LR(0) state machine  */
@@ -156,10 +161,10 @@ struct core
 {
     struct core *next;
     struct core *link;
-    short number;
-    short accessing_symbol;
-    short nitems;
-    short items[1];
+    Value_t number;
+    Value_t accessing_symbol;
+    Value_t nitems;
+    Value_t items[1];
 };
 
 /*  the structure used to record shifts  */
@@ -168,9 +173,9 @@ typedef struct shifts shifts;
 struct shifts
 {
     struct shifts *next;
-    short number;
-    short nshifts;
-    short shift[1];
+    Value_t number;
+    Value_t nshifts;
+    Value_t shift[1];
 };
 
 /*  the structure used to store reductions  */
@@ -179,9 +184,9 @@ typedef struct reductions reductions;
 struct reductions
 {
     struct reductions *next;
-    short number;
-    short nreds;
-    short rules[1];
+    Value_t number;
+    Value_t nreds;
+    Value_t rules[1];
 };
 
 /*  the structure used to represent parser actions  */
@@ -190,11 +195,11 @@ typedef struct action action;
 struct action
 {
     struct action *next;
-    short symbol;
-    short number;
-    short prec;
+    Value_t symbol;
+    Value_t number;
+    Value_t prec;
     char action_code;
-    char assoc;
+    Assoc_t assoc;
     char suppressed;
 };
 
@@ -248,20 +253,20 @@ extern int ntags;
 extern char unionized;
 extern char line_format[];
 
-extern int start_symbol;
+extern Value_t start_symbol;
 extern char **symbol_name;
 extern char **symbol_pname;
-extern short *symbol_value;
-extern short *symbol_prec;
+extern Value_t *symbol_value;
+extern Value_t *symbol_prec;
 extern char *symbol_assoc;
 
-extern short *ritem;
-extern short *rlhs;
-extern short *rrhs;
-extern short *rprec;
-extern char *rassoc;
+extern Value_t *ritem;
+extern Value_t *rlhs;
+extern Value_t *rrhs;
+extern Value_t *rprec;
+extern Assoc_t *rassoc;
 
-extern short **derives;
+extern Value_t **derives;
 extern char *nullable;
 
 extern bucket *first_symbol;
@@ -271,31 +276,31 @@ extern int nstates;
 extern core *first_state;
 extern shifts *first_shift;
 extern reductions *first_reduction;
-extern short *accessing_symbol;
+extern Value_t *accessing_symbol;
 extern core **state_table;
 extern shifts **shift_table;
 extern reductions **reduction_table;
 extern unsigned *LA;
-extern short *LAruleno;
-extern short *lookaheads;
-extern short *goto_map;
-extern short *from_state;
-extern short *to_state;
+extern Value_t *LAruleno;
+extern Value_t *lookaheads;
+extern Value_t *goto_map;
+extern Value_t *from_state;
+extern Value_t *to_state;
 
 extern action **parser;
 extern int SRexpect;
 extern int RRexpect;
 extern int SRtotal;
 extern int RRtotal;
-extern short *SRconflicts;
-extern short *RRconflicts;
-extern short *defred;
-extern short *rules_used;
-extern short nunused;
-extern short final_state;
+extern Value_t *SRconflicts;
+extern Value_t *RRconflicts;
+extern Value_t *defred;
+extern Value_t *rules_used;
+extern Value_t nunused;
+extern Value_t final_state;
 
-extern short *itemset;
-extern short *itemsetend;
+extern Value_t *itemset;
+extern Value_t *itemsetend;
 extern unsigned *ruleset;
 
 /* global functions */
@@ -312,7 +317,7 @@ extern bucket *make_bucket(const char *);
 #endif
 
 /* closure.c */
-extern void closure(short *nucleus, int n);
+extern void closure(Value_t *nucleus, int n);
 extern void finalize_closure(void);
 extern void set_first_derives(void);
 

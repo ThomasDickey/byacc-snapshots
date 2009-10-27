@@ -1,4 +1,4 @@
-/* $Id: graph.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: graph.c,v 1.7 2009/10/27 09:25:20 tom Exp $ */
 
 #include "defs.h"
 
@@ -56,7 +56,7 @@ graph_state(int stateno)
     short *sp;
     short *sp1;
 
-    larno = lookaheads[stateno];
+    larno = (unsigned)lookaheads[stateno];
     fprintf(graph_file, "\n\tq%d [label=\"%d:\\l", stateno, stateno);
 
     for (isp = itemset; isp < itemsetend; isp++)
@@ -91,10 +91,10 @@ static void
 graph_LA(int ruleno)
 {
     int i;
-    int tokensetsize;
+    unsigned tokensetsize;
     unsigned *rowp;
 
-    tokensetsize = WORDSIZE(ntokens);
+    tokensetsize = (unsigned)WORDSIZE(ntokens);
 
     if (ruleno == LAruleno[larno])
     {

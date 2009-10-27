@@ -34,6 +34,7 @@ static int yygrowstack(void);
 #define yyerror    error_error
 #define yychar     error_char
 #define yyval      error_val
+#define yylval     error_lval
 #define yydebug    error_debug
 #define yynerrs    error_nerrs
 #define yyerrflag  error_errflag
@@ -134,7 +135,7 @@ static unsigned yystacksize;
 main(){printf("yyparse() = %d\n",yyparse());}
 yylex(){return-1;}
 yyerror(s)char*s;{printf("%s\n",s);}
-#line 138 "error.tab.c"
+#line 139 "error.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(void)
 {

@@ -34,6 +34,7 @@ static int yygrowstack(void);
 #define yyerror    calc_error
 #define yychar     calc_char
 #define yyval      calc_val
+#define yylval     calc_lval
 #define yydebug    calc_debug
 #define yynerrs    calc_nerrs
 #define yyerrflag  calc_errflag
@@ -60,7 +61,7 @@ static int yygrowstack(void);
 int regs[26];
 int base;
 
-#line 64 "calc.tab.c"
+#line 65 "calc.tab.c"
 #define DIGIT 257
 #define LETTER 258
 #define UMINUS 259
@@ -260,7 +261,7 @@ yylex() {   /* lexical analysis routine */
          }
       return( c );
       }
-#line 264 "calc.tab.c"
+#line 265 "calc.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(void)
 {
@@ -505,7 +506,7 @@ case 18:
 #line 60 "calc.y"
 	{  yyval = base * yyvsp[-1] + yyvsp[0]; }
 break;
-#line 509 "calc.tab.c"
+#line 510 "calc.tab.c"
     }
     yyssp -= yym;
     yystate = *yyssp;

@@ -1,3 +1,10 @@
+2009-10-27  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: 20091027
+
+	* output.c, mkpar.c, defs.h, lalr.c, closure.c, graph.c, lr0.c, verbose.c, main.c, reader.c:
+	strict compiler warnings
+
 2009-10-26  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c, defs.h: introduce some typedefs for portability, etc.

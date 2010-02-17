@@ -14,6 +14,88 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define yyerrok        (yyerrflag = 0)
 #define YYRECOVERING() (yyerrflag != 0)
 
+
+#ifndef yyparse
+#define yyparse    calc_parse
+#endif /* yyparse */
+
+#ifndef yylex
+#define yylex      calc_lex
+#endif /* yylex */
+
+#ifndef yyerror
+#define yyerror    calc_error
+#endif /* yyerror */
+
+#ifndef yychar
+#define yychar     calc_char
+#endif /* yychar */
+
+#ifndef yyval
+#define yyval      calc_val
+#endif /* yyval */
+
+#ifndef yylval
+#define yylval     calc_lval
+#endif /* yylval */
+
+#ifndef yydebug
+#define yydebug    calc_debug
+#endif /* yydebug */
+
+#ifndef yynerrs
+#define yynerrs    calc_nerrs
+#endif /* yynerrs */
+
+#ifndef yyerrflag
+#define yyerrflag  calc_errflag
+#endif /* yyerrflag */
+
+#ifndef yylhs
+#define yylhs      calc_lhs
+#endif /* yylhs */
+
+#ifndef yylen
+#define yylen      calc_len
+#endif /* yylen */
+
+#ifndef yydefred
+#define yydefred   calc_defred
+#endif /* yydefred */
+
+#ifndef yydgoto
+#define yydgoto    calc_dgoto
+#endif /* yydgoto */
+
+#ifndef yysindex
+#define yysindex   calc_sindex
+#endif /* yysindex */
+
+#ifndef yyrindex
+#define yyrindex   calc_rindex
+#endif /* yyrindex */
+
+#ifndef yygindex
+#define yygindex   calc_gindex
+#endif /* yygindex */
+
+#ifndef yytable
+#define yytable    calc_table
+#endif /* yytable */
+
+#ifndef yycheck
+#define yycheck    calc_check
+#endif /* yycheck */
+
+#ifndef yyname
+#define yyname     calc_name
+#endif /* yyname */
+
+#ifndef yyrule
+#define yyrule     calc_rule
+#endif /* yyrule */
+#define YYPREFIX "calc_"
+
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
 /* compatibility with FreeBSD */
@@ -28,32 +110,6 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 
 extern int YYPARSE_DECL();
 
-static int yygrowstack(void);
-#define yyparse    calc_parse
-#define yylex      calc_lex
-#define yyerror    calc_error
-#define yychar     calc_char
-#define yyval      calc_val
-#define yylval     calc_lval
-#define yydebug    calc_debug
-#define yynerrs    calc_nerrs
-#define yyerrflag  calc_errflag
-#define yyss       calc_ss
-#define yyssp      calc_ssp
-#define yyvs       calc_vs
-#define yyvsp      calc_vsp
-#define yylhs      calc_lhs
-#define yylen      calc_len
-#define yydefred   calc_defred
-#define yydgoto    calc_dgoto
-#define yysindex   calc_sindex
-#define yyrindex   calc_rindex
-#define yygindex   calc_gindex
-#define yytable    calc_table
-#define yycheck    calc_check
-#define yyname     calc_name
-#define yyrule     calc_rule
-#define YYPREFIX "calc_"
 #line 2 "calc.y"
 # include <stdio.h>
 # include <ctype.h>
@@ -61,7 +117,7 @@ static int yygrowstack(void);
 int regs[26];
 int base;
 
-#line 65 "calc.tab.c"
+#line 121 "calc.tab.c"
 #define DIGIT 257
 #define LETTER 258
 #define UMINUS 259
@@ -153,7 +209,7 @@ static const short calc_check[] = {                      40,
 #endif
 #define YYMAXTOKEN 259
 #if YYDEBUG
-static const char *calc_name[] = {
+static const char *yyname[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,"'\\n'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"'%'","'&'",0,"'('","')'","'*'","'+'",0,"'-'",0,"'/'",0,0,0,0,0,0,0,
@@ -164,7 +220,7 @@ static const char *calc_name[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"DIGIT","LETTER","UMINUS",
 };
-static const char *calc_rule[] = {
+static const char *yyrule[] = {
 "$accept : list",
 "list :",
 "list : list stat '\\n'",
@@ -211,18 +267,25 @@ typedef int YYSTYPE;
 
 int      yydebug;
 int      yynerrs;
+
+typedef struct {
+    unsigned stacksize;
+    short    *s_base;
+    short    *s_mark;
+    short    *s_last;
+    YYSTYPE  *l_base;
+    YYSTYPE  *l_mark;
+} YYSTACKDATA;
+
+#define YYPURE 0
+
 int      yyerrflag;
 int      yychar;
-short   *yyssp;
-YYSTYPE *yyvsp;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
 
 /* variables for the parser stack */
-static short   *yyss;
-static short   *yysslim;
-static YYSTYPE *yyvs;
-static unsigned yystacksize;
+static YYSTACKDATA yystack;
 #line 63 "calc.y"
  /* start of programs */
 
@@ -261,43 +324,56 @@ yylex() {   /* lexical analysis routine */
          }
       return( c );
       }
-#line 265 "calc.tab.c"
+#line 328 "calc.tab.c"
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
-static int yygrowstack(void)
+static int yygrowstack(YYSTACKDATA *data)
 {
     int i;
     unsigned newsize;
     short *newss;
     YYSTYPE *newvs;
 
-    if ((newsize = yystacksize) == 0)
+    if ((newsize = data->stacksize) == 0)
         newsize = YYINITSTACKSIZE;
     else if (newsize >= YYMAXDEPTH)
         return -1;
     else if ((newsize *= 2) > YYMAXDEPTH)
         newsize = YYMAXDEPTH;
 
-    i = yyssp - yyss;
-    newss = (yyss != 0)
-          ? (short *)realloc(yyss, newsize * sizeof(*newss))
+    i = data->s_mark - data->s_base;
+    newss = (data->s_base != 0)
+          ? (short *)realloc(data->s_base, newsize * sizeof(*newss))
           : (short *)malloc(newsize * sizeof(*newss));
     if (newss == 0)
         return -1;
 
-    yyss  = newss;
-    yyssp = newss + i;
-    newvs = (yyvs != 0)
-          ? (YYSTYPE *)realloc(yyvs, newsize * sizeof(*newvs))
+    data->s_base  = newss;
+    data->s_mark = newss + i;
+
+    newvs = (data->l_base != 0)
+          ? (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs))
           : (YYSTYPE *)malloc(newsize * sizeof(*newvs));
     if (newvs == 0)
         return -1;
 
-    yyvs = newvs;
-    yyvsp = newvs + i;
-    yystacksize = newsize;
-    yysslim = yyss + newsize - 1;
+    data->l_base = newvs;
+    data->l_mark = newvs + i;
+
+    data->stacksize = newsize;
+    data->s_last = data->s_base + newsize - 1;
     return 0;
 }
+
+#if YYPURE || defined(YY_NO_LEAKS)
+static void yyfreestack(YYSTACKDATA *data)
+{
+    free(data->s_base);
+    free(data->l_base);
+    memset(data, 0, sizeof(*data));
+}
+#else
+#define yyfreestack(data) /* nothing */
+#endif
 
 #define YYABORT  goto yyabort
 #define YYREJECT goto yyabort
@@ -324,11 +400,15 @@ YYPARSE_DECL()
     yychar = YYEMPTY;
     yystate = 0;
 
-    if (yyss == NULL && yygrowstack()) goto yyoverflow;
-    yyssp = yyss;
-    yyvsp = yyvs;
+#if YYPURE
+    memset(&yystack, 0, sizeof(yystack));
+#endif
+
+    if (yystack.s_base == NULL && yygrowstack(&yystack)) goto yyoverflow;
+    yystack.s_mark = yystack.s_base;
+    yystack.l_mark = yystack.l_base;
     yystate = 0;
-    *yyssp = 0;
+    *yystack.s_mark = 0;
 
 yyloop:
     if ((yyn = yydefred[yystate]) != 0) goto yyreduce;
@@ -354,13 +434,13 @@ yyloop:
             printf("%sdebug: state %d, shifting to state %d\n",
                     YYPREFIX, yystate, yytable[yyn]);
 #endif
-        if (yyssp >= yysslim && yygrowstack())
+        if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack))
         {
             goto yyoverflow;
         }
         yystate = yytable[yyn];
-        *++yyssp = yytable[yyn];
-        *++yyvsp = yylval;
+        *++yystack.s_mark = yytable[yyn];
+        *++yystack.l_mark = yylval;
         yychar = YYEMPTY;
         if (yyerrflag > 0)  --yyerrflag;
         goto yyloop;
@@ -386,21 +466,21 @@ yyinrecovery:
         yyerrflag = 3;
         for (;;)
         {
-            if ((yyn = yysindex[*yyssp]) && (yyn += YYERRCODE) >= 0 &&
+            if ((yyn = yysindex[*yystack.s_mark]) && (yyn += YYERRCODE) >= 0 &&
                     yyn <= YYTABLESIZE && yycheck[yyn] == YYERRCODE)
             {
 #if YYDEBUG
                 if (yydebug)
                     printf("%sdebug: state %d, error recovery shifting\
- to state %d\n", YYPREFIX, *yyssp, yytable[yyn]);
+ to state %d\n", YYPREFIX, *yystack.s_mark, yytable[yyn]);
 #endif
-                if (yyssp >= yysslim && yygrowstack())
+                if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack))
                 {
                     goto yyoverflow;
                 }
                 yystate = yytable[yyn];
-                *++yyssp = yytable[yyn];
-                *++yyvsp = yylval;
+                *++yystack.s_mark = yytable[yyn];
+                *++yystack.l_mark = yylval;
                 goto yyloop;
             }
             else
@@ -408,11 +488,11 @@ yyinrecovery:
 #if YYDEBUG
                 if (yydebug)
                     printf("%sdebug: error recovery discarding state %d\n",
-                            YYPREFIX, *yyssp);
+                            YYPREFIX, *yystack.s_mark);
 #endif
-                if (yyssp <= yyss) goto yyabort;
-                --yyssp;
-                --yyvsp;
+                if (yystack.s_mark <= yystack.s_base) goto yyabort;
+                --yystack.s_mark;
+                --yystack.l_mark;
             }
         }
     }
@@ -441,7 +521,7 @@ yyreduce:
 #endif
     yym = yylen[yyn];
     if (yym)
-        yyval = yyvsp[1-yym];
+        yyval = yystack.l_mark[1-yym];
     else
         memset(&yyval, 0, sizeof yyval);
     switch (yyn)
@@ -452,65 +532,65 @@ case 3:
 break;
 case 4:
 #line 29 "calc.y"
-	{  printf("%d\n",yyvsp[0]);}
+	{  printf("%d\n",yystack.l_mark[0]);}
 break;
 case 5:
 #line 31 "calc.y"
-	{  regs[yyvsp[-2]] = yyvsp[0]; }
+	{  regs[yystack.l_mark[-2]] = yystack.l_mark[0]; }
 break;
 case 6:
 #line 35 "calc.y"
-	{  yyval = yyvsp[-1]; }
+	{  yyval = yystack.l_mark[-1]; }
 break;
 case 7:
 #line 37 "calc.y"
-	{  yyval = yyvsp[-2] + yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] + yystack.l_mark[0]; }
 break;
 case 8:
 #line 39 "calc.y"
-	{  yyval = yyvsp[-2] - yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] - yystack.l_mark[0]; }
 break;
 case 9:
 #line 41 "calc.y"
-	{  yyval = yyvsp[-2] * yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] * yystack.l_mark[0]; }
 break;
 case 10:
 #line 43 "calc.y"
-	{  yyval = yyvsp[-2] / yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] / yystack.l_mark[0]; }
 break;
 case 11:
 #line 45 "calc.y"
-	{  yyval = yyvsp[-2] % yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] % yystack.l_mark[0]; }
 break;
 case 12:
 #line 47 "calc.y"
-	{  yyval = yyvsp[-2] & yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] & yystack.l_mark[0]; }
 break;
 case 13:
 #line 49 "calc.y"
-	{  yyval = yyvsp[-2] | yyvsp[0]; }
+	{  yyval = yystack.l_mark[-2] | yystack.l_mark[0]; }
 break;
 case 14:
 #line 51 "calc.y"
-	{  yyval = - yyvsp[0]; }
+	{  yyval = - yystack.l_mark[0]; }
 break;
 case 15:
 #line 53 "calc.y"
-	{  yyval = regs[yyvsp[0]]; }
+	{  yyval = regs[yystack.l_mark[0]]; }
 break;
 case 17:
 #line 58 "calc.y"
-	{  yyval = yyvsp[0]; base = (yyvsp[0]==0) ? 8 : 10; }
+	{  yyval = yystack.l_mark[0]; base = (yystack.l_mark[0]==0) ? 8 : 10; }
 break;
 case 18:
 #line 60 "calc.y"
-	{  yyval = base * yyvsp[-1] + yyvsp[0]; }
+	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 510 "calc.tab.c"
+#line 590 "calc.tab.c"
     }
-    yyssp -= yym;
-    yystate = *yyssp;
-    yyvsp -= yym;
+    yystack.s_mark -= yym;
+    yystate = *yystack.s_mark;
+    yystack.l_mark -= yym;
     yym = yylhs[yyn];
     if (yystate == 0 && yym == 0)
     {
@@ -520,8 +600,8 @@ break;
  state %d\n", YYPREFIX, YYFINAL);
 #endif
         yystate = YYFINAL;
-        *++yyssp = YYFINAL;
-        *++yyvsp = yyval;
+        *++yystack.s_mark = YYFINAL;
+        *++yystack.l_mark = yyval;
         if (yychar < 0)
         {
             if ((yychar = yylex()) < 0) yychar = 0;
@@ -547,22 +627,24 @@ break;
 #if YYDEBUG
     if (yydebug)
         printf("%sdebug: after reduction, shifting from state %d \
-to state %d\n", YYPREFIX, *yyssp, yystate);
+to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
 #endif
-    if (yyssp >= yysslim && yygrowstack())
+    if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack))
     {
         goto yyoverflow;
     }
-    *++yyssp = (short) yystate;
-    *++yyvsp = yyval;
+    *++yystack.s_mark = (short) yystate;
+    *++yystack.l_mark = yyval;
     goto yyloop;
 
 yyoverflow:
     yyerror("yacc stack overflow");
 
 yyabort:
+    yyfreestack(&yystack);
     return (1);
 
 yyaccept:
+    yyfreestack(&yystack);
     return (0);
 }

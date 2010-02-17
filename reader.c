@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.18 2009/10/27 09:04:07 tom Exp $ */
+/* $Id: reader.c,v 1.19 2010/02/17 01:41:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -274,6 +274,8 @@ keyword(void)
 	    return (EXPECT);
 	if (strcmp(cache, "expect-rr") == 0)
 	    return (EXPECT_RR);
+	if (strcmp(cache, "pure-parser") == 0)
+	    return (PURE_PARSER);
     }
     else
     {
@@ -1136,6 +1138,10 @@ read_declarations(void)
 	case START:
 	    declare_start();
 	    break;
+
+	case PURE_PARSER:
+	    pure_parser = 1;
+	    break;
 	}
     }
 }
@@ -1418,7 +1424,7 @@ copy_action(void)
 		i = get_number();
 		if (i > n)
 		    dollar_warning(d_lineno, i);
-		fprintf(f, "yyvsp[%d].%s", i - n, tag);
+		fprintf(f, "yystack.l_mark[%d].%s", i - n, tag);
 		FREE(d_line);
 		goto loop;
 	    }
@@ -1426,7 +1432,7 @@ copy_action(void)
 	    {
 		++cptr;
 		i = -get_number() - n;
-		fprintf(f, "yyvsp[%d].%s", i, tag);
+		fprintf(f, "yystack.l_mark[%d].%s", i, tag);
 		FREE(d_line);
 		goto loop;
 	    }
@@ -1458,13 +1464,13 @@ copy_action(void)
 		tag = pitem[nitems + i - n - 1]->tag;
 		if (tag == 0)
 		    untyped_rhs(i, pitem[nitems + i - n - 1]->name);
-		fprintf(f, "yyvsp[%d].%s", i - n, tag);
+		fprintf(f, "yystack.l_mark[%d].%s", i - n, tag);
 	    }
 	    else
 	    {
 		if (i > n)
 		    dollar_warning(lineno, i);
-		fprintf(f, "yyvsp[%d]", i - n);
+		fprintf(f, "yystack.l_mark[%d]", i - n);
 	    }
 	    goto loop;
 	}
@@ -1474,7 +1480,7 @@ copy_action(void)
 	    i = get_number();
 	    if (ntags)
 		unknown_rhs(-i);
-	    fprintf(f, "yyvsp[%d]", -i - n);
+	    fprintf(f, "yystack.l_mark[%d]", -i - n);
 	    goto loop;
 	}
     }

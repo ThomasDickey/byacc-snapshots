@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.20 2009/10/27 10:47:43 tom Exp $ */
+/* $Id: defs.h,v 1.23 2010/02/17 00:48:59 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -92,6 +92,7 @@
 #define IDENT 9
 #define EXPECT 10
 #define EXPECT_RR 11
+#define PURE_PARSER 12
 
 /*  symbol classes  */
 
@@ -221,9 +222,13 @@ extern int outline;
 extern int exit_code;
 
 extern const char *banner[];
+extern const char *xdecls[];
 extern const char *tables[];
-extern const char *header[];
-extern const char *body[];
+extern const char *hdr_defs[];
+extern const char *hdr_vars[];
+extern const char *body_1[];
+extern const char *body_vars[];
+extern const char *body_2[];
 extern const char *trailer[];
 
 extern char *code_file_name;
@@ -272,6 +277,7 @@ extern char *nullable;
 extern bucket *first_symbol;
 extern bucket *last_symbol;
 
+extern int pure_parser;
 extern int nstates;
 extern core *first_state;
 extern shifts *first_shift;

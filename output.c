@@ -1,6 +1,8 @@
-/* $Id: output.c,v 1.21 2009/10/27 10:55:05 tom Exp $ */
+/* $Id: output.c,v 1.24 2010/02/17 01:48:22 tom Exp $ */
 
 #include "defs.h"
+
+#define StaticOrR	(rflag ? "" : "static ")
 
 static int nvectors;
 static int nentries;
@@ -44,46 +46,53 @@ write_input_lineno(FILE * out)
 }
 
 static void
-define_prefixed(const char *name)
+define_prefixed(FILE * fp, const char *name)
 {
     ++outline;
-    fprintf(code_file, "#define %-10s %s%s\n", name, symbol_prefix, name + 2);
+    fprintf(fp, "\n");
+
+    ++outline;
+    fprintf(fp, "#ifndef %s\n", name);
+
+    ++outline;
+    fprintf(fp, "#define %-10s %s%s\n", name, symbol_prefix, name + 2);
+
+    ++outline;
+    fprintf(fp, "#endif /* %s */\n", name);
 }
 
 static void
-output_prefix(void)
+output_prefix(FILE * fp)
 {
     if (symbol_prefix == NULL)
+    {
 	symbol_prefix = "yy";
+    }
     else
     {
-	define_prefixed("yyparse");
-	define_prefixed("yylex");
-	define_prefixed("yyerror");
-	define_prefixed("yychar");
-	define_prefixed("yyval");
-	define_prefixed("yylval");
-	define_prefixed("yydebug");
-	define_prefixed("yynerrs");
-	define_prefixed("yyerrflag");
-	define_prefixed("yyss");
-	define_prefixed("yyssp");
-	define_prefixed("yyvs");
-	define_prefixed("yyvsp");
-	define_prefixed("yylhs");
-	define_prefixed("yylen");
-	define_prefixed("yydefred");
-	define_prefixed("yydgoto");
-	define_prefixed("yysindex");
-	define_prefixed("yyrindex");
-	define_prefixed("yygindex");
-	define_prefixed("yytable");
-	define_prefixed("yycheck");
-	define_prefixed("yyname");
-	define_prefixed("yyrule");
+	define_prefixed(fp, "yyparse");
+	define_prefixed(fp, "yylex");
+	define_prefixed(fp, "yyerror");
+	define_prefixed(fp, "yychar");
+	define_prefixed(fp, "yyval");
+	define_prefixed(fp, "yylval");
+	define_prefixed(fp, "yydebug");
+	define_prefixed(fp, "yynerrs");
+	define_prefixed(fp, "yyerrflag");
+	define_prefixed(fp, "yylhs");
+	define_prefixed(fp, "yylen");
+	define_prefixed(fp, "yydefred");
+	define_prefixed(fp, "yydgoto");
+	define_prefixed(fp, "yysindex");
+	define_prefixed(fp, "yyrindex");
+	define_prefixed(fp, "yygindex");
+	define_prefixed(fp, "yytable");
+	define_prefixed(fp, "yycheck");
+	define_prefixed(fp, "yyname");
+	define_prefixed(fp, "yyrule");
     }
     ++outline;
-    fprintf(code_file, "#define YYPREFIX \"%s\"\n", symbol_prefix);
+    fprintf(fp, "#define YYPREFIX \"%s\"\n", symbol_prefix);
 }
 
 static void
@@ -115,16 +124,16 @@ start_int_table(const char *name, int value)
     if (need < 6)
 	need = 6;
     fprintf(output_file,
-	    "static const short %s%s[] = {%*d,",
-	    symbol_prefix, name, need, value);
+	    "%sconst short %s%s[] = {%*d,",
+	    StaticOrR, symbol_prefix, name, need, value);
 }
 
 static void
 start_str_table(const char *name)
 {
     fprintf(output_file,
-	    "static const char *%s%s[] = {",
-	    symbol_prefix, name);
+	    "%sconst char *%s%s[] = {",
+	    StaticOrR, "yy", name);
     output_newline();
 }
 
@@ -1079,6 +1088,13 @@ output_debug(void)
 }
 
 static void
+output_pure_parser(void)
+{
+    outline += 3;
+    fprintf(code_file, "\n#define YYPURE %d\n\n", pure_parser);
+}
+
+static void
 output_stype(void)
 {
     if (!unionized && ntags == 0)
@@ -1206,7 +1222,8 @@ output(void)
     free_itemsets();
     free_shifts();
     free_reductions();
-    output_prefix();
+    output_prefix(output_file);
+    write_section(xdecls);
     output_stored_text();
     output_defines();
     output_rule_data();
@@ -1216,10 +1233,24 @@ output(void)
     output_debug();
     output_stype();
     if (rflag)
+    {
+	output_prefix(code_file);
+	write_section(xdecls);
 	write_section(tables);
-    write_section(header);
+    }
+    write_section(hdr_defs);
+    output_pure_parser();
+    if (!pure_parser)
+    {
+	write_section(hdr_vars);
+    }
     output_trailing_text();
-    write_section(body);
+    write_section(body_1);
+    if (pure_parser)
+    {
+	write_section(body_vars);
+    }
+    write_section(body_2);
     output_semantic_actions();
     write_section(trailer);
 }

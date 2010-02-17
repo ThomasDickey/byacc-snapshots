@@ -1,3 +1,58 @@
+2010-02-16  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* yacc.1: document -P and bison-extensions
+
+	* output.c: implement %pure-parser
+
+	* skeleton.c:
+	implement %pure-parser, like bison.  To help with this, changed the stack
+	variables, putting them into a struct.
+
+	* reader.c: implement %pure-parser
+
+	* defs.h: modified skeleton to support %pure-parser feature
+
+	* main.c: add -P option to set %pure-parser
+
+	* output.c:
+	make -r and -p options work together.  The -r option splits the generated
+	parser into code/table files; for this case we cannot use static data.
+	Also, we have to repeat the #define's used for prefix (-p) as well as the
+	redeclaration of yyparse().  Finally, allow any of the prefixed names to
+	be overridden, e.g., by passing a -D option to the compiler.  Make that
+	a little more readable by putting a blank line before each chunk.
+
+	* defs.h: add definitions for %pure-parser
+
+	* skeleton.c:
+	put blank line before/after the redeclaration of yyparse()
+
+	* output.c: allow for other program redefining yylex()
+
+	* skeleton.c:
+	split-off xdecls[] array, to move declaration of yyparse() after #define's
+
+	* defs.h: split-out xdecls[]
+
+	* VERSION: bump
+
+	* configure: regen
+
+	* aclocal.m4: add CF_REMOVE_DEFINE, needed by CF_ADD_CFLAGS
+
+	* aclocal.m4:
+	resync with my-autoconf CF_ADD_CFLAGS and CF_DISABLE_ECHO changes.
+
+2010-02-16  Ostap.Cherkashi
+
+	* skeleton.c: fix a memory leak in the generated skeleton
+
+2009-12-31  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: update to 2009-12-30
+
+	* config.sub: update to 2009-12-31
+
 2009-10-27  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: 20091027

@@ -1,7 +1,8 @@
-.\" $Id: yacc.1,v 1.6 2005/05/04 22:11:56 tom Exp $
+.\" $Id: yacc.1,v 1.7 2010/02/17 02:01:24 tom Exp $
 .\"
-.TH YACC 1 "July\ 15,\ 1990"
-.UC 6
+.\" .TH YACC 1 "July\ 15,\ 1990"
+.\" .UC 6
+.TH YACC 1 "February 16, 2010" "Berkeley Yacc" "User Commands"
 .SH NAME
 Yacc \- an LALR(1) parser generator
 .SH SYNOPSIS
@@ -23,7 +24,6 @@ normally writes the parse tables and the driver routine to the file
 .IR y.tab.c.
 .PP
 The following options are available:
-.RS
 .TP
 \fB\-b \fP\fIfile_prefix\fR
 The
@@ -75,6 +75,9 @@ the string denoted by
 The default prefix is the string
 .IR yy.
 .TP
+.B \-P
+create a reentrant parser, e.g., "%pure-parser".
+.TP
 .B \-r
 The
 .B \-r
@@ -102,7 +105,25 @@ be written to the file
 .TP
 .B \-V
 print the version number to the standard output.
-.RE
+.SH EXTENSIONS
+.B yacc
+provides some extensions for compatibility with bison and other implementations
+of yacc:
+.TP
+\fB %expect\fP \fInumber\fP
+tell \fByacc\fP the expected number of shift/reduce conflicts.
+That makes it only report the number if it differs.
+.TP
+\fB %expect-rr\fP \fInumber\fP
+tell \fByacc\fP the expected number of reduce/reduce conflicts.
+That makes it only report the number if it differs.
+This is (unlike bison) allowable in LALR parsers.
+.TP
+\fB %pure-parser\fP
+Most variables (other than \fByydebug\fP and \fByynerrs\fP) are
+allocated on the stack within \fByyparse\fP, making the parser reasonably
+reentrant.
+.
 .SH DIAGNOSTICS
 If there are rules that are never reduced, the number of such rules is
 reported on standard error.

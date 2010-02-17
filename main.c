@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.23 2009/10/27 09:06:44 tom Exp $ */
+/* $Id: main.c,v 1.24 2010/02/17 00:43:08 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -58,6 +58,7 @@ Value_t *symbol_value;
 short *symbol_prec;
 char *symbol_assoc;
 
+int pure_parser;
 int exit_code;
 
 Value_t *ritem;
@@ -190,6 +191,10 @@ setflag(int ch)
 
     case 'l':
 	lflag = 1;
+	break;
+
+    case 'P':
+	pure_parser = 1;
 	break;
 
     case 'r':

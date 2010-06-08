@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.23 2010/02/17 00:48:59 tom Exp $ */
+/* $Id: defs.h,v 1.25 2010/06/06 23:11:50 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -64,6 +64,8 @@
 #define	DOUBLE_QUOTE	'\"'	/*  double quote  */
 #define	BACKSLASH	'\\'	/*  backslash  */
 
+#define UCH(c)          (unsigned char)(c)
+
 /* defines for constructing filenames */
 
 #if defined(VMS)
@@ -122,12 +124,12 @@
 
 /*  storage allocation macros  */
 
-#define CALLOC(k,n)	(calloc((unsigned)(k),(unsigned)(n)))
+#define CALLOC(k,n)	(calloc((size_t)(k),(size_t)(n)))
 #define	FREE(x)		(free((char*)(x)))
-#define MALLOC(n)	(malloc((unsigned)(n)))
+#define MALLOC(n)	(malloc((size_t)(n)))
 #define	NEW(t)		((t*)allocate(sizeof(t)))
-#define	NEW2(n,t)	((t*)allocate(((unsigned)(n)*sizeof(t))))
-#define REALLOC(p,n)	(realloc((char*)(p),(unsigned)(n)))
+#define	NEW2(n,t)	((t*)allocate(((size_t)(n)*sizeof(t))))
+#define REALLOC(p,n)	(realloc((char*)(p),(size_t)(n)))
 
 #define DO_FREE(x)	if (x) { FREE(x); x = 0; }
 
@@ -323,7 +325,7 @@ extern bucket *make_bucket(const char *);
 #endif
 
 /* closure.c */
-extern void closure(Value_t *nucleus, int n);
+extern void closure(Value_t * nucleus, int n);
 extern void finalize_closure(void);
 extern void set_first_derives(void);
 
@@ -381,7 +383,7 @@ extern void show_rrhs(void);
 extern void show_shifts(void);
 
 /* main.c */
-extern char *allocate(unsigned n);
+extern char *allocate(size_t n);
 extern void done(int k) GCC_NORETURN;
 
 /* mkpar.c */

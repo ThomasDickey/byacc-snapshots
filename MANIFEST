@@ -1,7 +1,8 @@
-MANIFEST for byacc, version t20100216
+MANIFEST for byacc, version t20100606
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
+AUTHORS                         nicknames for some contributors (see CHANGES for details)
 Makefile.old                    renamed from Makefile
 NEW_FEATURES                    original version of byacc - 1993
 NOTES                           original version of byacc - 1993
@@ -24,7 +25,6 @@ lalr.c                          original version of byacc - 1993
 lr0.c                           original version of byacc - 1993
 main.c                          original version of byacc - 1993
 makefile.in                     template for makefile
-mkdirs.sh                       script to make directories
 mkpar.c                         original version of byacc - 1993
 output.c                        original version of byacc - 1993
 reader.c                        original version of byacc - 1993
@@ -34,6 +34,26 @@ verbose.c                       original version of byacc - 1993
 vmsbuild.com                    build-script for VMS
 warshall.c                      original version of byacc - 1993
 yacc.1                          original version of byacc - 1993
+package                         subdirectory
+package/byacc.spec              RPM file for byacc
+package/debian                  subdirectory
+package/debian/changelog        scripts from Debian package
+package/debian/compat           scripts from Debian package
+package/debian/control          scripts from Debian package
+package/debian/copyright        scripts from Debian package
+package/debian/docs             scripts from Debian package
+package/debian/postinst         scripts from Debian package
+package/debian/prerm            scripts from Debian package
+package/debian/rules            scripts from Debian package
+package/debian/source           subdirectory
+package/debian/source/format    scripts from Debian package
+package/debian                  subdirectory
+package/debian/watch            scripts from Debian package
+package/pkgsrc                  subdirectory
+package/pkgsrc/DESCR            scripts from NetBSD pkgsrc, for test-builds
+package/pkgsrc/Makefile         scripts from NetBSD pkgsrc, for test-builds
+package/pkgsrc/PLIST            scripts from NetBSD pkgsrc, for test-builds
+package/pkgsrc/distinfo         scripts from NetBSD pkgsrc, for test-builds
 test                            subdirectory
 test/README                     describe contents of "test" subdirectory
 test/calc.output                "-v" output from byacc

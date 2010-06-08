@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.19 2010/02/17 01:41:35 tom Exp $ */
+/* $Id: reader.c,v 1.20 2010/06/06 23:13:10 tom Exp $ */
 
 #include "defs.h"
 
@@ -816,10 +816,10 @@ is_reserved(char *name)
 	strcmp(name, "$end") == 0)
 	return (1);
 
-    if (name[0] == '$' && name[1] == '$' && isdigit(name[2]))
+    if (name[0] == '$' && name[1] == '$' && isdigit(UCH(name[2])))
     {
 	s = name + 3;
-	while (isdigit(*s))
+	while (isdigit(UCH(*s)))
 	    ++s;
 	if (*s == NUL)
 	    return (1);
@@ -1359,7 +1359,7 @@ add_symbol(void)
 static char *
 after_blanks(char *s)
 {
-    while (*s != '\0' && isspace(*s))
+    while (*s != '\0' && isspace(UCH(*s)))
 	++s;
     return s;
 }
@@ -1428,7 +1428,7 @@ copy_action(void)
 		FREE(d_line);
 		goto loop;
 	    }
-	    else if (c == '-' && isdigit(cptr[1]))
+	    else if (c == '-' && isdigit(UCH(cptr[1])))
 	    {
 		++cptr;
 		i = -get_number() - n;
@@ -1453,7 +1453,7 @@ copy_action(void)
 	    cptr += 2;
 	    goto loop;
 	}
-	else if (isdigit(cptr[1]))
+	else if (isdigit(UCH(cptr[1])))
 	{
 	    ++cptr;
 	    i = get_number();

@@ -1,3 +1,81 @@
+2010-06-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: add "-P" to usage message
+
+	* reader.c: use UCH() macro to hide casts.
+
+2010-06-07  Andres.Mejia
+
+	* main.c, output.c, reader.c, defs.h, skeleton.c:
+	Fix the output order of the generated parse code file.  This allows for
+	the use of YYPARSE_PARAM, by having the output that checks for
+	YYPARSE_PARAM to be defined come after the C code block in the
+	definitions section of a yacc file.
+
+	Implement support for YYLEX_PARAM, similar to bison.  This is useful for
+	support for building reentrant lexers with flex.
+
+	Fix a compatibility issue with bison's pure-parser option.  Bison
+	defines yylex as sending at least one parameter, &yylval, as the first
+	parameter and doesn't seem to have an easy way to remove that parameter.
+	This on the other hand is rather convenient to support saving to yylval
+	from flex when building reentrant lexers and parsers.
+
+	Add support for the %parse-param and %lex-param directives used in
+	bison.  This change bears some similarity to NetBSD's changes to byacc
+	at http://www.mail-archive.com/source-changes-full@netbsd.org/msg08143.html
+
+	Bison allows for POSIX yacc emulation via a yacc directive in the yacc
+	file, and also via a command line switch.  Implement this feature as a
+	no-op for byacc, since byacc is designed to be POSIX yacc compatible
+	anyway.  This allows for better compatibility with yacc sources written
+	for bison.
+
+2010-06-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump to 2010/06/07
+
+2010-06-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* skeleton.c:
+	move #include's down into the generated code, to allow user-defined code
+	to override feature definitions, particularly with stdlib.h (request by
+	Marcus Kool).
+
+	* lr0.c, error.c, reader.c, defs.h:
+	strict gcc 3.4.6 warnings on 64-bit platform
+
+	* aclocal.m4, configure.in: add check for lint
+
+	* makefile.in: add lint rule
+
+	* defs.h, closure.c, lr0.c, warshall.c, main.c:
+	fix gcc warnings, mostly for 64-bit platform
+
+	* aclocal.m4:
+	add macros for checking ctags/etags, e.g., to work with NetBSD pkgsrc
+
+	* makefile.in: add etags/TAGS if available
+
+	* configure.in: add configure check for actual ctags and etags programs
+
+	* makefile.in: drop mkdirs.sh, just use "mkdir -p"
+
+	* AUTHORS: nicknames for some contributors (see CHANGES for details)
+
+	* VERSION: bump to 2010/06/06
+
+	* aclocal.m4: add copyright notice, from "my-autoconf" macros
+		http://invisible-island.net/autoconf/autoconf.html
+
+	* aclocal.m4: resync with my-autoconf.  summary of changes:
+		a) CF_ADD_CFLAGS, etc., improve quoting of ifelse() parameter
+		b) CF_DISABLE_ECHO, change indent-convention for substituted makefile
+		c) CF_GCC_VERSION, ignore stderr
+		d) CF_GCC_WARNINGS, adjust options to work with c89 wrapper of gcc
+
 2010-02-16  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* yacc.1: document -P and bison-extensions

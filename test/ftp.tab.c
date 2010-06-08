@@ -2,9 +2,6 @@
 static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
@@ -158,7 +155,7 @@ char	cbuf[512];
 char	*fromname;
 
 char	*index();
-#line 162 "ftp.tab.c"
+#line 159 "ftp.tab.c"
 #define A 257
 #define B 258
 #define C 259
@@ -462,10 +459,6 @@ static const char *yyrule[] = {
 #ifndef YYSTYPE
 typedef int YYSTYPE;
 #endif
-#if YYDEBUG
-#include <stdio.h>
-#endif
-
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -1026,7 +1019,15 @@ char *filename;
 		reply(504, "SIZE not implemented for Type %c.", "?AEIL"[type]);
 	}
 }
-#line 1030 "ftp.tab.c"
+#line 1023 "ftp.tab.c"
+
+#if YYDEBUG
+#include <stdio.h>		/* needed for printf */
+#endif
+
+#include <stdlib.h>	/* needed for malloc, etc */
+#include <string.h>	/* needed for memset */
+
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(YYSTACKDATA *data)
 {
@@ -1049,7 +1050,7 @@ static int yygrowstack(YYSTACKDATA *data)
     if (newss == 0)
         return -1;
 
-    data->s_base  = newss;
+    data->s_base = newss;
     data->s_mark = newss + i;
 
     newvs = (data->l_base != 0)
@@ -1867,7 +1868,7 @@ case 73:
 		}
 	}
 break;
-#line 1871 "ftp.tab.c"
+#line 1872 "ftp.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

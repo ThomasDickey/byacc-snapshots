@@ -1,4 +1,4 @@
-/* $Id: error.c,v 1.6 2008/11/24 21:30:35 tom Exp $ */
+/* $Id: error.c,v 1.7 2010/06/06 23:13:17 tom Exp $ */
 
 /* routines for printing error messages  */
 
@@ -42,7 +42,7 @@ print_pos(char *st_line, char *st_cptr)
 	return;
     for (s = st_line; *s != '\n'; ++s)
     {
-	if (isprint(*s) || *s == '\t')
+	if (isprint(UCH(*s)) || *s == '\t')
 	    putc(*s, stderr);
 	else
 	    putc('?', stderr);

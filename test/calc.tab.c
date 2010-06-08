@@ -2,9 +2,6 @@
 static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #endif
 
-#include <stdlib.h>
-#include <string.h>
-
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
@@ -117,7 +114,7 @@ extern int YYPARSE_DECL();
 int regs[26];
 int base;
 
-#line 121 "calc.tab.c"
+#line 118 "calc.tab.c"
 #define DIGIT 257
 #define LETTER 258
 #define UMINUS 259
@@ -246,10 +243,6 @@ static const char *yyrule[] = {
 #ifndef YYSTYPE
 typedef int YYSTYPE;
 #endif
-#if YYDEBUG
-#include <stdio.h>
-#endif
-
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -324,7 +317,15 @@ yylex() {   /* lexical analysis routine */
          }
       return( c );
       }
-#line 328 "calc.tab.c"
+#line 321 "calc.tab.c"
+
+#if YYDEBUG
+#include <stdio.h>		/* needed for printf */
+#endif
+
+#include <stdlib.h>	/* needed for malloc, etc */
+#include <string.h>	/* needed for memset */
+
 /* allocate initial stack or double stack size, up to YYMAXDEPTH */
 static int yygrowstack(YYSTACKDATA *data)
 {
@@ -347,7 +348,7 @@ static int yygrowstack(YYSTACKDATA *data)
     if (newss == 0)
         return -1;
 
-    data->s_base  = newss;
+    data->s_base = newss;
     data->s_mark = newss + i;
 
     newvs = (data->l_base != 0)
@@ -586,7 +587,7 @@ case 18:
 #line 60 "calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 590 "calc.tab.c"
+#line 591 "calc.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.24 2010/02/17 00:43:08 tom Exp $ */
+/* $Id: main.c,v 1.25 2010/06/06 22:42:17 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -299,7 +299,7 @@ getargs(int argc, char *argv[])
 }
 
 char *
-allocate(unsigned n)
+allocate(size_t n)
 {
     char *p;
 

@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.9 2009/10/27 09:20:39 tom Exp $ */
+/* $Id: lr0.c,v 1.11 2010/06/06 23:14:25 tom Exp $ */
 
 #include "defs.h"
 
@@ -171,7 +171,7 @@ get_state(int symbol)
 
     isp1 = kernel_base[symbol];
     iend = kernel_end[symbol];
-    n = iend - isp1;
+    n = (int)(iend - isp1);
 
     key = *isp1;
     assert(0 <= key && key < nitems);
@@ -299,7 +299,7 @@ new_state(int symbol)
     iend = kernel_end[symbol];
     n = (unsigned)(iend - isp1);
 
-    p = (core *)allocate((unsigned)(sizeof(core) + (n - 1) * sizeof(short)));
+    p = (core *)allocate((sizeof(core) + (n - 1) * sizeof(short)));
     p->accessing_symbol = (Value_t) symbol;
     p->number = (Value_t) nstates;
     p->nitems = (Value_t) n;
@@ -403,8 +403,8 @@ save_shifts(void)
     short *sp2;
     short *send;
 
-    p = (shifts *)allocate((unsigned)(sizeof(shifts) +
-				        (unsigned)(nshifts - 1) * sizeof(short)));
+    p = (shifts *)allocate((sizeof(shifts) +
+			      (unsigned)(nshifts - 1) * sizeof(short)));
 
     p->number = this_state->number;
     p->nshifts = (Value_t) nshifts;
@@ -451,9 +451,9 @@ save_reductions(void)
 
     if (count)
     {
-	p = (reductions *)allocate((unsigned)(sizeof(reductions) +
-					        (unsigned)(count - 1) *
-					      sizeof(short)));
+	p = (reductions *)allocate((sizeof(reductions) +
+				      (unsigned)(count - 1) *
+				    sizeof(short)));
 
 	p->number = this_state->number;
 	p->nreds = count;

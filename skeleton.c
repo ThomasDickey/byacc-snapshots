@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.23 2010/02/17 01:44:23 tom Exp $ */
+/* $Id: skeleton.c,v 1.24 2010/06/07 00:17:44 tom Exp $ */
 
 #include "defs.h"
 
@@ -19,9 +19,6 @@ const char *banner[] =
     "#ifndef lint",
     "static const char yysccsid[] = \"@(#)yaccpar	1.9 (Berkeley) 02/21/93\";",
     "#endif",
-    "",
-    "#include <stdlib.h>",
-    "#include <string.h>",
     "",
     "#define YYBYACC 1",
     CONCAT1("#define YYMAJOR ", YYMAJOR),
@@ -79,10 +76,6 @@ const char *tables[] =
 
 const char *hdr_defs[] =
 {
-    "#if YYDEBUG",
-    "#include <stdio.h>",
-    "#endif",
-    "",
     "/* define the initial stack-sizes */",
     "#ifdef YYSTACKSIZE",
     "#undef YYMAXDEPTH",
@@ -138,6 +131,14 @@ const char *body_vars[] =
 
 const char *body_1[] =
 {
+    "",
+    "#if YYDEBUG",
+    "#include <stdio.h>		/* needed for printf */",
+    "#endif",
+    "",
+    "#include <stdlib.h>	/* needed for malloc, etc */",
+    "#include <string.h>	/* needed for memset */",
+    "",
     "/* allocate initial stack or double stack size, up to YYMAXDEPTH */",
     "static int yygrowstack(YYSTACKDATA *data)",
     "{",
@@ -160,7 +161,7 @@ const char *body_1[] =
     "    if (newss == 0)",
     "        return -1;",
     "",
-    "    data->s_base  = newss;",
+    "    data->s_base = newss;",
     "    data->s_mark = newss + i;",
     "",
     "    newvs = (data->l_base != 0)",

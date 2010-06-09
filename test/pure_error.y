@@ -12,9 +12,9 @@ main(void)
 }
 
 int
-yylex(void)
+yylex(YYSTYPE *value)
 {
-    return -1;
+    return value ? 0 : -1;
 }
 
 static void

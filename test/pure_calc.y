@@ -78,7 +78,8 @@ yyerror(const char *s)
 }
 
 int
-yylex(void) {
+yylex(YYSTYPE *value)
+{
 	/* lexical analysis routine */
 	/* returns LETTER for a lower case letter, yylval = 0 through 25 */
 	/* return DIGIT for a digit, yylval = 0 through 9 */
@@ -91,11 +92,11 @@ yylex(void) {
     /* c is now nonblank */
 
     if( islower( c )) {
-	yylval = c - 'a';
+	*value = c - 'a';
 	return ( LETTER );
     }
     if( isdigit( c )) {
-	yylval = c - '0';
+	*value = c - '0';
 	return ( DIGIT );
     }
     return( c );

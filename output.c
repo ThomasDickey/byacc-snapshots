@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.24 2010/02/17 01:48:22 tom Exp $ */
+/* $Id: output.c,v 1.27 2010/06/09 00:53:08 tom Exp $ */
 
 #include "defs.h"
 
@@ -1099,8 +1099,9 @@ output_stype(void)
 {
     if (!unionized && ntags == 0)
     {
-	outline += 3;
-	fprintf(code_file, "#ifndef YYSTYPE\ntypedef int YYSTYPE;\n#endif\n");
+	outline += 5;
+	fprintf(code_file,
+		"\n#ifndef YYSTYPE\ntypedef int YYSTYPE;\n#endif\n\n");
     }
 }
 
@@ -1178,6 +1179,122 @@ output_semantic_actions(void)
 }
 
 static void
+output_parse_decl(void)
+{
+    ++outline;
+    fprintf(code_file, "/* compatibility with bison */\n");
+    ++outline;
+    fprintf(code_file, "#ifdef YYPARSE_PARAM\n");
+    ++outline;
+    fprintf(code_file, "/* compatibility with FreeBSD */\n");
+    ++outline;
+    fprintf(code_file, "# ifdef YYPARSE_PARAM_TYPE\n");
+    ++outline;
+    fprintf(code_file, "#  define YYPARSE_DECL() "
+	    "yyparse(YYPARSE_PARAM_TYPE YYPARSE_PARAM)\n");
+    ++outline;
+    fprintf(code_file, "# else\n");
+    ++outline;
+    fprintf(code_file, "#  define YYPARSE_DECL() "
+	    "yyparse(void *YYPARSE_PARAM)\n");
+    ++outline;
+    fprintf(code_file, "# endif\n");
+    ++outline;
+    fprintf(code_file, "#else\n");
+    ++outline;
+    fprintf(code_file, "# define YYPARSE_DECL() yyparse(");
+    if (!parse_param)
+	fprintf(code_file, "void");
+    else
+    {
+	param *p;
+	for (p = parse_param; p; p = p->next)
+	    fprintf(code_file, "%s %s%s", p->type, p->name,
+		    p->next ? ", " : "");
+    }
+    fprintf(code_file, ")\n");
+    outline += 2;
+    fprintf(code_file, "#endif\n\n");
+}
+
+static void
+output_lex_decl(void)
+{
+    ++outline;
+    fprintf(code_file, "/* Parameters sent to lex. */\n");
+    ++outline;
+    fprintf(code_file, "#ifdef YYLEX_PARAM\n");
+    if (pure_parser)
+    {
+	++outline;
+	fprintf(code_file, "# define YYLEX_DECL() yylex(YYSTYPE *yylval, "
+		"void *YYLEX_PARAM)\n");
+	++outline;
+	fprintf(code_file, "# define YYLEX yylex(&yylval, YYLEX_PARAM)\n");
+    }
+    else
+    {
+	++outline;
+	fprintf(code_file,
+		"# define YYLEX_DECL() yylex(void *YYLEX_PARAM)\n");
+	++outline;
+	fprintf(code_file, "# define YYLEX yylex(YYLEX_PARAM)\n");
+    }
+    ++outline;
+    fprintf(code_file, "#else\n");
+    if (pure_parser && lex_param)
+    {
+	param *p;
+	fprintf(code_file, "# define YYLEX_DECL() yylex(YYSTYPE *yylval, ");
+	for (p = lex_param; p; p = p->next)
+	    fprintf(code_file, "%s %s%s", p->type, p->name,
+		    p->next ? ", " : "");
+	++outline;
+	fprintf(code_file, ")\n");
+
+	fprintf(code_file, "# define YYLEX yylex(&yylval, ");
+	for (p = lex_param; p; p = p->next)
+	    fprintf(code_file, "%s%s", p->name, p->next ? ", " : "");
+	++outline;
+	fprintf(code_file, ")\n");
+    }
+    else if (pure_parser)
+    {
+	++outline;
+	fprintf(code_file, "# define YYLEX_DECL() yylex(YYSTYPE *yylval)\n");
+
+	++outline;
+	fprintf(code_file, "# define YYLEX yylex(&yylval)\n");
+    }
+    else if (lex_param)
+    {
+	param *p;
+	fprintf(code_file, "# define YYLEX_DECL() yylex(");
+	for (p = lex_param; p; p = p->next)
+	    fprintf(code_file, "%s %s%s", p->type, p->name,
+		    p->next ? ", " : "");
+	++outline;
+	fprintf(code_file, ")\n");
+
+	fprintf(code_file, "# define YYLEX yylex(");
+	for (p = lex_param; p; p = p->next)
+	    fprintf(code_file, "%s%s", p->name, p->next ? ", " : "");
+	++outline;
+	fprintf(code_file, ")\n");
+    }
+    else
+    {
+	++outline;
+	fprintf(code_file, "# define YYLEX_DECL() yylex(void)\n");
+
+	++outline;
+	fprintf(code_file, "# define YYLEX yylex()\n");
+    }
+    outline += 2;
+    fprintf(code_file, "#endif\n\n");
+}
+
+static void
 free_itemsets(void)
 {
     core *cp, *next;
@@ -1223,15 +1340,18 @@ output(void)
     free_shifts();
     free_reductions();
     output_prefix(output_file);
-    write_section(xdecls);
+    output_pure_parser();
     output_stored_text();
+    output_stype();
+    output_parse_decl();
+    output_lex_decl();
+    write_section(xdecls);
     output_defines();
     output_rule_data();
     output_yydefred();
     output_actions();
     free_parser();
     output_debug();
-    output_stype();
     if (rflag)
     {
 	output_prefix(code_file);
@@ -1239,7 +1359,6 @@ output(void)
 	write_section(tables);
     }
     write_section(hdr_defs);
-    output_pure_parser();
     if (!pure_parser)
     {
 	write_section(hdr_vars);

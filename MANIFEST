@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20100606
+MANIFEST for byacc, version t20100608
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -60,6 +60,16 @@ test/calc.output                "-v" output from byacc
 test/calc.tab.c                 c-file for calc.y
 test/calc.tab.h                 header-file for calc.y
 test/calc.y                     example from VMS freeware version of byacc
+test/code_calc.code.c           reference output for testing
+test/code_calc.output           reference output for testing
+test/code_calc.tab.c            reference output for testing
+test/code_calc.tab.h            reference output for testing
+test/code_calc.y                reference input for testing
+test/code_error.code.c          reference output for testing
+test/code_error.output          reference output for testing
+test/code_error.tab.c           reference output for testing
+test/code_error.tab.h           reference output for testing
+test/code_error.y               reference input for testing
 test/error.output               original version of byacc - 1993
 test/error.tab.c                original version of byacc - 1993
 test/error.tab.h                original version of byacc - 1993
@@ -72,4 +82,14 @@ test/grammar.output             "-v" output from grammar.y
 test/grammar.tab.c              c-file for grammar.y
 test/grammar.tab.h              h-file for grammar.y
 test/grammar.y                  grammar from cproto
+test/pure_calc.output           reference output for testing
+test/pure_calc.tab.c            reference output for testing
+test/pure_calc.tab.h            reference output for testing
+test/pure_calc.y                reference input for testing
+test/pure_error.output          reference output for testing
+test/pure_error.tab.c           reference output for testing
+test/pure_error.tab.h           reference output for testing
+test/pure_error.y               reference input for testing
+test/run_lint.sh                run lint, using the build-directory's makefile, on each ".c" file in test-directory
+test/run_make.sh                do a test-compile of each ".c" file in the test-directory
 test/run_test.sh                test-script for byacc

@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.24 2010/06/07 00:17:44 tom Exp $ */
+/* $Id: skeleton.c,v 1.25 2010/06/07 21:24:58 Andres.Mejia Exp $ */
 
 #include "defs.h"
 
@@ -37,20 +37,8 @@ const char *banner[] =
 
 const char *xdecls[] =
 {
-    "",
-    "/* compatibility with bison */",
-    "#ifdef YYPARSE_PARAM",
-    "/* compatibility with FreeBSD */",
-    "#ifdef YYPARSE_PARAM_TYPE",
-    "#define YYPARSE_DECL() yyparse(YYPARSE_PARAM_TYPE YYPARSE_PARAM)",
-    "#else",
-    "#define YYPARSE_DECL() yyparse(void *YYPARSE_PARAM)",
-    "#endif",
-    "#else",
-    "#define YYPARSE_DECL() yyparse(void)",
-    "#endif /* YYPARSE_PARAM */",
-    "",
     "extern int YYPARSE_DECL();",
+    "extern int YYLEX_DECL();",
     "",
     0
 };
@@ -233,7 +221,7 @@ const char *body_2[] =
     "    if ((yyn = yydefred[yystate]) != 0) goto yyreduce;",
     "    if (yychar < 0)",
     "    {",
-    "        if ((yychar = yylex()) < 0) yychar = 0;",
+    "        if ((yychar = YYLEX) < 0) yychar = 0;",
     "#if YYDEBUG",
     "        if (yydebug)",
     "        {",
@@ -369,7 +357,7 @@ const char *trailer[] =
     "        *++yystack.l_mark = yyval;",
     "        if (yychar < 0)",
     "        {",
-    "            if ((yychar = yylex()) < 0) yychar = 0;",
+    "            if ((yychar = YYLEX) < 0) yychar = 0;",
     "#if YYDEBUG",
     "            if (yydebug)",
     "            {",

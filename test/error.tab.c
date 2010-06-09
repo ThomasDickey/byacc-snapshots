@@ -93,19 +93,36 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #endif /* yyrule */
 #define YYPREFIX "error_"
 
+#define YYPURE 0
+
+
+#ifndef YYSTYPE
+typedef int YYSTYPE;
+#endif
+
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
 /* compatibility with FreeBSD */
-#ifdef YYPARSE_PARAM_TYPE
-#define YYPARSE_DECL() yyparse(YYPARSE_PARAM_TYPE YYPARSE_PARAM)
+# ifdef YYPARSE_PARAM_TYPE
+#  define YYPARSE_DECL() yyparse(YYPARSE_PARAM_TYPE YYPARSE_PARAM)
+# else
+#  define YYPARSE_DECL() yyparse(void *YYPARSE_PARAM)
+# endif
 #else
-#define YYPARSE_DECL() yyparse(void *YYPARSE_PARAM)
+# define YYPARSE_DECL() yyparse(void)
 #endif
+
+/* Parameters sent to lex. */
+#ifdef YYLEX_PARAM
+# define YYLEX_DECL() yylex(void *YYLEX_PARAM)
+# define YYLEX yylex(YYLEX_PARAM)
 #else
-#define YYPARSE_DECL() yyparse(void)
-#endif /* YYPARSE_PARAM */
+# define YYLEX_DECL() yylex(void)
+# define YYLEX yylex()
+#endif
 
 extern int YYPARSE_DECL();
+extern int YYLEX_DECL();
 
 #define YYERRCODE 256
 static const short error_lhs[] = {                       -1,
@@ -148,9 +165,6 @@ static const char *yyrule[] = {
 
 };
 #endif
-#ifndef YYSTYPE
-typedef int YYSTYPE;
-#endif
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -177,9 +191,6 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-
-#define YYPURE 0
-
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
@@ -188,10 +199,28 @@ YYSTYPE  yylval;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
 #line 4 "error.y"
-main(){printf("yyparse() = %d\n",yyparse());}
-yylex(){return-1;}
-yyerror(s)char*s;{printf("%s\n",s);}
-#line 195 "error.tab.c"
+
+#include <stdio.h>
+
+int
+main(void)
+{
+    printf("yyparse() = %d\n", yyparse());
+    return 0;
+}
+
+int
+yylex(void)
+{
+    return -1;
+}
+
+static void
+yyerror(const char* s)
+{
+    printf("%s\n", s);
+}
+#line 224 "error.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -289,7 +318,7 @@ yyloop:
     if ((yyn = yydefred[yystate]) != 0) goto yyreduce;
     if (yychar < 0)
     {
-        if ((yychar = yylex()) < 0) yychar = 0;
+        if ((yychar = YYLEX) < 0) yychar = 0;
 #if YYDEBUG
         if (yydebug)
         {
@@ -418,7 +447,7 @@ yyreduce:
         *++yystack.l_mark = yyval;
         if (yychar < 0)
         {
-            if ((yychar = yylex()) < 0) yychar = 0;
+            if ((yychar = YYLEX) < 0) yychar = 0;
 #if YYDEBUG
             if (yydebug)
             {

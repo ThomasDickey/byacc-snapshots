@@ -1,3 +1,18 @@
+2010-06-08  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c: fix to build with c89, etc.
+
+	* reader.c: gcc warning
+
+	* output.c:
+	move call for output_stype() earlier since it is used in pure-parser declarations
+
+	* yacc.1: document %lex-param and %parse-param
+
+	* makefile.in:
+	add check_make and check_lint rules to help validate the generated files
+	in the test-directory
+
 2010-06-07  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c: add "-P" to usage message

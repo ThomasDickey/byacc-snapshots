@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.25 2010/06/06 22:42:17 tom Exp $ */
+/* $Id: main.c,v 1.27 2010/06/07 23:44:36 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -161,6 +161,7 @@ usage(void)
 	,"  -l                    suppress #line directives"
 	,"  -o output_file        (default \"y.tab.c\")"
 	,"  -p symbol_prefix      set symbol prefix (default \"yy\")"
+	,"  -P                    create a reentrant parser, e.g., \"%pure-parser\""
 	,"  -r                    produce separate code and table files (y.code.c)"
 	,"  -t                    add debugging support"
 	,"  -v                    write description (y.output)"
@@ -212,6 +213,11 @@ setflag(int ch)
     case 'V':
 	printf("%s - %s\n", myname, VERSION);
 	exit(EXIT_SUCCESS);
+
+    case 'y':
+	/* noop for bison compatibility. byacc is already designed to be posix
+	 * yacc compatible. */
+	break;
 
     default:
 	usage();

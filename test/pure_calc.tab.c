@@ -93,16 +93,16 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #endif /* yyrule */
 #define YYPREFIX "calc_"
 
-#define YYPURE 0
+#define YYPURE 1
 
-#line 2 "calc.y"
+#line 2 "pure_calc.y"
 # include <stdio.h>
 # include <ctype.h>
 
 int regs[26];
 int base;
 
-#line 106 "calc.tab.c"
+#line 106 "pure_calc.tab.c"
 
 #ifndef YYSTYPE
 typedef int YYSTYPE;
@@ -122,11 +122,11 @@ typedef int YYSTYPE;
 
 /* Parameters sent to lex. */
 #ifdef YYLEX_PARAM
-# define YYLEX_DECL() yylex(void *YYLEX_PARAM)
-# define YYLEX yylex(YYLEX_PARAM)
+# define YYLEX_DECL() yylex(YYSTYPE *yylval, void *YYLEX_PARAM)
+# define YYLEX yylex(&yylval, YYLEX_PARAM)
 #else
-# define YYLEX_DECL() yylex(void)
-# define YYLEX yylex()
+# define YYLEX_DECL() yylex(YYSTYPE *yylval)
+# define YYLEX yylex(&yylval)
 #endif
 
 extern int YYPARSE_DECL();
@@ -283,14 +283,7 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-int      yyerrflag;
-int      yychar;
-YYSTYPE  yyval;
-YYSTYPE  yylval;
-
-/* variables for the parser stack */
-static YYSTACKDATA yystack;
-#line 63 "calc.y"
+#line 63 "pure_calc.y"
  /* start of programs */
 
 int
@@ -309,7 +302,8 @@ yyerror(const char *s)
 }
 
 int
-yylex(void) {
+yylex(YYSTYPE *value)
+{
 	/* lexical analysis routine */
 	/* returns LETTER for a lower case letter, yylval = 0 through 25 */
 	/* return DIGIT for a digit, yylval = 0 through 9 */
@@ -322,16 +316,16 @@ yylex(void) {
     /* c is now nonblank */
 
     if( islower( c )) {
-	yylval = c - 'a';
+	*value = c - 'a';
 	return ( LETTER );
     }
     if( isdigit( c )) {
-	yylval = c - '0';
+	*value = c - '0';
 	return ( DIGIT );
     }
     return( c );
 }
-#line 335 "calc.tab.c"
+#line 329 "pure_calc.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -398,6 +392,13 @@ static void yyfreestack(YYSTACKDATA *data)
 int
 YYPARSE_DECL()
 {
+    int      yyerrflag;
+    int      yychar;
+    YYSTYPE  yyval;
+    YYSTYPE  yylval;
+
+    /* variables for the parser stack */
+    YYSTACKDATA yystack;
     int yym, yyn, yystate;
 #if YYDEBUG
     const char *yys;
@@ -542,66 +543,66 @@ yyreduce:
     switch (yyn)
     {
 case 3:
-#line 25 "calc.y"
+#line 25 "pure_calc.y"
 	{  yyerrok ; }
 break;
 case 4:
-#line 29 "calc.y"
+#line 29 "pure_calc.y"
 	{  printf("%d\n",yystack.l_mark[0]);}
 break;
 case 5:
-#line 31 "calc.y"
+#line 31 "pure_calc.y"
 	{  regs[yystack.l_mark[-2]] = yystack.l_mark[0]; }
 break;
 case 6:
-#line 35 "calc.y"
+#line 35 "pure_calc.y"
 	{  yyval = yystack.l_mark[-1]; }
 break;
 case 7:
-#line 37 "calc.y"
+#line 37 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] + yystack.l_mark[0]; }
 break;
 case 8:
-#line 39 "calc.y"
+#line 39 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] - yystack.l_mark[0]; }
 break;
 case 9:
-#line 41 "calc.y"
+#line 41 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] * yystack.l_mark[0]; }
 break;
 case 10:
-#line 43 "calc.y"
+#line 43 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] / yystack.l_mark[0]; }
 break;
 case 11:
-#line 45 "calc.y"
+#line 45 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] % yystack.l_mark[0]; }
 break;
 case 12:
-#line 47 "calc.y"
+#line 47 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] & yystack.l_mark[0]; }
 break;
 case 13:
-#line 49 "calc.y"
+#line 49 "pure_calc.y"
 	{  yyval = yystack.l_mark[-2] | yystack.l_mark[0]; }
 break;
 case 14:
-#line 51 "calc.y"
+#line 51 "pure_calc.y"
 	{  yyval = - yystack.l_mark[0]; }
 break;
 case 15:
-#line 53 "calc.y"
+#line 53 "pure_calc.y"
 	{  yyval = regs[yystack.l_mark[0]]; }
 break;
 case 17:
-#line 58 "calc.y"
+#line 58 "pure_calc.y"
 	{  yyval = yystack.l_mark[0]; base = (yystack.l_mark[0]==0) ? 8 : 10; }
 break;
 case 18:
-#line 60 "calc.y"
+#line 60 "pure_calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 605 "calc.tab.c"
+#line 606 "pure_calc.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

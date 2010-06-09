@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.25 2010/06/06 23:11:50 tom Exp $ */
+/* $Id: defs.h,v 1.26 2010/06/07 21:24:58 Andres.Mejia Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -95,6 +95,9 @@
 #define EXPECT 10
 #define EXPECT_RR 11
 #define PURE_PARSER 12
+#define PARSE_PARAM 13
+#define LEX_PARAM 14
+#define POSIX_YACC 15
 
 /*  symbol classes  */
 
@@ -206,6 +209,15 @@ struct action
     char suppressed;
 };
 
+/*  the structure used to store parse/lex parameters  */
+typedef struct param param;
+struct param
+{
+    struct param *next;
+    char *name;
+    char *type;
+};
+
 /* global variables */
 
 extern char dflag;
@@ -222,6 +234,7 @@ extern char *line;
 extern int lineno;
 extern int outline;
 extern int exit_code;
+extern int pure_parser;
 
 extern const char *banner[];
 extern const char *xdecls[];
@@ -310,6 +323,9 @@ extern Value_t final_state;
 extern Value_t *itemset;
 extern Value_t *itemsetend;
 extern unsigned *ruleset;
+
+extern param *lex_param;
+extern param *parse_param;
 
 /* global functions */
 

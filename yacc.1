@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.7 2010/02/17 02:01:24 tom Exp $
+.\" $Id: yacc.1,v 1.8 2010/06/08 09:23:27 tom Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -118,6 +118,14 @@ That makes it only report the number if it differs.
 tell \fByacc\fP the expected number of reduce/reduce conflicts.
 That makes it only report the number if it differs.
 This is (unlike bison) allowable in LALR parsers.
+.TP
+\fB %lex-param\fP { \fIargument-declaration\fP }
+By default, the lexer accepts no parameters, e.g., \fByylex()\fP.
+Use this directive to add parameter declarations for your customized lexer.
+.TP
+\fB %parse-param\fP { \fIargument-declaration\fP }
+By default, the parser accepts no parameters, e.g., \fByyparse()\fP. 
+Use this directive to add parameter declarations for your customized parser.
 .TP
 \fB %pure-parser\fP
 Most variables (other than \fByydebug\fP and \fByynerrs\fP) are

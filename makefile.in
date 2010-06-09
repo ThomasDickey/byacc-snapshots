@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.14 2010/06/06 22:52:10 tom Exp $
+# $Id: makefile.in,v 1.15 2010/06/08 08:47:15 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -34,6 +34,8 @@ exec_prefix	= @exec_prefix@
 bindir		= $(DESTDIR)@bindir@
 mandir		= $(DESTDIR)@mandir@/man1
 manext		= 1
+
+testdir		= $(srcdir)/test
 
 x		= @EXEEXT@
 o		= .@OBJEXT@
@@ -120,7 +122,13 @@ realclean: distclean
 	- rm -f tags TAGS
 
 check:	$(THIS)$x
-	cd test && $(SHELL) ./run_test.sh
+	$(SHELL) $(testdir)/run_test.sh $(testdir)
+
+check_make:
+	$(SHELL) $(testdir)/run_make.sh $(testdir)
+
+check_lint:
+	$(SHELL) $(testdir)/run_lint.sh $(testdir)
 
 tags: $(H_FILES) $(C_FILES) 
 	$(CTAGS) $(C_FILES) $(H_FILES)

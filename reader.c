@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.20 2010/06/06 23:13:10 tom Exp $ */
+/* $Id: reader.c,v 1.23 2010/06/09 00:53:08 tom Exp $ */
 
 #include "defs.h"
 
@@ -41,6 +41,9 @@ static size_t name_pool_size;
 static char *name_pool;
 
 char line_format[] = "#line %d \"%s\"\n";
+
+param *lex_param;
+param *parse_param;
 
 static void
 cachec(int c)
@@ -276,6 +279,12 @@ keyword(void)
 	    return (EXPECT_RR);
 	if (strcmp(cache, "pure-parser") == 0)
 	    return (PURE_PARSER);
+	if (strcmp(cache, "parse-param") == 0)
+	    return (PARSE_PARAM);
+	if (strcmp(cache, "lex-param") == 0)
+	    return (LEX_PARAM);
+	if (strcmp(cache, "yacc") == 0)
+	    return (POSIX_YACC);
     }
     else
     {
@@ -615,6 +624,92 @@ copy_union(void)
     }
 }
 
+/*
+ * Keep a linked list of parameters
+ */
+static void
+copy_param(int k)
+{
+    char *buf;
+    int c;
+    param *head, *p;
+    int i;
+
+    c = nextc();
+    if (c == EOF)
+	unexpected_EOF();
+    if (c != '{')
+	goto out;
+    cptr++;
+
+    c = nextc();
+    if (c == EOF)
+	unexpected_EOF();
+    if (c == '}')
+	goto out;
+
+    buf = MALLOC(linesize);
+    if (buf == NULL)
+	goto nospace;
+
+    for (i = 0; (c = *cptr++) != '}'; i++)
+    {
+	if (c == EOF)
+	    unexpected_EOF();
+	buf[i] = (char)c;
+    }
+
+    if (i == 0)
+	goto out;
+
+    buf[i--] = '\0';
+    while (i >= 0 && isspace(UCH(buf[i])))
+	buf[i--] = '\0';
+    while (i >= 0 && (isalnum(UCH(buf[i])) ||
+		      UCH(buf[i]) == '_'))
+	i--;
+
+    if (!isspace(UCH(buf[i])) && buf[i] != '*')
+	goto out;
+
+    p = MALLOC(sizeof(*p));
+    if (p == NULL)
+	goto nospace;
+
+    p->name = strdup(buf + i + 1);
+    if (p->name == NULL)
+	goto nospace;
+
+    buf[i + 1] = '\0';
+    p->type = buf;
+
+    if (k == LEX_PARAM)
+	head = lex_param;
+    else
+	head = parse_param;
+
+    if (head != NULL)
+    {
+	while (head->next)
+	    head = head->next;
+	head->next = p;
+    }
+    else
+    {
+	if (k == LEX_PARAM)
+	    lex_param = p;
+	else
+	    parse_param = p;
+    }
+    p->next = NULL;
+    return;
+
+  out:
+    syntax_error(lineno, line, cptr);
+  nospace:
+    no_space();
+}
+
 static int
 hexval(int c)
 {
@@ -748,7 +843,7 @@ get_literal(void)
 
     for (i = 0; i < n; ++i)
     {
-	c = ((unsigned char *)s)[i];
+	c = UCH(s[i]);
 	if (c == '\\' || c == cache[0])
 	{
 	    cachec('\\');
@@ -800,7 +895,7 @@ get_literal(void)
     bp = lookup(cache);
     bp->class = TERM;
     if (n == 1 && bp->value == UNDEFINED)
-	bp->value = *(unsigned char *)s;
+	bp->value = UCH(*s);
     FREE(s);
 
     return (bp);
@@ -1141,6 +1236,16 @@ read_declarations(void)
 
 	case PURE_PARSER:
 	    pure_parser = 1;
+	    break;
+
+	case PARSE_PARAM:
+	case LEX_PARAM:
+	    copy_param(k);
+	    break;
+
+	case POSIX_YACC:
+	    /* noop for bison compatibility. byacc is already designed to be posix
+	     * yacc compatible. */
 	    break;
 	}
     }

@@ -1,4 +1,4 @@
-/* $Id: closure.c,v 1.8 2010/06/06 22:48:51 tom Exp $ */
+/* $Id: closure.c,v 1.9 2010/06/09 08:21:47 tom Exp $ */
 
 #include "defs.h"
 
@@ -89,7 +89,6 @@ set_first_derives(void)
 	    }
 	}
 
-	vrow += varsetsize;
 	rrow += rulesetsize;
     }
 
@@ -117,7 +116,6 @@ closure(short *nucleus, int n)
     Value_t itemno;
 
     rulesetsize = WORDSIZE(nrules);
-    rsp = ruleset;
     rsend = ruleset + rulesetsize;
     for (rsp = ruleset; rsp < rsend; rsp++)
 	*rsp = 0;

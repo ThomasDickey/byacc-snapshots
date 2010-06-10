@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.27 2010/06/09 00:53:08 tom Exp $ */
+/* $Id: output.c,v 1.29 2010/06/09 21:25:18 tom Exp $ */
 
 #include "defs.h"
 
@@ -532,12 +532,13 @@ pack_vector(int vector)
 		    newmax += 200;
 		}
 		while (newmax <= loc);
+
 		table = (Value_t *) REALLOC(table, (unsigned)newmax * sizeof(Value_t));
-		if (table == 0)
-		    no_space();
+		NO_SPACE(table);
+
 		check = (Value_t *) REALLOC(check, (unsigned)newmax * sizeof(Value_t));
-		if (check == 0)
-		    no_space();
+		NO_SPACE(check);
+
 		for (l = maxtable; l < newmax; ++l)
 		{
 		    table[l] = 0;
@@ -897,8 +898,7 @@ output_debug(void)
     fprintf(code_file, "#define YYMAXTOKEN %d\n", max);
 
     symnam = (const char **)MALLOC((unsigned)(max + 1) * sizeof(char *));
-    if (symnam == 0)
-	no_space();
+    NO_SPACE(symnam);
 
     /* Note that it is  not necessary to initialize the element         */
     /* symnam[max].                                                     */
@@ -1209,7 +1209,7 @@ output_parse_decl(void)
     {
 	param *p;
 	for (p = parse_param; p; p = p->next)
-	    fprintf(code_file, "%s %s%s", p->type, p->name,
+	    fprintf(code_file, "%s %s%s%s", p->type, p->name, p->type2,
 		    p->next ? ", " : "");
     }
     fprintf(code_file, ")\n");
@@ -1247,7 +1247,7 @@ output_lex_decl(void)
 	param *p;
 	fprintf(code_file, "# define YYLEX_DECL() yylex(YYSTYPE *yylval, ");
 	for (p = lex_param; p; p = p->next)
-	    fprintf(code_file, "%s %s%s", p->type, p->name,
+	    fprintf(code_file, "%s %s%s%s", p->type, p->name, p->type2,
 		    p->next ? ", " : "");
 	++outline;
 	fprintf(code_file, ")\n");
@@ -1271,7 +1271,7 @@ output_lex_decl(void)
 	param *p;
 	fprintf(code_file, "# define YYLEX_DECL() yylex(");
 	for (p = lex_param; p; p = p->next)
-	    fprintf(code_file, "%s %s%s", p->type, p->name,
+	    fprintf(code_file, "%s %s%s%s", p->type, p->name, p->type2,
 		    p->next ? ", " : "");
 	++outline;
 	fprintf(code_file, ")\n");

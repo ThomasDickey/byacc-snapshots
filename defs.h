@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.26 2010/06/07 21:24:58 Andres.Mejia Exp $ */
+/* $Id: defs.h,v 1.28 2010/06/10 00:09:42 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -136,6 +136,8 @@
 
 #define DO_FREE(x)	if (x) { FREE(x); x = 0; }
 
+#define NO_SPACE(p)	if (p == 0) no_space(); assert(p != 0)
+
 /* messages */
 #define PLURAL(n) ((n) > 1 ? "s" : "")
 
@@ -214,8 +216,9 @@ typedef struct param param;
 struct param
 {
     struct param *next;
-    char *name;
-    char *type;
+    char *name;		/* parameter name */
+    char *type;		/* everything before parameter name */
+    char *type2;	/* everything after parameter name */
 };
 
 /* global variables */

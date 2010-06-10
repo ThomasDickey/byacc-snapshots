@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.15 2010/06/08 08:47:15 tom Exp $
+# $Id: makefile.in,v 1.16 2010/06/09 09:46:37 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -98,29 +98,61 @@ uninstall:
 	- rm -f $(bindir)/$(actual_bin)
 	- rm -f $(mandir)/$(actual_man)
 
+################################################################################
+.SUFFIXES : $o .i .html .$(manext) .cat .ps .pdf .txt
+
 .c$o:
 	@RULE_CC@
 	@ECHO_CC@$(CC) -c $(CFLAGS) $<
 
+.c.i :
+	@RULE_CC@
+	@ECHO_CC@$(CPP) -C $(CPPFLAGS) $*.c >$@
+
+.$(manext).cat :
+	- nroff -man $(srcdir)/$(THIS).$(manext) >$@
+
+.$(manext).html :
+	GROFF_NO_SGR=stupid $(SHELL) -c "tbl $*.$(manext) | groff -Thtml -man" >$@
+
+.$(manext).ps :
+	$(SHELL) -c "tbl $*.$(manext) | groff -man" >$@
+
+.$(manext).txt :
+	GROFF_NO_SGR=stupid $(SHELL) -c "tbl $*.$(manext) | nroff -Tascii -man | col -bx" >$@
+
+.ps.pdf :
+	ps2pdf $*.ps
+
+################################################################################
+
 $(THIS)$x : $(OBJS)
 	@ECHO_LD@$(CC) $(LDFLAGS) $(CFLAGS) -o $@ $(OBJS) $(LIBS)
 
-$(THIS).man : $(THIS).1
-	- nroff -man $(srcdir)/$(THIS).1 >$@
-
 mostlyclean :
-	- rm -f core .nfs* *$o *.bak *.BAK *.man *.out
+	- rm -f core .nfs* *$o *.bak *.BAK *.out
 
 clean : mostlyclean
 	- rm -f $(THIS)$x
 
 distclean : clean
 	- rm -f config.log config.cache config.status config.h makefile
+	- rm -f *.html *.cat *.pdf *.ps *.txt
 	- cd test && rm -f test-*
 
 realclean: distclean
 	- rm -f tags TAGS
 
+################################################################################
+docs :: $(THIS).html \
+	$(THIS).pdf \
+	$(THIS).ps \
+	$(THIS).txt
+$(THIS).html : $(THIS).$(manext)
+$(THIS).pdf : $(THIS).ps
+$(THIS).ps : $(THIS).$(manext)
+$(THIS).txt : $(THIS).$(manext)
+################################################################################
 check:	$(THIS)$x
 	$(SHELL) $(testdir)/run_test.sh $(testdir)
 
@@ -129,7 +161,7 @@ check_make:
 
 check_lint:
 	$(SHELL) $(testdir)/run_lint.sh $(testdir)
-
+################################################################################
 tags: $(H_FILES) $(C_FILES) 
 	$(CTAGS) $(C_FILES) $(H_FILES)
 

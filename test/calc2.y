@@ -1,9 +1,11 @@
+%parse-param { int regs[26] }
+%parse-param { int *base }
+
+%lex-param { int *base }
+
 %{
 # include <stdio.h>
 # include <ctype.h>
-
-int regs[26];
-int base;
 
 %}
 
@@ -55,9 +57,9 @@ expr  :  '(' expr ')'
       ;
 
 number:  DIGIT
-         {  $$ = $1; base = ($1==0) ? 8 : 10; }
+         {  $$ = $1; (*base) = ($1==0) ? 8 : 10; }
       |  number DIGIT
-         {  $$ = base * $1 + $2; }
+         {  $$ = (*base) * $1 + $2; }
       ;
 
 %% /* start of programs */
@@ -65,8 +67,11 @@ number:  DIGIT
 int
 main (void)
 {
+    int regs[26];
+    int base;
+
     while(!feof(stdin)) {
-	yyparse();
+	yyparse(regs, &base);
     }
     return 0;
 }
@@ -78,7 +83,7 @@ yyerror(const char *s)
 }
 
 int
-yylex(void)
+yylex(int *base)
 {
 	/* lexical analysis routine */
 	/* returns LETTER for a lower case letter, yylval = 0 through 25 */
@@ -96,7 +101,7 @@ yylex(void)
 	return ( LETTER );
     }
     if( isdigit( c )) {
-	yylval = c - '0';
+	yylval = (c - '0') % (*base);
 	return ( DIGIT );
     }
     return( c );

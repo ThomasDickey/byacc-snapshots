@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.27 2010/06/07 23:44:36 tom Exp $ */
+/* $Id: main.c,v 1.29 2010/06/10 00:39:13 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -120,6 +120,9 @@ done(int k)
     output_leaks();
     reader_leaks();
 #endif
+
+    if (rflag)
+	DO_CLOSE(code_file);
 
     exit(k);
 }
@@ -313,16 +316,14 @@ allocate(size_t n)
     if (n)
     {
 	p = CALLOC(1, n);
-	if (!p)
-	    no_space();
+	NO_SPACE(p);
     }
     return (p);
 }
 
 #define CREATE_FILE_NAME(dest, suffix) \
 	dest = MALLOC(len + strlen(suffix) + 1); \
-	if (dest == 0) \
-	    no_space(); \
+	NO_SPACE(dest); \
 	strcpy(dest, file_prefix); \
 	strcpy(dest + len, suffix)
 
@@ -348,8 +349,7 @@ create_file_names(void)
     {
 	len = (size_t) (prefix - output_file_name);
 	file_prefix = (char *)MALLOC(len + 1);
-	if (file_prefix == 0)
-	    no_space();
+	NO_SPACE(file_prefix);
 	strncpy(file_prefix, output_file_name, len)[len] = 0;
     }
     else

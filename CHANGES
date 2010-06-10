@@ -1,3 +1,25 @@
+2010-06-09  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: free declarations in leak-testing code.
+
+	* main.c: close code_file if -r option used, for leak-testing
+
+	* defs.h, reader.c, output.c:
+	improve %lex-param / %parse-param implementation by allowing for arrays to
+	be passed as parameters, e.g., "int regs[26]".
+
+	* makefile.in: add docs-rule, for html/pdf/txt form of manpage
+
+	* configure: regen
+
+	* aclocal.m4: add CF_XOPEN_SOURCE, etc.
+
+	* configure.in:
+	use CF_XOPEN_SOURCE check to ensure that strdup is in scope, e.g., for c89
+
+	* reader.c, symtab.c, verbose.c, lr0.c, main.c, mkpar.c, output.c, defs.h, closure.c:
+	fix warnings from clang --analyze
+
 2010-06-08  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* output.c: fix to build with c89, etc.

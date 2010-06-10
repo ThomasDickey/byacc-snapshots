@@ -44,6 +44,7 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 extern	struct sockaddr_in data_dest;
 extern	int logged_in;
@@ -792,7 +793,7 @@ get_line(char *s, int n, FILE *iop)
 	for (c = 0; tmpline[c] != '\0' && --n > 0; ++c) {
 		*cs++ = tmpline[c];
 		if (tmpline[c] == '\n') {
-			*cs++ = '\0';
+			*cs = '\0';
 			if (debug)
 				syslog(LOG_DEBUG, "command: %s", s);
 			tmpline[0] = '\0';
@@ -832,7 +833,7 @@ get_line(char *s, int n, FILE *iop)
 	}
 	if (c == EOF && cs == s)
 		return (0);
-	*cs++ = '\0';
+	*cs = '\0';
 	if (debug)
 		syslog(LOG_DEBUG, "command: %s", s);
 	return (s);
@@ -1094,7 +1095,8 @@ copy(const char *s)
 	p = malloc((unsigned) strlen(s) + 1);
 	if (p == 0)
 		fatal("Ran out of memory.");
-	(void) strcpy(p, s);
+	else
+		(void) strcpy(p, s);
 	return (p);
 }
 
@@ -1132,6 +1134,7 @@ help(struct tab *ctab, char *s)
 			printf("   ");
 			for (j = 0; j < columns; j++) {
 				c = ctab + j * lines + i;
+				assert(c->name != 0);
 				printf("%s%c", c->name,
 					c->implemented ? ' ' : '*');
 				if (c + lines >= &ctab[NCMDS])

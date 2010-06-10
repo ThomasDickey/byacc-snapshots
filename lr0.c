@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.11 2010/06/06 23:14:25 tom Exp $ */
+/* $Id: lr0.c,v 1.12 2010/06/09 08:53:17 tom Exp $ */
 
 #include "defs.h"
 
@@ -228,8 +228,7 @@ initialize_states(void)
 	continue;
 
     p = (core *)MALLOC(sizeof(core) + i * sizeof(short));
-    if (p == 0)
-	no_space();
+    NO_SPACE(p);
 
     p->next = 0;
     p->link = 0;
@@ -540,8 +539,7 @@ set_nullable(void)
     int done_flag;
 
     nullable = MALLOC(nsyms);
-    if (nullable == 0)
-	no_space();
+    NO_SPACE(nullable);
 
     for (i = 0; i < nsyms; ++i)
 	nullable[i] = 0;

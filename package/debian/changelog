@@ -1,8 +1,8 @@
-byacc (20100606) unstable; urgency=low
+byacc (20100610) unstable; urgency=low
 
   * Add package scripts to upstream source, for test-builds.
 
- -- Thomas E. Dickey <dickey@invisible-island.net>  Sun, 06 Jun 2010 09:10:02 -0400
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Thu, 10 Jun 2010 08:59:11 -0400
 
 byacc (20100216-1) unstable; urgency=low
 

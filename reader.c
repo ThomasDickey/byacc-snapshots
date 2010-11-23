@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.26 2010/06/10 00:44:38 tom Exp $ */
+/* $Id: reader.c,v 1.27 2010/11/22 19:19:17 tom Exp $ */
 
 #include "defs.h"
 
@@ -468,6 +468,22 @@ copy_text(void)
 }
 
 static void
+puts_both(const char *s)
+{
+    fputs(s, text_file);
+    if (dflag)
+	fputs(s, union_file);
+}
+
+static void
+putc_both(int c)
+{
+    putc(c, text_file);
+    if (dflag)
+	putc(c, union_file);
+}
+
+static void
 copy_union(void)
 {
     int c;
@@ -484,16 +500,12 @@ copy_union(void)
     if (!lflag)
 	fprintf(text_file, line_format, lineno, input_file_name);
 
-    fprintf(text_file, "typedef union");
-    if (dflag)
-	fprintf(union_file, "typedef union");
+    puts_both("typedef union");
 
     depth = 0;
   loop:
     c = *cptr++;
-    putc(c, text_file);
-    if (dflag)
-	putc(c, union_file);
+    putc_both(c);
     switch (c)
     {
     case '\n':
@@ -510,7 +522,7 @@ copy_union(void)
     case R_CURL:
 	if (--depth == 0)
 	{
-	    fprintf(text_file, " YYSTYPE;\n");
+	    puts_both(" YYSTYPE;\n");
 	    FREE(u_line);
 	    return;
 	}
@@ -527,9 +539,7 @@ copy_union(void)
 	    for (;;)
 	    {
 		c = *cptr++;
-		putc(c, text_file);
-		if (dflag)
-		    putc(c, union_file);
+		putc_both(c);
 		if (c == quote)
 		{
 		    FREE(s_line);
@@ -540,9 +550,7 @@ copy_union(void)
 		if (c == '\\')
 		{
 		    c = *cptr++;
-		    putc(c, text_file);
-		    if (dflag)
-			putc(c, union_file);
+		    putc_both(c);
 		    if (c == '\n')
 		    {
 			get_line();
@@ -557,27 +565,19 @@ copy_union(void)
 	c = *cptr;
 	if (c == '/')
 	{
-	    putc('*', text_file);
-	    if (dflag)
-		putc('*', union_file);
+	    putc_both('*');
 	    while ((c = *++cptr) != '\n')
 	    {
 		if (c == '*' && cptr[1] == '/')
 		{
-		    fprintf(text_file, "* ");
-		    if (dflag)
-			fprintf(union_file, "* ");
+		    puts_both("* ");
 		}
 		else
 		{
-		    putc(c, text_file);
-		    if (dflag)
-			putc(c, union_file);
+		    putc_both(c);
 		}
 	    }
-	    fprintf(text_file, "*/\n");
-	    if (dflag)
-		fprintf(union_file, "*/\n");
+	    puts_both("*/\n");
 	    goto next_line;
 	}
 	if (c == '*')
@@ -586,21 +586,15 @@ copy_union(void)
 	    char *c_line = dup_line();
 	    char *c_cptr = c_line + (cptr - line - 1);
 
-	    putc('*', text_file);
-	    if (dflag)
-		putc('*', union_file);
+	    putc_both('*');
 	    ++cptr;
 	    for (;;)
 	    {
 		c = *cptr++;
-		putc(c, text_file);
-		if (dflag)
-		    putc(c, union_file);
+		putc_both(c);
 		if (c == '*' && *cptr == '/')
 		{
-		    putc('/', text_file);
-		    if (dflag)
-			putc('/', union_file);
+		    putc_both('/');
 		    ++cptr;
 		    FREE(c_line);
 		    goto loop;

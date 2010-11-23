@@ -67,7 +67,7 @@ extern  char tmpline[];
 extern char **glob(char *);
 extern char *renamefrom(char *);
 extern void cwd(const char *);
-extern void delete(const char *);
+
 extern void dologout(int);
 extern void fatal(const char *);
 extern void makedir(const char *);
@@ -94,7 +94,7 @@ static	int cmd_bytesz;
 char	cbuf[512];
 char	*fromname;
 
-extern char *index(const char *, int);
+
 
 static char * copy(const char *);
 
@@ -284,7 +284,7 @@ cmd:		USER SP username CRLF
 	|	DELE check_login SP pathname CRLF
 		= {
 			if ($2 && $4 != 0)
-				delete((char *) $4);
+				remove((char *) $4);
 			if ($4 != 0)
 				free((char *) $4);
 		}
@@ -880,7 +880,7 @@ yylex(void)
 			if (strncasecmp(cbuf, "PASS", 4) != 0)
 				setproctitle("%s: %s", proctitle, cbuf);
 #endif /* SETPROCTITLE */
-			if ((cp = index(cbuf, '\r'))) {
+			if ((cp = strchr(cbuf, '\r'))) {
 				*cp++ = '\n';
 				*cp = '\0';
 			}
@@ -1092,7 +1092,7 @@ copy(const char *s)
 {
 	char *p;
 
-	p = malloc((unsigned) strlen(s) + 1);
+	p = (char * )malloc(strlen(s) + 1);
 	if (p == 0)
 		fatal("Ran out of memory.");
 	else

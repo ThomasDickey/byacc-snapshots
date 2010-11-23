@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20100610
+MANIFEST for byacc, version t20101122
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -60,6 +60,10 @@ test/calc.output                "-v" output from byacc
 test/calc.tab.c                 c-file for calc.y
 test/calc.tab.h                 header-file for calc.y
 test/calc.y                     example from VMS freeware version of byacc
+test/calc1.output               output from calc1.y
+test/calc1.tab.c                output from calc1.y
+test/calc1.tab.h                output from calc1.y
+test/calc1.y                    advanced example from Steve Johnson's paper.
 test/calc2.output               test-cases and reference files for %lex-param / %parse-param
 test/calc2.tab.c                test-cases and reference files for %lex-param / %parse-param
 test/calc2.tab.h                test-cases and reference files for %lex-param / %parse-param

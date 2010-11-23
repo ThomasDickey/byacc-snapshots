@@ -1,3 +1,9 @@
+byacc (20101122) unstable; urgency=low
+
+  * fix for generated header to avoid symbol conflict
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Mon, 22 Nov 2010 08:21:23 -0500
+
 byacc (20100610) unstable; urgency=low
 
   * Add package scripts to upstream source, for test-builds.

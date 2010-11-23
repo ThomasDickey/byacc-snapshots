@@ -1,10 +1,10 @@
-/* $Id: grammar.y,v 1.2 2010/06/08 22:31:28 tom Exp $
+/* $Id: grammar.y,v 1.3 2010/11/23 01:28:47 tom Exp $
  *
  * yacc grammar for C function prototype generator
  * This was derived from the grammar in Appendix A of
  * "The C Programming Language" by Kernighan and Ritchie.
  */
-
+%expect 1
 %token <text> '(' '*' '&'
 	/* identifiers that are not reserved words */
 	T_IDENTIFIER T_TYPEDEF_NAME T_DEFINE_NAME

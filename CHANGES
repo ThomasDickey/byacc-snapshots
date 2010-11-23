@@ -1,3 +1,28 @@
+2010-11-22  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c:
+	add ifdef to guard against redefinition of YYSTYPE union (request by Clifford Yapp).
+
+	* output.c: compensate for fix in reader.c
+
+	* reader.c:
+	add/use putc_both() and puts_both(), incidentally fixing a place where
+	a union copied to the union_file may be missing the end of the last line.
+
+	* VERSION: bump
+
+2010-09-28  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: update to 2010-09-24
+
+2010-09-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2010-09-11
+
+2010-06-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* yacc.1, VERSION: bump to 2010/06/10
+
 2010-06-09  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* reader.c: free declarations in leak-testing code.

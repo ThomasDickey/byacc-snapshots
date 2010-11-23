@@ -68,7 +68,7 @@ int
 main (void)
 {
     int regs[26];
-    int base;
+    int base = 10;
 
     while(!feof(stdin)) {
 	yyparse(regs, &base);

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.29 2010/06/09 21:25:18 tom Exp $ */
+/* $Id: output.c,v 1.31 2010/11/23 01:45:45 tom Exp $ */
 
 #include "defs.h"
 
@@ -841,9 +841,13 @@ output_defines(void)
     if (dflag && unionized)
     {
 	rewind(union_file);
+	fprintf(defines_file,
+		"#if !(defined(YYSTYPE) || defined(YYSTYPE_IS_DECLARED))\n");
 	while ((c = getc(union_file)) != EOF)
 	    putc(c, defines_file);
-	fprintf(defines_file, " YYSTYPE;\nextern YYSTYPE %slval;\n",
+	fprintf(defines_file,
+		"#endif /* !(YYSTYPE || YYSTYPE_IS_DECLARED) */\n");
+	fprintf(defines_file, "extern YYSTYPE %slval;\n",
 		symbol_prefix);
     }
 }

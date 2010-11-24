@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.27 2010/11/22 19:19:17 tom Exp $ */
+/* $Id: reader.c,v 1.28 2010/11/24 14:49:38 tom Exp $ */
 
 #include "defs.h"
 
@@ -1403,6 +1403,10 @@ end_rule(void)
 		continue;
 	    if (pitem[i + 1] == 0 || pitem[i + 1]->tag != plhs[nrules]->tag)
 		default_action_warning();
+	}
+	else
+	{
+	    default_action_warning();
 	}
     }
 

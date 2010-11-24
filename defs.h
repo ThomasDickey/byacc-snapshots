@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.28 2010/06/10 00:09:42 tom Exp $ */
+/* $Id: defs.h,v 1.29 2010/11/24 15:13:25 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -250,11 +250,7 @@ extern const char *body_2[];
 extern const char *trailer[];
 
 extern char *code_file_name;
-extern char *defines_file_name;
 extern char *input_file_name;
-extern char *output_file_name;
-extern char *verbose_file_name;
-extern char *graph_file_name;
 
 extern FILE *action_file;
 extern FILE *code_file;
@@ -360,7 +356,6 @@ extern void no_space(void);
 extern void open_error(const char *filename);
 extern void over_unionized(char *u_cptr);
 extern void prec_redeclared(void);
-extern void print_pos(char *st_line, char *st_cptr);
 extern void reprec_warning(char *s);
 extern void restarted_warning(void);
 extern void retyped_warning(char *s);
@@ -386,7 +381,6 @@ extern void used_reserved(char *s);
 extern void graph(void);
 
 /* lalr.c */
-extern int hash(const char *name);
 extern void create_symbol_table(void);
 extern void free_symbol_table(void);
 extern void free_symbols(void);

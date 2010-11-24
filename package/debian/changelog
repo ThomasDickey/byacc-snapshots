@@ -1,3 +1,9 @@
+byacc (20101124) unstable; urgency=low
+
+  * amend fix for Red Hat #112617 to restore warning message.
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Mon, 22 Nov 2010 08:21:23 -0500
+
 byacc (20101122) unstable; urgency=low
 
   * fix for generated header to avoid symbol conflict

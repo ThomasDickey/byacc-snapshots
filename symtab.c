@@ -1,4 +1,4 @@
-/* $Id: symtab.c,v 1.8 2010/06/09 08:58:29 tom Exp $ */
+/* $Id: symtab.c,v 1.9 2010/11/24 15:12:29 tom Exp $ */
 
 #include "defs.h"
 
@@ -11,7 +11,7 @@ static bucket **symbol_table = 0;
 bucket *first_symbol;
 bucket *last_symbol;
 
-int
+static int
 hash(const char *name)
 {
     const char *s;

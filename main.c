@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.29 2010/06/10 00:39:13 tom Exp $ */
+/* $Id: main.c,v 1.30 2010/11/24 15:13:39 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -8,7 +8,7 @@
 char dflag;
 char gflag;
 char lflag;
-char oflag;
+static char oflag;
 char rflag;
 char tflag;
 char vflag;
@@ -25,11 +25,11 @@ static char default_file_prefix[] = "y";
 static char *file_prefix = default_file_prefix;
 
 char *code_file_name;
-char *defines_file_name;
 char *input_file_name = empty_string;
-char *output_file_name = 0;
-char *verbose_file_name;
-char *graph_file_name;
+static char *defines_file_name;
+static char *graph_file_name;
+static char *output_file_name;
+static char *verbose_file_name;
 
 FILE *action_file;	/*  a temp file, used to save actions associated    */
 			/*  with rules until the parser is written          */

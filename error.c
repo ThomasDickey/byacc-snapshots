@@ -1,4 +1,4 @@
-/* $Id: error.c,v 1.7 2010/06/06 23:13:17 tom Exp $ */
+/* $Id: error.c,v 1.8 2010/11/24 15:10:20 tom Exp $ */
 
 /* routines for printing error messages  */
 
@@ -33,7 +33,7 @@ unexpected_EOF(void)
     done(1);
 }
 
-void
+static void
 print_pos(char *st_line, char *st_cptr)
 {
     char *s;

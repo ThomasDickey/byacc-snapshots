@@ -396,6 +396,10 @@ haveAnsiParam (void)
 # define YYLEX yylex()
 #endif
 
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(const char *s)
+#define YYERROR_CALL(msg) yyerror(msg)
+
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
 
@@ -1064,7 +1068,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1068 "grammar.tab.c"
+#line 1072 "grammar.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -1948,7 +1952,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1952 "grammar.tab.c"
+#line 1956 "grammar.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

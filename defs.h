@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.29 2010/11/24 15:13:25 tom Exp $ */
+/* $Id: defs.h,v 1.30 2010/11/26 15:19:36 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -247,7 +247,9 @@ extern const char *hdr_vars[];
 extern const char *body_1[];
 extern const char *body_vars[];
 extern const char *body_2[];
+extern const char *body_3[];
 extern const char *trailer[];
+extern const char *trailer_2[];
 
 extern char *code_file_name;
 extern char *input_file_name;

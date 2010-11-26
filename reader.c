@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.28 2010/11/24 14:49:38 tom Exp $ */
+/* $Id: reader.c,v 1.31 2010/11/26 12:30:40 tom Exp $ */
 
 #include "defs.h"
 
@@ -227,6 +227,36 @@ nextc(void)
     }
 }
 
+/*
+ * Compare keyword to cached token, treating '_' and '-' the same.  Some
+ * grammars rely upon this misfeature.
+ */
+static int
+matchec(const char *name)
+{
+    const char *p = cache;
+    const char *q = name;
+    int code = 0;	/* assume mismatch */
+
+    while (*p != '\0' && *q != '\0')
+    {
+	char a = *p++;
+	char b = *q++;
+	if (a == '_')
+	    a = '-';
+	if (b == '_')
+	    b = '-';
+	if (a != b)
+	    break;
+	if (*p == '\0' && *q == '\0')
+	{
+	    code = 1;
+	    break;
+	}
+    }
+    return code;
+}
+
 static int
 keyword(void)
 {
@@ -245,41 +275,49 @@ keyword(void)
 		    c = tolower(c);
 		cachec(c);
 	    }
-	    else if (isdigit(c) || c == '-' || c == '_' || c == '.' || c == '$')
+	    else if (isdigit(c)
+		     || c == '-'
+		     || c == '_'
+		     || c == '.'
+		     || c == '$')
+	    {
 		cachec(c);
+	    }
 	    else
+	    {
 		break;
+	    }
 	    c = *++cptr;
 	}
 	cachec(NUL);
 
-	if (strcmp(cache, "token") == 0 || strcmp(cache, "term") == 0)
+	if (matchec("token") || matchec("term"))
 	    return (TOKEN);
-	if (strcmp(cache, "type") == 0)
+	if (matchec("type"))
 	    return (TYPE);
-	if (strcmp(cache, "left") == 0)
+	if (matchec("left"))
 	    return (LEFT);
-	if (strcmp(cache, "right") == 0)
+	if (matchec("right"))
 	    return (RIGHT);
-	if (strcmp(cache, "nonassoc") == 0 || strcmp(cache, "binary") == 0)
+	if (matchec("nonassoc") || matchec("binary"))
 	    return (NONASSOC);
-	if (strcmp(cache, "start") == 0)
+	if (matchec("start"))
 	    return (START);
-	if (strcmp(cache, "union") == 0)
+	if (matchec("union"))
 	    return (UNION);
-	if (strcmp(cache, "ident") == 0)
+	if (matchec("ident"))
 	    return (IDENT);
-	if (strcmp(cache, "expect") == 0)
+	if (matchec("expect"))
 	    return (EXPECT);
-	if (strcmp(cache, "expect-rr") == 0)
+	if (matchec("expect-rr"))
 	    return (EXPECT_RR);
-	if (strcmp(cache, "pure-parser") == 0)
+	if (matchec("pure-parser"))
 	    return (PURE_PARSER);
-	if (strcmp(cache, "parse-param") == 0)
+	if (matchec("parse-param"))
 	    return (PARSE_PARAM);
-	if (strcmp(cache, "lex-param") == 0)
+	if (matchec("lex-param"))
 	    return (LEX_PARAM);
-	if (strcmp(cache, "yacc") == 0)
+	if (matchec("yacc"))
 	    return (POSIX_YACC);
     }
     else
@@ -500,6 +538,12 @@ copy_union(void)
     if (!lflag)
 	fprintf(text_file, line_format, lineno, input_file_name);
 
+    puts_both("#ifdef YYSTYPE\n");
+    puts_both("#undef  YYSTYPE_IS_DECLARED\n");
+    puts_both("#define YYSTYPE_IS_DECLARED 1\n");
+    puts_both("#endif\n");
+    puts_both("#ifndef YYSTYPE_IS_DECLARED\n");
+    puts_both("#define YYSTYPE_IS_DECLARED 1\n");
     puts_both("typedef union");
 
     depth = 0;
@@ -523,6 +567,7 @@ copy_union(void)
 	if (--depth == 0)
 	{
 	    puts_both(" YYSTYPE;\n");
+	    puts_both("#endif /* !YYSTYPE_IS_DECLARED */\n");
 	    FREE(u_line);
 	    return;
 	}

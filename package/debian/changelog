@@ -1,3 +1,9 @@
+byacc (20101126) unstable; urgency=low
+
+  * additional fix to generated code to avoid symbol conflict
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Fri, 26 Nov 2010 04:23:08 -0500
+
 byacc (20101124) unstable; urgency=low
 
   * amend fix for Red Hat #112617 to restore warning message.

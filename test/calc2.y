@@ -77,7 +77,7 @@ main (void)
 }
 
 static void
-yyerror(const char *s)
+YYERROR_DECL()
 {
     fprintf(stderr, "%s\n", s);
 }

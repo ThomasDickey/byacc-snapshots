@@ -129,6 +129,10 @@ typedef int YYSTYPE;
 # define YYLEX yylex()
 #endif
 
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(const char *s)
+#define YYERROR_CALL(msg) yyerror(msg)
+
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
 
@@ -332,7 +336,7 @@ yylex(void)
     }
     return( c );
 }
-#line 336 "calc.tab.c"
+#line 340 "calc.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -602,7 +606,7 @@ case 18:
 #line 60 "calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 606 "calc.tab.c"
+#line 610 "calc.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

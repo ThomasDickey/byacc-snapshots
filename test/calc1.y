@@ -205,7 +205,7 @@ yylex(void)
     {
 	/* gobble up digits, points, exponents */
 	char buf[BSZ + 1], *cp = buf;
-	int dot = 0, exp = 0;
+	int dot = 0, expr = 0;
 
 	for (; (cp - buf) < BSZ; ++cp, c = getchar())
 	{
@@ -215,14 +215,14 @@ yylex(void)
 		continue;
 	    if (c == '.')
 	    {
-		if (dot++ || exp)
+		if (dot++ || expr)
 		    return ('.');	/* will cause syntax error */
 		continue;
 	    }
 
 	    if (c == 'e')
 	    {
-		if (exp++)
+		if (expr++)
 		    return ('e');	/*  will  cause  syntax  error  */
 		continue;
 	    }

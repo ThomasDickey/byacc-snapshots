@@ -121,6 +121,10 @@ typedef int YYSTYPE;
 # define YYLEX yylex()
 #endif
 
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(const char *s)
+#define YYERROR_CALL(msg) yyerror(msg)
+
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
 
@@ -220,7 +224,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 224 "error.tab.c"
+#line 228 "error.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

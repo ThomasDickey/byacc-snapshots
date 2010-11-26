@@ -21,7 +21,7 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 int regs[26];
 int base;
 
-#line 106 "code_calc.code.c"
+#line 25 "code_calc.code.c"
 
 #ifndef YYSTYPE
 typedef int YYSTYPE;
@@ -47,6 +47,10 @@ typedef int YYSTYPE;
 # define YYLEX_DECL() yylex(void)
 # define YYLEX yylex()
 #endif
+
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(const char *s)
+#define YYERROR_CALL(msg) yyerror(msg)
 
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
@@ -233,7 +237,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 318 "code_calc.code.c"
+#line 241 "code_calc.code.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -503,7 +507,7 @@ case 18:
 #line 60 "code_calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 588 "code_calc.code.c"
+#line 511 "code_calc.code.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

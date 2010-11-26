@@ -203,6 +203,10 @@ typedef int YYSTYPE;
 # define YYLEX yylex()
 #endif
 
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(const char *s)
+#define YYERROR_CALL(msg) yyerror(msg)
+
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
 
@@ -1062,7 +1066,7 @@ sizecmd(char *filename)
 		reply(504, "SIZE not implemented for Type %c.", "?AEIL"[type]);
 	}
 }
-#line 1066 "ftp.tab.c"
+#line 1070 "ftp.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -1908,7 +1912,7 @@ case 73:
 		}
 	}
 break;
-#line 1912 "ftp.tab.c"
+#line 1916 "ftp.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

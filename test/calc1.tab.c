@@ -118,13 +118,20 @@ double dreg[26];
 INTERVAL vreg[26];
 
 #line 27 "calc1.y"
+#ifdef YYSTYPE
+#undef  YYSTYPE_IS_DECLARED
+#define YYSTYPE_IS_DECLARED 1
+#endif
+#ifndef YYSTYPE_IS_DECLARED
+#define YYSTYPE_IS_DECLARED 1
 typedef union
 {
 	int ival;
 	double dval;
 	INTERVAL vval;
 } YYSTYPE;
-#line 128 "calc1.tab.c"
+#endif /* !YYSTYPE_IS_DECLARED */
+#line 135 "calc1.tab.c"
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
 /* compatibility with FreeBSD */
@@ -145,6 +152,10 @@ typedef union
 # define YYLEX_DECL() yylex(void)
 # define YYLEX yylex()
 #endif
+
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(const char *s)
+#define YYERROR_CALL(msg) yyerror(msg)
 
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
@@ -368,7 +379,7 @@ yylex(void)
     {
 	/* gobble up digits, points, exponents */
 	char buf[BSZ + 1], *cp = buf;
-	int dot = 0, exp = 0;
+	int dot = 0, expr = 0;
 
 	for (; (cp - buf) < BSZ; ++cp, c = getchar())
 	{
@@ -378,14 +389,14 @@ yylex(void)
 		continue;
 	    if (c == '.')
 	    {
-		if (dot++ || exp)
+		if (dot++ || expr)
 		    return ('.');	/* will cause syntax error */
 		continue;
 	    }
 
 	    if (c == 'e')
 	    {
-		if (exp++)
+		if (expr++)
 		    return ('e');	/*  will  cause  syntax  error  */
 		continue;
 	    }
@@ -462,7 +473,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 466 "calc1.tab.c"
+#line 477 "calc1.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -835,7 +846,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 839 "calc1.tab.c"
+#line 850 "calc1.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

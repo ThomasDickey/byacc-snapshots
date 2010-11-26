@@ -126,6 +126,10 @@ typedef int YYSTYPE;
 # define YYLEX yylex(&yylval, base)
 #endif
 
+/* Parameters sent to yyerror. */
+#define YYERROR_DECL() yyerror(YYSTYPE *v, const char *s)
+#define YYERROR_CALL(msg) yyerror(&yylval, msg)
+
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
 
@@ -296,7 +300,7 @@ main (void)
 }
 
 static void
-yyerror(const char *s)
+YYERROR_DECL()
 {
     fprintf(stderr, "%s\n", s);
 }
@@ -325,7 +329,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 329 "calc3.tab.c"
+#line 333 "calc3.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -469,7 +473,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    yyerror(&yylval, "syntax error");
 
     goto yyerrlab;
 
@@ -602,7 +606,7 @@ case 18:
 #line 64 "calc3.y"
 	{  yyval = (*base) * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 606 "calc3.tab.c"
+#line 610 "calc3.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -654,7 +658,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    yyerror(&yylval, "yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

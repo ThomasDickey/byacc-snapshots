@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.25 2010/06/07 21:24:58 Andres.Mejia Exp $ */
+/* $Id: skeleton.c,v 1.27 2010/11/26 17:24:00 tom Exp $ */
 
 #include "defs.h"
 
@@ -260,7 +260,11 @@ const char *body_2[] =
     "    }",
     "    if (yyerrflag) goto yyinrecovery;",
     "",
-    "    yyerror(\"syntax error\");",
+    0
+};
+
+const char *body_3[] =
+{
     "",
     "    goto yyerrlab;",
     "",
@@ -391,7 +395,11 @@ const char *trailer[] =
     "    goto yyloop;",
     "",
     "yyoverflow:",
-    "    yyerror(\"yacc stack overflow\");",
+    0
+};
+
+const char *trailer_2[] =
+{
     "",
     "yyabort:",
     "    yyfreestack(&yystack);",

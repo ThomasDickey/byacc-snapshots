@@ -1,3 +1,13 @@
+2010-11-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c, defs.h, symtab.c, error.c: reduce global variables
+
+	* VERSION: bump
+
+	* reader.c:
+	amend fix for Redhat #112617 to still call default_action_warning() for
+	empty rules (report by Bruce Cran).
+
 2010-11-22  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* output.c:

@@ -1,3 +1,40 @@
+2010-11-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* skeleton.c: typo
+
+	* output.c:
+	correct line-numbering when "-r" option is used; the 'outline' variable
+	should only be incremented when writing to the code-file.
+
+	* yacc.1: bump date
+
+	* yacc.1: comment on -b option vs -r
+
+	* output.c:
+	improve on YYERROR_DECL(), adding dummy params which can be used for the
+	actual function declaration.  Also add YYERROR_CALL().  The two macros
+	simplify maintaining sets of grammars which may/may not be pure.
+
+	* output.c: generate yyerror() calls in output.c
+	This is for compatibility with bison, which passes the yylval to yyerror
+	when the %parse-param feature is used.
+
+	* skeleton.c, defs.h: generate yyerror() calls in output.c
+
+	* output.c: simplified a little, using putc_code() and putl_code()
+
+	* reader.c:
+	improve ifdef for YYSTYPE union declaration (report by Clifford Yapp)
+
+	* reader.c:
+	accept underscore as a replacement for dash in command names, e.g.,
+	"%pure_parser" vs "%pure-parser".
+
+	* output.c, reader.c:
+	also ifdef YYSTYPE declaration in the generated code (report by Clifford Yapp)
+
+	* VERSION: bump
+
 2010-11-24  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c, defs.h, symtab.c, error.c: reduce global variables

@@ -128,7 +128,7 @@ typedef int YYSTYPE;
 
 /* Parameters sent to yyerror. */
 #define YYERROR_DECL() yyerror(YYSTYPE *v, const char *s)
-#define YYERROR_CALL(msg) yyerror(&yylval, msg)
+#define YYERROR_CALL(msg) yyerror(regs, base, msg)
 
 extern int YYPARSE_DECL();
 extern int YYLEX_DECL();
@@ -473,7 +473,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror(&yylval, "syntax error");
+    yyerror(regs, base, "syntax error");
 
     goto yyerrlab;
 
@@ -658,7 +658,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror(&yylval, "yacc stack overflow");
+    yyerror(regs, base, "yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

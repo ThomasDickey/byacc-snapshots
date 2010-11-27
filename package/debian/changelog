@@ -1,3 +1,9 @@
+byacc (20101127) unstable; urgency=low
+
+  * corrected yyerror use of %parse-param data
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Sat, 27 Nov 2010 12:32:00 -0500
+
 byacc (20101126) unstable; urgency=low
 
   * additional fix to generated code to avoid symbol conflict

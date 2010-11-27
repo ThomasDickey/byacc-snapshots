@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.36 2010/11/26 16:47:40 tom Exp $ */
+/* $Id: output.c,v 1.37 2010/11/27 17:28:29 tom Exp $ */
 
 #include "defs.h"
 
@@ -1299,8 +1299,16 @@ output_error_decl(void)
     putl_code("/* Parameters sent to yyerror. */\n");
     if (parse_param)
     {
+	param *p;
+
 	putl_code("#define YYERROR_DECL() yyerror(YYSTYPE *v, const char *s)\n");
-	putl_code("#define YYERROR_CALL(msg) yyerror(&yylval, msg)\n");
+
+	puts_code("#define YYERROR_CALL(msg) yyerror(");
+
+	for (p = parse_param; p; p = p->next)
+	    fprintf(code_file, "%s, ", p->name);
+
+	putl_code("msg)\n");
     }
     else
     {
@@ -1355,7 +1363,9 @@ output_yyerror_call(const char *msg)
     puts_code("    yyerror(");
     if (parse_param)
     {
-	puts_code("&yylval, ");
+	param *p;
+	for (p = parse_param; p; p = p->next)
+	    fprintf(code_file, "%s, ", p->name);
     }
     puts_code("\"");
     puts_code(msg);

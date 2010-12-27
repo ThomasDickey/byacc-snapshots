@@ -1,3 +1,40 @@
+2010-12-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* defs.h, main.c:
+	change return-type of allocate() to avoid warnings of alignment problems
+
+	* main.c: Solaris declares chmod() in <sys/stat.h>
+
+	* configure: regen
+
+	* main.c: ifdef'd use of fcntl.h
+
+	* configure.in: add configure checks for fcntl.h, atexit and mkstemp
+
+	* main.c: for cases where mkstemp() is not available, use tempnam/open
+
+	* aclocal.m4: add CF_MKSTEMP
+
+	* aclocal.m4:
+	improve quoting, deprecate ${name-value} in favor of standard ${name:-value}
+
+2010-12-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c:
+	start revising use of tmpfile(), to make this work with MinGW.  Start by
+	implementing a mkstemp() alternative - noting that mkstemp() also is broken
+	for MinGW.
+
+	* VERSION: bump
+
+2010-11-27  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* output.c:
+	corrected use of %parse-param value in yyerror(); it doesn't use &yylval
+	(report by Clifford Yapp)
+
 2010-11-26  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* skeleton.c: typo

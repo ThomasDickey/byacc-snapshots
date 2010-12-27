@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.30 2010/11/26 15:19:36 tom Exp $ */
+/* $Id: defs.h,v 1.31 2010/12/27 01:21:59 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -398,7 +398,7 @@ extern void show_rrhs(void);
 extern void show_shifts(void);
 
 /* main.c */
-extern char *allocate(size_t n);
+extern void *allocate(size_t n);
 extern void done(int k) GCC_NORETURN;
 
 /* mkpar.c */

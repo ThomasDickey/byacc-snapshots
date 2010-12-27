@@ -1,3 +1,9 @@
+byacc (20101226) unstable; urgency=low
+
+  * portability fix for MinGW
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Sat, 25 Dec 2010 19:37:54 -0500
+
 byacc (20101127) unstable; urgency=low
 
   * corrected yyerror use of %parse-param data

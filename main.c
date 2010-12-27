@@ -1,9 +1,36 @@
-/* $Id: main.c,v 1.30 2010/11/24 15:13:39 tom Exp $ */
+/* $Id: main.c,v 1.35 2010/12/27 01:21:59 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
 
 #include "defs.h"
+
+#if defined(HAVE_ATEXIT)
+# ifdef HAVE_MKSTEMP
+#  define USE_MKSTEMP 1
+# elif defined(HAVE_FCNTL_H)
+#  define USE_MKSTEMP 1
+#  include <fcntl.h>		/* for open(), O_EXCL, etc. */
+# else
+#  define USE_MKSTEMP 0
+# endif
+#else
+# define USE_MKSTEMP 0
+#endif
+
+#if USE_MKSTEMP
+#include <sys/types.h>
+#include <sys/stat.h>
+
+typedef struct _my_tmpfiles
+{
+    struct _my_tmpfiles *next;
+    char *name;
+}
+MY_TMPFILES;
+
+static MY_TMPFILES *my_tmpfiles;
+#endif /* USE_MKSTEMP */
 
 char dflag;
 char gflag;
@@ -307,10 +334,10 @@ getargs(int argc, char *argv[])
     input_file_name = argv[i];
 }
 
-char *
+void *
 allocate(size_t n)
 {
-    char *p;
+    void *p;
 
     p = NULL;
     if (n)
@@ -390,6 +417,134 @@ create_file_names(void)
     }
 }
 
+#if USE_MKSTEMP
+static void
+close_tmpfiles(void)
+{
+    while (my_tmpfiles != 0)
+    {
+	MY_TMPFILES *next = my_tmpfiles->next;
+
+	chmod(my_tmpfiles->name, 0644);
+	unlink(my_tmpfiles->name);
+
+	free(my_tmpfiles->name);
+	free(my_tmpfiles);
+
+	my_tmpfiles = next;
+    }
+}
+
+#ifndef HAVE_MKSTEMP
+static int
+my_mkstemp(char *temp)
+{
+    int fd;
+    char *dname;
+    char *fname;
+    char *name;
+
+    /*
+     * Split-up to use tempnam, rather than tmpnam; the latter (like
+     * mkstemp) is unusable on Windows.
+     */
+    if ((fname = strrchr(temp, '/')) != 0)
+    {
+	dname = strdup(temp);
+	dname[++fname - temp] = '\0';
+    }
+    else
+    {
+	dname = 0;
+	fname = temp;
+    }
+    if ((name = tempnam(dname, fname)) != 0)
+    {
+	fd = open(name, O_CREAT | O_EXCL | O_RDWR);
+	strcpy(temp, name);
+    }
+    else
+    {
+	fd = -1;
+    }
+
+    if (dname != 0)
+	free(dname);
+
+    return fd;
+}
+#define mkstemp(s) my_mkstemp(s)
+#endif
+
+#endif
+
+/*
+ * tmpfile() should be adequate, except that it may require special privileges
+ * to use, e.g., MinGW and Windows 7 where it tries to use the root directory.
+ */
+static FILE *
+open_tmpfile(const char *label)
+{
+    FILE *result;
+#if USE_MKSTEMP
+    int fd;
+    const char *tmpdir;
+    char *name;
+    const char *mark;
+
+    if ((tmpdir = getenv("TMPDIR")) == 0 || access(tmpdir, W_OK) != 0)
+    {
+#ifdef P_tmpdir
+	tmpdir = P_tmpdir;
+#else
+	tmpdir = "/tmp";
+#endif
+	if (access(tmpdir, W_OK) != 0)
+	    tmpdir = ".";
+    }
+
+    name = malloc(strlen(tmpdir) + 10 + strlen(label));
+
+    result = 0;
+    if (name != 0)
+    {
+	if ((mark = strrchr(label, '_')) == 0)
+	    mark = label + strlen(label);
+
+	sprintf(name, "%s/%.*sXXXXXX", tmpdir, (int)(mark - label), label);
+	fd = mkstemp(name);
+	if (fd >= 0)
+	{
+	    result = fdopen(fd, "w+");
+	    if (result != 0)
+	    {
+		MY_TMPFILES *item;
+
+		if (my_tmpfiles == 0)
+		{
+		    atexit(close_tmpfiles);
+		}
+
+		item = NEW(MY_TMPFILES);
+		NO_SPACE(item);
+
+		item->name = name;
+		NO_SPACE(item->name);
+
+		item->next = my_tmpfiles;
+		my_tmpfiles = item;
+	    }
+	}
+    }
+#else
+    result = tmpfile();
+#endif
+
+    if (result == 0)
+	open_error(label);
+    return result;
+}
+
 static void
 open_files(void)
 {
@@ -402,13 +557,8 @@ open_files(void)
 	    open_error(input_file_name);
     }
 
-    action_file = tmpfile();
-    if (action_file == 0)
-	open_error("action_file");
-
-    text_file = tmpfile();
-    if (text_file == 0)
-	open_error("text_file");
+    action_file = open_tmpfile("action_file");
+    text_file = open_tmpfile("text_file");
 
     if (vflag)
     {
@@ -439,9 +589,7 @@ open_files(void)
 	defines_file = fopen(defines_file_name, "w");
 	if (defines_file == 0)
 	    open_error(defines_file_name);
-	union_file = tmpfile();
-	if (union_file == 0)
-	    open_error("union_file");
+	union_file = open_tmpfile("union_file");
     }
 
     output_file = fopen(output_file_name, "w");

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.37 2010/11/27 17:28:29 tom Exp $ */
+/* $Id: output.c,v 1.38 2010/12/29 18:35:38 Christos.Zoulas Exp $ */
 
 #include "defs.h"
 
@@ -1301,7 +1301,10 @@ output_error_decl(void)
     {
 	param *p;
 
-	putl_code("#define YYERROR_DECL() yyerror(YYSTYPE *v, const char *s)\n");
+	fprintf(code_file, "#define YYERROR_DECL() yyerror(");
+	for (p = parse_param; p; p = p->next)
+	    fprintf(code_file, "%s %s%s, ", p->type, p->name, p->type2);
+	putl_code("const char *s)\n");
 
 	puts_code("#define YYERROR_CALL(msg) yyerror(");
 

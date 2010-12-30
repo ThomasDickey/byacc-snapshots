@@ -126,7 +126,6 @@ typedef int YYSTYPE;
 #define YYERROR_CALL(msg) yyerror(msg)
 
 extern int YYPARSE_DECL();
-extern int YYLEX_DECL();
 
 #define YYERRCODE 256
 static const short error_lhs[] = {                       -1,
@@ -206,6 +205,11 @@ static YYSTACKDATA yystack;
 
 #include <stdio.h>
 
+#ifdef YYBYACC
+extern int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
 int
 main(void)
 {
@@ -224,7 +228,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 228 "error.tab.c"
+#line 232 "error.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -249,18 +253,14 @@ static int yygrowstack(YYSTACKDATA *data)
         newsize = YYMAXDEPTH;
 
     i = data->s_mark - data->s_base;
-    newss = (data->s_base != 0)
-          ? (short *)realloc(data->s_base, newsize * sizeof(*newss))
-          : (short *)malloc(newsize * sizeof(*newss));
+    newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
         return -1;
 
     data->s_base = newss;
     data->s_mark = newss + i;
 
-    newvs = (data->l_base != 0)
-          ? (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs))
-          : (YYSTYPE *)malloc(newsize * sizeof(*newvs));
+    newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));
     if (newvs == 0)
         return -1;
 

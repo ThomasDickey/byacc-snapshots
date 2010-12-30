@@ -53,7 +53,6 @@ typedef int YYSTYPE;
 #define YYERROR_CALL(msg) yyerror(msg)
 
 extern int YYPARSE_DECL();
-extern int YYLEX_DECL();
 
 #define DIGIT 257
 #define LETTER 258
@@ -147,7 +146,6 @@ extern int YYLEX_DECL();
 #endif /* yyrule */
 #define YYPREFIX "calc_"
 extern int YYPARSE_DECL();
-extern int YYLEX_DECL();
 
 extern short yylhs[];
 extern short yylen[];
@@ -199,6 +197,11 @@ static YYSTACKDATA yystack;
 #line 63 "code_calc.y"
  /* start of programs */
 
+#ifdef YYBYACC
+extern int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
 int
 main (void)
 {
@@ -237,7 +240,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 241 "code_calc.code.c"
+#line 244 "code_calc.code.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -262,18 +265,14 @@ static int yygrowstack(YYSTACKDATA *data)
         newsize = YYMAXDEPTH;
 
     i = data->s_mark - data->s_base;
-    newss = (data->s_base != 0)
-          ? (short *)realloc(data->s_base, newsize * sizeof(*newss))
-          : (short *)malloc(newsize * sizeof(*newss));
+    newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
         return -1;
 
     data->s_base = newss;
     data->s_mark = newss + i;
 
-    newvs = (data->l_base != 0)
-          ? (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs))
-          : (YYSTYPE *)malloc(newsize * sizeof(*newvs));
+    newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));
     if (newvs == 0)
         return -1;
 
@@ -507,7 +506,7 @@ case 18:
 #line 60 "code_calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 511 "code_calc.code.c"
+#line 510 "code_calc.code.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

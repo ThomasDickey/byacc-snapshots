@@ -4,6 +4,11 @@ S: error
 
 #include <stdio.h>
 
+#ifdef YYBYACC
+extern int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
 int
 main(void)
 {

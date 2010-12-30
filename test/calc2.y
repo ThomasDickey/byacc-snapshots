@@ -64,6 +64,11 @@ number:  DIGIT
 
 %% /* start of programs */
 
+#ifdef YYBYACC
+extern int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
 int
 main (void)
 {

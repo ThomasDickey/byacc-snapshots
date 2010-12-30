@@ -1,3 +1,9 @@
+byacc (20101229) unstable; urgency=low
+
+  * fixes from Christos Zoulos
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Wed, 29 Dec 2010 13:03:50 -0500
+
 byacc (20101226) unstable; urgency=low
 
   * portability fix for MinGW

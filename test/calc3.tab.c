@@ -127,11 +127,10 @@ typedef int YYSTYPE;
 #endif
 
 /* Parameters sent to yyerror. */
-#define YYERROR_DECL() yyerror(YYSTYPE *v, const char *s)
+#define YYERROR_DECL() yyerror(int  regs[26], int * base, const char *s)
 #define YYERROR_CALL(msg) yyerror(regs, base, msg)
 
 extern int YYPARSE_DECL();
-extern int YYLEX_DECL();
 
 #define DIGIT 257
 #define LETTER 258
@@ -287,6 +286,11 @@ typedef struct {
 #line 67 "calc3.y"
  /* start of programs */
 
+#ifdef YYBYACC
+extern int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
 int
 main (void)
 {
@@ -329,7 +333,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 333 "calc3.tab.c"
+#line 337 "calc3.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -354,18 +358,14 @@ static int yygrowstack(YYSTACKDATA *data)
         newsize = YYMAXDEPTH;
 
     i = data->s_mark - data->s_base;
-    newss = (data->s_base != 0)
-          ? (short *)realloc(data->s_base, newsize * sizeof(*newss))
-          : (short *)malloc(newsize * sizeof(*newss));
+    newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
         return -1;
 
     data->s_base = newss;
     data->s_mark = newss + i;
 
-    newvs = (data->l_base != 0)
-          ? (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs))
-          : (YYSTYPE *)malloc(newsize * sizeof(*newvs));
+    newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));
     if (newvs == 0)
         return -1;
 

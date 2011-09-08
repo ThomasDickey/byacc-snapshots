@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.40 2011/09/07 09:52:41 tom Exp $ */
+/* $Id: output.c,v 1.41 2011/09/08 09:25:40 tom Exp $ */
 
 #include "defs.h"
 
@@ -854,10 +854,10 @@ output_defines(FILE * fp)
 
     if (fp == code_file)
 	++outline;
-    if (fp != defines_file)
+    if (fp != defines_file || iflag)
 	fprintf(fp, "#define YYERRCODE %d\n", symbol_value[1]);
 
-    if (fp == defines_file)
+    if (fp == defines_file || (iflag && !dflag))
     {
 	if (unionized)
 	{

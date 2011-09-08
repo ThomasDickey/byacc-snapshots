@@ -1,4 +1,4 @@
-/* $Id: error.c,v 1.8 2010/11/24 15:10:20 tom Exp $ */
+/* $Id: error.c,v 1.9 2011/09/05 23:27:43 tom Exp $ */
 
 /* routines for printing error messages  */
 
@@ -23,6 +23,14 @@ open_error(const char *filename)
 {
     fprintf(stderr, "%s: f - cannot open \"%s\"\n", myname, filename);
     done(2);
+}
+
+void
+missing_brace(void)
+{
+    fprintf(stderr, "%s: e - line %d of \"%s\", missing '}'\n",
+	    myname, lineno, input_file_name);
+    done(1);
 }
 
 void

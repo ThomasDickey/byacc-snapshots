@@ -168,6 +168,10 @@ static const char *yyrule[] = {
 
 };
 #endif
+
+int      yydebug;
+int      yynerrs;
+
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -182,9 +186,6 @@ static const char *yyrule[] = {
 #endif
 
 #define YYINITSTACKSIZE 500
-
-int      yydebug;
-int      yynerrs;
 
 typedef struct {
     unsigned stacksize;
@@ -221,7 +222,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 225 "pure_error.tab.c"
+#line 226 "pure_error.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

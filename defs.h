@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.33 2010/12/29 20:57:30 tom Exp $ */
+/* $Id: defs.h,v 1.35 2011/09/07 08:55:03 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -71,10 +71,12 @@
 #if defined(VMS)
 #define CODE_SUFFIX	"_code.c"
 #define	DEFINES_SUFFIX	"_tab.h"
+#define	EXTERNS_SUFFIX	"_tab.i"
 #define	OUTPUT_SUFFIX	"_tab.c"
 #else
 #define CODE_SUFFIX	".code.c"
 #define	DEFINES_SUFFIX	".tab.h"
+#define	EXTERNS_SUFFIX	".tab.i"
 #define	OUTPUT_SUFFIX	".tab.c"
 #endif
 #define	VERBOSE_SUFFIX	".output"
@@ -225,6 +227,7 @@ struct param
 
 extern char dflag;
 extern char gflag;
+extern char iflag;
 extern char lflag;
 extern char rflag;
 extern char tflag;
@@ -242,6 +245,8 @@ extern int pure_parser;
 extern const char *const banner[];
 extern const char *const xdecls[];
 extern const char *const tables[];
+extern const char *const global_vars[];
+extern const char *const impure_vars[];
 extern const char *const hdr_defs[];
 extern const char *const hdr_vars[];
 extern const char *const body_1[];
@@ -253,10 +258,13 @@ extern const char *const trailer_2[];
 
 extern char *code_file_name;
 extern char *input_file_name;
+extern char *defines_file_name;
+extern char *externs_file_name;
 
 extern FILE *action_file;
 extern FILE *code_file;
 extern FILE *defines_file;
+extern FILE *externs_file;
 extern FILE *input_file;
 extern FILE *output_file;
 extern FILE *text_file;
@@ -353,6 +361,7 @@ extern void dollar_warning(int a_lineno, int i);
 extern void fatal(const char *msg) GCC_NORETURN;
 extern void illegal_character(char *c_cptr) GCC_NORETURN;
 extern void illegal_tag(int t_lineno, char *t_line, char *t_cptr) GCC_NORETURN;
+extern void missing_brace(void) GCC_NORETURN;
 extern void no_grammar(void) GCC_NORETURN;
 extern void no_space(void) GCC_NORETURN;
 extern void open_error(const char *filename) GCC_NORETURN;
@@ -412,7 +421,7 @@ extern void output(void);
 extern void reader(void);
 
 /* skeleton.c */
-extern void write_section(const char *const section[]);
+extern void write_section(FILE *fp, const char *const section[]);
 
 /* verbose.c */
 extern void verbose(void);

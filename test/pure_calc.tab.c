@@ -260,6 +260,10 @@ static const char *yyrule[] = {
 
 };
 #endif
+
+int      yydebug;
+int      yynerrs;
+
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -274,9 +278,6 @@ static const char *yyrule[] = {
 #endif
 
 #define YYINITSTACKSIZE 500
-
-int      yydebug;
-int      yynerrs;
 
 typedef struct {
     unsigned stacksize;
@@ -333,7 +334,7 @@ yylex(YYSTYPE *value)
     }
     return( c );
 }
-#line 337 "pure_calc.tab.c"
+#line 338 "pure_calc.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -606,7 +607,7 @@ case 18:
 #line 60 "pure_calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 610 "pure_calc.tab.c"
+#line 611 "pure_calc.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

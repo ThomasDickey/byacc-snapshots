@@ -145,8 +145,8 @@ extern int YYPARSE_DECL();
 #define yyrule     calc_rule
 #endif /* yyrule */
 #define YYPREFIX "calc_"
-extern int YYPARSE_DECL();
 
+extern int YYPARSE_DECL();
 extern short yylhs[];
 extern short yylen[];
 extern short yydefred[];
@@ -161,6 +161,15 @@ extern short yycheck[];
 extern char *yyname[];
 extern char *yyrule[];
 #endif
+
+int      yydebug;
+int      yynerrs;
+
+int      yyerrflag;
+int      yychar;
+YYSTYPE  yyval;
+YYSTYPE  yylval;
+
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -176,9 +185,6 @@ extern char *yyrule[];
 
 #define YYINITSTACKSIZE 500
 
-int      yydebug;
-int      yynerrs;
-
 typedef struct {
     unsigned stacksize;
     short    *s_base;
@@ -187,11 +193,6 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-int      yyerrflag;
-int      yychar;
-YYSTYPE  yyval;
-YYSTYPE  yylval;
-
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
 #line 63 "code_calc.y"
@@ -240,7 +241,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 244 "code_calc.code.c"
+#line 245 "code_calc.code.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -506,7 +507,7 @@ case 18:
 #line 60 "code_calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 510 "code_calc.code.c"
+#line 511 "code_calc.code.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

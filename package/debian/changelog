@@ -1,3 +1,10 @@
+byacc (20110907) unstable; urgency=low
+
+  * add "-i" option.
+  * add error-check in reader.c
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Mon, 05 Sep 2011 20:05:51 -0400
+
 byacc (20101229) unstable; urgency=low
 
   * fixes from Christos Zoulos

@@ -375,6 +375,7 @@ haveAnsiParam (void)
     return FALSE;
 }
 #line 378 "grammar.tab.c"
+
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
 /* compatibility with FreeBSD */
@@ -863,6 +864,15 @@ static const char *yyrule[] = {
 
 };
 #endif
+
+int      yydebug;
+int      yynerrs;
+
+int      yyerrflag;
+int      yychar;
+YYSTYPE  yyval;
+YYSTYPE  yylval;
+
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -878,9 +888,6 @@ static const char *yyrule[] = {
 
 #define YYINITSTACKSIZE 500
 
-int      yydebug;
-int      yynerrs;
-
 typedef struct {
     unsigned stacksize;
     short    *s_base;
@@ -889,11 +896,6 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-int      yyerrflag;
-int      yychar;
-YYSTYPE  yyval;
-YYSTYPE  yylval;
-
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
 #line 1004 "grammar.y"
@@ -1067,7 +1069,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1071 "grammar.tab.c"
+#line 1073 "grammar.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -1947,7 +1949,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1951 "grammar.tab.c"
+#line 1953 "grammar.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

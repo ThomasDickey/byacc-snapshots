@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.31 2010/11/26 12:30:40 tom Exp $ */
+/* $Id: reader.c,v 1.33 2011/09/06 22:56:53 tom Exp $ */
 
 #include "defs.h"
 
@@ -689,6 +689,8 @@ copy_param(int k)
 
     for (i = 0; (c = *cptr++) != '}'; i++)
     {
+	if (c == '\0')
+	    missing_brace();
 	if (c == EOF)
 	    unexpected_EOF();
 	buf[i] = (char)c;
@@ -2197,7 +2199,7 @@ print_grammar(void)
 void
 reader(void)
 {
-    write_section(banner);
+    write_section(code_file, banner);
     create_symbol_table();
     read_declarations();
     read_grammar();

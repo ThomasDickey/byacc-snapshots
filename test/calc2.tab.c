@@ -257,6 +257,15 @@ static const char *yyrule[] = {
 
 };
 #endif
+
+int      yydebug;
+int      yynerrs;
+
+int      yyerrflag;
+int      yychar;
+YYSTYPE  yyval;
+YYSTYPE  yylval;
+
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
 #undef YYMAXDEPTH
@@ -272,9 +281,6 @@ static const char *yyrule[] = {
 
 #define YYINITSTACKSIZE 500
 
-int      yydebug;
-int      yynerrs;
-
 typedef struct {
     unsigned stacksize;
     short    *s_base;
@@ -283,11 +289,6 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-int      yyerrflag;
-int      yychar;
-YYSTYPE  yyval;
-YYSTYPE  yylval;
-
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
 #line 65 "calc2.y"
@@ -340,7 +341,7 @@ yylex(int *base)
     }
     return( c );
 }
-#line 344 "calc2.tab.c"
+#line 345 "calc2.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -606,7 +607,7 @@ case 18:
 #line 62 "calc2.y"
 	{  yyval = (*base) * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 610 "calc2.tab.c"
+#line 611 "calc2.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

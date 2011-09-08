@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.30 2010/12/29 20:57:21 tom Exp $ */
+/* $Id: skeleton.c,v 1.31 2011/09/07 09:37:59 tom Exp $ */
 
 #include "defs.h"
 
@@ -37,8 +37,8 @@ const char *const banner[] =
 
 const char *const xdecls[] =
 {
-    "extern int YYPARSE_DECL();",
     "",
+    "extern int YYPARSE_DECL();",
     0
 };
 
@@ -61,8 +61,27 @@ const char *const tables[] =
     0
 };
 
+const char *const global_vars[] =
+{
+    "",
+    "int      yydebug;",
+    "int      yynerrs;",
+    0
+};
+
+const char *const impure_vars[] =
+{
+    "",
+    "int      yyerrflag;",
+    "int      yychar;",
+    "YYSTYPE  yyval;",
+    "YYSTYPE  yylval;",
+    0
+};
+
 const char *const hdr_defs[] =
 {
+    "",
     "/* define the initial stack-sizes */",
     "#ifdef YYSTACKSIZE",
     "#undef YYMAXDEPTH",
@@ -78,9 +97,6 @@ const char *const hdr_defs[] =
     "",
     "#define YYINITSTACKSIZE 500",
     "",
-    "int      yydebug;",
-    "int      yynerrs;",
-    "",
     "typedef struct {",
     "    unsigned stacksize;",
     "    short    *s_base;",
@@ -94,11 +110,6 @@ const char *const hdr_defs[] =
 
 const char *const hdr_vars[] =
 {
-    "int      yyerrflag;",
-    "int      yychar;",
-    "YYSTYPE  yyval;",
-    "YYSTYPE  yylval;",
-    "",
     "/* variables for the parser stack */",
     "static YYSTACKDATA yystack;",
     0
@@ -408,22 +419,21 @@ const char *const trailer_2[] =
 };
 
 void
-write_section(const char *const section[])
+write_section(FILE * fp, const char *const section[])
 {
     int c;
     int i;
     const char *s;
-    FILE *f;
 
-    f = code_file;
     for (i = 0; (s = section[i]) != 0; ++i)
     {
-	++outline;
 	while ((c = *s) != 0)
 	{
-	    putc(c, f);
+	    putc(c, fp);
 	    ++s;
 	}
-	putc('\n', f);
+	if (fp == code_file)
+	    ++outline;
+	putc('\n', fp);
     }
 }

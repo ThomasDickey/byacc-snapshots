@@ -1,3 +1,63 @@
+2011-09-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* yacc.1: document "-i" option.
+
+	* VERSION: bump
+
+	* output.c: fix an interaction between -i and -d
+
+	* skeleton.c, output.c, defs.h: changes to support "-i" option.
+
+2011-09-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: pass explicit file-pointer to write_section()
+
+	* main.c:
+	add "-i" option, to generate interface-file (suggested by Denis M. Wilson)
+
+2011-09-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4:
+	resync with my-autoconf: CF_ANSI_CC_CHECK (check for $CFLAGS in $CC)
+	and CF_XOPEN_SOURCE (update aix, cygwin and netbsd checks)
+
+	* defs.h, error.c, reader.c:
+	add check for missing "}" on %parse-param and %lex-param lines (report by Denis M Wilson)
+
+2011-04-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2011-04-01
+
+2011-02-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: update to 2011-01-01
+
+2010-12-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* defs.h, skeleton.c:
+	add const qualifier to skeleton data, per NetBSD changes (report by Christos Zoulas)
+
+	* defs.h:
+	mark all of the error-functions as non-returning (report by Christos Zoulas)
+
+	* skeleton.c:
+	use only realloc() rather than realloc+malloc, agree that systems needing this
+	are very rare (prompted by NetBSD change).
+
+	* skeleton.c:
+	remove explicit prototype for yylex() via YYLEX_DECL() macro, since that
+	would prevent declaring yylex() static (request by Christos Zoulas).
+
+2010-12-29  Christos.Zoulas
+
+	* output.c: correct definition for YYERROR_DECL()
+
+2010-12-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
 2010-12-26  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* defs.h, main.c:

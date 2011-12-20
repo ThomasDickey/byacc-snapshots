@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.36 2011/09/06 22:44:45 tom Exp $ */
+/* $Id: main.c,v 1.37 2011/12/20 01:37:40 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -38,6 +38,7 @@ char iflag;
 char lflag;
 static char oflag;
 char rflag;
+char sflag;
 char tflag;
 char vflag;
 
@@ -242,6 +243,10 @@ setflag(int ch)
 
     case 'r':
 	rflag = 1;
+	break;
+
+    case 's':
+	sflag = 1;
 	break;
 
     case 't':

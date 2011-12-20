@@ -1,3 +1,25 @@
+2011-12-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* yacc.1, output.c, main.c, defs.h:
+	add "-s" option to suppress generating #define's based on string contents
+	in a %token statement.  For instance
+		%token EQLS "Equals"
+	would generate
+		#define EQLS 256
+		#define Equals 257
+	Simply suppressing the second #define makes the behavior closer to yacc.
+	(report by Paulo Andrade).
+
+2011-09-08  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* output.c:
+	fix some more interaction between -i and -d flags to ensure YYERRCODE
+	and YYSTYPE are declared, tested with cproto.
+
 2011-09-07  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* yacc.1: document "-i" option.

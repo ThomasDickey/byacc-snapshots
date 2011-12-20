@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.41 2011/09/08 09:25:40 tom Exp $ */
+/* $Id: output.c,v 1.42 2011/12/20 01:38:18 tom Exp $ */
 
 #include "defs.h"
 
@@ -827,7 +827,7 @@ output_defines(FILE * fp)
     for (i = 2; i < ntokens; ++i)
     {
 	s = symbol_name[i];
-	if (is_C_identifier(s))
+	if (is_C_identifier(s) && (!sflag || *s != '"'))
 	{
 	    fprintf(fp, "#define ");
 	    c = *s;

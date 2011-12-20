@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.35 2011/09/07 08:55:03 tom Exp $ */
+/* $Id: defs.h,v 1.36 2011/12/20 01:31:16 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -230,6 +230,7 @@ extern char gflag;
 extern char iflag;
 extern char lflag;
 extern char rflag;
+extern char sflag;
 extern char tflag;
 extern char vflag;
 extern const char *symbol_prefix;

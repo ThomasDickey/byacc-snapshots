@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20111219
+MANIFEST for byacc, version t20120115
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -102,6 +102,34 @@ test/pure_error.output          reference output for testing
 test/pure_error.tab.c           reference output for testing
 test/pure_error.tab.h           reference output for testing
 test/pure_error.y               reference input for testing
+test/quote_calc-s.output        test reference with -s option
+test/quote_calc-s.tab.c         test reference with -s option
+test/quote_calc-s.tab.h         test reference with -s option
+test/quote_calc.output          test-reference for %token using quoted name
+test/quote_calc.tab.c           test-reference for %token using quoted name
+test/quote_calc.tab.h           test-reference for %token using quoted name
+test/quote_calc.y               test-case for %token using quoted name
+test/quote_calc2-s.output       test reference with -s option
+test/quote_calc2-s.tab.c        test reference with -s option
+test/quote_calc2-s.tab.h        test reference with -s option
+test/quote_calc2.output         test-reference for %token using quoted name
+test/quote_calc2.tab.c          test-reference for %token using quoted name
+test/quote_calc2.tab.h          test-reference for %token using quoted name
+test/quote_calc2.y              test-case for %token using quoted name
+test/quote_calc3-s.output       test reference with -s option
+test/quote_calc3-s.tab.c        test reference with -s option
+test/quote_calc3-s.tab.h        test reference with -s option
+test/quote_calc3.output         test-reference for %token using quoted name
+test/quote_calc3.tab.c          test-reference for %token using quoted name
+test/quote_calc3.tab.h          test-reference for %token using quoted name
+test/quote_calc3.y              test-case for %token using quoted name
+test/quote_calc4-s.output       test reference with -s option
+test/quote_calc4-s.tab.c        test reference with -s option
+test/quote_calc4-s.tab.h        test reference with -s option
+test/quote_calc4.output         test-reference for %token using quoted name
+test/quote_calc4.tab.c          test-reference for %token using quoted name
+test/quote_calc4.tab.h          test-reference for %token using quoted name
+test/quote_calc4.y              test-case for %token using quoted name
 test/run_lint.sh                run lint, using the build-directory's makefile, on each ".c" file in test-directory
 test/run_make.sh                do a test-compile of each ".c" file in the test-directory
 test/run_test.sh                test-script for byacc

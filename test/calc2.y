@@ -7,6 +7,14 @@
 # include <stdio.h>
 # include <ctype.h>
 
+#ifdef YYBISON
+#define YYLEX_PARAM base
+#define YYLEX_DECL() yylex(int *YYLEX_PARAM)
+#define YYERROR_DECL() yyerror(int regs[26], int *base, const char *s)
+int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
 %}
 
 %start list
@@ -66,7 +74,6 @@ number:  DIGIT
 
 #ifdef YYBYACC
 extern int YYLEX_DECL();
-static void YYERROR_DECL();
 #endif
 
 int
@@ -88,7 +95,7 @@ YYERROR_DECL()
 }
 
 int
-yylex(int *base)
+YYLEX_DECL()
 {
 	/* lexical analysis routine */
 	/* returns LETTER for a lower case letter, yylval = 0 through 25 */

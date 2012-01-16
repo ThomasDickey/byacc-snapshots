@@ -1,3 +1,11 @@
+%{
+
+#ifdef YYBISON
+int yylex(void);
+static void yyerror(const char *);
+#endif
+
+%}
 %%
 S: error
 %%
@@ -6,7 +14,6 @@ S: error
 
 #ifdef YYBYACC
 extern int YYLEX_DECL();
-static void YYERROR_DECL();
 #endif
 
 int

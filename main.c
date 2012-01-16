@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.37 2011/12/20 01:37:40 tom Exp $ */
+/* $Id: main.c,v 1.38 2012/01/14 01:01:15 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -202,6 +202,7 @@ usage(void)
 	,"  -p symbol_prefix      set symbol prefix (default \"yy\")"
 	,"  -P                    create a reentrant parser, e.g., \"%pure-parser\""
 	,"  -r                    produce separate code and table files (y.code.c)"
+	,"  -s                    suppress #define's for quoted names in %token lines"
 	,"  -t                    add debugging support"
 	,"  -v                    write description (y.output)"
 	,"  -V                    show version information and exit"

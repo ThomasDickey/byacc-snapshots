@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.42 2011/12/20 01:38:18 tom Exp $ */
+/* $Id: output.c,v 1.43 2012/01/14 17:03:52 tom Exp $ */
 
 #include "defs.h"
 
@@ -1240,8 +1240,13 @@ output_lex_decl(FILE * fp)
     putl_code(fp, "#ifdef YYLEX_PARAM\n");
     if (pure_parser)
     {
-	putl_code(fp, "# define YYLEX_DECL() yylex(YYSTYPE *yylval, "
-		  "void *YYLEX_PARAM)\n");
+	putl_code(fp, "# ifdef YYLEX_PARAM_TYPE\n");
+	putl_code(fp, "#  define YYLEX_DECL() yylex(YYSTYPE *yylval,"
+		  " YYLEX_PARAM_TYPE YYLEX_PARAM)\n");
+	putl_code(fp, "# else\n");
+	putl_code(fp, "#  define YYLEX_DECL() yylex(YYSTYPE *yylval,"
+		  " void * YYLEX_PARAM)\n");
+	putl_code(fp, "# endif\n");
 	putl_code(fp, "# define YYLEX yylex(&yylval, YYLEX_PARAM)\n");
     }
     else
@@ -1300,22 +1305,30 @@ output_error_decl(FILE * fp)
     {
 	param *p;
 
+	putl_code(fp, "#ifndef YYERROR_DECL\n");
 	fprintf(fp, "#define YYERROR_DECL() yyerror(");
 	for (p = parse_param; p; p = p->next)
 	    fprintf(fp, "%s %s%s, ", p->type, p->name, p->type2);
 	putl_code(fp, "const char *s)\n");
+	putl_code(fp, "#endif\n");
 
+	putl_code(fp, "#ifndef YYERROR_CALL\n");
 	puts_code(fp, "#define YYERROR_CALL(msg) yyerror(");
 
 	for (p = parse_param; p; p = p->next)
 	    fprintf(fp, "%s, ", p->name);
 
 	putl_code(fp, "msg)\n");
+	putl_code(fp, "#endif\n");
     }
     else
     {
+	putl_code(fp, "#ifndef YYERROR_DECL\n");
 	putl_code(fp, "#define YYERROR_DECL() yyerror(const char *s)\n");
+	putl_code(fp, "#endif\n");
+	putl_code(fp, "#ifndef YYERROR_CALL\n");
 	putl_code(fp, "#define YYERROR_CALL(msg) yyerror(msg)\n");
+	putl_code(fp, "#endif\n");
     }
 }
 

@@ -95,6 +95,18 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 
 #define YYPURE 1
 
+#line 2 "pure_error.y"
+
+#ifdef YYBISON
+#define YYSTYPE int
+#define YYLEX_PARAM &yylval
+#define YYLEX_DECL() yylex(YYSTYPE *yylval)
+#define YYERROR_DECL() yyerror(const char *s)
+int YYLEX_DECL();
+static void YYERROR_DECL();
+#endif
+
+#line 110 "pure_error.tab.c"
 
 #ifndef YYSTYPE
 typedef int YYSTYPE;
@@ -114,7 +126,11 @@ typedef int YYSTYPE;
 
 /* Parameters sent to lex. */
 #ifdef YYLEX_PARAM
-# define YYLEX_DECL() yylex(YYSTYPE *yylval, void *YYLEX_PARAM)
+# ifdef YYLEX_PARAM_TYPE
+#  define YYLEX_DECL() yylex(YYSTYPE *yylval, YYLEX_PARAM_TYPE YYLEX_PARAM)
+# else
+#  define YYLEX_DECL() yylex(YYSTYPE *yylval, void * YYLEX_PARAM)
+# endif
 # define YYLEX yylex(&yylval, YYLEX_PARAM)
 #else
 # define YYLEX_DECL() yylex(YYSTYPE *yylval)
@@ -122,8 +138,12 @@ typedef int YYSTYPE;
 #endif
 
 /* Parameters sent to yyerror. */
+#ifndef YYERROR_DECL
 #define YYERROR_DECL() yyerror(const char *s)
+#endif
+#ifndef YYERROR_CALL
 #define YYERROR_CALL(msg) yyerror(msg)
+#endif
 
 extern int YYPARSE_DECL();
 
@@ -195,13 +215,12 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-#line 4 "pure_error.y"
+#line 17 "pure_error.y"
 
 #include <stdio.h>
 
 #ifdef YYBYACC
 extern int YYLEX_DECL();
-static void YYERROR_DECL();
 #endif
 
 int
@@ -222,7 +241,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 226 "pure_error.tab.c"
+#line 245 "pure_error.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

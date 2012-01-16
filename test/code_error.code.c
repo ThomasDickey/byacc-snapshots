@@ -14,6 +14,14 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 
 #define YYPURE 0
 
+#line 2 "code_error.y"
+
+#ifdef YYBISON
+int yylex(void);
+static void yyerror(const char *);
+#endif
+
+#line 25 "code_error.code.c"
 
 #ifndef YYSTYPE
 typedef int YYSTYPE;
@@ -41,8 +49,12 @@ typedef int YYSTYPE;
 #endif
 
 /* Parameters sent to yyerror. */
+#ifndef YYERROR_DECL
 #define YYERROR_DECL() yyerror(const char *s)
+#endif
+#ifndef YYERROR_CALL
 #define YYERROR_CALL(msg) yyerror(msg)
+#endif
 
 extern int YYPARSE_DECL();
 
@@ -184,13 +196,12 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 4 "code_error.y"
+#line 12 "code_error.y"
 
 #include <stdio.h>
 
 #ifdef YYBYACC
 extern int YYLEX_DECL();
-static void YYERROR_DECL();
 #endif
 
 int
@@ -211,7 +222,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 215 "code_error.code.c"
+#line 226 "code_error.code.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

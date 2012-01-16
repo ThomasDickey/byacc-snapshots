@@ -1,3 +1,26 @@
+2012-01-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c: Several changes:
+		a) add YYLEX_PARAM_TYPE, like YYPARSE_PARAM_TYPE, but for yylex.
+		b) modify definitions for YYLEX_DECL to be more like YYPARSE_DECL,
+		   using YYLEX_PARAM_TYPE and YYLEX_PARAM.
+		c) add ifdef's around #define's for YYERROR_DECL and YYERROR_CALL,
+		   to help with redefinitions.
+
+2012-01-13  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* yacc.1: improve documentation of -s option
+
+	* yacc.1: note that yacc ignores -y
+
+	* main.c: add -s option to usage message.
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf, i.e., fixes for CF_XOPEN_SOURCE
+
 2011-12-19  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: bump

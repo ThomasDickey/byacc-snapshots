@@ -1,3 +1,24 @@
+2012-05-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c, main.c, verbose.c, mkpar.c, lr0.c:
+	use TMALLOC() and TREALLOC() macros to simplify allocation/reallocation
+	(no object change)
+
+2012-01-15  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* makefile.in:
+	ensure that check_make rule depends on having byacc built.
+
+	* yacc.1:
+	in testing, found that %expect did not work as documented for bison.
+	do not recommend it for portable code.
+
+	* yacc.1: comment on "-y" and "-P" options.
+
+	* yacc.1: comment on portability
+
 2012-01-14  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* output.c: Several changes:

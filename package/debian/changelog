@@ -1,3 +1,9 @@
+byacc (20121003) unstable; urgency=low
+
+  * changes from or prompted by Adrian Bunk.
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Sat, 29 Sep 2012 09:14:31 -0400
+
 byacc (20120526) unstable; urgency=low
 
   * minor code-cleanup.

@@ -1,3 +1,88 @@
+2013-03-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* aclocal.m4:
+	adapt tweak from Dave Becket to work around long-ago breakage in "new" autoconf.
+
+	* output.c:
+	fix bogus #include if "-i" is given but not "-d" (report by Richard Mitton).
+	also while testing that, found a case where the union_file is unused; added
+	a check for address that.
+
+	* skeleton.c: quiet a gcc conversion-warning in yygrowstack()
+
+	* configure: regen
+
+	* aclocal.m4:
+	another fix for CF_GCC_VERSION to handle Debian's modification of gcc message.
+
+2013-02-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub, config.guess: update to 2013-02-04
+
+2012-10-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* configure: regen
+
+	* configure.in: moved AC_PROG_CC_STDC call into CF_PROG_CC
+
+	* aclocal.m4:
+	moved AC_PROG_CC_STDC call into CF_PROG_CC and (for other uses than byacc)
+	the CF_PROG_CC macro provides the CF_ANSI_CC_REQD for the 2.13 flavor.
+
+	* aclocal.m4, configure.in:
+	Arian's change dropped my check for misused $CC variable - restore that with
+	alternate macro CF_PROG_CC.
+
+2012-10-03  Adrian.Bunk
+
+	* aclocal.m4:
+	suggested patch: drop CF_ANSI_CC_REQD, CF_ANSI_CC_CHECK, CF_PROG_EXT since
+	they are not needed.
+
+2012-10-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4:
+	split-out CF_CC_ENV_FLAGS from CF_ANSI_CC_CHECK to avoid losing it in
+	Adrian's suggested changes.
+
+	* aclocal.m4:
+	CF_CLANG_COMPILER - check if the given compiler is really clang.
+
+	* aclocal.m4:
+	add check for clang to CF_GCC_WARNINGS.  modify CF_GCC_WARNINGS to work around
+	old gcc warning:  ncurses change to (try to) use gnatgcc exposed gnatgcc 2.8.1
+	on my Sarge system (versus 3.3.5 for the normal gcc).  The 2.8.1's
+	pointer-arithmetic checks fell afoul of gcc's misuse of void* in string.h; work
+	around by excluding that check for pre-3.x compilers.
+
+	* aclocal.m4:
+	modify CF_GCC_ATTRIBUTES so that autoheader is able to see the definitions
+	provided by this macro.  use AC_DEFINE_UNQUOTED() in CF_GCC_ATTRIBUTES rather
+	than appending to confdefs.h, since long-ago concern about the ability to
+	pass-through parameterized macros appears to be not a problem, testing with
+	2.13 and 2.52
+
+2012-10-03  Adrian.Bunk
+
+	* aclocal.m4:
+	add parameter to AC_DEFINE_UNQUOTED() to allow it to be recognized by
+	autoheader, updated macros:
+		CF_CHECK_CACHE
+		CF_DISABLE_LEAKS
+		CF_MKSTEMP
+		CF_MIXEDCASE_FILENAMES
+		CF_NO_LEAKS_OPTION
+
+2012-10-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4:
+	move existence-check for mkstemp out of the AC_TRY_RUN, to help with
+	cross-compiles
+
 2012-10-02  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config_h.in:

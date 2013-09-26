@@ -1,3 +1,9 @@
+2013-09-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2013-09-15
+
+	* config.guess: update to 2013-06-10
+
 2013-03-04  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION: bump

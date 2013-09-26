@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20130304
+MANIFEST for byacc, version t20130925
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -49,6 +49,8 @@ package/debian/source           subdirectory
 package/debian/source/format    scripts from Debian package
 package/debian                  subdirectory
 package/debian/watch            scripts from Debian package
+package                         subdirectory
+package/mingw-byacc.spec        mingw spec-file, for cross-compiles
 package/pkgsrc                  subdirectory
 package/pkgsrc/DESCR            scripts from NetBSD pkgsrc, for test-builds
 package/pkgsrc/Makefile         scripts from NetBSD pkgsrc, for test-builds

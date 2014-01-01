@@ -1,3 +1,45 @@
+2013-12-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2013-11-29
+
+2013-11-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4: resync with my-autoconf (fixes for clang and mingw)
+
+2013-10-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2013-10-01
+
+2013-09-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: fix two loop-limits found by clang 3.3 --analyze
+
+	* configure: regen
+
+	* aclocal.m4:
+	tweaks to CF_MIXEDCASE_FILENAMES and CF_XOPEN_SOURCE for msys from ncurses
+
+	* skeleton.c:
+	Increase default stack-size to match FreeBSD version noted as from
+	"BSD 4.4 Lite Usr.bin Sources".  See
+
+		http://svnweb.freebsd.org/base/vendor/CSRG/dist/usr.bin/yacc/
+		http://svnweb.freebsd.org/base/head/usr.bin/yacc/
+		http://svnweb.freebsd.org/base/vendor/byacc/
+
+	The original 1.9 sources (on which I based development) used 500 for
+	stacksize; the BSD Lite sources (a year or two later) used 10000.
+
+	This is a change to default values; the YYMAXDEPTH and YYSTACKSIZE
+	symbols have "always" been overridable by applications, but rarely
+	needed to do this.  RedHat began using the FreeBSD source in 2000,
+	and switched to this source in 2007 using the 20050813 snapshot.
+
+	RedHat #743343 misattributed the change in default stacksize to
+	a regression in byacc, but did not report the issue upstream.
+
+	* VERSION: bump
+
 2013-09-07  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.sub: update to 2013-09-15

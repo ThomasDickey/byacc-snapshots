@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.8 2012/01/15 11:50:35 tom Exp $
+# $Id: run_test.sh,v 1.10 2014/03/21 23:49:21 tom Exp $
 # vi:ts=4 sw=4:
 
 if test $# = 1
@@ -30,8 +30,12 @@ do
 
 		OPTS=
 		OPT2=
-		TYPE=".output .tab.c .tab.h"
+		TYPE=".error .output .tab.c .tab.h"
 		case $input in
+		${TEST_DIR}/grammar*)
+			OPTS="$OPTS -g"
+			TYPE="$TYPE .dot"
+			;;
 		${TEST_DIR}/code_*)
 			OPTS="$OPTS -r"
 			TYPE="$TYPE .code.c"
@@ -48,7 +52,7 @@ do
 
 		for opt2 in "" $OPT2
 		do
-			$YACC $OPTS $opt2 -v -d -p $prefix -b $ROOT${opt2} $input
+			$YACC $OPTS $opt2 -v -d -p $prefix -b $ROOT${opt2} $input 2>&1 | sed -e "s%$YACC%YACC%" >${ROOT}${opt2}.error
 			for type in $TYPE
 			do
 				REF=${TEST_DIR}/${root}${opt2}${type}

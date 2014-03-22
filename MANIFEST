@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140101
+MANIFEST for byacc, version t20140321-gcov
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -58,76 +58,151 @@ package/pkgsrc/PLIST            scripts from NetBSD pkgsrc, for test-builds
 package/pkgsrc/distinfo         scripts from NetBSD pkgsrc, for test-builds
 test                            subdirectory
 test/README                     describe contents of "test" subdirectory
+test/calc.error                 reference output for testing
 test/calc.output                "-v" output from byacc
 test/calc.tab.c                 c-file for calc.y
 test/calc.tab.h                 header-file for calc.y
 test/calc.y                     example from VMS freeware version of byacc
+test/calc1.error                reference output for testing
 test/calc1.output               output from calc1.y
 test/calc1.tab.c                output from calc1.y
 test/calc1.tab.h                output from calc1.y
 test/calc1.y                    advanced example from Steve Johnson's paper.
+test/calc2.error                reference output for testing
 test/calc2.output               test-cases and reference files for %lex-param / %parse-param
 test/calc2.tab.c                test-cases and reference files for %lex-param / %parse-param
 test/calc2.tab.h                test-cases and reference files for %lex-param / %parse-param
 test/calc2.y                    test-cases and reference files for %lex-param / %parse-param
+test/calc3.error                reference output for testing
 test/calc3.output               test-cases and reference files for %lex-param / %parse-param
 test/calc3.tab.c                test-cases and reference files for %lex-param / %parse-param
 test/calc3.tab.h                test-cases and reference files for %lex-param / %parse-param
 test/calc3.y                    test-cases and reference files for %lex-param / %parse-param
 test/code_calc.code.c           reference output for testing
+test/code_calc.error            reference output for testing
 test/code_calc.output           reference output for testing
 test/code_calc.tab.c            reference output for testing
 test/code_calc.tab.h            reference output for testing
 test/code_calc.y                reference input for testing
 test/code_error.code.c          reference output for testing
+test/code_error.error           reference output for testing
 test/code_error.output          reference output for testing
 test/code_error.tab.c           reference output for testing
 test/code_error.tab.h           reference output for testing
 test/code_error.y               reference input for testing
+test/err_syntax1.error          reference output for testing
+test/err_syntax1.output         reference output for testing
+test/err_syntax1.tab.c          reference output for testing
+test/err_syntax1.tab.h          reference output for testing
+test/err_syntax1.y              test-case with syntax error (and nonprinting character)
+test/err_syntax2.error          reference output for testing
+test/err_syntax2.output         reference output for testing
+test/err_syntax2.tab.c          reference output for testing
+test/err_syntax2.tab.h          reference output for testing
+test/err_syntax2.y              testcase for unterminated_comment()
+test/err_syntax3.error          reference output for testing
+test/err_syntax3.output         reference output for testing
+test/err_syntax3.tab.c          reference output for testing
+test/err_syntax3.tab.h          reference output for testing
+test/err_syntax3.y              testcase for unterminated_string()
+test/err_syntax4.error          reference output for testing
+test/err_syntax4.output         reference output for testing
+test/err_syntax4.tab.c          reference output for testing
+test/err_syntax4.tab.h          reference output for testing
+test/err_syntax4.y              testcase for unterminated_text()
+test/err_syntax5.error          reference output for testing
+test/err_syntax5.output         reference output for testing
+test/err_syntax5.tab.c          reference output for testing
+test/err_syntax5.tab.h          reference output for testing
+test/err_syntax5.y              testcase for unterminated_union()
+test/err_syntax6.error          reference output for testing
+test/err_syntax6.output         reference output for testing
+test/err_syntax6.tab.c          reference output for testing
+test/err_syntax6.tab.h          reference output for testing
+test/err_syntax6.y              testcase for illegal_tag()
+test/err_syntax7.error          reference output for testing
+test/err_syntax7.output         reference output for testing
+test/err_syntax7.tab.c          reference output for testing
+test/err_syntax7.tab.h          reference output for testing
+test/err_syntax7.y              testcase for illegal_character()
+test/err_syntax7a.error         reference output for testing
+test/err_syntax7a.output        reference output for testing
+test/err_syntax7a.tab.c         reference output for testing
+test/err_syntax7a.tab.h         reference output for testing
+test/err_syntax7a.y             testcase for illegal_character()
+test/err_syntax7b.error         reference output for testing
+test/err_syntax7b.output        reference output for testing
+test/err_syntax7b.tab.c         reference output for testing
+test/err_syntax7b.tab.h         reference output for testing
+test/err_syntax7b.y             testcase for illegal_character()
+test/err_syntax8.error          reference output for testing
+test/err_syntax8.output         reference output for testing
+test/err_syntax8.tab.c          reference output for testing
+test/err_syntax8.tab.h          reference output for testing
+test/err_syntax8.y              testcase for used_reserved()
+test/err_syntax8a.error         reference output for testing
+test/err_syntax8a.output        reference output for testing
+test/err_syntax8a.tab.c         reference output for testing
+test/err_syntax8a.tab.h         reference output for testing
+test/err_syntax8a.y             testcase for used_reserved()
+test/err_syntax9.error          reference output for testing
+test/err_syntax9.output         reference output for testing
+test/err_syntax9.tab.c          reference output for testing
+test/err_syntax9.tab.h          reference output for testing
+test/err_syntax9.y              testcase for tokenized_start()
+test/error.error                reference output for testing
 test/error.output               original version of byacc - 1993
 test/error.tab.c                original version of byacc - 1993
 test/error.tab.h                original version of byacc - 1993
 test/error.y                    original version of byacc - 1993
-test/ftp.output                 original version of byacc - 1993
-test/ftp.tab.c                  original version of byacc - 1993
-test/ftp.tab.h                  original version of byacc - 1993
-test/ftp.y                      original version of byacc - 1993
+test/grammar.dot                generated dot-file
+test/grammar.error              reference output for testing
 test/grammar.output             "-v" output from grammar.y
 test/grammar.tab.c              c-file for grammar.y
 test/grammar.tab.h              h-file for grammar.y
 test/grammar.y                  grammar from cproto
+test/pure_calc.error            reference output for testing
 test/pure_calc.output           reference output for testing
 test/pure_calc.tab.c            reference output for testing
 test/pure_calc.tab.h            reference output for testing
 test/pure_calc.y                reference input for testing
+test/pure_error.error           reference output for testing
 test/pure_error.output          reference output for testing
 test/pure_error.tab.c           reference output for testing
 test/pure_error.tab.h           reference output for testing
 test/pure_error.y               reference input for testing
+test/quote_calc-s.error         reference output for testing
 test/quote_calc-s.output        test reference with -s option
 test/quote_calc-s.tab.c         test reference with -s option
 test/quote_calc-s.tab.h         test reference with -s option
+test/quote_calc.error           reference output for testing
 test/quote_calc.output          test-reference for %token using quoted name
 test/quote_calc.tab.c           test-reference for %token using quoted name
 test/quote_calc.tab.h           test-reference for %token using quoted name
 test/quote_calc.y               test-case for %token using quoted name
+test/quote_calc2-s.error        reference output for testing
 test/quote_calc2-s.output       test reference with -s option
 test/quote_calc2-s.tab.c        test reference with -s option
 test/quote_calc2-s.tab.h        test reference with -s option
+test/quote_calc2.error          reference output for testing
 test/quote_calc2.output         test-reference for %token using quoted name
 test/quote_calc2.tab.c          test-reference for %token using quoted name
 test/quote_calc2.tab.h          test-reference for %token using quoted name
 test/quote_calc2.y              test-case for %token using quoted name
+test/quote_calc3-s.error        reference output for testing
 test/quote_calc3-s.output       test reference with -s option
 test/quote_calc3-s.tab.c        test reference with -s option
 test/quote_calc3-s.tab.h        test reference with -s option
+test/quote_calc3.error          reference output for testing
 test/quote_calc3.output         test-reference for %token using quoted name
 test/quote_calc3.tab.c          test-reference for %token using quoted name
 test/quote_calc3.tab.h          test-reference for %token using quoted name
 test/quote_calc3.y              test-case for %token using quoted name
+test/quote_calc4-s.error        reference output for testing
 test/quote_calc4-s.output       test reference with -s option
 test/quote_calc4-s.tab.c        test reference with -s option
 test/quote_calc4-s.tab.h        test reference with -s option
+test/quote_calc4.error          reference output for testing
 test/quote_calc4.output         test-reference for %token using quoted name
 test/quote_calc4.tab.c          test-reference for %token using quoted name
 test/quote_calc4.tab.h          test-reference for %token using quoted name

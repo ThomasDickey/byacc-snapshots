@@ -1,3 +1,68 @@
+2014-03-19  Tom.Shields
+
+	* output.c: rename MAXSHORT to MAXYYINT
+
+2014-03-18  Tom.Shields
+
+	* yaccpar.skel: skeleton with btyacc additions
+
+	* NOTES-btyacc-Changes: byacc-btyacc-20140323
+
+	* defs.h:
+	several changes to help decouple the use of 'short' as the type of value
+	used in yacc parsers.
+
+	* NOTES-btyacc-Disposition: byacc-btyacc-20140323
+
+2014-03-17  Tom.Shields
+
+	* skel2c, yaccpar.skel, yaccpar.skel.old: RCS_BASE
+
+	* configure.in: add --with-max-table-size and --enable-btyacc options
+
+2014-03-16  Tom.Shields
+
+	* main.c: use Value_t rather than short
+
+2014-02-18  Tom.Shields
+
+	* lr0.c, graph.c: use Value_t rather than short
+
+	* closure.c: use Value_t rather than short
+	ifdef'd forward-reference prototypes to match ifdef'ing of the actual functions
+
+	* lalr.c: rename MAXSHORT to MAXYYINT
+
+2014-01-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* yacc.1: document %token-table, improve presentation of double-quotes
+
+	* VERSION: bump
+
+	* output.c, skeleton.c:
+	amend the last change so that yytname is #define'd as needed rather than
+	permanent - to avoid breaking cproto for instance.
+
+2014-01-01  Christos.Zoulas
+
+	* output.c, defs.h, main.c, reader.c, skeleton.c:
+	changes to build ntpd using byacc:
+	- rename yyname[] to yytname[]
+	- add YYTRANSLATE() macro
+	- recognize bison's %token-table declaration
+
+2014-01-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* yacc.1: s/EE/XE/ to work around groff bug on Debian 6
+
+	* makefile.in: use CF_MAKE_DOCS
+
+	* aclocal.m4: add CF_MAKE_DOCS
+
+	* configure.in: use CF_MAKE_DOCS
+
 2013-12-26  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.guess: 2013-11-29

@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140321-gcov
+MANIFEST for byacc, version t20140322-gcov
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -95,6 +95,41 @@ test/err_syntax1.output         reference output for testing
 test/err_syntax1.tab.c          reference output for testing
 test/err_syntax1.tab.h          reference output for testing
 test/err_syntax1.y              test-case with syntax error (and nonprinting character)
+test/err_syntax10.error         reference output for testing
+test/err_syntax10.output        reference output for testing
+test/err_syntax10.tab.c         reference output for testing
+test/err_syntax10.tab.h         reference output for testing
+test/err_syntax10.y             testcase for retyped_warning()
+test/err_syntax11.error         reference output for testing
+test/err_syntax11.output        reference output for testing
+test/err_syntax11.tab.c         reference output for testing
+test/err_syntax11.tab.h         reference output for testing
+test/err_syntax11.y             testcase for reprec_warning()
+test/err_syntax12.error         reference output for testing
+test/err_syntax12.output        reference output for testing
+test/err_syntax12.tab.c         reference output for testing
+test/err_syntax12.tab.h         reference output for testing
+test/err_syntax12.y             testcase for revalued_warning()
+test/err_syntax13.error         reference output for testing
+test/err_syntax13.output        reference output for testing
+test/err_syntax13.tab.c         reference output for testing
+test/err_syntax13.tab.h         reference output for testing
+test/err_syntax13.y             testcase for terminal_start()
+test/err_syntax14.error         reference output for testing
+test/err_syntax14.output        reference output for testing
+test/err_syntax14.tab.c         reference output for testing
+test/err_syntax14.tab.h         reference output for testing
+test/err_syntax14.y             testcase for restarted_warning() and undefined_goal()
+test/err_syntax15.error         reference output for testing
+test/err_syntax15.output        reference output for testing
+test/err_syntax15.tab.c         reference output for testing
+test/err_syntax15.tab.h         reference output for testing
+test/err_syntax15.y             testcase for no_grammar()
+test/err_syntax16.error         reference output for testing
+test/err_syntax16.output        reference output for testing
+test/err_syntax16.tab.c         reference output for testing
+test/err_syntax16.tab.h         reference output for testing
+test/err_syntax16.y             testcase for terminal_lhs()
 test/err_syntax2.error          reference output for testing
 test/err_syntax2.output         reference output for testing
 test/err_syntax2.tab.c          reference output for testing

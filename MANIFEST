@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140322-gcov
+MANIFEST for byacc, version t20140323-gcov
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -130,11 +130,61 @@ test/err_syntax16.output        reference output for testing
 test/err_syntax16.tab.c         reference output for testing
 test/err_syntax16.tab.h         reference output for testing
 test/err_syntax16.y             testcase for terminal_lhs()
+test/err_syntax17.error         reference output for testing
+test/err_syntax17.output        reference output for testing
+test/err_syntax17.tab.c         reference output for testing
+test/err_syntax17.tab.h         reference output for testing
+test/err_syntax17.y             testcase for unterminated_action()
+test/err_syntax18.error         reference output for testing
+test/err_syntax18.output        reference output for testing
+test/err_syntax18.tab.c         reference output for testing
+test/err_syntax18.tab.h         reference output for testing
+test/err_syntax18.y             testcase for dollar_warning()
+test/err_syntax19.error         reference output for testing
+test/err_syntax19.output        reference output for testing
+test/err_syntax19.tab.c         reference output for testing
+test/err_syntax19.tab.h         reference output for testing
+test/err_syntax19.y             testcase for dollar_error()
 test/err_syntax2.error          reference output for testing
 test/err_syntax2.output         reference output for testing
 test/err_syntax2.tab.c          reference output for testing
 test/err_syntax2.tab.h          reference output for testing
 test/err_syntax2.y              testcase for unterminated_comment()
+test/err_syntax20.error         reference output for testing
+test/err_syntax20.output        reference output for testing
+test/err_syntax20.tab.c         reference output for testing
+test/err_syntax20.tab.h         reference output for testing
+test/err_syntax20.y             testcase for undefined_symbol_warning()
+test/err_syntax21.error         reference output for testing
+test/err_syntax21.output        reference output for testing
+test/err_syntax21.tab.c         reference output for testing
+test/err_syntax21.tab.h         reference output for testing
+test/err_syntax21.y             testcase for unknown_rhs()
+test/err_syntax22.error         reference output for testing
+test/err_syntax22.output        reference output for testing
+test/err_syntax22.tab.c         reference output for testing
+test/err_syntax22.tab.h         reference output for testing
+test/err_syntax22.y             testcase for untyped_rhs()
+test/err_syntax23.error         reference output for testing
+test/err_syntax23.output        reference output for testing
+test/err_syntax23.tab.c         reference output for testing
+test/err_syntax23.tab.h         reference output for testing
+test/err_syntax23.y             testcase for untyped_lhs()
+test/err_syntax24.error         reference output for testing
+test/err_syntax24.output        reference output for testing
+test/err_syntax24.tab.c         reference output for testing
+test/err_syntax24.tab.h         reference output for testing
+test/err_syntax24.y             testcase for default_action_warning()
+test/err_syntax25.error         reference output for testing
+test/err_syntax25.output        reference output for testing
+test/err_syntax25.tab.c         reference output for testing
+test/err_syntax25.tab.h         reference output for testing
+test/err_syntax25.y             testcase for over_unionized()
+test/err_syntax26.error         reference output for testing
+test/err_syntax26.output        reference output for testing
+test/err_syntax26.tab.c         reference output for testing
+test/err_syntax26.tab.h         reference output for testing
+test/err_syntax26.y             testcase for unexpected_EOF()
 test/err_syntax3.error          reference output for testing
 test/err_syntax3.output         reference output for testing
 test/err_syntax3.tab.c          reference output for testing

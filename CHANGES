@@ -1,3 +1,7 @@
+2014-03-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* defs.h: fix compiler warnings due to mputc()
+
 2014-03-19  Tom.Shields
 
 	* output.c: rename MAXSHORT to MAXYYINT

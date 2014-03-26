@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.47 2014/01/01 17:22:38 tom Exp $ */
+/* $Id: output.c,v 1.48 2014/03/19 22:46:18 Tom.Shields Exp $ */
 
 #include "defs.h"
 
@@ -277,7 +277,7 @@ token_actions(void)
 	    {
 		froms[i] = r = NEW2(shiftcount, Value_t);
 		tos[i] = s = NEW2(shiftcount, Value_t);
-		min = MAXSHORT;
+		min = MAXYYINT;
 		max = 0;
 		for (j = 0; j < ntokens; ++j)
 		{
@@ -297,7 +297,7 @@ token_actions(void)
 	    {
 		froms[nstates + i] = r = NEW2(reducecount, Value_t);
 		tos[nstates + i] = s = NEW2(reducecount, Value_t);
-		min = MAXSHORT;
+		min = MAXYYINT;
 		max = 0;
 		for (j = 0; j < ntokens; ++j)
 		{

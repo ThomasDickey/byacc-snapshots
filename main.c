@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.41 2014/01/01 14:23:27 Christos.Zoulas Exp $ */
+/* $Id: main.c,v 1.42 2014/03/16 15:18:12 Tom.Shields Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -73,11 +73,11 @@ FILE *union_file;	/*  a temp file, used to save the union             */
 FILE *verbose_file;	/*  y.output                                        */
 FILE *graph_file;	/*  y.dot                                           */
 
-int nitems;
-int nrules;
-int nsyms;
-int ntokens;
-int nvars;
+Value_t nitems;
+Value_t nrules;
+Value_t nsyms;
+Value_t ntokens;
+Value_t nvars;
 
 Value_t start_symbol;
 char **symbol_name;

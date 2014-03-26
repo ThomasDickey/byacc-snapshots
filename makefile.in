@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.19 2014/01/01 14:09:43 tom Exp $
+# $Id: makefile.in,v 1.20 2014/03/25 23:14:31 Tom.Shields Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -27,6 +27,7 @@ LIBS		= @LIBS@
 CTAGS		= @CTAGS@
 ETAGS		= @ETAGS@
 LINT		= @LINT@
+LINTFLAGS	=
 
 prefix		= @prefix@
 exec_prefix	= @exec_prefix@
@@ -123,7 +124,7 @@ clean :: mostlyclean
 
 distclean :: clean
 	- rm -f config.log config.cache config.status config.h makefile
-	- cd test && rm -f test-*
+	- rm -f $(testdir)/yacc/test-* $(testdir)/btyacc/test-*
 
 realclean :: distclean
 	- rm -f tags TAGS
@@ -142,7 +143,7 @@ tags: $(H_FILES) $(C_FILES)
 	$(CTAGS) $(C_FILES) $(H_FILES)
 
 lint: $(C_FILES) 
-	$(LINT) $(CPPFLAGS) $(C_FILES)
+	$(LINT) $(LINTFLAGS) $(CPPFLAGS) $(C_FILES)
 
 @MAKE_UPPER_TAGS@TAGS: $(H_FILES) $(C_FILES) 
 @MAKE_UPPER_TAGS@	$(ETAGS) $(C_FILES) $(H_FILES)
@@ -150,9 +151,9 @@ lint: $(C_FILES)
 depend:
 	makedepend -- $(CPPFLAGS) -- $(C_FILES)
 
-$(OBJS) : defs.h
+$(OBJS) : defs.h makefile
 
 main$o \
-skeleton$o : makefile VERSION
+skeleton$o : VERSION
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.

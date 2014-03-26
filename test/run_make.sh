@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_make.sh,v 1.9 2012/01/15 22:35:01 tom Exp $
+# $Id: run_make.sh,v 1.10 2014/03/19 01:27:14 Tom.Shields Exp $
 # vi:ts=4 sw=4:
 
 # do a test-compile on each of the ".c" files in the test-directory
@@ -15,10 +15,18 @@ else
 	TEST_DIR=.
 fi
 
-MY_MAKE="make -f $PROG_DIR/makefile srcdir=$PROG_DIR VPATH=$TEST_DIR"
+ifBTYACC=`fgrep -l YYBTYACC makefile > /dev/null; ! test $? -eq 0; echo $?`
+
+if test $ifBTYACC = 0; then
+	REF_DIR=${TEST_DIR}/yacc
+else
+	REF_DIR=${TEST_DIR}/btyacc
+fi
+
+MY_MAKE="make -f $PROG_DIR/makefile srcdir=$PROG_DIR VPATH=$REF_DIR"
 
 echo '** '`date`
-for input in ${TEST_DIR}/*.c
+for input in ${REF_DIR}/*.c
 do
 	test -f "$input" || continue
 
@@ -47,6 +55,12 @@ then
 	for input in ${TEST_DIR}/*.y
 	do
 		test -f "$input" || continue
+		case $input in
+		${TEST_DIR}/btyacc_*)
+			# Bison does not support the btyacc []-action extension.
+			continue
+			;;
+		esac
 
 		# Bison does not support pure-parser from command-line.
 		# Also, its support for %expect is generally broken.
@@ -56,7 +70,7 @@ then
 		rm -f run_make.[coy]
 
 		case $input in
-		pure_*)
+		${TEST_DIR}/pure_*)
 			if test -z `fgrep -l '%pure-parser' $input`
 			then
 				echo "%pure-parser" >>run_make.y

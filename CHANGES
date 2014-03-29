@@ -1,3 +1,8 @@
+2014-03-28  Tom.Shields
+
+	* defs.h: new functions/variables for btyacc
+	(I reordered and ifdef'd -TD)
+
 2014-03-25  Tom.Shields
 
 	* symtab.c: extra initialization needed for btyacc

@@ -1,3 +1,0 @@
-YACC: e - line 6 of "./test/err_syntax5.y", unterminated %union declaration
-%union {
-^

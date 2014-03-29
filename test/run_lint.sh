@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_lint.sh,v 1.2 2014/03/17 17:15:21 Tom.Shields Exp $
+# $Id: run_lint.sh,v 1.3 2014/03/28 23:40:27 tom Exp $
 # vi:ts=4 sw=4:
 
 # run lint on each of the ".c" files in the test directory
@@ -13,7 +13,7 @@ else
 	TEST_DIR=.
 fi
 
-ifBTYACC=`fgrep -l YYBTYACC makefile > /dev/null; ! test $? -eq 0; echo $?`
+ifBTYACC=`fgrep -l 'define YYBTYACC' config.h > /dev/null; test $? != 0; echo $?`
 
 if test $ifBTYACC = 0; then
 	REF_DIR=${TEST_DIR}/yacc

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_make.sh,v 1.10 2014/03/19 01:27:14 Tom.Shields Exp $
+# $Id: run_make.sh,v 1.11 2014/03/28 23:40:18 tom Exp $
 # vi:ts=4 sw=4:
 
 # do a test-compile on each of the ".c" files in the test-directory
@@ -15,7 +15,7 @@ else
 	TEST_DIR=.
 fi
 
-ifBTYACC=`fgrep -l YYBTYACC makefile > /dev/null; ! test $? -eq 0; echo $?`
+ifBTYACC=`fgrep -l 'define YYBTYACC' config.h > /dev/null; test $? != 0; echo $?`
 
 if test $ifBTYACC = 0; then
 	REF_DIR=${TEST_DIR}/yacc

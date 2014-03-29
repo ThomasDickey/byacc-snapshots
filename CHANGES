@@ -1,3 +1,37 @@
+2014-03-25  Tom.Shields
+
+	* symtab.c: extra initialization needed for btyacc
+	(I ifdef'd -TD)
+
+	* yacc.1: document -L/-B features from btyacc
+
+2014-03-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* yacc.1: typo
+
+	* configure: regen
+
+	* configure.in:
+	modified new options to act like those in my other configure-scripts, e.g.,
+	showing what option is being tested, and the resulting value.  Put the
+	definitions in config.h rather than in the makefile.
+
+2014-03-25  Tom.Shields
+
+	* makefile.in: add/use LINTFLAGS variable
+	make all of the objects (not just skeleton) rebuild if makefile changes
+	modify check-rule to reflect updates to run_test.sh vs subdirectory
+
+	* mstring.c: byacc-btyacc-20140323
+
+2014-03-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config_h.in: updated with autoheader-252
+
+2014-03-25  Tom.Shields
+
+	* README.BTYACC: byacc-btyacc-20140323
+
 2014-03-24  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* defs.h: fix compiler warnings due to mputc()

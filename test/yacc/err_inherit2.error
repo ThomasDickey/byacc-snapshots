@@ -1,3 +1,0 @@
-YACC: e - line 26 of "./test/err_inherit2.y", syntax error
-%type <nlist> declaration namelist(<cval>, <tval>) locnamelist(<tval>)
-                                  ^

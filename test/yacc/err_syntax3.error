@@ -1,3 +1,0 @@
-YACC: e - line 6 of "./test/err_syntax3.y", unterminated string
-%token <text> '(' '*' '&
-                      ^

@@ -1,3 +1,60 @@
+2014-04-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c: fix typo
+
+	* output.c, reader.c:
+	merge in some chunks of reader and output files which do not affect byacc tests
+
+	* skeleton.c: incorporate YYENOMEM and YYEOF symbols from btyacc
+
+	* output.c: merge chunk from btyacc changes for header-guards
+
+	* btyaccpar.skel: RCS_BASE
+
+	* yaccpar.skel: comment-out yysccsid[], for FreeBSD build-issues
+	remove GCC_UNUSED to reduce name-pollution as well as being simpler
+
+	* main.c:
+	move a btyacc symbol outside ifdef to work around current state of merge
+
+	* defs.h:
+	add USE_HEADER_GUARDS to defer whether to modify byacc's header-output
+
+2014-04-02  Tom.Shields
+
+	* main.c: changes for btyacc
+
+2014-04-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c:
+	integrate change by Tom Shields to use bsearch rather than successive
+	calls to matchec()
+
+	* defs.h: typedef __compar_fn_t is unnecessary
+
+2014-04-01  Tom.Shields
+
+	* verbose.c: changes for btyacc, ifdef'd
+
+2014-04-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* mkpar.c: eliminate most of the ifdef's using macros
+
+2014-04-01  Tom.Shields
+
+	* mkpar.c: merge btyacc changes (ifdef'd - no change to byacc)
+
+	* error.c:
+	new functions used for reporting errors from the btyacc configuration
+	(I reordered some, and ifdef'd the new ones -TD)
+
+2014-03-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* skeleton.c:
+	comment-out yysccsid in the banner because it produces unnecessary compiler
+	warnings.  The suggested alternative (using #pragma ident) in the preceding
+	comment is also obsolete; remove that comment (request by Gleb Smirnoff).
+
 2014-03-28  Tom.Shields
 
 	* defs.h: new functions/variables for btyacc

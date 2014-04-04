@@ -1,9 +1,15 @@
-/* $Id: output.c,v 1.51 2014/04/03 00:40:29 tom Exp $ */
+/* $Id: output.c,v 1.52 2014/04/03 23:35:15 tom Exp $ */
 
 #include "defs.h"
 
 #define StaticOrR	(rflag ? "" : "static ")
 #define CountLine(fp)   (!rflag || ((fp) == code_file))
+
+#if defined(YYBTYACC)
+#define PER_STATE 3
+#else
+#define PER_STATE 2
+#endif
 
 static int nvectors;
 static int nentries;
@@ -23,7 +29,7 @@ static int maxtable;
 static Value_t *table;
 static Value_t *check;
 static int lowzero;
-static int high;
+static long high;
 
 static void
 putc_code(FILE * fp, int c)
@@ -109,6 +115,9 @@ output_prefix(FILE * fp)
 	define_prefixed(fp, "yylhs");
 	define_prefixed(fp, "yylen");
 	define_prefixed(fp, "yydefred");
+#if defined(YYBTYACC)
+	define_prefixed(fp, "yystos");
+#endif
 	define_prefixed(fp, "yydgoto");
 	define_prefixed(fp, "yysindex");
 	define_prefixed(fp, "yyrindex");
@@ -188,11 +197,26 @@ end_table(void)
     output_line("};");
 }
 
+#if defined(YYBTYACC)
+static void
+output_YYINT_typedef(FILE * fp)
+{
+    /* generate the type used to index the various parser tables */
+    if (CountLine(fp))
+	++outline;
+    fprintf(fp, "typedef %s YYINT;\n", CONCAT1("", YYINT));
+}
+#endif
+
 static void
 output_rule_data(void)
 {
     int i;
     int j;
+
+#if defined(YYBTYACC)
+    output_YYINT_typedef(output_file);
+#endif
 
     start_int_table("lhs", symbol_value[start_symbol]);
 
@@ -253,27 +277,118 @@ output_yydefred(void)
     end_table();
 }
 
+#if defined(YYBTYACC)
+static void
+output_accessing_symbols(void)
+{
+    int i, j;
+    int *translate;
+
+    translate = TMALLOC(int, nstates);
+    NO_SPACE(translate);
+
+    for (i = 0; i < nstates; ++i)
+    {
+	int gsymb = accessing_symbol[i];
+
+	translate[i] = symbol_pval[gsymb];
+    }
+
+    /* yystos[] may be unused, depending on compile-time defines */
+    start_int_table("stos", translate[0]);
+
+    j = 10;
+    for (i = 1; i < nstates; ++i)
+    {
+	if (j < 10)
+	    ++j;
+	else
+	{
+	    output_newline();
+	    j = 1;
+	}
+
+	output_int(translate[i]);
+    }
+
+    end_table();
+    FREE(translate);
+}
+
+static Value_t
+find_conflict_base(Value_t cbase)
+{
+    Value_t i, j;
+
+    for (i = 0; i < cbase; i++)
+    {
+	for (j = 0; j + cbase < nconflicts; j++)
+	{
+	    if (conflicts[i + j] != conflicts[cbase + j])
+		break;
+	}
+	if (j + cbase >= nconflicts)
+	    return i;
+    }
+    return cbase;
+}
+#endif
+
 static void
 token_actions(void)
 {
     int i, j;
     Value_t shiftcount, reducecount;
+#if defined(YYBTYACC)
+    Value_t conflictcount, csym, cbase;
+#endif
     int max, min;
     Value_t *actionrow, *r, *s;
     action *p;
 
-    actionrow = NEW2(2 * ntokens, Value_t);
+    actionrow = NEW2(PER_STATE * ntokens, Value_t);
     for (i = 0; i < nstates; ++i)
     {
 	if (parser[i])
 	{
-	    for (j = 0; j < 2 * ntokens; ++j)
+	    for (j = 0; j < PER_STATE * ntokens; ++j)
 		actionrow[j] = 0;
 
 	    shiftcount = 0;
 	    reducecount = 0;
+#if defined(YYBTYACC)
+	    if (backtrack)
+	    {
+		conflictcount = 0;
+		csym = -1;
+		cbase = nconflicts;
+	    }
+#endif
 	    for (p = parser[i]; p; p = p->next)
 	    {
+#if defined(YYBTYACC)
+		if (backtrack)
+		{
+		    if (csym != -1 && csym != p->symbol)
+		    {
+			conflictcount++;
+			conflicts[nconflicts++] = -1;
+			j = find_conflict_base(cbase);
+			actionrow[csym + 2 * ntokens] = (Value_t) (j + 1);
+			if (j == cbase)
+			{
+			    cbase = nconflicts;
+			}
+			else
+			{
+			    if (conflicts[cbase] == -1)
+				cbase++;
+			    nconflicts = cbase;
+			}
+			csym = -1;
+		    }
+		}
+#endif
 		if (p->suppressed == 0)
 		{
 		    if (p->action_code == SHIFT)
@@ -287,12 +402,60 @@ token_actions(void)
 			actionrow[p->symbol + ntokens] = p->number;
 		    }
 		}
+#if defined(YYBTYACC)
+		else if (backtrack && p->suppressed == 1)
+		{
+		    csym = p->symbol;
+		    if (p->action_code == SHIFT)
+		    {
+			conflicts[nconflicts++] = p->number;
+		    }
+		    else if (p->action_code == REDUCE && p->number != defred[i])
+		    {
+			if (cbase == nconflicts)
+			{
+			    if (cbase)
+				cbase--;
+			    else
+				conflicts[nconflicts++] = -1;
+			}
+			conflicts[nconflicts++] = (Value_t) (p->number - 2);
+		    }
+		}
+#endif
 	    }
+#if defined(YYBTYACC)
+	    if (backtrack && csym != -1)
+	    {
+		conflictcount++;
+		conflicts[nconflicts++] = -1;
+		j = find_conflict_base(cbase);
+		actionrow[csym + 2 * ntokens] = (Value_t) (j + 1);
+		if (j == cbase)
+		{
+		    cbase = nconflicts;
+		}
+		else
+		{
+		    if (conflicts[cbase] == -1)
+			cbase++;
+		    nconflicts = cbase;
+		}
+	    }
+#endif
 
 	    tally[i] = shiftcount;
 	    tally[nstates + i] = reducecount;
+#if defined(YYBTYACC)
+	    if (backtrack)
+		tally[2 * nstates + i] = conflictcount;
+#endif
 	    width[i] = 0;
 	    width[nstates + i] = 0;
+#if defined(YYBTYACC)
+	    if (backtrack)
+		width[2 * nstates + i] = 0;
+#endif
 	    if (shiftcount > 0)
 	    {
 		froms[i] = r = NEW2(shiftcount, Value_t);
@@ -333,6 +496,28 @@ token_actions(void)
 		}
 		width[nstates + i] = (Value_t) (max - min + 1);
 	    }
+#if defined(YYBTYACC)
+	    if (backtrack && conflictcount > 0)
+	    {
+		froms[2 * nstates + i] = r = NEW2(conflictcount, Value_t);
+		tos[2 * nstates + i] = s = NEW2(conflictcount, Value_t);
+		min = MAXYYINT;
+		max = 0;
+		for (j = 0; j < ntokens; ++j)
+		{
+		    if (actionrow[2 * ntokens + j])
+		    {
+			if (min > symbol_value[j])
+			    min = symbol_value[j];
+			if (max < symbol_value[j])
+			    max = symbol_value[j];
+			*r++ = symbol_value[j];
+			*s++ = (Value_t) (actionrow[2 * ntokens + j] - 1);
+		    }
+		}
+		width[2 * nstates + i] = (Value_t) (max - min + 1);
+	    }
+#endif
 	}
     }
     FREE(actionrow);
@@ -397,7 +582,7 @@ save_column(int symbol, int default_state)
     if (count == 0)
 	return;
 
-    symno = symbol_value[symbol] + 2 * nstates;
+    symno = symbol_value[symbol] + PER_STATE * nstates;
 
     froms[symno] = sp1 = sp = NEW2(count, Value_t);
     tos[symno] = sp2 = NEW2(count, Value_t);
@@ -496,6 +681,11 @@ sort_actions(void)
 /*  Matching_vector is poorly designed.  The test could easily be made	*/
 /*  faster.  Also, it depends on the vectors being in a specific	*/
 /*  order.								*/
+#if defined(YYBTYACC)
+/*									*/
+/*  Not really any point in checking for matching conflicts -- it is    */
+/*  extremely unlikely to occur, and conflicts are (hopefully) rare.    */
+#endif
 
 static int
 matching_vector(int vector)
@@ -705,10 +895,32 @@ output_base(void)
 
     end_table();
 
-    start_int_table("gindex", base[2 * nstates]);
+#if defined(YYBTYACC)
+    output_line("#if YYBTYACC");
+    start_int_table("cindex", base[2 * nstates]);
 
     j = 10;
-    for (i = 2 * nstates + 1; i < nvectors - 1; i++)
+    for (i = 2 * nstates + 1; i < 3 * nstates; i++)
+    {
+	if (j >= 10)
+	{
+	    output_newline();
+	    j = 1;
+	}
+	else
+	    ++j;
+
+	output_int(base[i]);
+    }
+
+    end_table();
+    output_line("#endif");
+#endif
+
+    start_int_table("gindex", base[PER_STATE * nstates]);
+
+    j = 10;
+    for (i = PER_STATE * nstates + 1; i < nvectors - 1; i++)
     {
 	if (j >= 10)
 	{
@@ -731,8 +943,17 @@ output_table(void)
     int i;
     int j;
 
+#if defined(YYBTYACC)
+    if (high >= MAXYYINT)
+    {
+	fprintf(stderr, "YYTABLESIZE: %ld\n", high);
+	fprintf(stderr, "Table is longer than %d elements.\n", MAXYYINT);
+	exit(1);
+    }
+#endif
+
     ++outline;
-    fprintf(code_file, "#define YYTABLESIZE %d\n", high);
+    fprintf(code_file, "#define YYTABLESIZE %ld\n", high);
     start_int_table("table", table[0]);
 
     j = 10;
@@ -812,12 +1033,17 @@ output_ctable(void)
 static void
 output_actions(void)
 {
-    nvectors = 2 * nstates + nvars;
+    nvectors = PER_STATE * nstates + nvars;
 
     froms = NEW2(nvectors, Value_t *);
     tos = NEW2(nvectors, Value_t *);
     tally = NEW2(nvectors, Value_t);
     width = NEW2(nvectors, Value_t);
+
+#if defined(YYBTYACC)
+    if (backtrack && (SRtotal + RRtotal) != 0)
+	conflicts = NEW2(4 * (SRtotal + RRtotal), Value_t);
+#endif
 
     token_actions();
     FREE(lookaheads);
@@ -936,7 +1162,7 @@ output_defines(FILE * fp)
 	    {
 		rewind(union_file);
 		while ((c = getc(union_file)) != EOF)
-		    putc(c, fp);
+		    putc_code(fp, c);
 	    }
 	    fprintf(fp, "extern YYSTYPE %slval;\n", symbol_prefix);
 	}
@@ -1204,6 +1430,27 @@ output_debug(void)
     output_line("#endif");
 }
 
+#if defined(YYBTYACC)
+static void
+output_backtracking_parser(FILE * fp)
+{
+    putl_code(fp, "#undef YYBTYACC\n");
+#if defined(YYBTYACC)
+    if (backtrack)
+    {
+	putl_code(fp, "#define YYBTYACC 1\n");
+	putl_code(fp,
+		  "#define YYDEBUGSTR (yytrial ? YYPREFIX \"debug(trial)\" : YYPREFIX \"debug\")\n");
+    }
+    else
+#endif
+    {
+	putl_code(fp, "#define YYBTYACC 0\n");
+	putl_code(fp, "#define YYDEBUGSTR YYPREFIX \"debug\"\n");
+    }
+}
+#endif
+
 static void
 output_pure_parser(FILE * fp)
 {
@@ -1440,6 +1687,7 @@ output_lex_decl(FILE * fp)
     else if (lex_param)
     {
 	param *p;
+
 	puts_code(fp, "# define YYLEX_DECL() yylex(");
 	for (p = lex_param; p; p = p->next)
 	    fprintf(fp, "%s %s%s%s", p->type, p->name, p->type2,
@@ -1639,22 +1887,18 @@ output_yyerror_call(const char *msg)
 static void
 output_externs(FILE * fp, const char *const section[])
 {
-    int c;
     int i;
     const char *s;
 
     for (i = 0; (s = section[i]) != 0; ++i)
     {
-	if (*s && *s != '#')
+	/* prefix non-blank lines that don't start with
+	   C pre-processor directives with 'extern ' */
+	if (*s && (*s != '#'))
 	    fputs("extern\t", fp);
-	while ((c = *s) != 0)
-	{
-	    putc(c, fp);
-	    ++s;
-	}
 	if (fp == code_file)
 	    ++outline;
-	putc('\n', fp);
+	fprintf(fp, "%s\n", s);
     }
 }
 
@@ -1667,8 +1911,15 @@ output(void)
     free_shifts();
     free_reductions();
 
+#if defined(YYBTYACC)
+    output_backtracking_parser(output_file);
+    if (rflag)
+	output_backtracking_parser(code_file);
+#endif
+
     if (iflag)
     {
+	write_code_lineno(code_file);
 	++outline;
 	fprintf(code_file, "#include \"%s\"\n", externs_file_name);
 	fp = externs_file;
@@ -1691,7 +1942,15 @@ output(void)
     if (destructor)
 	output_yydestruct_decl(fp);
 #endif
+#if defined(YYBTYACC)
+    if (iflag || !rflag)
+    {
+	write_section(fp, xdecls);
+	write_code_lineno(fp);
+    }
+#else
     write_section(fp, xdecls);
+#endif
 
     if (iflag)
     {
@@ -1725,6 +1984,9 @@ output(void)
 
     output_rule_data();
     output_yydefred();
+#if defined(YYBTYACC)
+    output_accessing_symbols();
+#endif
     output_actions();
     free_parser();
     output_debug();
@@ -1732,6 +1994,9 @@ output(void)
     {
 	output_prefix(code_file);
 	write_section(code_file, xdecls);
+#if defined(YYBTYACC)
+	output_YYINT_typedef(code_file);
+#endif
 	write_section(code_file, tables);
     }
     write_section(code_file, global_vars);

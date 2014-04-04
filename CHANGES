@@ -1,3 +1,17 @@
+2014-04-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c:
+	merge-in 3/4 of btyacc's changes, deferring those which change test-outputs.
+	Tom Shield's changes split-out copy_string() and copy_comment() functions
+	to simplify some logic, as well as adding btyacc-only chunks
+
+	* makefile.in: build mstring.o, needed for changes in reader.c
+
+	* output.c:
+	merge-in all of btyacc's changes which do not change byacc's test-output.
+	Some of the merge uses ifdef-changes which I applied to ongoing resync,
+	e.g., the introduction of PER_STATE.
+
 2014-04-02  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* output.c: fix typo

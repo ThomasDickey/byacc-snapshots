@@ -1,3 +1,9 @@
+2014-04-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c, defs.h, main.c:
+	more merging of Tom Shield's btyacc changes.  In the merge, I moved the
+	symbol_pval inside the btyacc ifdef's and added some more btyacc ifdefs
+
 2014-04-03  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* reader.c:

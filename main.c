@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.44 2014/04/02 22:26:21 tom Exp $ */
+/* $Id: main.c,v 1.45 2014/04/05 00:18:22 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -89,9 +89,8 @@ char *symbol_assoc;
 int pure_parser;
 int token_table;
 
-Value_t *symbol_pval;
-
 #if defined(YYBTYACC)
+Value_t *symbol_pval;
 char **symbol_destructor;
 char **symbol_type_tag;
 int locations = 0;	/* default to no position processing */

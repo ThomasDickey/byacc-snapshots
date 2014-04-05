@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.43 2014/04/02 22:23:45 tom Exp $ */
+/* $Id: defs.h,v 1.44 2014/04/05 00:18:29 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -336,11 +336,11 @@ extern Value_t start_symbol;
 extern char **symbol_name;
 extern char **symbol_pname;
 extern Value_t *symbol_value;
-extern Value_t *symbol_pval;
 extern Value_t *symbol_prec;
 extern char *symbol_assoc;
 
 #if defined(YYBTYACC)
+extern Value_t *symbol_pval;
 extern char **symbol_destructor;
 extern char **symbol_type_tag;
 #endif

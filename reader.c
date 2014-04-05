@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.41 2014/04/04 01:13:50 tom Exp $ */
+/* $Id: reader.c,v 1.42 2014/04/05 01:12:47 tom Exp $ */
 
 #include "defs.h"
 
@@ -30,7 +30,7 @@ static char *cache;
 static int cinc, cache_size;
 
 int ntags;
-static int tagmax;
+static int tagmax, havetags;
 static char **tag_table;
 
 static char saw_eof;
@@ -368,7 +368,6 @@ keyword(void)
 	    return (NONASSOC);
     }
     syntax_error(lineno, line, t_cptr);
-    /*NOTREACHED */
 }
 
 static void
@@ -998,11 +997,41 @@ get_number(void)
 }
 
 static char *
+cache_tag(char *tag, size_t len)
+{
+    int i;
+    char *s;
+
+    for (i = 0; i < ntags; ++i)
+    {
+	if (strncmp(tag, tag_table[i], len) == 0 &&
+	    tag_table[i][len] == NUL)
+	    return (tag_table[i]);
+    }
+
+    if (ntags >= tagmax)
+    {
+	tagmax += 16;
+	tag_table =
+	    (tag_table
+	     ? TREALLOC(char *, tag_table, tagmax)
+	     : TMALLOC(char *, tagmax));
+	NO_SPACE(tag_table);
+    }
+
+    s = TMALLOC(char, len + 1);
+    NO_SPACE(s);
+
+    strncpy(s, tag, len);
+    s[len] = 0;
+    tag_table[ntags++] = s;
+    return s;
+}
+
+static char *
 get_tag(void)
 {
     int c;
-    int i;
-    char *s;
     int t_lineno = lineno;
     char *t_line = dup_line();
     char *t_cptr = t_line + (cptr - line);
@@ -1030,33 +1059,9 @@ get_tag(void)
 	illegal_tag(t_lineno, t_line, t_cptr);
     ++cptr;
 
-    for (i = 0; i < ntags; ++i)
-    {
-	if (strcmp(cache, tag_table[i]) == 0)
-	{
-	    FREE(t_line);
-	    return (tag_table[i]);
-	}
-    }
-
-    if (ntags >= tagmax)
-    {
-	tagmax += 16;
-	tag_table =
-	    (tag_table
-	     ? TREALLOC(char *, tag_table, tagmax)
-	     : TMALLOC(char *, tagmax));
-	NO_SPACE(tag_table);
-    }
-
-    s = TMALLOC(char, cinc);
-    NO_SPACE(s);
-
-    strcpy(s, cache);
-    tag_table[ntags] = s;
-    ++ntags;
     FREE(t_line);
-    return (s);
+    havetags = 1;
+    return cache_tag(cache, (size_t) cinc);
 }
 
 #if defined(YYBTYACC)
@@ -1125,6 +1130,7 @@ declare_tokens(int assoc)
 	if (c == EOF)
 	    unexpected_EOF();
 
+	value = UNDEFINED;
 	if (isdigit(c))
 	{
 	    value = get_number();
@@ -1230,18 +1236,19 @@ declare_types(void)
 {
     int c;
     bucket *bp;
-    char *tag;
+    char *tag = NULL;
 
     c = nextc();
     if (c == EOF)
 	unexpected_EOF();
-    if (c != '<')
-	syntax_error(lineno, line, cptr);
-    tag = get_tag();
+    if (c == '<')
+	tag = get_tag();
 
     for (;;)
     {
 	c = nextc();
+	if (c == EOF)
+	    unexpected_EOF();
 	if (isalpha(c) || c == '_' || c == '.' || c == '$')
 	{
 	    bp = get_name();
@@ -1262,9 +1269,12 @@ declare_types(void)
 	else
 	    return;
 
-	if (bp->tag && tag != bp->tag)
-	    retyped_warning(bp->name);
-	bp->tag = tag;
+	if (tag)
+	{
+	    if (bp->tag && tag != bp->tag)
+		retyped_warning(bp->name);
+	    bp->tag = tag;
+	}
     }
 }
 
@@ -1691,7 +1701,6 @@ compile_arg(char **theptr, char *yyvaltag)
 	else if (*p == '@')
 	{
 	    at_error(rescan_lineno, NULL, NULL);
-	    /*NOTREACHED */
 	}
 	else
 	{
@@ -1835,6 +1844,8 @@ start_rule(bucket *bp, int s_lineno)
     if (bp->class == TERM)
 	terminal_lhs(s_lineno);
     bp->class = NONTERM;
+    if (!bp->index)
+	bp->index = nrules;
     if (nrules >= maxrules)
 	expand_rules();
     plhs[nrules] = bp;
@@ -1881,9 +1892,12 @@ insert_empty_rule(void)
     last_symbol->next = bp;
     last_symbol = bp;
     bp->tag = plhs[nrules]->tag;
-    bp->class = NONTERM;
+    bp->class = ACTION;
+#if defined(YYBTYACC)
+    bp->args = 0;
+#endif
 
-    nitems = (Value_t) (2 + nitems);
+    nitems = (Value_t) (nitems + 2);
     if (nitems > maxitems)
 	expand_items();
     bpp = pitem + nitems - 1;
@@ -1966,6 +1980,9 @@ add_symbol(void)
     {
 	end_rule();
 	start_rule(bp, s_lineno);
+#if defined(YYBTYACC)
+	parse_arginfo(bp, args, argslen);
+#endif
 	++cptr;
 	return;
     }
@@ -2017,6 +2034,9 @@ copy_action(void)
     int c;
     int i, n;
     int depth;
+#if defined(YYBTYACC)
+    int trialaction = 0;
+#endif
     char *tag;
     FILE *f = action_file;
     int a_lineno = lineno;
@@ -2183,7 +2203,6 @@ copy_action(void)
 	    char *l_line = dup_line();
 	    char *l_cptr = l_line + (cptr - line);
 	    syntax_error(l_lineno, l_line, l_cptr);
-	    /*NOTREACHED */
 	}
 	if (cptr[1] == '$')
 	{
@@ -2400,7 +2419,6 @@ copy_destructor(void)
 	    char *l_line = dup_line();
 	    char *l_cptr = l_line + (cptr - line);
 	    syntax_error(l_lineno, l_line, l_cptr);
-	    /*NOTREACHED */
 	}
 	msprintf(destructor_text, "(*loc)");
 	cptr += 2;
@@ -2647,7 +2665,6 @@ mark_symbol(void)
     else
     {
 	syntax_error(lineno, line, cptr);
-	/*NOTREACHED */
     }
 
     if (rprec[nrules] != UNDEFINED && bp->prec != rprec[nrules])
@@ -2802,6 +2819,9 @@ pack_symbols(void)
     bucket *bp;
     bucket **v;
     Value_t i, j, k, n;
+#if defined(YYBTYACC)
+    Value_t max_tok_pval;
+#endif
 
     nsyms = 2;
     ntokens = 1;
@@ -2820,13 +2840,16 @@ pack_symbols(void)
     symbol_value = TMALLOC(Value_t, nsyms);
     NO_SPACE(symbol_value);
 
-    symbol_prec = TMALLOC(short, nsyms);
+    symbol_prec = TMALLOC(Value_t, nsyms);
     NO_SPACE(symbol_prec);
 
     symbol_assoc = TMALLOC(char, nsyms);
     NO_SPACE(symbol_assoc);
 
 #if defined(YYBTYACC)
+    symbol_pval = TMALLOC(Value_t, nsyms);
+    NO_SPACE(symbol_pval);
+
     if (destructor)
     {
 	symbol_destructor = TMALLOC(char *, nsyms);
@@ -2915,6 +2938,10 @@ pack_symbols(void)
     symbol_value[0] = 0;
     symbol_prec[0] = 0;
     symbol_assoc[0] = TOKEN;
+#if defined(YYBTYACC)
+    symbol_pval[0] = 0;
+    max_tok_pval = 0;
+#endif
     for (i = 1; i < ntokens; ++i)
     {
 	symbol_name[i] = v[i]->name;
@@ -2922,6 +2949,9 @@ pack_symbols(void)
 	symbol_prec[i] = v[i]->prec;
 	symbol_assoc[i] = v[i]->assoc;
 #if defined(YYBTYACC)
+	symbol_pval[i] = v[i]->value;
+	if (symbol_pval[i] > max_tok_pval)
+	    max_tok_pval = symbol_pval[i];
 	if (destructor)
 	{
 	    symbol_destructor[i] = v[i]->destructor;
@@ -2933,6 +2963,9 @@ pack_symbols(void)
     symbol_value[start_symbol] = -1;
     symbol_prec[start_symbol] = 0;
     symbol_assoc[start_symbol] = TOKEN;
+#if defined(YYBTYACC)
+    symbol_pval[start_symbol] = (Value_t) (max_tok_pval + 1);
+#endif
     for (++i; i < nsyms; ++i)
     {
 	k = v[i]->index;
@@ -2941,6 +2974,7 @@ pack_symbols(void)
 	symbol_prec[k] = v[i]->prec;
 	symbol_assoc[k] = v[i]->assoc;
 #if defined(YYBTYACC)
+	symbol_pval[k] = (Value_t) ((max_tok_pval + 1) + v[i]->value + 1);
 	if (destructor)
 	{
 	    symbol_destructor[k] = v[i]->destructor;
@@ -3039,6 +3073,9 @@ pack_grammar(void)
 
     FREE(plhs);
     FREE(pitem);
+#if defined(YYBTYACC)
+    clean_arg_cache();
+#endif
 }
 
 static void
@@ -3167,13 +3204,17 @@ reader(void)
     read_declarations();
     read_grammar();
     free_symbol_table();
-    free_tags();
     pack_names();
     check_symbols();
     pack_symbols();
     pack_grammar();
     free_symbols();
     print_grammar();
+#if defined(YYBTYACC)
+    if (destructor)
+	finalize_destructors();
+#endif
+    free_tags();
 }
 
 #ifdef NO_LEAKS

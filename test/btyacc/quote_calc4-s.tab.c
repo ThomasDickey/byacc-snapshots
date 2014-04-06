@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "quote_calc4-s.tab.c"
+#line 19 "quote_calc4-s.tab.c"
 
 #ifndef yyparse
 #define yyparse    quote_calc4_parse
@@ -127,9 +127,9 @@ int base;
 int yylex(void);
 static void yyerror(const char *s);
 
-#line 132 "quote_calc4-s.tab.c"
+#line 131 "quote_calc4-s.tab.c"
 
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
@@ -165,7 +165,7 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 170 "quote_calc4-s.tab.c"
+#line 169 "quote_calc4-s.tab.c"
 
 #define OP_ADD 257
 #define OP_SUB 259
@@ -290,8 +290,8 @@ static const YYINT quote_calc4_ctable[] = {               0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 271
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 277
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const quote_calc4_name[] = {
 
@@ -496,7 +496,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 501 "quote_calc4-s.tab.c"
+#line 500 "quote_calc4-s.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1213,7 +1213,7 @@ case 18:
 #line 70 "quote_calc4.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1218 "quote_calc4-s.tab.c"
+#line 1217 "quote_calc4-s.tab.c"
     default:
         break;
     }

@@ -24,8 +24,10 @@ static void yyerror(const char *);
 
 #line 26 "code_error.code.c"
 
-#ifndef YYSTYPE
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
+/* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
+# define YYSTYPE_IS_DECLARED 1
 #endif
 
 /* compatibility with bison */
@@ -65,8 +67,9 @@ extern int YYPARSE_DECL();
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 0
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
+#define YYMAXTOKEN 256
+#define YYUNDFTOKEN 259
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 
 #ifndef yyparse
 #define yyparse    error_parse
@@ -224,7 +227,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 227 "code_error.code.c"
+#line 231 "code_error.code.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

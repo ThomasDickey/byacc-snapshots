@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 1
 #define YYDEBUGSTR (yytrial ? YYPREFIX "debug(trial)" : YYPREFIX "debug")
-#line 20 "btyacc_demo.tab.c"
+#line 19 "btyacc_demo.tab.c"
 
 #ifndef yyparse
 #define yyparse    demo_parse
@@ -139,7 +139,7 @@ typedef unsigned char bool;
 typedef struct Decl {
     Scope *scope;
     Type  *type;
-    bool (*istype)();
+    bool (*istype)(void);
 } Decl;
 
 #include "btyacc_demo.tab.h"
@@ -163,7 +163,7 @@ typedef union {
     char	*id;
     } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 168 "btyacc_demo.tab.c"
+#line 167 "btyacc_demo.tab.c"
 
 #if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 /* Default: YYLTYPE is the text position type. */
@@ -214,7 +214,7 @@ typedef struct YYLTYPE
 #endif
 
 extern int YYPARSE_DECL();
-#line 219 "btyacc_demo.tab.c"
+#line 218 "btyacc_demo.tab.c"
 
 #define PREFIX 257
 #define POSTFIX 258
@@ -396,8 +396,8 @@ static const YYINT demo_ctable[] = {                     -1,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 269
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 301
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const demo_name[] = {
 
@@ -619,11 +619,11 @@ extern Scope * new_scope(Scope *outer_scope);
 extern Scope * start_fn_def(Scope *scope, Decl *fn_decl);
 extern void finish_fn_def(Decl *fn_decl, Code *block);
 extern Type * type_combine(Type *specs, Type *spec);
-extern Type * bare_extern();
-extern Type * bare_register();
-extern Type * bare_static();
-extern Type * bare_const();
-extern Type * bare_volatile();
+extern Type * bare_extern(void);
+extern Type * bare_register(void);
+extern Type * bare_static(void);
+extern Type * bare_const(void);
+extern Type * bare_volatile(void);
 extern Decl * declare(Scope *scope, char *id, Type *type);
 extern Decl * make_pointer(Decl *decl, Type *type);
 extern Decl * make_array(Type *type, Expr *expr);
@@ -635,7 +635,7 @@ extern Expr * var_expr(Scope *scope, char *id);
 extern Code * build_expr_code(Expr *expr);
 extern Code * build_if(Expr *cond_expr, Code *then_stmt, Code *else_stmt);
 extern Code * code_append(Code *stmt_list, Code *stmt);
-#line 640 "btyacc_demo.tab.c"
+#line 639 "btyacc_demo.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -652,7 +652,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 657 "btyacc_demo.tab.c"
+#line 656 "btyacc_demo.tab.c"
 	case 45:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -661,7 +661,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 666 "btyacc_demo.tab.c"
+#line 665 "btyacc_demo.tab.c"
 	case 42:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -670,7 +670,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 675 "btyacc_demo.tab.c"
+#line 674 "btyacc_demo.tab.c"
 	case 47:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -679,7 +679,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 684 "btyacc_demo.tab.c"
+#line 683 "btyacc_demo.tab.c"
 	case 37:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -688,7 +688,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 693 "btyacc_demo.tab.c"
+#line 692 "btyacc_demo.tab.c"
 	case 257:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -697,7 +697,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 702 "btyacc_demo.tab.c"
+#line 701 "btyacc_demo.tab.c"
 	case 258:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -706,7 +706,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 711 "btyacc_demo.tab.c"
+#line 710 "btyacc_demo.tab.c"
 	case 40:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -715,7 +715,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 720 "btyacc_demo.tab.c"
+#line 719 "btyacc_demo.tab.c"
 	case 91:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -724,7 +724,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 729 "btyacc_demo.tab.c"
+#line 728 "btyacc_demo.tab.c"
 	case 46:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -733,7 +733,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 738 "btyacc_demo.tab.c"
+#line 737 "btyacc_demo.tab.c"
 	case 259:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -742,7 +742,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).id); }
 	break;
-#line 747 "btyacc_demo.tab.c"
+#line 746 "btyacc_demo.tab.c"
 	case 260:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -751,7 +751,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).expr); }
 	break;
-#line 756 "btyacc_demo.tab.c"
+#line 755 "btyacc_demo.tab.c"
 	case 261:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -760,7 +760,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 765 "btyacc_demo.tab.c"
+#line 764 "btyacc_demo.tab.c"
 	case 262:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -769,7 +769,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 774 "btyacc_demo.tab.c"
+#line 773 "btyacc_demo.tab.c"
 	case 263:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -778,7 +778,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 783 "btyacc_demo.tab.c"
+#line 782 "btyacc_demo.tab.c"
 	case 264:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -787,7 +787,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 792 "btyacc_demo.tab.c"
+#line 791 "btyacc_demo.tab.c"
 	case 265:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -796,7 +796,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 801 "btyacc_demo.tab.c"
+#line 800 "btyacc_demo.tab.c"
 	case 266:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -805,7 +805,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 810 "btyacc_demo.tab.c"
+#line 809 "btyacc_demo.tab.c"
 	case 267:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -814,7 +814,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 819 "btyacc_demo.tab.c"
+#line 818 "btyacc_demo.tab.c"
 	case 268:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -823,7 +823,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 828 "btyacc_demo.tab.c"
+#line 827 "btyacc_demo.tab.c"
 	case 269:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -832,7 +832,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 837 "btyacc_demo.tab.c"
+#line 836 "btyacc_demo.tab.c"
 	case 59:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -841,7 +841,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 846 "btyacc_demo.tab.c"
+#line 845 "btyacc_demo.tab.c"
 	case 44:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -850,7 +850,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 855 "btyacc_demo.tab.c"
+#line 854 "btyacc_demo.tab.c"
 	case 41:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -859,7 +859,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 864 "btyacc_demo.tab.c"
+#line 863 "btyacc_demo.tab.c"
 	case 93:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -868,7 +868,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 873 "btyacc_demo.tab.c"
+#line 872 "btyacc_demo.tab.c"
 	case 123:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -877,7 +877,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 882 "btyacc_demo.tab.c"
+#line 881 "btyacc_demo.tab.c"
 	case 125:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -886,7 +886,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 891 "btyacc_demo.tab.c"
+#line 890 "btyacc_demo.tab.c"
 	case 270:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -895,7 +895,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 900 "btyacc_demo.tab.c"
+#line 899 "btyacc_demo.tab.c"
 	case 271:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -904,7 +904,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 909 "btyacc_demo.tab.c"
+#line 908 "btyacc_demo.tab.c"
 	case 272:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -913,7 +913,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).expr); }
 	break;
-#line 918 "btyacc_demo.tab.c"
+#line 917 "btyacc_demo.tab.c"
 	case 273:
 #line 67 "btyacc_demo.y"
 	{ /* 'msg' is a 'char *' indicating the context of destructor invocation*/
@@ -923,7 +923,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).decl->scope); free((*val).decl->type); }
 	break;
-#line 928 "btyacc_demo.tab.c"
+#line 927 "btyacc_demo.tab.c"
 	case 274:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -932,7 +932,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 937 "btyacc_demo.tab.c"
+#line 936 "btyacc_demo.tab.c"
 	case 275:
 #line 83 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with no type @ position[%d,%d..%d,%d]\n",
@@ -941,7 +941,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
 	break;
-#line 946 "btyacc_demo.tab.c"
+#line 945 "btyacc_demo.tab.c"
 	case 276:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -950,7 +950,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).code); }
 	break;
-#line 955 "btyacc_demo.tab.c"
+#line 954 "btyacc_demo.tab.c"
 	case 277:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -959,7 +959,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).code); }
 	break;
-#line 964 "btyacc_demo.tab.c"
+#line 963 "btyacc_demo.tab.c"
 	case 278:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -968,7 +968,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).code); }
 	break;
-#line 973 "btyacc_demo.tab.c"
+#line 972 "btyacc_demo.tab.c"
 	case 279:
 #line 73 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with type <decl> (case s.b. 279 & 280) @ position[%d,%d..%d,%d]\n",
@@ -977,7 +977,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).decl); }
 	break;
-#line 982 "btyacc_demo.tab.c"
+#line 981 "btyacc_demo.tab.c"
 	case 280:
 #line 73 "btyacc_demo.y"
 	{ printf("%s accessed by symbol with type <decl> (case s.b. 279 & 280) @ position[%d,%d..%d,%d]\n",
@@ -986,7 +986,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).decl); }
 	break;
-#line 991 "btyacc_demo.tab.c"
+#line 990 "btyacc_demo.tab.c"
 	case 281:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -995,7 +995,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1000 "btyacc_demo.tab.c"
+#line 999 "btyacc_demo.tab.c"
 	case 282:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1004,7 +1004,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1009 "btyacc_demo.tab.c"
+#line 1008 "btyacc_demo.tab.c"
 	case 283:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1013,7 +1013,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1018 "btyacc_demo.tab.c"
+#line 1017 "btyacc_demo.tab.c"
 	case 284:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1022,7 +1022,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1027 "btyacc_demo.tab.c"
+#line 1026 "btyacc_demo.tab.c"
 	case 285:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1031,7 +1031,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1036 "btyacc_demo.tab.c"
+#line 1035 "btyacc_demo.tab.c"
 	case 286:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1040,7 +1040,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1045 "btyacc_demo.tab.c"
+#line 1044 "btyacc_demo.tab.c"
 	case 287:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1049,7 +1049,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).dlist); }
 	break;
-#line 1054 "btyacc_demo.tab.c"
+#line 1053 "btyacc_demo.tab.c"
 	case 288:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1058,7 +1058,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).dlist); }
 	break;
-#line 1063 "btyacc_demo.tab.c"
+#line 1062 "btyacc_demo.tab.c"
 	case 289:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1067,7 +1067,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1072 "btyacc_demo.tab.c"
+#line 1071 "btyacc_demo.tab.c"
 	case 290:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1076,7 +1076,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1081 "btyacc_demo.tab.c"
+#line 1080 "btyacc_demo.tab.c"
 	case 291:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1085,7 +1085,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1090 "btyacc_demo.tab.c"
+#line 1089 "btyacc_demo.tab.c"
 	case 292:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1094,7 +1094,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1099 "btyacc_demo.tab.c"
+#line 1098 "btyacc_demo.tab.c"
 	case 293:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1103,7 +1103,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1108 "btyacc_demo.tab.c"
+#line 1107 "btyacc_demo.tab.c"
 	case 294:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1112,7 +1112,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1117 "btyacc_demo.tab.c"
+#line 1116 "btyacc_demo.tab.c"
 	case 295:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1121,7 +1121,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1126 "btyacc_demo.tab.c"
+#line 1125 "btyacc_demo.tab.c"
 	case 296:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1130,7 +1130,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
 	break;
-#line 1135 "btyacc_demo.tab.c"
+#line 1134 "btyacc_demo.tab.c"
 	case 297:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1139,7 +1139,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1144 "btyacc_demo.tab.c"
+#line 1143 "btyacc_demo.tab.c"
 	case 298:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1148,7 +1148,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1153 "btyacc_demo.tab.c"
+#line 1152 "btyacc_demo.tab.c"
 	case 299:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1157,7 +1157,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1162 "btyacc_demo.tab.c"
+#line 1161 "btyacc_demo.tab.c"
 	case 300:
 #line 78 "btyacc_demo.y"
 	{ printf("%s accessed by symbol of any type other than <decl>  @ position[%d,%d..%d,%d]\n",
@@ -1166,7 +1166,7 @@ YYDESTRUCT_DECL()
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
 	break;
-#line 1171 "btyacc_demo.tab.c"
+#line 1170 "btyacc_demo.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -2094,7 +2094,7 @@ case 61:
 #line 197 "btyacc_demo.y"
 	{ yyval.code = yystack.l_mark[-1].code; }
 break;
-#line 2099 "btyacc_demo.tab.c"
+#line 2098 "btyacc_demo.tab.c"
     default:
         break;
     }

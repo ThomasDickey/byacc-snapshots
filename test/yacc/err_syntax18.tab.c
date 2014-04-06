@@ -101,8 +101,10 @@ int yylex(void);
 static void yyerror(const char *);
 #line 103 "err_syntax18.tab.c"
 
-#ifndef YYSTYPE
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
+/* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
+# define YYSTYPE_IS_DECLARED 1
 #endif
 
 /* compatibility with bison */
@@ -167,13 +169,19 @@ static const short err_syntax18_check[] = {              40,
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 41
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
+#define YYMAXTOKEN 256
+#define YYUNDFTOKEN 259
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *yyname[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,"'('","')'","illegal-symbol",
+0,0,0,0,0,0,"'('","')'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"illegal-symbol",
 };
 static const char *yyrule[] = {
 "$accept : expr",
@@ -237,7 +245,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 240 "err_syntax18.tab.c"
+#line 249 "err_syntax18.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -443,7 +451,7 @@ case 1:
 #line 9 "err_syntax18.y"
 	{  yyval = yystack.l_mark[1]; }
 break;
-#line 446 "err_syntax18.tab.c"
+#line 455 "err_syntax18.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

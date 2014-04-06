@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.42 2014/04/05 01:12:47 tom Exp $ */
+/* $Id: reader.c,v 1.43 2014/04/05 13:32:34 tom Exp $ */
 
 #include "defs.h"
 
@@ -9,8 +9,8 @@
 
 #define LINESIZE 100
 
-#define L_CURL '{'
-#define R_CURL '}'
+#define L_CURL  '{'
+#define R_CURL  '}'
 #define L_PAREN '('
 #define R_PAREN ')'
 #define L_BRAC  '['
@@ -636,7 +636,7 @@ copy_union(void)
 	    puts_both(s);
 	    free(s);
 	}
- 	goto loop;
+	goto loop;
 
     default:
 	goto loop;
@@ -1075,7 +1075,7 @@ scan_id(void)
     return cache_tag(b, (size_t) (cptr - b));
 }
 #endif
- 
+
 static void
 declare_tokens(int assoc)
 {
@@ -2032,16 +2032,19 @@ static void
 copy_action(void)
 {
     int c;
-    int i, n;
+    int i, j, n;
     int depth;
 #if defined(YYBTYACC)
     int trialaction = 0;
 #endif
+    int haveyyval = 0;
     char *tag;
     FILE *f = action_file;
     int a_lineno = lineno;
     char *a_line = dup_line();
     char *a_cptr = a_line + (cptr - line);
+    Value_t *offsets = NULL, maxoffset;
+    bucket **rhs;
 
     if (last_was_action)
 	insert_empty_rule();
@@ -2069,9 +2072,23 @@ copy_action(void)
 	cptr = after_blanks(cptr);
     }
 
+    maxoffset = 0;
     n = 0;
     for (i = nitems - 1; pitem[i]; --i)
+    {
 	++n;
+	if (pitem[i]->class != ARGUMENT)
+	    maxoffset++;
+    }
+    if (maxoffset > 0)
+    {
+	offsets = TMALLOC(Value_t, maxoffset + 1);
+	NO_SPACE(offsets);
+    }
+    for (j = 0, i++; i < nitems; i++)
+	if (pitem[i]->class != ARGUMENT)
+	    offsets[++j] = (Value_t) (i - nitems + 1);
+    rhs = pitem + nitems - 1;
 
     depth = 0;
   loop:
@@ -2097,9 +2114,15 @@ copy_action(void)
 	    else if (isdigit(c))
 	    {
 		i = get_number();
-		if (i > n)
+		if (i == 0)
+		    fprintf(f, "yystack.l_mark[%d].%s", -n, tag);
+		else if (i > maxoffset)
+		{
 		    dollar_warning(d_lineno, i);
-		fprintf(f, "yystack.l_mark[%d].%s", i - n, tag);
+		    fprintf(f, "yystack.l_mark[%d].%s", i - maxoffset, tag);
+		}
+		else
+		    fprintf(f, "yystack.l_mark[%d].%s", offsets[i], tag);
 		FREE(d_line);
 		goto loop;
 	    }
@@ -2131,7 +2154,7 @@ copy_action(void)
 	}
 	else if (cptr[1] == '$')
 	{
-	    if (ntags)
+	    if (havetags)
 	    {
 		tag = plhs[nrules]->tag;
 		if (tag == 0)
@@ -2141,26 +2164,33 @@ copy_action(void)
 	    else
 		fprintf(f, "yyval");
 	    cptr += 2;
+	    haveyyval = 1;
 	    goto loop;
 	}
 	else if (isdigit(UCH(cptr[1])))
 	{
 	    ++cptr;
 	    i = get_number();
-	    if (ntags)
+	    if (havetags)
 	    {
-		if (i <= 0 || i > n)
+		if (i <= 0 || i > maxoffset)
 		    unknown_rhs(i);
-		tag = pitem[nitems + i - n - 1]->tag;
+		tag = rhs[offsets[i]]->tag;
 		if (tag == 0)
-		    untyped_rhs(i, pitem[nitems + i - n - 1]->name);
-		fprintf(f, "yystack.l_mark[%d].%s", i - n, tag);
+		    untyped_rhs(i, rhs[offsets[i]]->name);
+		fprintf(f, "yystack.l_mark[%d].%s", offsets[i], tag);
 	    }
 	    else
 	    {
-		if (i > n)
+		if (i == 0)
+		    fprintf(f, "yystack.l_mark[%d]", -n);
+		else if (i > maxoffset)
+		{
 		    dollar_warning(lineno, i);
-		fprintf(f, "yystack.l_mark[%d]", i - n);
+		    fprintf(f, "yystack.l_mark[%d]", i - maxoffset);
+		}
+		else
+		    fprintf(f, "yystack.l_mark[%d]", offsets[i]);
 	    }
 	    goto loop;
 	}
@@ -2168,7 +2198,7 @@ copy_action(void)
 	{
 	    cptr += 2;
 	    i = get_number();
-	    if (ntags)
+	    if (havetags)
 		unknown_rhs(-i);
 	    fprintf(f, "yystack.l_mark[%d]", -i - n);
 	    goto loop;
@@ -2286,6 +2316,8 @@ copy_action(void)
 	    goto loop;
 	fprintf(f, "\nbreak;\n");
 	free(a_line);
+	if (maxoffset > 0)
+	    FREE(offsets);
 	return;
 
 #if defined(YYBTYACC)
@@ -2327,6 +2359,8 @@ copy_action(void)
 #endif
 	fprintf(f, "\nbreak;\n");
 	free(a_line);
+	if (maxoffset > 0)
+	    FREE(offsets);
 	return;
 
     case '\'':
@@ -2695,7 +2729,11 @@ read_grammar(void)
 	    || c == '\''
 	    || c == '"')
 	    add_symbol();
+#if defined(YYBTYACC)
+	else if (c == L_CURL || c == '=' || (backtrack && c == L_BRAC))
+#else
 	else if (c == L_CURL || c == '=')
+#endif
 	    copy_action();
 	else if (c == '|')
 	{
@@ -3154,15 +3192,15 @@ finalize_destructors(void)
 		{		/* use <*> destructor, if there is one */
 		    if ((bp = default_destructor[TYPED_DEFAULT]) != NULL)
 			/* replace "$$" with "(*val).tag" in destructor code */
-			symbol_destructor[i] =
-								     process_destructor_XX(bp->destructor, tag);
+			symbol_destructor[i]
+			    = process_destructor_XX(bp->destructor, tag);
 		}
 	    }
 	}
 	else
 	{			/* replace "$$" with "(*val)[.tag]" in destructor code */
-	    symbol_destructor[i] =
-							 process_destructor_XX(symbol_destructor[i], tag);
+	    symbol_destructor[i]
+		= process_destructor_XX(symbol_destructor[i], tag);
 	}
     }
     /* 'symbol_type_tag[]' elements are freed by 'free_tags()' */

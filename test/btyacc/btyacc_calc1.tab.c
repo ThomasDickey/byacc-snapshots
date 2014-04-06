@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 1
 #define YYDEBUGSTR (yytrial ? YYPREFIX "debug(trial)" : YYPREFIX "debug")
-#line 20 "btyacc_calc1.tab.c"
+#line 19 "btyacc_calc1.tab.c"
 
 #ifndef yyparse
 #define yyparse    calc1_parse
@@ -154,7 +154,7 @@ typedef union
 	INTERVAL vval;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 159 "btyacc_calc1.tab.c"
+#line 158 "btyacc_calc1.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -190,7 +190,7 @@ typedef union
 #endif
 
 extern int YYPARSE_DECL();
-#line 195 "btyacc_calc1.tab.c"
+#line 194 "btyacc_calc1.tab.c"
 
 #define DREG 257
 #define VREG 258
@@ -320,8 +320,8 @@ static const YYINT calc1_ctable[] = {                    20,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 260
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 266
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const calc1_name[] = {
 
@@ -595,7 +595,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 600 "btyacc_calc1.tab.c"
+#line 599 "btyacc_calc1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1495,7 +1495,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 1500 "btyacc_calc1.tab.c"
+#line 1499 "btyacc_calc1.tab.c"
     default:
         break;
     }

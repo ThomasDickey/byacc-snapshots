@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.52 2014/04/03 23:35:15 tom Exp $ */
+/* $Id: output.c,v 1.54 2014/04/06 00:13:18 tom Exp $ */
 
 #include "defs.h"
 
@@ -851,6 +851,8 @@ pack_table(void)
 
     FREE(froms);
     FREE(tos);
+    FREE(tally);
+    FREE(width);
     FREE(pos);
 }
 
@@ -1192,7 +1194,7 @@ output_stored_text(FILE * fp)
 static void
 output_debug(void)
 {
-    int i, j, k, max;
+    int i, j, k, max, maxtok;
     const char **symnam;
     const char *s;
 
@@ -1211,32 +1213,52 @@ output_debug(void)
 	fprintf(output_file, "#endif\n");
     }
 
-    max = 0;
-    for (i = 2; i < ntokens; ++i)
-	if (symbol_value[i] > max)
-	    max = symbol_value[i];
+    maxtok = 0;
+    for (i = 0; i < ntokens; ++i)
+	if (symbol_value[i] > maxtok)
+	    maxtok = symbol_value[i];
+
+    /* symbol_value[$accept] = -1         */
+    /* symbol_value[<goal>]  = 0          */
+    /* remaining non-terminals start at 1 */
+    max = maxtok;
+    for (i = ntokens; i < nsyms; ++i)
+	if (((maxtok + 1) + (symbol_value[i] + 1)) > max)
+	    max = (maxtok + 1) + (symbol_value[i] + 1);
 
     ++outline;
-    fprintf(code_file, "#define YYMAXTOKEN %d\n", max);
+    fprintf(code_file, "#define YYMAXTOKEN %d\n", maxtok);
+
+    ++outline;
+    fprintf(code_file, "#define YYUNDFTOKEN %d\n", max + 1);
+
+    ++outline;
     fprintf(code_file, "#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? "
-	    "(YYMAXTOKEN + 1) : (a))\n");
+	    "YYUNDFTOKEN : (a))\n");
 
     symnam = TMALLOC(const char *, max + 2);
     NO_SPACE(symnam);
 
     /* Note that it is  not necessary to initialize the element         */
     /* symnam[max].                                                     */
+#if defined(YYBTYACC)
+    for (i = 0; i < max; ++i)
+	symnam[i] = 0;
+    for (i = nsyms - 1; i >= 0; --i)
+	symnam[symbol_pval[i]] = symbol_name[i];
+    symnam[max + 1] = "illegal-symbol";
+#else
     for (i = 0; i <= max; ++i)
 	symnam[i] = 0;
     for (i = ntokens - 1; i >= 2; --i)
 	symnam[symbol_value[i]] = symbol_name[i];
     symnam[0] = "end-of-file";
     symnam[max + 1] = "illegal-symbol";
+#endif
 
     /*
      * bison's yytname[] array is roughly the same as byacc's yyname[] array.
-     * The difference is that byacc does not predefine "$end", "$error" or
-     * "$undefined". 
+     * The difference is that byacc does not predefine "$undefined".
      *
      * If the grammar declares "%token-table", define symbol "yytname" so
      * an application such as ntpd can build.
@@ -1468,8 +1490,12 @@ output_stype(FILE * fp)
     if (!unionized && ntags == 0)
     {
 	putc_code(fp, '\n');
-	putl_code(fp, "#ifndef YYSTYPE\n");
+	putl_code(fp, "#if "
+		  "! defined(YYSTYPE) && "
+		  "! defined(YYSTYPE_IS_DECLARED)\n");
+	putl_code(fp, "/* Default: YYSTYPE is the semantic value type. */\n");
 	putl_code(fp, "typedef int YYSTYPE;\n");
+	putl_code(fp, "# define YYSTYPE_IS_DECLARED 1\n");
 	putl_code(fp, "#endif\n");
     }
 }

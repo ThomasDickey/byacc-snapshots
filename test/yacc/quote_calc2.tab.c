@@ -108,8 +108,10 @@ static void yyerror(const char *s);
 
 #line 110 "quote_calc2.tab.c"
 
-#ifndef YYSTYPE
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
+/* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
+# define YYSTYPE_IS_DECLARED 1
 #endif
 
 /* compatibility with bison */
@@ -253,7 +255,8 @@ static const short quote_calc2_check[] = {               10,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 271
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
+#define YYUNDFTOKEN 277
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *yyname[] = {
 
@@ -265,8 +268,8 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"OP_ADD","\"ADD\"","OP_SUB","\"SUB\"","OP_MUL","\"MUL\"","OP_DIV",
-"\"DIV\"","OP_MOD","\"MOD\"","OP_AND","\"AND\"","DIGIT","LETTER","UMINUS",
-"illegal-symbol",
+"\"DIV\"","OP_MOD","\"MOD\"","OP_AND","\"AND\"","DIGIT","LETTER","UMINUS",0,0,0,
+0,0,"illegal-symbol",
 };
 static const char *yyrule[] = {
 "$accept : list",
@@ -366,7 +369,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 369 "quote_calc2.tab.c"
+#line 373 "quote_calc2.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -628,7 +631,7 @@ case 18:
 #line 70 "quote_calc2.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 631 "quote_calc2.tab.c"
+#line 635 "quote_calc2.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

@@ -1,3 +1,17 @@
+2014-04-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c:
+	add Tom Shield's change to allow definition of YYSTYPE_IS_DECLARED symbol to
+	override fallback typedef for YYSTYPE when that symbol is undefined
+
+	* output.c:
+	integrate Tom Shield's btyacc changes which introduce the YYUNDFTOKEN symbol
+	(I changed order of output to keep this adjacent to YYMAXTOKEN)
+
+	* reader.c:
+	merge all but one small change from Tom Shield's btyacc changes - that
+	changes the order of code-file in the tests.
+
 2014-04-04  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* reader.c, defs.h, main.c:

@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "calc3.tab.c"
+#line 19 "calc3.tab.c"
 
 #ifndef yyparse
 #define yyparse    calc3_parse
@@ -130,9 +130,9 @@ int YYLEX_DECL();
 static void YYERROR_DECL();
 #endif
 
-#line 135 "calc3.tab.c"
+#line 134 "calc3.tab.c"
 
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
@@ -172,7 +172,7 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 177 "calc3.tab.c"
+#line 176 "calc3.tab.c"
 
 #define DIGIT 257
 #define LETTER 258
@@ -283,8 +283,8 @@ static const YYINT calc3_ctable[] = {                     0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 259
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 265
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const calc3_name[] = {
 
@@ -449,7 +449,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 454 "calc3.tab.c"
+#line 453 "calc3.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1216,7 +1216,7 @@ case 18:
 #line 73 "calc3.y"
 	{  yyval = (*base) * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1221 "calc3.tab.c"
+#line 1220 "calc3.tab.c"
     default:
         break;
     }

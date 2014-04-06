@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "inherit1.tab.c"
+#line 19 "inherit1.tab.c"
 
 #ifndef yyparse
 #define yyparse    inherit1_parse
@@ -153,7 +153,7 @@ typedef union
     name	id;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 158 "inherit1.tab.c"
+#line 157 "inherit1.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -185,7 +185,7 @@ typedef union
 #endif
 
 extern int YYPARSE_DECL();
-#line 190 "inherit1.tab.c"
+#line 189 "inherit1.tab.c"
 
 #define GLOBAL 257
 #define LOCAL 258
@@ -248,8 +248,8 @@ static const YYINT inherit1_ctable[] = {                  0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 261
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 270
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const inherit1_name[] = {
 
@@ -408,7 +408,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 413 "inherit1.tab.c"
+#line 412 "inherit1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1113,7 +1113,7 @@ case 11:
 #line 71 "inherit1.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1118 "inherit1.tab.c"
+#line 1117 "inherit1.tab.c"
     default:
         break;
     }

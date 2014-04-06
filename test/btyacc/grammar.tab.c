@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "grammar.tab.c"
+#line 19 "grammar.tab.c"
 
 #ifndef yyparse
 #define yyparse    grammar_parse
@@ -404,7 +404,7 @@ haveAnsiParam (void)
     }
     return FALSE;
 }
-#line 409 "grammar.tab.c"
+#line 408 "grammar.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -436,7 +436,7 @@ haveAnsiParam (void)
 #endif
 
 extern int YYPARSE_DECL();
-#line 441 "grammar.tab.c"
+#line 440 "grammar.tab.c"
 
 #define T_IDENTIFIER 257
 #define T_TYPEDEF_NAME 258
@@ -804,8 +804,8 @@ static const YYINT grammar_ctable[] = {                   0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 291
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 335
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const grammar_name[] = {
 
@@ -1249,7 +1249,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1254 "grammar.tab.c"
+#line 1253 "grammar.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -2580,7 +2580,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 2585 "grammar.tab.c"
+#line 2584 "grammar.tab.c"
     default:
         break;
     }

@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "inherit2.tab.c"
+#line 19 "inherit2.tab.c"
 
 #ifndef yyparse
 #define yyparse    inherit2_parse
@@ -151,7 +151,7 @@ typedef union
     name	id;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 156 "inherit2.tab.c"
+#line 155 "inherit2.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -190,7 +190,7 @@ typedef union
 #endif
 
 extern int YYPARSE_DECL();
-#line 195 "inherit2.tab.c"
+#line 194 "inherit2.tab.c"
 
 #define GLOBAL 257
 #define LOCAL 258
@@ -253,8 +253,8 @@ static const YYINT inherit2_ctable[] = {                  0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 261
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 272
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const inherit2_name[] = {
 
@@ -415,7 +415,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 420 "inherit2.tab.c"
+#line 419 "inherit2.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -435,7 +435,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 440 "inherit2.tab.c"
+#line 439 "inherit2.tab.c"
 	case 264:
 #line 30 "inherit2.y"
 	{
@@ -447,7 +447,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 452 "inherit2.tab.c"
+#line 451 "inherit2.tab.c"
 	case 265:
 #line 30 "inherit2.y"
 	{
@@ -459,7 +459,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 464 "inherit2.tab.c"
+#line 463 "inherit2.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1176,7 +1176,7 @@ case 13:
 #line 75 "inherit2.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1181 "inherit2.tab.c"
+#line 1180 "inherit2.tab.c"
     default:
         break;
     }

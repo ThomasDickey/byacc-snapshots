@@ -101,8 +101,10 @@ int yylex(void);
 static void yyerror(const char *);
 #line 103 "err_syntax12.tab.c"
 
-#ifndef YYSTYPE
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
+/* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
+# define YYSTYPE_IS_DECLARED 1
 #endif
 
 /* compatibility with bison */
@@ -167,7 +169,8 @@ static const short err_syntax12_check[] = {             256,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 456
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
+#define YYUNDFTOKEN 459
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *yyname[] = {
 
@@ -182,7 +185,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"text","illegal-symbol",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"text",0,0,"illegal-symbol",
 };
 static const char *yyrule[] = {
 "$accept : S",
@@ -246,7 +249,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 249 "err_syntax12.tab.c"
+#line 253 "err_syntax12.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

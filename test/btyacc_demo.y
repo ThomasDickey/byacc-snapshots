@@ -25,7 +25,7 @@ typedef unsigned char bool;
 typedef struct Decl {
     Scope *scope;
     Type  *type;
-    bool (*istype)();
+    bool (*istype)(void);
 } Decl;
 
 #include "btyacc_demo.tab.h"
@@ -208,11 +208,11 @@ extern Scope * new_scope(Scope *outer_scope);
 extern Scope * start_fn_def(Scope *scope, Decl *fn_decl);
 extern void finish_fn_def(Decl *fn_decl, Code *block);
 extern Type * type_combine(Type *specs, Type *spec);
-extern Type * bare_extern();
-extern Type * bare_register();
-extern Type * bare_static();
-extern Type * bare_const();
-extern Type * bare_volatile();
+extern Type * bare_extern(void);
+extern Type * bare_register(void);
+extern Type * bare_static(void);
+extern Type * bare_const(void);
+extern Type * bare_volatile(void);
 extern Decl * declare(Scope *scope, char *id, Type *type);
 extern Decl * make_pointer(Decl *decl, Type *type);
 extern Decl * make_array(Type *type, Expr *expr);

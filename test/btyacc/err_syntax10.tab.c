@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "err_syntax10.tab.c"
+#line 19 "err_syntax10.tab.c"
 
 #ifndef yyparse
 #define yyparse    err_syntax10_parse
@@ -120,7 +120,7 @@
 #line 2 "err_syntax10.y"
 int yylex(void);
 static void yyerror(const char *);
-#line 125 "err_syntax10.tab.c"
+#line 124 "err_syntax10.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -152,7 +152,7 @@ static void yyerror(const char *);
 #endif
 
 extern int YYPARSE_DECL();
-#line 157 "err_syntax10.tab.c"
+#line 156 "err_syntax10.tab.c"
 
 #define YYERRCODE 256
 typedef short YYINT;
@@ -197,8 +197,8 @@ static const YYINT err_syntax10_ctable[] = {              0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 256
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 259
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const err_syntax10_name[] = {
 
@@ -364,7 +364,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 369 "err_syntax10.tab.c"
+#line 368 "err_syntax10.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

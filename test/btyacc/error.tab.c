@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "error.tab.c"
+#line 19 "error.tab.c"
 
 #ifndef yyparse
 #define yyparse    error_parse
@@ -120,9 +120,9 @@
 #line 2 "error.y"
 int yylex(void);
 static void yyerror(const char *);
-#line 125 "error.tab.c"
+#line 124 "error.tab.c"
 
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
 typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
@@ -158,7 +158,7 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 163 "error.tab.c"
+#line 162 "error.tab.c"
 
 #define YYERRCODE 256
 typedef short YYINT;
@@ -203,8 +203,8 @@ static const YYINT error_ctable[] = {                     0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 256
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 259
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const error_name[] = {
 
@@ -369,7 +369,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 374 "error.tab.c"
+#line 373 "error.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

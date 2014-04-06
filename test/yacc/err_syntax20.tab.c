@@ -165,7 +165,8 @@ static const short err_syntax20_check[] = {              40,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 257
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
+#define YYUNDFTOKEN 260
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *yyname[] = {
 
@@ -175,7 +176,8 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"recur","illegal-symbol",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"recur",0,0,
+"illegal-symbol",
 };
 static const char *yyrule[] = {
 "$accept : expr",
@@ -239,7 +241,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 242 "err_syntax20.tab.c"
+#line 245 "err_syntax20.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -445,7 +447,7 @@ case 1:
 #line 12 "err_syntax20.y"
 	{ yystack.l_mark[-1].rechk = 3; }
 break;
-#line 448 "err_syntax20.tab.c"
+#line 451 "err_syntax20.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

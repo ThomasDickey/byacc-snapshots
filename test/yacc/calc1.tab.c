@@ -273,7 +273,8 @@ static const short calc1_check[] = {                     40,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 260
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? (YYMAXTOKEN + 1) : (a))
+#define YYUNDFTOKEN 266
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *yyname[] = {
 
@@ -284,7 +285,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,"DREG","VREG","CONST","UMINUS","illegal-symbol",
+0,0,"DREG","VREG","CONST","UMINUS",0,0,0,0,0,"illegal-symbol",
 };
 static const char *yyrule[] = {
 "$accept : line",
@@ -484,7 +485,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 487 "calc1.tab.c"
+#line 489 "calc1.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -849,7 +850,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 852 "calc1.tab.c"
+#line 854 "calc1.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

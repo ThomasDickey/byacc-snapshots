@@ -15,7 +15,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 20 "err_inherit3.tab.c"
+#line 19 "err_inherit3.tab.c"
 
 #ifndef yyparse
 #define yyparse    err_inherit3_parse
@@ -151,7 +151,7 @@ typedef union
     name	id;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 156 "err_inherit3.tab.c"
+#line 155 "err_inherit3.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -190,7 +190,7 @@ typedef union
 #endif
 
 extern int YYPARSE_DECL();
-#line 195 "err_inherit3.tab.c"
+#line 194 "err_inherit3.tab.c"
 
 #define GLOBAL 257
 #define LOCAL 258
@@ -253,8 +253,8 @@ static const YYINT err_inherit3_ctable[] = {              0,
 #define YYDEBUG 0
 #endif
 #define YYMAXTOKEN 261
-#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #define YYUNDFTOKEN 273
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const err_inherit3_name[] = {
 
@@ -416,7 +416,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 421 "err_inherit3.tab.c"
+#line 420 "err_inherit3.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -436,7 +436,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 441 "err_inherit3.tab.c"
+#line 440 "err_inherit3.tab.c"
 	case 264:
 #line 30 "err_inherit3.y"
 	{
@@ -448,7 +448,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 453 "err_inherit3.tab.c"
+#line 452 "err_inherit3.tab.c"
 	case 265:
 #line 30 "err_inherit3.y"
 	{
@@ -460,7 +460,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 465 "err_inherit3.tab.c"
+#line 464 "err_inherit3.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1181,7 +1181,7 @@ case 14:
 #line 75 "err_inherit3.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1186 "err_inherit3.tab.c"
+#line 1185 "err_inherit3.tab.c"
     default:
         break;
     }

@@ -1,4 +1,4 @@
-/* $Id: mstring.c,v 1.1 2014/03/25 22:54:34 Tom.Shields Exp $ */
+/* $Id: mstring.c,v 1.2 2014/04/06 20:13:44 tom Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,6 +12,7 @@
 #define HEAD	24
 #define TAIL	8
 
+#if defined(YYBTYACC)
 void
 msprintf(struct mstring *s, const char *fmt,...)
 {
@@ -47,6 +48,7 @@ msprintf(struct mstring *s, const char *fmt,...)
     memcpy(s->ptr, buf, len);
     s->ptr += len;
 }
+#endif
 
 int
 mputchar(struct mstring *s, int ch)
@@ -99,6 +101,7 @@ msdone(struct mstring *s)
     return r;
 }
 
+#if defined(YYBTYACC)
 /* compare two strings, ignoring whitespace, except between two letters or
 ** digits (and treat all of these as equal) */
 int
@@ -141,3 +144,4 @@ strnshash(const char *s)
     }
     return h;
 }
+#endif

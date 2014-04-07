@@ -161,40 +161,41 @@ extern int YYPARSE_DECL();
 #define LETTER 270
 #define UMINUS 271
 #define YYERRCODE 256
-static const short quote_calc2_lhs[] = {                 -1,
+typedef short YYINT;
+static const YYINT quote_calc2_lhs[] = {                 -1,
     0,    0,    0,    1,    1,    2,    2,    2,    2,    2,
     2,    2,    2,    2,    2,    2,    3,    3,
 };
-static const short quote_calc2_len[] = {                  2,
+static const YYINT quote_calc2_len[] = {                  2,
     0,    3,    3,    1,    3,    3,    3,    3,    3,    3,
     3,    3,    3,    2,    1,    1,    1,    2,
 };
-static const short quote_calc2_defred[] = {               1,
+static const YYINT quote_calc2_defred[] = {               1,
     0,    0,    0,   17,    0,    0,    0,    0,    0,    3,
    15,    0,    0,    0,    2,    0,    0,    0,    0,    0,
     0,    0,   18,    0,    6,    0,    0,    0,    0,    0,
     0,    0,
 };
-static const short quote_calc2_dgoto[] = {                1,
+static const YYINT quote_calc2_dgoto[] = {                1,
     7,    8,    9,
 };
-static const short quote_calc2_sindex[] = {               0,
+static const YYINT quote_calc2_sindex[] = {               0,
   -38,    4,  -36,    0,  -51,  -36,    6, -121, -249,    0,
     0, -243,  -36,  -23,    0,  -36,  -36,  -36,  -36,  -36,
   -36,  -36,    0, -121,    0, -121, -121, -121, -121, -121,
  -121, -243,
 };
-static const short quote_calc2_rindex[] = {               0,
+static const YYINT quote_calc2_rindex[] = {               0,
     0,    0,    0,    0,   -9,    0,    0,   12,  -10,    0,
     0,   -5,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,   14,    0,   -3,   -2,   -1,    1,    2,
     3,   -4,
 };
-static const short quote_calc2_gindex[] = {               0,
+static const YYINT quote_calc2_gindex[] = {               0,
     0,   42,    0,
 };
 #define YYTABLESIZE 259
-static const short quote_calc2_table[] = {               16,
+static const YYINT quote_calc2_table[] = {               16,
    15,    6,   22,    6,   14,   13,    7,    8,    9,   13,
    10,   11,   12,   10,   16,   15,   17,   25,   18,   23,
    19,    4,   20,    5,   21,    0,    0,    0,    0,    0,
@@ -222,7 +223,7 @@ static const short quote_calc2_table[] = {               16,
    19,    0,   20,    0,   21,    0,    0,   16,   15,   16,
    15,   16,   15,   16,   15,   16,   15,   16,   15,
 };
-static const short quote_calc2_check[] = {               10,
+static const YYINT quote_calc2_check[] = {               10,
    10,   40,  124,   40,   10,   10,   10,   10,   10,   61,
    10,   10,   10,   10,  258,   10,  260,   41,  262,  269,
   264,   10,  266,   10,  268,   -1,   -1,   -1,   -1,   -1,
@@ -258,7 +259,7 @@ static const short quote_calc2_check[] = {               10,
 #define YYUNDFTOKEN 277
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
-static const char *yyname[] = {
+static const char *const quote_calc2_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,"'\\n'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"'%'","'&'",0,"'('","')'","'*'","'+'",0,"'-'",0,"'/'",0,0,0,0,0,0,0,
@@ -271,7 +272,7 @@ static const char *yyname[] = {
 "\"DIV\"","OP_MOD","\"MOD\"","OP_AND","\"AND\"","DIGIT","LETTER","UMINUS",0,0,0,
 0,0,"illegal-symbol",
 };
-static const char *yyrule[] = {
+static const char *const quote_calc2_rule[] = {
 "$accept : list",
 "list :",
 "list : list stat '\\n'",
@@ -369,7 +370,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 373 "quote_calc2.tab.c"
+#line 374 "quote_calc2.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -500,7 +501,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    YYERROR_CALL("syntax error");
 
     goto yyerrlab;
 
@@ -631,7 +632,7 @@ case 18:
 #line 70 "quote_calc2.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 635 "quote_calc2.tab.c"
+#line 636 "quote_calc2.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -681,7 +682,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    YYERROR_CALL("yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

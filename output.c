@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.54 2014/04/06 00:13:18 tom Exp $ */
+/* $Id: output.c,v 1.62 2014/04/06 23:54:01 tom Exp $ */
 
 #include "defs.h"
 
@@ -177,7 +177,7 @@ start_int_table(const char *name, int value)
     if (need < 6)
 	need = 6;
     fprintf(output_file,
-	    "%sconst short %s%s[] = {%*d,",
+	    "%sconst YYINT %s%s[] = {%*d,",
 	    StaticOrR, symbol_prefix, name, need, value);
 }
 
@@ -185,8 +185,8 @@ static void
 start_str_table(const char *name)
 {
     fprintf(output_file,
-	    "%sconst char *%s%s[] = {",
-	    StaticOrR, "yy", name);
+	    "%sconst char *const %s%s[] = {",
+	    StaticOrR, symbol_prefix, name);
     output_newline();
 }
 
@@ -197,7 +197,6 @@ end_table(void)
     output_line("};");
 }
 
-#if defined(YYBTYACC)
 static void
 output_YYINT_typedef(FILE * fp)
 {
@@ -206,7 +205,6 @@ output_YYINT_typedef(FILE * fp)
 	++outline;
     fprintf(fp, "typedef %s YYINT;\n", CONCAT1("", YYINT));
 }
-#endif
 
 static void
 output_rule_data(void)
@@ -214,9 +212,7 @@ output_rule_data(void)
     int i;
     int j;
 
-#if defined(YYBTYACC)
     output_YYINT_typedef(output_file);
-#endif
 
     start_int_table("lhs", symbol_value[start_symbol]);
 
@@ -849,11 +845,11 @@ pack_table(void)
 	    FREE(tos[i]);
     }
 
-    FREE(froms);
-    FREE(tos);
-    FREE(tally);
-    FREE(width);
-    FREE(pos);
+    DO_FREE(froms);
+    DO_FREE(tos);
+    DO_FREE(tally);
+    DO_FREE(width);
+    DO_FREE(pos);
 }
 
 static void
@@ -945,14 +941,12 @@ output_table(void)
     int i;
     int j;
 
-#if defined(YYBTYACC)
     if (high >= MAXYYINT)
     {
 	fprintf(stderr, "YYTABLESIZE: %ld\n", high);
 	fprintf(stderr, "Table is longer than %d elements.\n", MAXYYINT);
-	exit(1);
+	done(1);
     }
-#endif
 
     ++outline;
     fprintf(code_file, "#define YYTABLESIZE %ld\n", high);
@@ -1239,7 +1233,7 @@ output_debug(void)
     symnam = TMALLOC(const char *, max + 2);
     NO_SPACE(symnam);
 
-    /* Note that it is  not necessary to initialize the element         */
+    /* Note that it is not necessary to initialize the element          */
     /* symnam[max].                                                     */
 #if defined(YYBTYACC)
     for (i = 0; i < max; ++i)
@@ -1479,7 +1473,7 @@ output_pure_parser(FILE * fp)
     putc_code(fp, '\n');
 
     if (fp == code_file)
-	outline += 1;
+	++outline;
     fprintf(fp, "#define YYPURE %d\n", pure_parser);
     putc_code(fp, '\n');
 }
@@ -1736,56 +1730,33 @@ output_lex_decl(FILE * fp)
 static void
 output_error_decl(FILE * fp)
 {
+    param *p;
+
     putc_code(fp, '\n');
     putl_code(fp, "/* Parameters sent to yyerror. */\n");
-    if (parse_param)
-    {
-	param *p;
-
-	putl_code(fp, "#ifndef YYERROR_DECL\n");
-	puts_code(fp, "#define YYERROR_DECL() yyerror(");
+    putl_code(fp, "#ifndef YYERROR_DECL\n");
+    puts_code(fp, "#define YYERROR_DECL() yyerror(");
 #if defined(YYBTYACC)
-	if (locations)
-	    puts_code(fp, "YYLTYPE loc, ");
+    if (locations)
+	puts_code(fp, "YYLTYPE loc, ");
 #endif
-	for (p = parse_param; p; p = p->next)
-	    fprintf(fp, "%s %s%s, ", p->type, p->name, p->type2);
-	putl_code(fp, "const char *s)\n");
-	putl_code(fp, "#endif\n");
+    for (p = parse_param; p; p = p->next)
+	fprintf(fp, "%s %s%s, ", p->type, p->name, p->type2);
+    putl_code(fp, "const char *s)\n");
+    putl_code(fp, "#endif\n");
 
-	putl_code(fp, "#ifndef YYERROR_CALL\n");
-	puts_code(fp, "#define YYERROR_CALL(msg) yyerror(");
+    putl_code(fp, "#ifndef YYERROR_CALL\n");
+    puts_code(fp, "#define YYERROR_CALL(msg) yyerror(");
 
 #if defined(YYBTYACC)
-	if (locations)
-	    puts_code(fp, "yylloc, ");
+    if (locations)
+	puts_code(fp, "yylloc, ");
 #endif
-	for (p = parse_param; p; p = p->next)
-	    fprintf(fp, "%s, ", p->name);
+    for (p = parse_param; p; p = p->next)
+	fprintf(fp, "%s, ", p->name);
 
-	putl_code(fp, "msg)\n");
-	putl_code(fp, "#endif\n");
-    }
-    else
-    {
-	putl_code(fp, "#ifndef YYERROR_DECL\n");
-#if defined(YYBTYACC)
-	if (locations)
-	    putl_code(fp,
-		      "#define YYERROR_DECL() yyerror(YYLTYPE loc, const char *s)\n");
-	else
-#endif
-	    putl_code(fp, "#define YYERROR_DECL() yyerror(const char *s)\n");
-	putl_code(fp, "#endif\n");
-	putl_code(fp, "#ifndef YYERROR_CALL\n");
-#if defined(YYBTYACC)
-	if (locations)
-	    putl_code(fp, "#define YYERROR_CALL(msg) yyerror(yylloc, msg)\n");
-	else
-#endif
-	    putl_code(fp, "#define YYERROR_CALL(msg) yyerror(msg)\n");
-	putl_code(fp, "#endif\n");
-    }
+    putl_code(fp, "msg)\n");
+    putl_code(fp, "#endif\n");
 }
 
 #if defined(YYBTYACC)
@@ -1850,7 +1821,7 @@ output_yydestruct_impl(void)
     putl_code(code_file, "#define YYDESTRUCT_IS_DECLARED 1\n");
     putl_code(code_file, "#endif\n");
 
-    FREE(symbol_destructor);
+    DO_FREE(symbol_destructor);
 }
 #endif
 
@@ -1891,23 +1862,6 @@ free_reductions(void)
 	next = rp->next;
 	FREE(rp);
     }
-}
-
-static void
-output_yyerror_call(const char *msg)
-{
-    FILE *fp = code_file;
-
-    puts_code(fp, "    yyerror(");
-    if (parse_param)
-    {
-	param *p;
-	for (p = parse_param; p; p = p->next)
-	    fprintf(fp, "%s, ", p->name);
-    }
-    puts_code(fp, "\"");
-    puts_code(fp, msg);
-    putl_code(fp, "\");\n");
 }
 
 static void
@@ -1953,7 +1907,7 @@ output(void)
     else
 	fp = code_file;
 
-    output_prefix(iflag ? externs_file : output_file);
+    output_prefix(fp);
     output_pure_parser(fp);
     output_stored_text(fp);
     output_stype(fp);
@@ -1968,15 +1922,10 @@ output(void)
     if (destructor)
 	output_yydestruct_decl(fp);
 #endif
-#if defined(YYBTYACC)
     if (iflag || !rflag)
     {
 	write_section(fp, xdecls);
-	write_code_lineno(fp);
     }
-#else
-    write_section(fp, xdecls);
-#endif
 
     if (iflag)
     {
@@ -2018,11 +1967,8 @@ output(void)
     output_debug();
     if (rflag)
     {
-	output_prefix(code_file);
 	write_section(code_file, xdecls);
-#if defined(YYBTYACC)
 	output_YYINT_typedef(code_file);
-#endif
 	write_section(code_file, tables);
     }
     write_section(code_file, global_vars);
@@ -2046,12 +1992,8 @@ output(void)
 	write_section(code_file, body_vars);
     }
     write_section(code_file, body_2);
-    output_yyerror_call("syntax error");
-    write_section(code_file, body_3);
     output_semantic_actions();
     write_section(code_file, trailer);
-    output_yyerror_call("yacc stack overflow");
-    write_section(code_file, trailer_2);
 }
 
 #ifdef NO_LEAKS

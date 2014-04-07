@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "quote_calc3.tab.c"
 
 #ifndef yyparse
 #define yyparse    quote_calc3_parse
@@ -127,7 +126,7 @@ int base;
 int yylex(void);
 static void yyerror(const char *s);
 
-#line 131 "quote_calc3.tab.c"
+#line 130 "quote_calc3.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -165,7 +164,6 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 169 "quote_calc3.tab.c"
 
 #define OP_ADD 257
 #define OP_SUB 259
@@ -496,7 +494,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 500 "quote_calc3.tab.c"
+#line 498 "quote_calc3.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1213,7 +1211,7 @@ case 18:
 #line 70 "quote_calc3.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1217 "quote_calc3.tab.c"
+#line 1215 "quote_calc3.tab.c"
     default:
         break;
     }

@@ -1,3 +1,79 @@
+2014-04-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: fix for valgrind
+	(the calloc's are intentional - valgrind reported use of uninitialized memory)
+
+	* lr0.c, output.c: fix for valgrind
+
+	* output.c: don't call exit() without giving a chance to cleanup.
+
+	* mstring.c: ifdef'd functions not used in byacc
+
+	* btyaccpar.c: generated from btyaccpar.skel
+
+	* yaccpar.c: generated from yaccpar.skel
+
+	* skel2c:
+	change the generated-by comment to show which version of this script (and
+	which version of the given skeleton file) were used to produce the C-file.
+
+	* configure: regen
+
+	* makefile.in:
+	add rules to generate byacc and btyacc parser skeleton files independently
+
+	* aclocal.m4: CF_PROG_AWK - add to byacc's configure script
+	CF_INTEL_COMPILER
+		cleanup the -no-gcc option which was leftover from testing - prcs does
+		not build with this option.
+	CF_MAKE_DOCS
+		protect $2 from substitution, for luit's "$(manext)"
+	CF_XOPEN_SOURCE
+		for Solaris (tested with gcc/g++ 3.4.3 on Solaris 10 and gcc/g++ 4.5.2
+		on Solaris 11), suppress the followup check for defining _XOPEN_SOURCE
+		because it is not needed, as well as because g++ 4.7.3 (no package,
+		used in Sage for Solaris 10) has some unspecified header breakage which
+		is triggered by the duplicate definition.
+
+	* configure.in:
+	modify so skeleton-source is determined by configure options rather than by
+	having developer rename yaccpar.skel.old to yaccpar.skel
+
+	* descrip.mms: rename skeleton
+
+	* vmsbuild.com:
+	fwiw, renamed the skeleton for consistency with makefile
+
+	* skel2c, skeleton.c: resync skeleton and its generating files
+
+	* yaccpar.skel:
+	renamed yaccpar.skel.old to yaccpar.skel, to allow using makefile suffix rules
+
+	* yaccpar.skel.old: resync skeleton and its generating files
+
+	* output.c, skeleton.c, defs.h:
+	use improvement from Tom Shield's btyacc changes, getting rid of special cases for generating two yyerror calls in skeleton
+
+	* output.c: simplify output_yyerror_decl()
+
+	* output.c:
+	add second "const" to string-table declarations, from Tom Shield's btyacc changes
+
+	* output.c:
+	use YYINT typedef from Tom Shield's btyacc changes to replace explicit "short"
+
+	* output.c:
+	use fix from Tom Shield's btyacc changes: remove redundant extern-declaration for YYPARSE_DECL()
+
+	* output.c:
+	use fix from Tom Shield's btyacc changes: prefix-definitions went to the
+	output (.tab.c) file in a case where they should have gone to the code
+	(.code.c) file.  Remove now-redundant call to output_prefix().
+
+	* main.c: do the same for help-message
+
+	* main.c: use OUTPUT_SUFFIX symbol in an overlooked case
+
 2014-04-05  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* output.c:

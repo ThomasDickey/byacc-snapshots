@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "err_syntax12.tab.c"
 
 #ifndef yyparse
 #define yyparse    err_syntax12_parse
@@ -120,7 +119,7 @@
 #line 2 "err_syntax12.y"
 int yylex(void);
 static void yyerror(const char *);
-#line 124 "err_syntax12.tab.c"
+#line 123 "err_syntax12.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -158,7 +157,6 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 162 "err_syntax12.tab.c"
 
 #define text 456
 #define YYERRCODE 256
@@ -376,7 +374,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 380 "err_syntax12.tab.c"
+#line 378 "err_syntax12.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.14 2014/02/19 01:07:53 Tom.Shields Exp $ */
+/* $Id: lr0.c,v 1.15 2014/04/07 00:04:29 tom Exp $ */
 
 #include "defs.h"
 
@@ -592,8 +592,11 @@ lr0(void)
 void
 lr0_leaks(void)
 {
-    DO_FREE(derives[start_symbol]);
-    DO_FREE(derives);
+    if (derives)
+    {
+	DO_FREE(derives[start_symbol]);
+	DO_FREE(derives);
+    }
     DO_FREE(nullable);
 }
 #endif

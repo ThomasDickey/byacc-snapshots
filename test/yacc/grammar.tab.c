@@ -452,7 +452,8 @@ extern int YYPARSE_DECL();
 #define T_ASMARG 290
 #define T_VA_DCL 291
 #define YYERRCODE 256
-static const short grammar_lhs[] = {                     -1,
+typedef short YYINT;
+static const YYINT grammar_lhs[] = {                     -1,
     0,    0,   26,   26,   27,   27,   27,   27,   27,   27,
    27,   31,   30,   30,   28,   28,   34,   28,   32,   32,
    33,   33,   35,   35,   37,   38,   29,   39,   29,   36,
@@ -466,7 +467,7 @@ static const short grammar_lhs[] = {                     -1,
    18,   18,   24,   24,   12,   12,   12,   13,   13,   13,
    13,   13,   13,   13,
 };
-static const short grammar_len[] = {                      2,
+static const YYINT grammar_len[] = {                      2,
     0,    1,    1,    2,    1,    1,    1,    1,    3,    2,
     2,    2,    3,    3,    2,    3,    0,    5,    2,    1,
     0,    1,    1,    3,    0,    0,    7,    0,    5,    0,
@@ -480,7 +481,7 @@ static const short grammar_len[] = {                      2,
     1,    3,    1,    2,    1,    2,    1,    3,    2,    1,
     4,    3,    3,    2,
 };
-static const short grammar_defred[] = {                   0,
+static const YYINT grammar_defred[] = {                   0,
     0,    0,    0,    0,   77,    0,   62,   40,    0,   42,
    43,   20,   44,    0,   46,   47,   48,   49,   54,   50,
    51,   52,   53,   76,   66,   67,   55,   56,   57,   61,
@@ -497,14 +498,14 @@ static const short grammar_defred[] = {                   0,
    29,  114,    0,    0,    0,  109,    0,   93,   95,  102,
    18,    0,    0,  108,  113,  112,    0,   24,   27,  111,
 };
-static const short grammar_dgoto[] = {                   33,
+static const YYINT grammar_dgoto[] = {                   33,
    87,   35,   36,   37,   38,   39,   40,   69,   70,   41,
    42,  119,  120,  100,  101,  102,  103,  104,   43,   44,
    59,   60,   45,   46,   47,   48,   49,   50,   51,   52,
    77,   53,  127,  109,  128,   97,   94,  143,   72,   98,
   112,
 };
-static const short grammar_sindex[] = {                  -2,
+static const YYINT grammar_sindex[] = {                  -2,
    -3,   27, -239, -177,    0,    0,    0,    0, -274,    0,
     0,    0,    0, -246,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -521,7 +522,7 @@ static const short grammar_sindex[] = {                  -2,
     0,    0,   53,   55,  417,    0,  -33,    0,    0,    0,
     0,   27, -188,    0,    0,    0,   57,    0,    0,    0,
 };
-static const short grammar_rindex[] = {                  99,
+static const YYINT grammar_rindex[] = {                  99,
     0,    0,  275,    0,    0,  -38,    0,    0,  481,    0,
     0,    0,    0,  509,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -538,7 +539,7 @@ static const short grammar_rindex[] = {                  99,
     0,    0,    0,    0,    0,    0,   35,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
 };
-static const short grammar_gindex[] = {                   0,
+static const YYINT grammar_gindex[] = {                   0,
    11,  -17,    0,    0,   13,    0,    0,    0,   20,    8,
   -43,   -1,   -8,  -89,    0,   -9,    0,    0,    0,  -44,
     0,    0,    4,    0,    0,    0,   70,  -53,    0,    0,
@@ -546,7 +547,7 @@ static const short grammar_gindex[] = {                   0,
     0,
 };
 #define YYTABLESIZE 924
-static const short grammar_table[] = {                   58,
+static const YYINT grammar_table[] = {                   58,
    78,   58,   58,   58,   73,   58,  135,   61,   88,   57,
    34,    5,   56,   62,   85,   58,   68,   63,   96,    7,
    58,   98,   78,   64,   98,   84,  134,  107,   80,    3,
@@ -641,7 +642,7 @@ static const short grammar_table[] = {                   58,
    17,   18,   19,   20,   21,   22,   23,   24,   25,   26,
    27,   28,   29,   30,
 };
-static const short grammar_check[] = {                   38,
+static const YYINT grammar_check[] = {                   38,
    44,   40,   41,   42,   40,   44,   40,    4,   62,    2,
     0,  257,  258,  288,   59,    3,   34,  264,   72,  259,
    59,   41,   61,  290,   44,   41,  116,   41,   47,   42,
@@ -744,7 +745,7 @@ static const short grammar_check[] = {                   38,
 #define YYUNDFTOKEN 335
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
-static const char *yyname[] = {
+static const char *const grammar_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,"'&'",0,"'('","')'","'*'",0,"','",0,0,0,0,0,0,0,0,0,0,0,0,0,0,"';'",0,
@@ -762,7 +763,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 "illegal-symbol",
 };
-static const char *yyrule[] = {
+static const char *const grammar_rule[] = {
 "$accept : program",
 "program :",
 "program : translation_unit",
@@ -1086,7 +1087,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1090 "grammar.tab.c"
+#line 1091 "grammar.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -1217,7 +1218,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    YYERROR_CALL("syntax error");
 
     goto yyerrlab;
 
@@ -1962,7 +1963,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1966 "grammar.tab.c"
+#line 1967 "grammar.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -2012,7 +2013,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    YYERROR_CALL("yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "grammar.tab.c"
 
 #ifndef yyparse
 #define yyparse    grammar_parse
@@ -404,7 +403,7 @@ haveAnsiParam (void)
     }
     return FALSE;
 }
-#line 408 "grammar.tab.c"
+#line 407 "grammar.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -436,7 +435,6 @@ haveAnsiParam (void)
 #endif
 
 extern int YYPARSE_DECL();
-#line 440 "grammar.tab.c"
 
 #define T_IDENTIFIER 257
 #define T_TYPEDEF_NAME 258
@@ -1249,7 +1247,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1253 "grammar.tab.c"
+#line 1251 "grammar.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -2580,7 +2578,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 2584 "grammar.tab.c"
+#line 2582 "grammar.tab.c"
     default:
         break;
     }

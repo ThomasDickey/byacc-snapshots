@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.21 2014/04/04 00:25:27 tom Exp $
+# $Id: makefile.in,v 1.22 2014/04/06 19:20:14 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -24,6 +24,7 @@ CFLAGS		= @CFLAGS@ $(CPPFLAGS) $(EXTRA_CFLAGS)
 LDFLAGS		= @LDFLAGS@
 LIBS		= @LIBS@
 
+AWK		= @AWK@
 CTAGS		= @CTAGS@
 ETAGS		= @ETAGS@
 LINT		= @LINT@
@@ -39,6 +40,7 @@ manext		= 1
 
 testdir		= $(srcdir)/test
 
+SKELETON	= @SKELETON@
 x		= @EXEEXT@
 o		= .@OBJEXT@
 
@@ -61,7 +63,7 @@ C_FILES = \
 	mstring.c \
 	output.c \
 	reader.c \
-	skeleton.c \
+	$(SKELETON).c \
 	symtab.c \
 	verbose.c \
 	warshall.c
@@ -77,12 +79,14 @@ OBJS	= \
 	mstring$o \
 	output$o \
 	reader$o \
-	skeleton$o \
+	$(SKELETON)$o \
 	symtab$o \
 	verbose$o \
 	warshall$o
 
-SKELETON = yaccpar.skel
+YACCPAR	= \
+	btyaccpar.c \
+	yaccpar.c
 
 TRANSFORM_BIN = sed 's/$x$$//'       |sed '$(transform)'|sed 's/$$/$x/'
 TRANSFORM_MAN = sed 's/$(manext)$$//'|sed '$(transform)'|sed 's/$$/$(manext)/'
@@ -105,7 +109,7 @@ uninstall:
 	- rm -f $(mandir)/$(actual_man)
 
 ################################################################################
-.SUFFIXES : $o .i
+.SUFFIXES : .c $o .i .skel
 
 .c$o:
 	@RULE_CC@
@@ -114,6 +118,9 @@ uninstall:
 .c.i :
 	@RULE_CC@
 	@ECHO_CC@$(CPP) -C $(CPPFLAGS) $*.c >$@
+
+.skel.c :
+	$(AWK) -f $(srcdir)/skel2c $*.skel > $@
 
 ################################################################################
 
@@ -132,6 +139,11 @@ distclean :: clean
 
 realclean :: distclean
 	- rm -f tags TAGS
+
+sources : $(YACCPAR)
+
+maintainer-clean :: realclean
+	rm -f $(YACCPAR)
 
 ################################################################################
 check:	$(THIS)$x
@@ -158,6 +170,6 @@ depend:
 $(OBJS) : defs.h makefile
 
 main$o \
-skeleton$o : VERSION
+$(SKELETON)$o : VERSION
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.

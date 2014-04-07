@@ -175,17 +175,18 @@ extern int YYPARSE_DECL();
 #define CONST 259
 #define UMINUS 260
 #define YYERRCODE 256
-static const short varsyntax_calc1_lhs[] = {             -1,
+typedef short YYINT;
+static const YYINT varsyntax_calc1_lhs[] = {             -1,
     3,    3,    0,    0,    0,    0,    0,    1,    1,    1,
     1,    1,    1,    1,    1,    2,    2,    2,    2,    2,
     2,    2,    2,    2,    2,    2,    2,    2,
 };
-static const short varsyntax_calc1_len[] = {              2,
+static const YYINT varsyntax_calc1_len[] = {              2,
     0,    2,    2,    2,    4,    4,    2,    1,    1,    3,
     3,    3,    3,    2,    3,    1,    5,    1,    3,    3,
     3,    3,    3,    3,    3,    3,    2,    3,
 };
-static const short varsyntax_calc1_defred[] = {           0,
+static const YYINT varsyntax_calc1_defred[] = {           0,
     0,    0,    0,    8,    0,    0,    0,    0,    0,    7,
     0,    0,    9,   18,   14,   27,    0,    0,    0,    0,
     0,    0,    3,    0,    0,    0,    0,    4,    0,    0,
@@ -194,10 +195,10 @@ static const short varsyntax_calc1_defred[] = {           0,
     0,    0,    0,    0,    5,    6,    0,    0,    0,   12,
    13,   17,
 };
-static const short varsyntax_calc1_dgoto[] = {            7,
+static const YYINT varsyntax_calc1_dgoto[] = {            7,
    32,    9,    0,
 };
-static const short varsyntax_calc1_sindex[] = {         -40,
+static const YYINT varsyntax_calc1_sindex[] = {         -40,
    -8,  -48,  -47,    0,  -37,  -37,    0,    2,   17,    0,
   -34,  -37,    0,    0,    0,    0,  -25,   90,  -37,  -37,
   -37,  -37,    0,  -37,  -37,  -37,  -37,    0,  -34,  -34,
@@ -206,7 +207,7 @@ static const short varsyntax_calc1_sindex[] = {         -40,
   -34,  -34,  -34,  -34,    0,    0,  118,   69,   69,    0,
     0,    0,
 };
-static const short varsyntax_calc1_rindex[] = {           0,
+static const YYINT varsyntax_calc1_rindex[] = {           0,
     0,   38,   44,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -215,11 +216,11 @@ static const short varsyntax_calc1_rindex[] = {           0,
     0,    0,    0,    0,    0,    0,    0,   78,   83,    0,
     0,    0,
 };
-static const short varsyntax_calc1_gindex[] = {           0,
+static const YYINT varsyntax_calc1_gindex[] = {           0,
     4,  124,    0,
 };
 #define YYTABLESIZE 225
-static const short varsyntax_calc1_table[] = {            6,
+static const YYINT varsyntax_calc1_table[] = {            6,
    16,   10,    6,    8,    5,   30,   20,    5,   15,   17,
    29,   23,   11,   12,   31,   34,   21,   19,   35,   20,
     0,   22,   37,   39,   41,   43,   28,    0,    0,    0,
@@ -244,7 +245,7 @@ static const short varsyntax_calc1_table[] = {            6,
     0,    0,    0,    0,    0,    1,    2,    3,    4,   13,
    14,    4,   13,    0,    4,
 };
-static const short varsyntax_calc1_check[] = {           40,
+static const YYINT varsyntax_calc1_check[] = {           40,
    10,   10,   40,    0,   45,   40,   10,   45,    5,    6,
    45,   10,   61,   61,   11,   41,   42,   43,   44,   45,
    -1,   47,   19,   20,   21,   22,   10,   -1,   -1,   -1,
@@ -277,7 +278,7 @@ static const short varsyntax_calc1_check[] = {           40,
 #define YYUNDFTOKEN 266
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
-static const char *yyname[] = {
+static const char *const varsyntax_calc1_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,"'\\n'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,"'('","')'","'*'","'+'","','","'-'",0,"'/'",0,0,0,0,0,0,0,0,0,
@@ -288,7 +289,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,"DREG","VREG","CONST","UMINUS",0,0,0,0,0,"illegal-symbol",
 };
-static const char *yyrule[] = {
+static const char *const varsyntax_calc1_rule[] = {
 "$accept : line",
 "lines :",
 "lines : lines line",
@@ -486,7 +487,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 490 "varsyntax_calc1.tab.c"
+#line 491 "varsyntax_calc1.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -617,7 +618,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    YYERROR_CALL("syntax error");
 
     goto yyerrlab;
 
@@ -851,7 +852,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 855 "varsyntax_calc1.tab.c"
+#line 856 "varsyntax_calc1.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -901,7 +902,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    YYERROR_CALL("yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

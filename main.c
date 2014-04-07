@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.45 2014/04/05 00:18:22 tom Exp $ */
+/* $Id: main.c,v 1.47 2014/04/06 14:44:40 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -202,13 +202,13 @@ usage(void)
 	,"Options:"
 	,"  -b file_prefix        set filename prefix (default \"y.\")"
 	,"  -B                    create a backtracking parser"
-	,"  -d                    write definitions (y.tab.h)"
+	,"  -d                    write definitions (" DEFINES_SUFFIX ")"
 	,"  -D                    enable value stack memory reclamation"
 	,"  -i                    write interface (y.tab.i)"
 	,"  -g                    write a graphical description"
 	,"  -l                    suppress #line directives"
 	,"  -L                    enable position processing, e.g., \"%locations\""
-	,"  -o output_file        (default \"y.tab.c\")"
+	,"  -o output_file        (default \"" OUTPUT_SUFFIX "\")"
 	,"  -p symbol_prefix      set symbol prefix (default \"yy\")"
 	,"  -P                    create a reentrant parser, e.g., \"%pure-parser\""
 	,"  -r                    produce separate code and table files (y.code.c)"
@@ -413,7 +413,7 @@ create_file_names(void)
     /* compute the file_prefix from the user provided output_file_name */
     if (output_file_name != 0)
     {
-	if (!(prefix = strstr(output_file_name, ".tab.c"))
+	if (!(prefix = strstr(output_file_name, OUTPUT_SUFFIX))
 	    && (prefix = strstr(output_file_name, ".c")))
 	{
 	    defines_suffix = ".h";

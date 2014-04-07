@@ -1,61 +1,77 @@
-/* $Id: yaccpar.skel.old,v 1.1 2014/03/17 23:32:38 Tom.Shields Exp $ */
-
-#include "defs.h"
-
-/*  The definition of yysccsid in the banner should be replaced with	*/
-/*  a #pragma ident directive if the target C compiler supports		*/
-/*  #pragma ident directives.						*/
-/*									*/
-/*  If the skeleton is changed, the banner should be changed so that	*/
-/*  the altered version can be easily distinguished from the original.	*/
-/*									*/
-/*  The #defines included with the banner are there because they are	*/
-/*  useful in subsequent code.  The macros #defined in the header or	*/
-/*  the body either are not useful outside of semantic actions or	*/
-/*  are conditional.							*/
-
-%% banner
-#ifndef lint
-static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
-#endif
+/* original parser id follows */
+/* yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93" */
+/* (use YYMAJOR/YYMINOR for ifdefs dependent on parser version) */
 
 #define YYBYACC 1
-%% insert VERSION here
+#define YYMAJOR 1
+#define YYMINOR 9
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
 #define yyerrok        (yyerrflag = 0)
 #define YYRECOVERING() (yyerrflag != 0)
-
-%% xdecls
-
-extern int YYPARSE_DECL();
-%% tables
-extern short yylhs[];
-extern short yylen[];
-extern short yydefred[];
-extern short yydgoto[];
-extern short yysindex[];
-extern short yyrindex[];
-extern short yygindex[];
-extern short yytable[];
-extern short yycheck[];
-
-#if YYDEBUG
-extern char *yyname[];
-extern char *yyrule[];
+#define YYENOMEM       (-2)
+#define YYEOF          0
+#line 16 "code_debug.c"
+#include "rename_debug.i"
+#include "rename_debug.h"
+typedef short YYINT;
+static const YYINT yylhs[] = {                           -1,
+    0,
+};
+static const YYINT yylen[] = {                            2,
+    1,
+};
+static const YYINT yydefred[] = {                         0,
+    1,    0,
+};
+static const YYINT yydgoto[] = {                          2,
+};
+static const YYINT yysindex[] = {                      -256,
+    0,    0,
+};
+static const YYINT yyrindex[] = {                         0,
+    0,    0,
+};
+static const YYINT yygindex[] = {                         0,
+};
+#define YYTABLESIZE 0
+static const YYINT yytable[] = {                          1,
+};
+static const YYINT yycheck[] = {                        256,
+};
+#define YYFINAL 2
+#ifndef YYDEBUG
+#define YYDEBUG 1
 #endif
-%% global_vars
+#define YYMAXTOKEN 256
+#define YYUNDFTOKEN 259
+#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
+#if YYDEBUG
+static const char *const yyname[] = {
+
+"end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"illegal-symbol",
+};
+static const char *const yyrule[] = {
+"$accept : S",
+"S : error",
+
+};
+#endif
 
 int      yydebug;
 int      yynerrs;
-%% impure_vars
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
-%% hdr_defs
 
 /* define the initial stack-sizes */
 #ifdef YYSTACKSIZE
@@ -80,18 +96,35 @@ typedef struct {
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-%% hdr_vars
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-%% body_vars
-    int      yyerrflag;
-    int      yychar;
-    YYSTYPE  yyval;
-    YYSTYPE  yylval;
+#line 12 "code_debug.y"
 
-    /* variables for the parser stack */
-    YYSTACKDATA yystack;
-%% body_1
+#include <stdio.h>
+
+#ifdef YYBYACC
+extern int YYLEX_DECL();
+#endif
+
+int
+main(void)
+{
+    printf("yyparse() = %d\n", yyparse());
+    return 0;
+}
+
+int
+yylex(void)
+{
+    return -1;
+}
+
+static void
+yyerror(const char* s)
+{
+    printf("%s\n", s);
+}
+#line 129 "code_debug.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -111,21 +144,21 @@ static int yygrowstack(YYSTACKDATA *data)
     if ((newsize = data->stacksize) == 0)
         newsize = YYINITSTACKSIZE;
     else if (newsize >= YYMAXDEPTH)
-        return -1;
+        return YYENOMEM;
     else if ((newsize *= 2) > YYMAXDEPTH)
         newsize = YYMAXDEPTH;
 
     i = (int) (data->s_mark - data->s_base);
     newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
-        return -1;
+        return YYENOMEM;
 
     data->s_base = newss;
     data->s_mark = newss + i;
 
     newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));
     if (newvs == 0)
-        return -1;
+        return YYENOMEM;
 
     data->l_base = newvs;
     data->l_mark = newvs + i;
@@ -154,7 +187,6 @@ static void yyfreestack(YYSTACKDATA *data)
 int
 YYPARSE_DECL()
 {
-%% body_2
     int yym, yyn, yystate;
 #if YYDEBUG
     const char *yys;
@@ -176,7 +208,7 @@ YYPARSE_DECL()
     memset(&yystack, 0, sizeof(yystack));
 #endif
 
-    if (yystack.s_base == NULL && yygrowstack(&yystack)) goto yyoverflow;
+    if (yystack.s_base == NULL && yygrowstack(&yystack) == YYENOMEM) goto yyoverflow;
     yystack.s_mark = yystack.s_base;
     yystack.l_mark = yystack.l_base;
     yystate = 0;
@@ -186,7 +218,7 @@ yyloop:
     if ((yyn = yydefred[yystate]) != 0) goto yyreduce;
     if (yychar < 0)
     {
-        if ((yychar = YYLEX) < 0) yychar = 0;
+        if ((yychar = YYLEX) < 0) yychar = YYEOF;
 #if YYDEBUG
         if (yydebug)
         {
@@ -204,7 +236,7 @@ yyloop:
             printf("%sdebug: state %d, shifting to state %d\n",
                     YYPREFIX, yystate, yytable[yyn]);
 #endif
-        if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack))
+        if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack) == YYENOMEM)
         {
             goto yyoverflow;
         }
@@ -244,7 +276,7 @@ yyinrecovery:
                     printf("%sdebug: state %d, error recovery shifting\
  to state %d\n", YYPREFIX, *yystack.s_mark, yytable[yyn]);
 #endif
-                if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack))
+                if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack) == YYENOMEM)
                 {
                     goto yyoverflow;
                 }
@@ -268,7 +300,7 @@ yyinrecovery:
     }
     else
     {
-        if (yychar == 0) goto yyabort;
+        if (yychar == YYEOF) goto yyabort;
 #if YYDEBUG
         if (yydebug)
         {
@@ -294,7 +326,6 @@ yyreduce:
         memset(&yyval, 0, sizeof yyval);
     switch (yyn)
     {
-%% trailer
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -312,7 +343,7 @@ yyreduce:
         *++yystack.l_mark = yyval;
         if (yychar < 0)
         {
-            if ((yychar = YYLEX) < 0) yychar = 0;
+            if ((yychar = YYLEX) < 0) yychar = YYEOF;
 #if YYDEBUG
             if (yydebug)
             {
@@ -322,7 +353,7 @@ yyreduce:
             }
 #endif
         }
-        if (yychar == 0) goto yyaccept;
+        if (yychar == YYEOF) goto yyaccept;
         goto yyloop;
     }
     if ((yyn = yygindex[yym]) && (yyn += yystate) >= 0 &&
@@ -335,7 +366,7 @@ yyreduce:
         printf("%sdebug: after reduction, shifting from state %d \
 to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
 #endif
-    if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack))
+    if (yystack.s_mark >= yystack.s_last && yygrowstack(&yystack) == YYENOMEM)
     {
         goto yyoverflow;
     }

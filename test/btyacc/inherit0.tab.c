@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "inherit0.tab.c"
 
 #ifndef yyparse
 #define yyparse    inherit0_parse
@@ -126,7 +125,7 @@ extern void mksymbol(int t, int c, int id);
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
 #endif
-#line 130 "inherit0.tab.c"
+#line 129 "inherit0.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -164,7 +163,6 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 168 "inherit0.tab.c"
 
 #define GLOBAL 257
 #define LOCAL 258
@@ -387,7 +385,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 391 "inherit0.tab.c"
+#line 389 "inherit0.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1088,7 +1086,7 @@ case 11:
 #line 43 "inherit0.y"
 	{ yyval = yystack.l_mark[0]; }
 break;
-#line 1092 "inherit0.tab.c"
+#line 1090 "inherit0.tab.c"
     default:
         break;
     }

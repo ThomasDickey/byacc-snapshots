@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.43 2014/04/05 13:32:34 tom Exp $ */
+/* $Id: reader.c,v 1.44 2014/04/07 00:22:49 tom Exp $ */
 
 #include "defs.h"
 
@@ -1221,7 +1221,7 @@ declare_argtypes(bucket *bp)
     bp->args = args;
     bp->argnames = TMALLOC(char *, args);
     NO_SPACE(bp->argnames);
-    bp->argtags = TMALLOC(char *, args);
+    bp->argtags = CALLOC(sizeof(char *), args + 1);
     NO_SPACE(bp->argtags);
     while (--args >= 0)
     {
@@ -2890,10 +2890,10 @@ pack_symbols(void)
 
     if (destructor)
     {
-	symbol_destructor = TMALLOC(char *, nsyms);
+	symbol_destructor = CALLOC(sizeof(char *), nsyms);
 	NO_SPACE(symbol_destructor);
 
-	symbol_type_tag = TMALLOC(char *, nsyms);
+	symbol_type_tag = CALLOC(sizeof(char *), nsyms);
 	NO_SPACE(symbol_type_tag);
     }
 #endif
@@ -3204,7 +3204,7 @@ finalize_destructors(void)
 	}
     }
     /* 'symbol_type_tag[]' elements are freed by 'free_tags()' */
-    free(symbol_type_tag);	/* no longer needed */
+    DO_FREE(symbol_type_tag);	/* no longer needed */
     if ((bp = default_destructor[UNTYPED_DEFAULT]) != NULL)
     {
 	FREE(bp->name);

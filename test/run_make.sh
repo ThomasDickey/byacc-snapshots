@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_make.sh,v 1.12 2014/04/02 08:29:13 tom Exp $
+# $Id: run_make.sh,v 1.14 2014/04/06 17:50:57 tom Exp $
 # vi:ts=4 sw=4:
 
 # do a test-compile on each of the ".c" files in the test-directory
@@ -14,6 +14,7 @@ else
 	PROG_DIR=..
 	TEST_DIR=.
 fi
+THIS_DIR=`pwd`
 
 ifBTYACC=`fgrep -l 'define YYBTYACC' config.h > /dev/null; test $? != 0; echo $?`
 
@@ -23,23 +24,33 @@ else
 	REF_DIR=${TEST_DIR}/btyacc
 fi
 
-MY_MAKE="make -f $PROG_DIR/makefile srcdir=$PROG_DIR VPATH=$REF_DIR"
+MY_MAKE="make -f $PROG_DIR/makefile srcdir=$PROG_DIR"
+
+run_make() {
+	C_FILE=`basename "$1"`
+	O_FILE=`basename "$C_FILE" .c`.o
+	shift
+	cd $REF_DIR
+	make -f $PROG_DIR/makefile srcdir=$PROG_DIR $O_FILE $*
+	test -f $O_FILE && rm $O_FILE
+	cd $THIS_DIR
+}
 
 echo '** '`date`
+echo "** program is in $PROG_DIR"
+echo "** test-files in $REF_DIR"
+
 for input in ${REF_DIR}/*.c
 do
-	test -f "$input" || continue
-
 	case $input in #(vi
 	${REF_DIR}/err_*)
 		continue
 		;;
 	esac
 
-	obj=`basename "$input" .c`.o
+	test -f "$input" || continue
 
-	$MY_MAKE $obj C_FILES=$input
-	test -f $obj && rm $obj
+	run_make "$input"
 
 	DEFS=
 	case $input in #(vi
@@ -50,8 +61,7 @@ do
 
 	if test "x$DEFS" != "x"
 	then
-		$MY_MAKE $obj C_FILES=$input DEFINES="$DEFS"
-		test -f $obj && rm -f $obj
+		run_make "$input" DEFINES="$DEFS"
 	fi
 done
 
@@ -90,17 +100,20 @@ then
 		sed -e '/^%expect/s,%expect.*,,' $input >>run_make.y
 
 		bison -y run_make.y
-		sed -e '/^#line/s,"run_make.y","'$input'",' y.tab.c >run_make.c
-
-		rm -f y.tab.c
-
-		input=run_make.c
-		object=run_make.o
-		if test -f $input
+		if test -f "y.tab.c"
 		then
-			$MY_MAKE $object DEFINES='-DYYENABLE_NLS=0 -DYYLTYPE_IS_TRIVIAL=1 -DYYSTACK_USE_ALLOCA=0 -DYYMAXDEPTH=0'
-		else
-			echo "?? $input not found"
+			sed -e '/^#line/s,"run_make.y","'$input'",' y.tab.c >run_make.c
+
+			rm -f y.tab.c
+
+			input=run_make.c
+			object=run_make.o
+			if test -f $input
+			then
+				$MY_MAKE $object DEFINES='-DYYENABLE_NLS=0 -DYYLTYPE_IS_TRIVIAL=1 -DYYSTACK_USE_ALLOCA=0 -DYYMAXDEPTH=0'
+			else
+				echo "?? $input not found"
+			fi
 		fi
 		rm -f run_make.[coy]
 	done
@@ -145,17 +158,20 @@ then
 		sed -e '/^%expect/s,%expect.*,,' $input >>run_make.y
 
 		$YACC run_make.y
-		sed -e '/^#line/s,"run_make.y","'$input'",' y.tab.c >run_make.c
-
-		rm -f y.tab.c
-
-		input=run_make.c
-		object=run_make.o
-		if test -f $input
+		if test -f y.tab.c
 		then
-			$MY_MAKE $object
-		else
-			echo "?? $input not found"
+			sed -e '/^#line/s,"run_make.y","'$input'",' y.tab.c >run_make.c
+
+			rm -f y.tab.c
+
+			input=run_make.c
+			object=run_make.o
+			if test -f $input
+			then
+				$MY_MAKE $object
+			else
+				echo "?? $input not found"
+			fi
 		fi
 		rm -f run_make.[coy]
 	done

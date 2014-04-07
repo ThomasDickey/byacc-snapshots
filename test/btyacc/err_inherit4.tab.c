@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "err_inherit4.tab.c"
 
 #ifndef yyparse
 #define yyparse    err_inherit4_parse
@@ -159,7 +158,7 @@ typedef union
     name	id;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 163 "err_inherit4.tab.c"
+#line 162 "err_inherit4.tab.c"
 
 #if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 /* Default: YYLTYPE is the text position type. */
@@ -210,7 +209,6 @@ typedef struct YYLTYPE
 #endif
 
 extern int YYPARSE_DECL();
-#line 214 "err_inherit4.tab.c"
 
 #define GLOBAL 257
 #define LOCAL 258
@@ -434,7 +432,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 438 "err_inherit4.tab.c"
+#line 436 "err_inherit4.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -447,17 +445,17 @@ YYDESTRUCT_DECL()
 #line 28 "err_inherit4.y"
 	{ }
 	break;
-#line 451 "err_inherit4.tab.c"
+#line 449 "err_inherit4.tab.c"
 	case 264:
 #line 28 "err_inherit4.y"
 	{ }
 	break;
-#line 456 "err_inherit4.tab.c"
+#line 454 "err_inherit4.tab.c"
 	case 265:
 #line 28 "err_inherit4.y"
 	{ }
 	break;
-#line 461 "err_inherit4.tab.c"
+#line 459 "err_inherit4.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1170,7 +1168,7 @@ case 12:
 #line 77 "err_inherit4.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; yyloc = yystack.p_mark[1]; }
 break;
-#line 1174 "err_inherit4.tab.c"
+#line 1172 "err_inherit4.tab.c"
     default:
         break;
     }

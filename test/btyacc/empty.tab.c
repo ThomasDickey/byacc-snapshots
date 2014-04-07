@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "empty.tab.c"
 
 #ifndef yyparse
 #define yyparse    empty_parse
@@ -124,7 +123,7 @@
 static int YYLEX_DECL();
 static void YYERROR_DECL();
 #endif
-#line 128 "empty.tab.c"
+#line 127 "empty.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -162,7 +161,6 @@ typedef int YYSTYPE;
 #endif
 
 extern int YYPARSE_DECL();
-#line 166 "empty.tab.c"
 
 #define YYERRCODE 256
 typedef short YYINT;
@@ -365,7 +363,7 @@ static void
 YYERROR_DECL() {
   printf("%s\n",s);
 }
-#line 369 "empty.tab.c"
+#line 367 "empty.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

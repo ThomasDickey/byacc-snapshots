@@ -133,29 +133,30 @@ static void yyerror(const char *);
 extern int YYPARSE_DECL();
 
 #define YYERRCODE 256
-static const short err_syntax10_lhs[] = {                -1,
+typedef short YYINT;
+static const YYINT err_syntax10_lhs[] = {                -1,
     0,
 };
-static const short err_syntax10_len[] = {                 2,
+static const YYINT err_syntax10_len[] = {                 2,
     1,
 };
-static const short err_syntax10_defred[] = {              0,
+static const YYINT err_syntax10_defred[] = {              0,
     1,    0,
 };
-static const short err_syntax10_dgoto[] = {               2,
+static const YYINT err_syntax10_dgoto[] = {               2,
 };
-static const short err_syntax10_sindex[] = {           -256,
+static const YYINT err_syntax10_sindex[] = {           -256,
     0,    0,
 };
-static const short err_syntax10_rindex[] = {              0,
+static const YYINT err_syntax10_rindex[] = {              0,
     0,    0,
 };
-static const short err_syntax10_gindex[] = {              0,
+static const YYINT err_syntax10_gindex[] = {              0,
 };
 #define YYTABLESIZE 0
-static const short err_syntax10_table[] = {               1,
+static const YYINT err_syntax10_table[] = {               1,
 };
-static const short err_syntax10_check[] = {             256,
+static const YYINT err_syntax10_check[] = {             256,
 };
 #define YYFINAL 2
 #ifndef YYDEBUG
@@ -165,7 +166,7 @@ static const short err_syntax10_check[] = {             256,
 #define YYUNDFTOKEN 259
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
-static const char *yyname[] = {
+static const char *const err_syntax10_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,"'&'",0,"'('",0,"'*'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -175,7 +176,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"illegal-symbol",
 };
-static const char *yyrule[] = {
+static const char *const err_syntax10_rule[] = {
 "$accept : S",
 "S : error",
 
@@ -237,7 +238,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 241 "err_syntax10.tab.c"
+#line 242 "err_syntax10.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -368,7 +369,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    YYERROR_CALL("syntax error");
 
     goto yyerrlab;
 
@@ -488,7 +489,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    YYERROR_CALL("yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

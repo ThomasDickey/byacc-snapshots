@@ -1,117 +1,37 @@
-
-#ifndef yyparse
-#define yyparse    calc_parse
-#endif /* yyparse */
-
-#ifndef yylex
-#define yylex      calc_lex
-#endif /* yylex */
-
-#ifndef yyerror
-#define yyerror    calc_error
-#endif /* yyerror */
-
-#ifndef yychar
-#define yychar     calc_char
-#endif /* yychar */
-
-#ifndef yyval
-#define yyval      calc_val
-#endif /* yyval */
-
-#ifndef yylval
-#define yylval     calc_lval
-#endif /* yylval */
-
-#ifndef yydebug
-#define yydebug    calc_debug
-#endif /* yydebug */
-
-#ifndef yynerrs
-#define yynerrs    calc_nerrs
-#endif /* yynerrs */
-
-#ifndef yyerrflag
-#define yyerrflag  calc_errflag
-#endif /* yyerrflag */
-
-#ifndef yylhs
-#define yylhs      calc_lhs
-#endif /* yylhs */
-
-#ifndef yylen
-#define yylen      calc_len
-#endif /* yylen */
-
-#ifndef yydefred
-#define yydefred   calc_defred
-#endif /* yydefred */
-
-#ifndef yydgoto
-#define yydgoto    calc_dgoto
-#endif /* yydgoto */
-
-#ifndef yysindex
-#define yysindex   calc_sindex
-#endif /* yysindex */
-
-#ifndef yyrindex
-#define yyrindex   calc_rindex
-#endif /* yyrindex */
-
-#ifndef yygindex
-#define yygindex   calc_gindex
-#endif /* yygindex */
-
-#ifndef yytable
-#define yytable    calc_table
-#endif /* yytable */
-
-#ifndef yycheck
-#define yycheck    calc_check
-#endif /* yycheck */
-
-#ifndef yyname
-#define yyname     calc_name
-#endif /* yyname */
-
-#ifndef yyrule
-#define yyrule     calc_rule
-#endif /* yyrule */
-#define YYPREFIX "calc_"
-const short calc_lhs[] = {                        -1,
+typedef short YYINT;
+const YYINT calc_lhs[] = {                        -1,
     0,    0,    0,    1,    1,    2,    2,    2,    2,    2,
     2,    2,    2,    2,    2,    2,    3,    3,
 };
-const short calc_len[] = {                         2,
+const YYINT calc_len[] = {                         2,
     0,    3,    3,    1,    3,    3,    3,    3,    3,    3,
     3,    3,    3,    2,    1,    1,    1,    2,
 };
-const short calc_defred[] = {                      1,
+const YYINT calc_defred[] = {                      1,
     0,    0,   17,    0,    0,    0,    0,    0,    0,    3,
     0,   15,   14,    0,    2,    0,    0,    0,    0,    0,
     0,    0,   18,    0,    6,    0,    0,    0,    0,    9,
    10,   11,
 };
-const short calc_dgoto[] = {                       1,
+const YYINT calc_dgoto[] = {                       1,
     7,    8,    9,
 };
-const short calc_sindex[] = {                      0,
+const YYINT calc_sindex[] = {                      0,
   -40,   -7,    0,  -55,  -38,  -38,    1,  -29, -247,    0,
   -38,    0,    0,   22,    0,  -38,  -38,  -38,  -38,  -38,
   -38,  -38,    0,  -29,    0,   51,   60,  -20,  -20,    0,
     0,    0,
 };
-const short calc_rindex[] = {                      0,
+const YYINT calc_rindex[] = {                      0,
     0,    0,    0,    2,    0,    0,    0,    9,   -9,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,   10,    0,   -6,   14,    5,   13,    0,
     0,    0,
 };
-const short calc_gindex[] = {                      0,
+const YYINT calc_gindex[] = {                      0,
     0,   65,    0,
 };
-const short calc_table[] = {                       6,
+const YYINT calc_table[] = {                       6,
    16,    6,   10,   13,    5,   11,    5,   22,   17,   23,
    15,   15,   20,   18,    7,   19,   22,   21,    4,    5,
     0,   20,    8,   12,    0,    0,   21,   16,   16,    0,
@@ -135,7 +55,7 @@ const short calc_table[] = {                       6,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    2,    3,    4,    3,   12,
 };
-const short calc_check[] = {                      40,
+const YYINT calc_check[] = {                      40,
    10,   40,   10,   10,   45,   61,   45,   37,   38,  257,
    10,   10,   42,   43,   10,   45,   37,   47,   10,   10,
    -1,   42,   10,   10,   -1,   -1,   47,   37,   38,   -1,
@@ -163,7 +83,7 @@ const short calc_check[] = {                      40,
 #define YYDEBUG 0
 #endif
 #if YYDEBUG
-const char *yyname[] = {
+const char *const calc_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,"'\\n'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"'%'","'&'",0,"'('","')'","'*'","'+'",0,"'-'",0,"'/'",0,0,0,0,0,0,0,
@@ -174,7 +94,7 @@ const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"DIGIT","LETTER","UMINUS",0,0,0,0,0,"illegal-symbol",
 };
-const char *yyrule[] = {
+const char *const calc_rule[] = {
 "$accept : list",
 "list :",
 "list : list stat '\\n'",

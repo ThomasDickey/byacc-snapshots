@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.13 2014/03/29 11:38:48 tom Exp $
+# $Id: run_test.sh,v 1.15 2014/04/06 23:33:35 tom Exp $
 # vi:ts=4 sw=4:
 
 if test $# = 1
@@ -41,6 +41,7 @@ do
 
 		OPTS=
 		OPT2=
+		OOPT=
 		TYPE=".error .output .tab.c .tab.h"
 		case $input in
 		${TEST_DIR}/btyacc_*)
@@ -51,6 +52,12 @@ do
 		${TEST_DIR}/grammar*)
 			OPTS="$OPTS -g"
 			TYPE="$TYPE .dot"
+			;;
+		${TEST_DIR}/code_debug*)
+			OPTS="$OPTS -t -i"
+			OOPT=rename_debug.c
+			TYPE="$TYPE .i"
+			prefix=
 			;;
 		${TEST_DIR}/code_*)
 			OPTS="$OPTS -r"
@@ -70,14 +77,43 @@ do
 			;;
 		esac
 
+		test -n "$prefix" && prefix="-p $prefix"
+
 		for opt2 in "" $OPT2
 		do
-			$YACC $OPTS $opt2 -v -d -p $prefix -b $ROOT${opt2} $input 2>&1 | sed -e "s%$YACC%YACC%" >${ROOT}${opt2}.error
+			output=$OOPT
+			if test -n "$output"
+			then
+				output="-o $output"
+				error=`basename $OOPT .c`.error
+			else
+				error=${ROOT}${opt2}.error
+			fi
+
+			$YACC $OPTS $opt2 -v -d $output $prefix -b $ROOT${opt2} $input 2>&1 | sed -e "s%$YACC%YACC%" >$error
 			for type in $TYPE
 			do
+
+				# handle renaming due to "-o" option
+				if test -n "$OOPT"
+				then
+					case $type in
+					*.tab.c)
+						type=.c
+						;;
+					*.tab.h)
+						type=.h
+						;;
+					*)
+						;;
+					esac
+					NEW=`basename $OOPT .c`${type}
+				else
+					NEW=${ROOT}${opt2}${type}
+				fi
 				REF=${REF_DIR}/${root}${opt2}${type}
-				NEW=${ROOT}${opt2}${type}
-				mv -f $NEW ${REF_DIR}
+
+				mv -f $NEW ${REF_DIR}/
 				CMP=${REF_DIR}/${NEW}
 				if test ! -f $CMP
 				then

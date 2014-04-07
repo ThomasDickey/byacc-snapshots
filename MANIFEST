@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140405-gcov
+MANIFEST for byacc, version t20140406-gcov
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -13,6 +13,8 @@ README                          original version of byacc - 1993
 README.BTYACC                   byacc-btyacc-20140323
 VERSION                         patch-level
 aclocal.m4                      macros for configure-script
+btyaccpar.c                     generated from btyaccpar.skel
+btyaccpar.skel                  bytacc's parser skeleton (renamed from yaccpar.skel)
 closure.c                       original version of byacc - 1993
 config.guess                    configure-script utility
 config.sub                      configure-script utility
@@ -39,8 +41,8 @@ verbose.c                       original version of byacc - 1993
 vmsbuild.com                    build-script for VMS
 warshall.c                      original version of byacc - 1993
 yacc.1                          original version of byacc - 1993
+yaccpar.c                       generated from yaccpar.skel
 yaccpar.skel                    data which can be transformed into skeleton.c
-yaccpar.skel.old                yaccpar.skel abstracted from byacc skeleton.c
 package                         subdirectory
 package/byacc.spec              RPM file for byacc
 package/debian                  subdirectory
@@ -95,6 +97,11 @@ test/btyacc/code_calc.error     reference output for testing
 test/btyacc/code_calc.output    reference output for testing
 test/btyacc/code_calc.tab.c     reference output for testing
 test/btyacc/code_calc.tab.h     reference output for testing
+test/btyacc/code_debug.c        reference for test-output
+test/btyacc/code_debug.error    reference for test-output
+test/btyacc/code_debug.h        reference for test-output
+test/btyacc/code_debug.i        reference for test-output
+test/btyacc/code_debug.output   reference for test-output
 test/btyacc/code_error.code.c   reference output for testing
 test/btyacc/code_error.error    reference output for testing
 test/btyacc/code_error.output   reference output for testing
@@ -313,6 +320,7 @@ test/calc1.y                    advanced example from Steve Johnson's paper.
 test/calc2.y                    test-cases and reference files for %lex-param / %parse-param
 test/calc3.y                    test-cases and reference files for %lex-param / %parse-param
 test/code_calc.y                reference input for testing
+test/code_debug.y               test-input, for -i, -o, -d options
 test/code_error.y               reference input for testing
 test/empty.y                    testcase for btyacc
 test/err_inherit1.y             testcase for btyacc
@@ -386,6 +394,11 @@ test/yacc/code_calc.error       reference output for testing
 test/yacc/code_calc.output      reference output for testing
 test/yacc/code_calc.tab.c       reference output for testing
 test/yacc/code_calc.tab.h       reference output for testing
+test/yacc/code_debug.c          reference output for testing
+test/yacc/code_debug.error      reference output for testing
+test/yacc/code_debug.h          reference output for testing
+test/yacc/code_debug.i          reference output for testing
+test/yacc/code_debug.output     reference output for testing
 test/yacc/code_error.code.c     reference output for testing
 test/yacc/code_error.error      reference output for testing
 test/yacc/code_error.output     reference output for testing

@@ -139,30 +139,31 @@ typedef int YYSTYPE;
 extern int YYPARSE_DECL();
 
 #define YYERRCODE 256
-static const short err_syntax18_lhs[] = {                -1,
+typedef short YYINT;
+static const YYINT err_syntax18_lhs[] = {                -1,
     0,
 };
-static const short err_syntax18_len[] = {                 2,
+static const YYINT err_syntax18_len[] = {                 2,
     3,
 };
-static const short err_syntax18_defred[] = {              0,
+static const YYINT err_syntax18_defred[] = {              0,
     0,    0,    0,    1,
 };
-static const short err_syntax18_dgoto[] = {               2,
+static const YYINT err_syntax18_dgoto[] = {               2,
 };
-static const short err_syntax18_sindex[] = {            -40,
+static const YYINT err_syntax18_sindex[] = {            -40,
   -40,    0,  -39,    0,
 };
-static const short err_syntax18_rindex[] = {              0,
+static const YYINT err_syntax18_rindex[] = {              0,
     0,    0,    0,    0,
 };
-static const short err_syntax18_gindex[] = {              2,
+static const YYINT err_syntax18_gindex[] = {              2,
 };
 #define YYTABLESIZE 3
-static const short err_syntax18_table[] = {               1,
+static const YYINT err_syntax18_table[] = {               1,
     0,    4,    3,
 };
-static const short err_syntax18_check[] = {              40,
+static const YYINT err_syntax18_check[] = {              40,
    -1,   41,    1,
 };
 #define YYFINAL 2
@@ -173,7 +174,7 @@ static const short err_syntax18_check[] = {              40,
 #define YYUNDFTOKEN 259
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
-static const char *yyname[] = {
+static const char *const err_syntax18_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"'('","')'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -183,7 +184,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"illegal-symbol",
 };
-static const char *yyrule[] = {
+static const char *const err_syntax18_rule[] = {
 "$accept : expr",
 "expr : '(' expr ')'",
 
@@ -245,7 +246,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 249 "err_syntax18.tab.c"
+#line 250 "err_syntax18.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -376,7 +377,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    YYERROR_CALL("syntax error");
 
     goto yyerrlab;
 
@@ -451,7 +452,7 @@ case 1:
 #line 9 "err_syntax18.y"
 	{  yyval = yystack.l_mark[1]; }
 break;
-#line 455 "err_syntax18.tab.c"
+#line 456 "err_syntax18.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -501,7 +502,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    YYERROR_CALL("yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

@@ -134,30 +134,31 @@ extern int YYPARSE_DECL();
 
 #define recur 257
 #define YYERRCODE 256
-static const short err_syntax20_lhs[] = {                -1,
+typedef short YYINT;
+static const YYINT err_syntax20_lhs[] = {                -1,
     0,
 };
-static const short err_syntax20_len[] = {                 2,
+static const YYINT err_syntax20_len[] = {                 2,
     3,
 };
-static const short err_syntax20_defred[] = {              0,
+static const YYINT err_syntax20_defred[] = {              0,
     0,    0,    0,    1,
 };
-static const short err_syntax20_dgoto[] = {               2,
+static const YYINT err_syntax20_dgoto[] = {               2,
 };
-static const short err_syntax20_sindex[] = {            -40,
+static const YYINT err_syntax20_sindex[] = {            -40,
  -256,    0,  -39,    0,
 };
-static const short err_syntax20_rindex[] = {              0,
+static const YYINT err_syntax20_rindex[] = {              0,
     0,    0,    0,    0,
 };
-static const short err_syntax20_gindex[] = {              0,
+static const YYINT err_syntax20_gindex[] = {              0,
 };
 #define YYTABLESIZE 2
-static const short err_syntax20_table[] = {               1,
+static const YYINT err_syntax20_table[] = {               1,
     3,    4,
 };
-static const short err_syntax20_check[] = {              40,
+static const YYINT err_syntax20_check[] = {              40,
   257,   41,
 };
 #define YYFINAL 2
@@ -168,7 +169,7 @@ static const short err_syntax20_check[] = {              40,
 #define YYUNDFTOKEN 260
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
-static const char *yyname[] = {
+static const char *const err_syntax20_name[] = {
 
 "end-of-file",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,"'('","')'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -179,7 +180,7 @@ static const char *yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"recur",0,0,
 "illegal-symbol",
 };
-static const char *yyrule[] = {
+static const char *const err_syntax20_rule[] = {
 "$accept : expr",
 "expr : '(' recur ')'",
 
@@ -241,7 +242,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 245 "err_syntax20.tab.c"
+#line 246 "err_syntax20.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -372,7 +373,7 @@ yyloop:
     }
     if (yyerrflag) goto yyinrecovery;
 
-    yyerror("syntax error");
+    YYERROR_CALL("syntax error");
 
     goto yyerrlab;
 
@@ -447,7 +448,7 @@ case 1:
 #line 12 "err_syntax20.y"
 	{ yystack.l_mark[-1].rechk = 3; }
 break;
-#line 451 "err_syntax20.tab.c"
+#line 452 "err_syntax20.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
@@ -497,7 +498,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     goto yyloop;
 
 yyoverflow:
-    yyerror("yacc stack overflow");
+    YYERROR_CALL("yacc stack overflow");
 
 yyabort:
     yyfreestack(&yystack);

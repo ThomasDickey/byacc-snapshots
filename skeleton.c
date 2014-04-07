@@ -1,4 +1,4 @@
-/* $Id: skeleton.c,v 1.37 2014/04/02 23:10:01 tom Exp $ */
+/* $Id: skeleton.c,v 1.39 2014/04/06 18:45:37 tom Exp $ */
 
 #include "defs.h"
 
@@ -261,11 +261,7 @@ const char *const body_2[] =
     "    }",
     "    if (yyerrflag) goto yyinrecovery;",
     "",
-    0
-};
-
-const char *const body_3[] =
-{
+    "    YYERROR_CALL(\"syntax error\");",
     "",
     "    goto yyerrlab;",
     "",
@@ -299,8 +295,7 @@ const char *const body_3[] =
     "            {",
     "#if YYDEBUG",
     "                if (yydebug)",
-    "                    printf(\"%sdebug: error recovery discarding state %d\
-\\n\",",
+    "                    printf(\"%sdebug: error recovery discarding state %d\\n\",",
     "                            YYPREFIX, *yystack.s_mark);",
     "#endif",
     "                if (yystack.s_mark <= yystack.s_base) goto yyabort;",
@@ -316,8 +311,7 @@ const char *const body_3[] =
     "        if (yydebug)",
     "        {",
     "            yys = yyname[YYTRANSLATE(yychar)];",
-    "            printf(\"%sdebug: state %d, error recovery discards token %d\
- (%s)\\n\",",
+    "            printf(\"%sdebug: state %d, error recovery discards token %d (%s)\\n\",",
     "                    YYPREFIX, yystate, yychar, yys);",
     "        }",
     "#endif",
@@ -392,11 +386,7 @@ const char *const trailer[] =
     "    goto yyloop;",
     "",
     "yyoverflow:",
-    0
-};
-
-const char *const trailer_2[] =
-{
+    "    YYERROR_CALL(\"yacc stack overflow\");",
     "",
     "yyabort:",
     "    yyfreestack(&yystack);",
@@ -412,19 +402,13 @@ const char *const trailer_2[] =
 void
 write_section(FILE * fp, const char *const section[])
 {
-    int c;
     int i;
     const char *s;
 
     for (i = 0; (s = section[i]) != 0; ++i)
     {
-	while ((c = *s) != 0)
-	{
-	    putc(c, fp);
-	    ++s;
-	}
 	if (fp == code_file)
 	    ++outline;
-	putc('\n', fp);
+	fprintf(fp, "%s\n", s);
     }
 }

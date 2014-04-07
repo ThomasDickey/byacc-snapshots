@@ -15,7 +15,6 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "calc1.tab.c"
 
 #ifndef yyparse
 #define yyparse    calc1_parse
@@ -157,7 +156,7 @@ typedef union
 	INTERVAL vval;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 161 "calc1.tab.c"
+#line 160 "calc1.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -189,7 +188,6 @@ typedef union
 #endif
 
 extern int YYPARSE_DECL();
-#line 193 "calc1.tab.c"
 
 #define DREG 257
 #define VREG 258
@@ -624,7 +622,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 628 "calc1.tab.c"
+#line 626 "calc1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1444,7 +1442,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 1448 "calc1.tab.c"
+#line 1446 "calc1.tab.c"
     default:
         break;
     }

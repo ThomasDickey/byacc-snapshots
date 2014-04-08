@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -99,7 +100,7 @@
 #line 2 "error.y"
 int yylex(void);
 static void yyerror(const char *);
-#line 103 "error.tab.c"
+#line 104 "error.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -244,7 +245,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 248 "error.tab.c"
+#line 249 "error.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

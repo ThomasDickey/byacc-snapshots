@@ -1,6 +1,52 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.15 2014/04/06 23:33:35 tom Exp $
+# $Id: run_test.sh,v 1.18 2014/04/08 01:06:23 tom Exp $
 # vi:ts=4 sw=4:
+
+# NEW is the file created by the testcase
+# REF is the reference file against which to compare
+test_diffs() {
+	mv -f $NEW ${REF_DIR}/
+	CMP=${REF_DIR}/${NEW}
+	if test ! -f $CMP
+	then
+		echo "...not found $CMP"
+	else
+		sed	-e s,$NEW,$REF, \
+			-e "s%$YACC%YACC%" \
+			-e '/YYPATCH/s/[0-9][0-9]*/"yyyymmdd"/' \
+			-e 's,#line \([1-9][0-9]*\) "'$REF_DIR'/,#line \1 ",' \
+			-e 's,#line \([1-9][0-9]*\) "'$TEST_DIR'/,#line \1 ",' \
+			< $CMP >$tmpfile \
+			&& mv $tmpfile $CMP
+		if test ! -f $REF
+		then
+			mv $CMP $REF
+			echo "...saved $REF"
+		elif ( cmp -s $REF $CMP )
+		then
+			echo "...ok $REF"
+			rm -f $CMP
+		else
+			echo "...diff $REF"
+			diff -u $REF $CMP
+		fi
+	fi
+}
+
+test_flags() {
+	echo "** testing flags $*"
+	root=$1
+	ROOT=test-$root
+	shift 1
+	$YACC $* >$ROOT.output \
+	    2>&1 >$ROOT.error
+	for type in .output .error
+	do
+		NEW=$ROOT$type
+		REF=$REF_DIR/$root$type
+		test_diffs
+	done
+}
 
 if test $# = 1
 then
@@ -28,6 +74,65 @@ fi
 rm -f ${REF_DIR}/test-*
 
 echo '** '`date`
+
+# Tests which do not need files
+test_flags help -z
+
+# Test attempts to read non-existent file
+MYFILE=nosuchfile
+rm -f $MYFILE.*
+test_flags nostdin - $MYFILE.y
+test_flags no_opts -- $MYFILE.y
+
+# Test attempts to write to readonly file
+touch $MYFILE.y
+
+chmod 444 $MYFILE.*
+test_flags no_b_opt   -b
+test_flags no_b_opt1  -bBASE -o $MYFILE.c $MYFILE.y
+
+touch BASE$MYFILE.c
+chmod 444 $MYFILE.*
+test_flags no_p_opt   -p
+test_flags no_p_opt1  -pBASE -o $MYFILE.c $MYFILE.y
+rm -f BASE$MYFILE.c
+
+touch BASE$MYFILE.c
+chmod 444 $MYFILE.*
+test_flags no_b_opt   -b
+test_flags no_b_opt1  -bBASE -o $MYFILE.c $MYFILE.y
+rm -f BASE$MYFILE.c
+
+touch $MYFILE.dot
+chmod 444 $MYFILE.*
+test_flags no_graph   -g -o $MYFILE.c $MYFILE.y
+rm -f $MYFILE.dot
+
+touch $MYFILE.output
+chmod 444 $MYFILE.*
+test_flags no_verbose -v -o $MYFILE.c $MYFILE.y
+test_flags no_output  -o $MYFILE.output $MYFILE.y
+test_flags no_output1  -o$MYFILE.output $MYFILE.y
+test_flags no_output2  -o
+rm -f $MYFILE.output
+
+touch $MYFILE.h
+chmod 444 $MYFILE.*
+test_flags no_defines -d -o $MYFILE.c $MYFILE.y
+rm -f $MYFILE.h
+
+touch $MYFILE.i
+chmod 444 $MYFILE.*
+test_flags no_include -i -o $MYFILE.c $MYFILE.y
+rm -f $MYFILE.i
+
+touch $MYFILE.code.c
+chmod 444 $MYFILE.*
+test_flags no_code_c -r -o $MYFILE.c $MYFILE.y
+rm -f $MYFILE.code.c
+
+rm -f $MYFILE.*
+
 for input in ${TEST_DIR}/*.y
 do
 	case $input in
@@ -77,6 +182,8 @@ do
 			;;
 		esac
 
+		echo "** testing $input"
+
 		test -n "$prefix" && prefix="-p $prefix"
 
 		for opt2 in "" $OPT2
@@ -90,7 +197,7 @@ do
 				error=${ROOT}${opt2}.error
 			fi
 
-			$YACC $OPTS $opt2 -v -d $output $prefix -b $ROOT${opt2} $input 2>&1 | sed -e "s%$YACC%YACC%" >$error
+			$YACC $OPTS $opt2 -v -d $output $prefix -b $ROOT${opt2} $input 2>$error
 			for type in $TYPE
 			do
 
@@ -112,32 +219,7 @@ do
 					NEW=${ROOT}${opt2}${type}
 				fi
 				REF=${REF_DIR}/${root}${opt2}${type}
-
-				mv -f $NEW ${REF_DIR}/
-				CMP=${REF_DIR}/${NEW}
-				if test ! -f $CMP
-				then
-					echo "...not found $CMP"
-				else
-					sed	-e s,$NEW,$REF, \
-						-e /YYPATCH/d \
-						-e 's,#line \([1-9][0-9]*\) "'$REF_DIR'/,#line \1 ",' \
-						-e 's,#line \([1-9][0-9]*\) "'$TEST_DIR'/,#line \1 ",' \
-						< $CMP >$tmpfile \
-						&& mv $tmpfile $CMP
-					if test ! -f $REF
-					then
-						mv $CMP $REF
-						echo "...saved $REF"
-					elif ( cmp -s $REF $CMP )
-					then
-						echo "...ok $REF"
-						rm -f $CMP
-					else
-						echo "...diff $REF"
-						diff -u $REF $CMP
-					fi
-				fi
+				test_diffs
 			done
 		done
 		;;

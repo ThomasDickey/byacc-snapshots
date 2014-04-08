@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.47 2014/04/06 14:44:40 tom Exp $ */
+/* $Id: main.c,v 1.48 2014/04/07 23:52:45 tom Exp $ */
 
 #include <signal.h>
 #include <unistd.h>		/* for _exit() */
@@ -393,10 +393,18 @@ allocate(size_t n)
 }
 
 #define CREATE_FILE_NAME(dest, suffix) \
-	dest = TMALLOC(char, len + strlen(suffix) + 1); \
-	NO_SPACE(dest); \
-	strcpy(dest, file_prefix); \
-	strcpy(dest + len, suffix)
+	dest = alloc_file_name(len, suffix)
+
+static char *
+alloc_file_name(size_t len, const char *suffix)
+{
+    char *result = TMALLOC(char, len + strlen(suffix) + 1);
+    if (result == 0)
+	no_space();
+    strcpy(result, file_prefix);
+    strcpy(result + len, suffix);
+    return result;
+}
 
 static void
 create_file_names(void)

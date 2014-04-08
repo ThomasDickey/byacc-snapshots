@@ -1,4 +1,4 @@
-/* $Id: error.c,v 1.10 2014/04/01 08:23:06 Tom.Shields Exp $ */
+/* $Id: error.c,v 1.11 2014/04/07 22:22:49 tom Exp $ */
 
 /* routines for printing error messages  */
 
@@ -287,12 +287,14 @@ undefined_symbol_warning(char *s)
     fprintf(stderr, "%s: w - the symbol %s is undefined\n", myname, s);
 }
 
+#if ! defined(YYBTYACC)
 void
 unsupported_flag_warning(const char *flag, const char *details)
 {
     fprintf(stderr, "%s: w - %s flag unsupported, %s\n",
 	    myname, flag, details);
 }
+#endif
 
 #if defined(YYBTYACC)
 void

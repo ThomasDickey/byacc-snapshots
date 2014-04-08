@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -150,7 +151,7 @@ typedef union
     name	id;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 154 "err_inherit3.tab.c"
+#line 155 "err_inherit3.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -414,7 +415,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 418 "err_inherit3.tab.c"
+#line 419 "err_inherit3.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -434,7 +435,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 438 "err_inherit3.tab.c"
+#line 439 "err_inherit3.tab.c"
 	case 264:
 #line 30 "err_inherit3.y"
 	{
@@ -446,7 +447,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 450 "err_inherit3.tab.c"
+#line 451 "err_inherit3.tab.c"
 	case 265:
 #line 30 "err_inherit3.y"
 	{
@@ -458,7 +459,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 462 "err_inherit3.tab.c"
+#line 463 "err_inherit3.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1179,7 +1180,7 @@ case 14:
 #line 75 "err_inherit3.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1183 "err_inherit3.tab.c"
+#line 1184 "err_inherit3.tab.c"
     default:
         break;
     }

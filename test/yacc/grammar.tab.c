@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -383,7 +384,7 @@ haveAnsiParam (void)
     }
     return FALSE;
 }
-#line 387 "grammar.tab.c"
+#line 388 "grammar.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -1087,7 +1088,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1091 "grammar.tab.c"
+#line 1092 "grammar.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -1963,7 +1964,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 1967 "grammar.tab.c"
+#line 1968 "grammar.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

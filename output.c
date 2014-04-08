@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.62 2014/04/06 23:54:01 tom Exp $ */
+/* $Id: output.c,v 1.63 2014/04/07 18:49:35 tom Exp $ */
 
 #include "defs.h"
 
@@ -59,7 +59,7 @@ write_code_lineno(FILE * fp)
     if (!lflag && (fp == code_file))
     {
 	++outline;
-	fprintf(fp, line_format, outline, code_file_name);
+	fprintf(fp, line_format, outline + 1, code_file_name);
     }
 }
 

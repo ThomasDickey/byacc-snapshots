@@ -6,6 +6,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -157,7 +158,7 @@ typedef union
 	INTERVAL vval;	/* interval values*/
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 161 "varsyntax_calc1.tab.c"
+#line 162 "varsyntax_calc1.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -623,7 +624,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 627 "varsyntax_calc1.tab.c"
+#line 628 "varsyntax_calc1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1443,7 +1444,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 1447 "varsyntax_calc1.tab.c"
+#line 1448 "varsyntax_calc1.tab.c"
     default:
         break;
     }

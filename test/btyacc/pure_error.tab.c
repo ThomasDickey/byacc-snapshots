@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -127,7 +128,7 @@ int YYLEX_DECL();
 static void YYERROR_DECL();
 #endif
 
-#line 131 "pure_error.tab.c"
+#line 132 "pure_error.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -333,7 +334,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 337 "pure_error.tab.c"
+#line 338 "pure_error.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -15,7 +16,7 @@
 #undef YYBTYACC
 #define YYBTYACC 0
 #define YYDEBUGSTR YYPREFIX "debug"
-#line 19 "code_debug.c"
+#line 20 "code_debug.c"
 #include "rename_debug.i"
 #include "rename_debug.h"
 typedef short YYINT;
@@ -230,7 +231,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 235 "code_debug.c"
+#line 236 "code_debug.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

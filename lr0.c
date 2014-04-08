@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.15 2014/04/07 00:04:29 tom Exp $ */
+/* $Id: lr0.c,v 1.16 2014/04/07 21:53:50 tom Exp $ */
 
 #include "defs.h"
 
@@ -316,7 +316,7 @@ new_state(int symbol)
 }
 
 /* show_cores is used for debugging */
-
+#ifdef DEBUG
 void
 show_cores(void)
 {
@@ -393,6 +393,7 @@ show_shifts(void)
 	    printf("\t%d\n", p->shift[i]);
     }
 }
+#endif
 
 static void
 save_shifts(void)

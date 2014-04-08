@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -125,7 +126,7 @@ extern void mksymbol(int t, int c, int id);
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
 #endif
-#line 129 "inherit0.tab.c"
+#line 130 "inherit0.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -385,7 +386,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 389 "inherit0.tab.c"
+#line 390 "inherit0.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1086,7 +1087,7 @@ case 11:
 #line 43 "inherit0.y"
 	{ yyval = yystack.l_mark[0]; }
 break;
-#line 1090 "inherit0.tab.c"
+#line 1091 "inherit0.tab.c"
     default:
         break;
     }

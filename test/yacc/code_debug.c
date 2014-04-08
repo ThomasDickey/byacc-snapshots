@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -12,7 +13,7 @@
 #define YYRECOVERING() (yyerrflag != 0)
 #define YYENOMEM       (-2)
 #define YYEOF          0
-#line 16 "code_debug.c"
+#line 17 "code_debug.c"
 #include "rename_debug.i"
 #include "rename_debug.h"
 typedef short YYINT;
@@ -124,7 +125,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 129 "code_debug.c"
+#line 130 "code_debug.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

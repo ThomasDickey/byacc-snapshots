@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -99,7 +100,7 @@
 #line 2 "err_syntax10.y"
 int yylex(void);
 static void yyerror(const char *);
-#line 103 "err_syntax10.tab.c"
+#line 104 "err_syntax10.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -238,7 +239,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 242 "err_syntax10.tab.c"
+#line 243 "err_syntax10.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */

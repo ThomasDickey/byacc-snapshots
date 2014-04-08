@@ -1,3 +1,22 @@
+2014-04-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c:
+	change CREATE_FILE_NAMES() to use local function rather than inline code,
+	to simplify coverage analysis.
+
+	* error.c: ifdef'd non-btyacc function
+
+	* lr0.c: ifdef'd debug-code
+
+	* yaccpar.skel: use YYINT's to replace short's as in btyaccpar.skel
+
+	* output.c:
+	2010/11/26 simplification of output.c using putc_code() and putl_code()
+	omitted an adjustment of the #line value used for code-file.  Fix that.
+	Also, amend 2005/05/04 change to run_test.sh to retain a dummy line for
+	YYPATCH #define's to make test-outputs easier to compare #line's (report
+	by Tom Shields)
+
 2014-04-06  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* reader.c: fix for valgrind

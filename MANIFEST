@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140406-gcov
+MANIFEST for byacc, version t20140407
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -207,6 +207,10 @@ test/btyacc/err_syntax26.error  reference output for testing
 test/btyacc/err_syntax26.output reference output for testing
 test/btyacc/err_syntax26.tab.c  reference output for testing
 test/btyacc/err_syntax26.tab.h  reference output for testing
+test/btyacc/err_syntax27.error  reference output for testing
+test/btyacc/err_syntax27.output reference output for testing
+test/btyacc/err_syntax27.tab.c  reference output for testing
+test/btyacc/err_syntax27.tab.h  reference output for testing
 test/btyacc/err_syntax3.error   reference output for testing
 test/btyacc/err_syntax3.output  reference output for testing
 test/btyacc/err_syntax3.tab.c   reference output for testing
@@ -256,6 +260,8 @@ test/btyacc/grammar.error       reference output for testing
 test/btyacc/grammar.output      reference output for testing
 test/btyacc/grammar.tab.c       reference output for testing
 test/btyacc/grammar.tab.h       reference output for testing
+test/btyacc/help.error          reference output for testing
+test/btyacc/help.output         reference output for testing
 test/btyacc/inherit0.error      reference output for testing
 test/btyacc/inherit0.output     reference output for testing
 test/btyacc/inherit0.tab.c      reference output for testing
@@ -268,6 +274,34 @@ test/btyacc/inherit2.error      reference output for testing
 test/btyacc/inherit2.output     reference output for testing
 test/btyacc/inherit2.tab.c      reference output for testing
 test/btyacc/inherit2.tab.h      reference output for testing
+test/btyacc/no_b_opt.error      reference output for testing
+test/btyacc/no_b_opt.output     reference output for testing
+test/btyacc/no_b_opt1.error     reference output for testing
+test/btyacc/no_b_opt1.output    reference output for testing
+test/btyacc/no_code_c.error     reference output for testing
+test/btyacc/no_code_c.output    reference output for testing
+test/btyacc/no_defines.error    reference output for testing
+test/btyacc/no_defines.output   reference output for testing
+test/btyacc/no_graph.error      reference output for testing
+test/btyacc/no_graph.output     reference output for testing
+test/btyacc/no_include.error    reference output for testing
+test/btyacc/no_include.output   reference output for testing
+test/btyacc/no_opts.error       reference output for testing
+test/btyacc/no_opts.output      reference output for testing
+test/btyacc/no_output.error     reference output for testing
+test/btyacc/no_output.output    reference output for testing
+test/btyacc/no_output1.error    reference output for testing
+test/btyacc/no_output1.output   reference output for testing
+test/btyacc/no_output2.error    reference output for testing
+test/btyacc/no_output2.output   reference output for testing
+test/btyacc/no_p_opt.error      reference output for testing
+test/btyacc/no_p_opt.output     reference output for testing
+test/btyacc/no_p_opt1.error     reference output for testing
+test/btyacc/no_p_opt1.output    reference output for testing
+test/btyacc/no_verbose.error    reference output for testing
+test/btyacc/no_verbose.output   reference output for testing
+test/btyacc/nostdin.error       reference output for testing
+test/btyacc/nostdin.output      reference output for testing
 test/btyacc/pure_calc.error     reference output for testing
 test/btyacc/pure_calc.output    reference output for testing
 test/btyacc/pure_calc.tab.c     reference output for testing
@@ -347,6 +381,7 @@ test/err_syntax23.y             testcase for untyped_lhs()
 test/err_syntax24.y             testcase for default_action_warning()
 test/err_syntax25.y             testcase for over_unionized()
 test/err_syntax26.y             testcase for unexpected_EOF()
+test/err_syntax27.y             testcase for missing_brace()
 test/err_syntax3.y              testcase for unterminated_string()
 test/err_syntax4.y              testcase for unterminated_text()
 test/err_syntax5.y              testcase for unterminated_union()
@@ -484,6 +519,10 @@ test/yacc/err_syntax26.error    reference output for testing
 test/yacc/err_syntax26.output   reference output for testing
 test/yacc/err_syntax26.tab.c    reference output for testing
 test/yacc/err_syntax26.tab.h    reference output for testing
+test/yacc/err_syntax27.error    reference output for testing
+test/yacc/err_syntax27.output   reference output for testing
+test/yacc/err_syntax27.tab.c    reference output for testing
+test/yacc/err_syntax27.tab.h    reference output for testing
 test/yacc/err_syntax3.error     reference output for testing
 test/yacc/err_syntax3.output    reference output for testing
 test/yacc/err_syntax3.tab.c     reference output for testing
@@ -533,6 +572,36 @@ test/yacc/grammar.error         reference output for testing
 test/yacc/grammar.output        reference output for testing
 test/yacc/grammar.tab.c         reference output for testing
 test/yacc/grammar.tab.h         reference output for testing
+test/yacc/help.error            reference output for testing
+test/yacc/help.output           reference output for testing
+test/yacc/no_b_opt.error        reference output for testing
+test/yacc/no_b_opt.output       reference output for testing
+test/yacc/no_b_opt1.error       reference output for testing
+test/yacc/no_b_opt1.output      reference output for testing
+test/yacc/no_code_c.error       reference output for testing
+test/yacc/no_code_c.output      reference output for testing
+test/yacc/no_defines.error      reference output for testing
+test/yacc/no_defines.output     reference output for testing
+test/yacc/no_graph.error        reference output for testing
+test/yacc/no_graph.output       reference output for testing
+test/yacc/no_include.error      reference output for testing
+test/yacc/no_include.output     reference output for testing
+test/yacc/no_opts.error         reference output for testing
+test/yacc/no_opts.output        reference output for testing
+test/yacc/no_output.error       reference output for testing
+test/yacc/no_output.output      reference output for testing
+test/yacc/no_output1.error      reference output for testing
+test/yacc/no_output1.output     reference output for testing
+test/yacc/no_output2.error      reference output for testing
+test/yacc/no_output2.output     reference output for testing
+test/yacc/no_p_opt.error        reference output for testing
+test/yacc/no_p_opt.output       reference output for testing
+test/yacc/no_p_opt1.error       reference output for testing
+test/yacc/no_p_opt1.output      reference output for testing
+test/yacc/no_verbose.error      reference output for testing
+test/yacc/no_verbose.output     reference output for testing
+test/yacc/nostdin.error         reference output for testing
+test/yacc/nostdin.output        reference output for testing
 test/yacc/pure_calc.error       reference output for testing
 test/yacc/pure_calc.output      reference output for testing
 test/yacc/pure_calc.tab.c       reference output for testing

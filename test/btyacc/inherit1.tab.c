@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -152,7 +153,7 @@ typedef union
     name	id;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 156 "inherit1.tab.c"
+#line 157 "inherit1.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -406,7 +407,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 410 "inherit1.tab.c"
+#line 411 "inherit1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1111,7 +1112,7 @@ case 11:
 #line 71 "inherit1.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1115 "inherit1.tab.c"
+#line 1116 "inherit1.tab.c"
     default:
         break;
     }

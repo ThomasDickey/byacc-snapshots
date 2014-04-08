@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -403,7 +404,7 @@ haveAnsiParam (void)
     }
     return FALSE;
 }
-#line 407 "grammar.tab.c"
+#line 408 "grammar.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -1247,7 +1248,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1251 "grammar.tab.c"
+#line 1252 "grammar.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -2578,7 +2579,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 2582 "grammar.tab.c"
+#line 2583 "grammar.tab.c"
     default:
         break;
     }

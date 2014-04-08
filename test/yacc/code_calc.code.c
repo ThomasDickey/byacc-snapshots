@@ -5,6 +5,7 @@
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
+#define YYPATCH "yyyymmdd"
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -108,7 +109,7 @@ int yylex(void);
 static void yyerror(const char *s);
 #endif
 
-#line 112 "code_calc.code.c"
+#line 113 "code_calc.code.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -254,7 +255,7 @@ yylex(void)
     }
     return( c );
 }
-#line 258 "code_calc.code.c"
+#line 259 "code_calc.code.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -516,7 +517,7 @@ case 18:
 #line 65 "code_calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 520 "code_calc.code.c"
+#line 521 "code_calc.code.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

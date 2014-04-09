@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.18 2014/04/08 01:06:23 tom Exp $
+# $Id: run_test.sh,v 1.21 2014/04/08 23:07:44 tom Exp $
 # vi:ts=4 sw=4:
 
 # NEW is the file created by the testcase
@@ -14,6 +14,7 @@ test_diffs() {
 		sed	-e s,$NEW,$REF, \
 			-e "s%$YACC%YACC%" \
 			-e '/YYPATCH/s/[0-9][0-9]*/"yyyymmdd"/' \
+			-e '/#define YYPATCH/s/PATCH/CHECK/' \
 			-e 's,#line \([1-9][0-9]*\) "'$REF_DIR'/,#line \1 ",' \
 			-e 's,#line \([1-9][0-9]*\) "'$TEST_DIR'/,#line \1 ",' \
 			< $CMP >$tmpfile \
@@ -76,10 +77,12 @@ rm -f ${REF_DIR}/test-*
 echo '** '`date`
 
 # Tests which do not need files
+MYFILE=nosuchfile
 test_flags help -z
+test_flags big_b -B
+test_flags big_l -L
 
 # Test attempts to read non-existent file
-MYFILE=nosuchfile
 rm -f $MYFILE.*
 test_flags nostdin - $MYFILE.y
 test_flags no_opts -- $MYFILE.y
@@ -87,20 +90,15 @@ test_flags no_opts -- $MYFILE.y
 # Test attempts to write to readonly file
 touch $MYFILE.y
 
+touch $MYFILE.c
 chmod 444 $MYFILE.*
 test_flags no_b_opt   -b
 test_flags no_b_opt1  -bBASE -o $MYFILE.c $MYFILE.y
 
-touch BASE$MYFILE.c
+touch $MYFILE.c
 chmod 444 $MYFILE.*
 test_flags no_p_opt   -p
 test_flags no_p_opt1  -pBASE -o $MYFILE.c $MYFILE.y
-rm -f BASE$MYFILE.c
-
-touch BASE$MYFILE.c
-chmod 444 $MYFILE.*
-test_flags no_b_opt   -b
-test_flags no_b_opt1  -bBASE -o $MYFILE.c $MYFILE.y
 rm -f BASE$MYFILE.c
 
 touch $MYFILE.dot

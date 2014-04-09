@@ -2,7 +2,7 @@
  * @Id: skel2c,v 1.3 2014/04/06 19:48:04 tom Exp @
  */
 
-/* @Id: yaccpar.skel,v 1.4 2014/04/06 18:43:51 tom Exp @ */
+/* @Id: yaccpar.skel,v 1.5 2014/04/07 21:51:00 tom Exp @ */
 
 #include "defs.h"
 
@@ -45,15 +45,15 @@ const char *const xdecls[] =
 
 const char *const tables[] =
 {
-    "extern short yylhs[];",
-    "extern short yylen[];",
-    "extern short yydefred[];",
-    "extern short yydgoto[];",
-    "extern short yysindex[];",
-    "extern short yyrindex[];",
-    "extern short yygindex[];",
-    "extern short yytable[];",
-    "extern short yycheck[];",
+    "extern YYINT yylhs[];",
+    "extern YYINT yylen[];",
+    "extern YYINT yydefred[];",
+    "extern YYINT yydgoto[];",
+    "extern YYINT yysindex[];",
+    "extern YYINT yyrindex[];",
+    "extern YYINT yygindex[];",
+    "extern YYINT yytable[];",
+    "extern YYINT yycheck[];",
     "",
     "#if YYDEBUG",
     "extern char *yyname[];",
@@ -100,9 +100,9 @@ const char *const hdr_defs[] =
     "",
     "typedef struct {",
     "    unsigned stacksize;",
-    "    short    *s_base;",
-    "    short    *s_mark;",
-    "    short    *s_last;",
+    "    YYINT    *s_base;",
+    "    YYINT    *s_mark;",
+    "    YYINT    *s_last;",
     "    YYSTYPE  *l_base;",
     "    YYSTYPE  *l_mark;",
     "} YYSTACKDATA;",
@@ -143,7 +143,7 @@ const char *const body_1[] =
     "{",
     "    int i;",
     "    unsigned newsize;",
-    "    short *newss;",
+    "    YYINT *newss;",
     "    YYSTYPE *newvs;",
     "",
     "    if ((newsize = data->stacksize) == 0)",
@@ -154,7 +154,7 @@ const char *const body_1[] =
     "        newsize = YYMAXDEPTH;",
     "",
     "    i = (int) (data->s_mark - data->s_base);",
-    "    newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));",
+    "    newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));",
     "    if (newss == 0)",
     "        return YYENOMEM;",
     "",
@@ -385,7 +385,7 @@ const char *const trailer[] =
     "    {",
     "        goto yyoverflow;",
     "    }",
-    "    *++yystack.s_mark = (short) yystate;",
+    "    *++yystack.s_mark = (YYINT) yystate;",
     "    *++yystack.l_mark = yyval;",
     "    goto yyloop;",
     "",

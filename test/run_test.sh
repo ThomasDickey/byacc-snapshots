@@ -1,10 +1,11 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.21 2014/04/08 23:07:44 tom Exp $
+# $Id: run_test.sh,v 1.22 2014/04/09 11:00:45 tom Exp $
 # vi:ts=4 sw=4:
 
 # NEW is the file created by the testcase
 # REF is the reference file against which to compare
 test_diffs() {
+	# echo "...test_diffs $NEW vs $REF"
 	mv -f $NEW ${REF_DIR}/
 	CMP=${REF_DIR}/${NEW}
 	if test ! -f $CMP
@@ -198,6 +199,7 @@ do
 			$YACC $OPTS $opt2 -v -d $output $prefix -b $ROOT${opt2} $input 2>$error
 			for type in $TYPE
 			do
+				REF=${REF_DIR}/${root}${opt2}${type}
 
 				# handle renaming due to "-o" option
 				if test -n "$OOPT"
@@ -213,10 +215,21 @@ do
 						;;
 					esac
 					NEW=`basename $OOPT .c`${type}
+					case $NEW in
+					test-*)
+						;;
+					*)
+						if test -f "$NEW"
+						then
+							REF=${REF_DIR}/$NEW
+							mv $NEW test-$NEW
+							NEW=test-$NEW
+						fi
+						;;
+					esac
 				else
 					NEW=${ROOT}${opt2}${type}
 				fi
-				REF=${REF_DIR}/${root}${opt2}${type}
 				test_diffs
 			done
 		done

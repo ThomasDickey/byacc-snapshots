@@ -110,7 +110,7 @@ int YYLEX_DECL();
 static void YYERROR_DECL();
 #endif
 
-#line 42 "ok_syntax1.y"
+#line 43 "ok_syntax1.y"
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
@@ -271,16 +271,16 @@ static const YYINT ok_syntax1_check[] = {                40,
 static const char *const ok_syntax1_name[] = {
 
 "end-of-file",0,0,0,0,0,0,"'\\a'","'\\b'","'\\t'","'\\n'","'\\v'","'\\f'",
-"'\\r'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'%'","'&'",0,"'('","')'",
-"'*'","'+'",0,"'-'",0,"'/'",0,0,0,0,0,0,0,0,0,0,0,0,0,"'='",0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'^'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'|'",0,"'~'","'\\177'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+"'\\r'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'#'",0,"'%'","'&'",0,"'('",
+"')'","'*'","'+'",0,"'-'",0,"'/'",0,0,0,0,0,0,0,0,0,0,0,0,0,"'='",0,0,"'@'",0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'^'",0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'|'",0,"'~'","'\\177'",0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'\\377'",0,
-"DIGIT","LETTER","OCT1","HEX1","HEX2","HEX3","STR1","\"\\177\\177\\\\\\n\"",
-"STR2","BELL","BS","NL","LF","CR","TAB","VT","UMINUS",0,0,0,0,0,
-"illegal-symbol",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+"'\\377'",0,"DIGIT","LETTER","OCT1","HEX1","HEX2","HEX3","STR1",
+"\"\\177\\177\\\\\\n\"","STR2","BELL","BS","NL","LF","CR","TAB","VT","UMINUS",0,
+0,0,0,0,"illegal-symbol",
 };
 static const char *const ok_syntax1_rule[] = {
 "$accept : list",
@@ -326,13 +326,13 @@ int      yynerrs;
 
 typedef struct {
     unsigned stacksize;
-    short    *s_base;
-    short    *s_mark;
-    short    *s_last;
+    YYINT    *s_base;
+    YYINT    *s_mark;
+    YYINT    *s_last;
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
-#line 100 "ok_syntax1.y"
+#line 104 "ok_syntax1.y"
  /* start of programs */
 
 #ifdef YYBYACC
@@ -376,11 +376,11 @@ YYLEX_DECL()
     /* c is now nonblank */
 
     if( islower( c )) {
-	*yylval = (c - 'a');
+	yylval->ival = (c - 'a');
 	return ( LETTER );
     }
     if( isdigit( c )) {
-	*yylval = (c - '0') % (*base);
+	yylval->ival = (c - '0') % (*base);
 	return ( DIGIT );
     }
     return( c );
@@ -399,7 +399,7 @@ static int yygrowstack(YYSTACKDATA *data)
 {
     int i;
     unsigned newsize;
-    short *newss;
+    YYINT *newss;
     YYSTYPE *newvs;
 
     if ((newsize = data->stacksize) == 0)
@@ -410,7 +410,7 @@ static int yygrowstack(YYSTACKDATA *data)
         newsize = YYMAXDEPTH;
 
     i = (int) (data->s_mark - data->s_base);
-    newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
+    newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
         return YYENOMEM;
 
@@ -595,64 +595,64 @@ yyreduce:
     switch (yyn)
     {
 case 3:
-#line 62 "ok_syntax1.y"
+#line 66 "ok_syntax1.y"
 	{  yyerrok ; }
 break;
 case 4:
-#line 66 "ok_syntax1.y"
-	{  printf("%d\n",yystack.l_mark[0]);}
+#line 70 "ok_syntax1.y"
+	{  printf("%d\n",yystack.l_mark[0].ival);}
 break;
 case 5:
-#line 68 "ok_syntax1.y"
-	{  regs[yystack.l_mark[-2]] = yystack.l_mark[0]; }
+#line 72 "ok_syntax1.y"
+	{  regs[yystack.l_mark[-2].ival] = yystack.l_mark[0].ival; }
 break;
 case 6:
-#line 72 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-1]; }
+#line 76 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-1].ival; }
 break;
 case 7:
-#line 74 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] + yystack.l_mark[0]; }
+#line 78 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival + yystack.l_mark[0].ival; }
 break;
 case 8:
-#line 76 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] - yystack.l_mark[0]; }
+#line 80 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival - yystack.l_mark[0].ival; }
 break;
 case 9:
-#line 78 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] * yystack.l_mark[0]; }
+#line 82 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival * yystack.l_mark[0].ival; }
 break;
 case 10:
-#line 80 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] / yystack.l_mark[0]; }
+#line 84 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival / yystack.l_mark[0].ival; }
 break;
 case 11:
-#line 82 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] % yystack.l_mark[0]; }
+#line 86 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival % yystack.l_mark[0].ival; }
 break;
 case 12:
-#line 84 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] & yystack.l_mark[0]; }
+#line 88 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival & yystack.l_mark[0].ival; }
 break;
 case 13:
-#line 86 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[-2] | yystack.l_mark[0]; }
+#line 90 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[-2].ival | yystack.l_mark[0].ival; }
 break;
 case 14:
-#line 88 "ok_syntax1.y"
-	{  yyval = - yystack.l_mark[0]; }
+#line 92 "ok_syntax1.y"
+	{  yyval.ival = - yystack.l_mark[0].ival; }
 break;
 case 15:
-#line 90 "ok_syntax1.y"
-	{  yyval = regs[yystack.l_mark[0]]; }
+#line 94 "ok_syntax1.y"
+	{  yyval.ival = regs[yystack.l_mark[0].ival]; }
 break;
 case 17:
-#line 95 "ok_syntax1.y"
-	{  yyval = yystack.l_mark[0]; (*base) = (yystack.l_mark[0]==0) ? 8 : 10; }
+#line 99 "ok_syntax1.y"
+	{  yyval.ival = yystack.l_mark[0].ival; (*base) = (yystack.l_mark[0].ival==0) ? 8 : 10; }
 break;
 case 18:
-#line 97 "ok_syntax1.y"
-	{  yyval = (*base) * yystack.l_mark[-1] + yystack.l_mark[0]; }
+#line 101 "ok_syntax1.y"
+	{  yyval.ival = (*base) * yystack.l_mark[-1].ival + yystack.l_mark[0].ival; }
 break;
 #line 658 "ok_syntax1.tab.c"
     }
@@ -699,7 +699,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     {
         goto yyoverflow;
     }
-    *++yystack.s_mark = (short) yystate;
+    *++yystack.s_mark = (YYINT) yystate;
     *++yystack.l_mark = yyval;
     goto yyloop;
 

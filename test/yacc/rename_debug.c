@@ -13,7 +13,7 @@
 #define YYRECOVERING() (yyerrflag != 0)
 #define YYENOMEM       (-2)
 #define YYEOF          0
-#line 17 "code_debug.c"
+#line 17 "rename_debug.c"
 #include "rename_debug.i"
 #include "rename_debug.h"
 typedef short YYINT;
@@ -91,9 +91,9 @@ YYSTYPE  yylval;
 
 typedef struct {
     unsigned stacksize;
-    short    *s_base;
-    short    *s_mark;
-    short    *s_last;
+    YYINT    *s_base;
+    YYINT    *s_mark;
+    YYINT    *s_last;
     YYSTYPE  *l_base;
     YYSTYPE  *l_mark;
 } YYSTACKDATA;
@@ -125,7 +125,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 130 "code_debug.c"
+#line 130 "rename_debug.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -139,7 +139,7 @@ static int yygrowstack(YYSTACKDATA *data)
 {
     int i;
     unsigned newsize;
-    short *newss;
+    YYINT *newss;
     YYSTYPE *newvs;
 
     if ((newsize = data->stacksize) == 0)
@@ -150,7 +150,7 @@ static int yygrowstack(YYSTACKDATA *data)
         newsize = YYMAXDEPTH;
 
     i = (int) (data->s_mark - data->s_base);
-    newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
+    newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
         return YYENOMEM;
 
@@ -371,7 +371,7 @@ to state %d\n", YYPREFIX, *yystack.s_mark, yystate);
     {
         goto yyoverflow;
     }
-    *++yystack.s_mark = (short) yystate;
+    *++yystack.s_mark = (YYINT) yystate;
     *++yystack.l_mark = yyval;
     goto yyloop;
 

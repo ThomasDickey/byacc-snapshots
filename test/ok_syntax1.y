@@ -31,6 +31,7 @@ static void YYERROR_DECL();
 %token STR1 "\x7f\177\\\n"
 %token STR2 "\x7f\
 \177\\\n"
+
 %token BELL '\a'
 %token BS   '\b'
 %token NL   '\n'
@@ -46,11 +47,14 @@ static void YYERROR_DECL();
     double	dval;
 }
 
+%0 '@'
 %2 '~'
 %> '^'
-%< '|'
-%< '&'
-%< '+' '-'
+%< '#'
+
+%left '|'
+%left '&'
+%left '+' '-'
 %left '*' '/' '%'
 %left UMINUS   /* supplies precedence for unary minus */
 
@@ -63,38 +67,38 @@ list  :  /* empty */
       ;
 
 stat  :  expr
-            {  printf("%d\n",$1);}
+            {  printf("%d\n",$<ival>1);}
       |  LETTER '=' expr
-            {  regs[$1] = $3; }
+            {  regs[$<ival>1] = $<ival>3; }
       ;
 
 expr  :  '(' expr ')'
-            {  $$ = $2; }
+            {  $<ival>$ = $<ival>2; }
       |  expr '+' expr
-            {  $$ = $1 + $3; }
+            {  $<ival>$ = $<ival>1 + $<ival>3; }
       |  expr '-' expr
-            {  $$ = $1 - $3; }
+            {  $<ival>$ = $<ival>1 - $<ival>3; }
       |  expr '*' expr
-            {  $$ = $1 * $3; }
+            {  $<ival>$ = $<ival>1 * $<ival>3; }
       |  expr '/' expr
-            {  $$ = $1 / $3; }
+            {  $<ival>$ = $<ival>1 / $<ival>3; }
       |  expr '%' expr
-            {  $$ = $1 % $3; }
+            {  $<ival>$ = $<ival>1 % $<ival>3; }
       |  expr '&' expr
-            {  $$ = $1 & $3; }
+            {  $<ival>$ = $<ival>1 & $<ival>3; }
       |  expr '|' expr
-            {  $$ = $1 | $3; }
+            {  $<ival>$ = $<ival>1 | $<ival>3; }
       |  '-' expr %prec UMINUS
-            {  $$ = - $2; }
+            {  $<ival>$ = - $<ival>2; }
       |  LETTER
-            {  $$ = regs[$1]; }
+            {  $<ival>$ = regs[$<ival>1]; }
       |  number
       ;
 
 number:  DIGIT
-         {  $$ = $1; (*base) = ($1==0) ? 8 : 10; }
+         {  $<ival>$ = $<ival>1; (*base) = ($<ival>1==0) ? 8 : 10; }
       |  number DIGIT
-         {  $$ = (*base) * $1 + $2; }
+         {  $<ival>$ = (*base) * $<ival>1 + $<ival>2; }
       ;
 
 %% /* start of programs */
@@ -140,11 +144,11 @@ YYLEX_DECL()
     /* c is now nonblank */
 
     if( islower( c )) {
-	*yylval = (c - 'a');
+	yylval->ival = (c - 'a');
 	return ( LETTER );
     }
     if( isdigit( c )) {
-	*yylval = (c - '0') % (*base);
+	yylval->ival = (c - '0') % (*base);
 	return ( DIGIT );
     }
     return( c );

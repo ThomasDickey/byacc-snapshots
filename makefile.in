@@ -1,4 +1,4 @@
-# $Id: makefile.in,v 1.22 2014/04/06 19:20:14 tom Exp $
+# $Id: makefile.in,v 1.23 2014/04/09 12:15:52 tom Exp $
 #
 # UNIX template-makefile for Berkeley Yacc
 
@@ -28,7 +28,7 @@ AWK		= @AWK@
 CTAGS		= @CTAGS@
 ETAGS		= @ETAGS@
 LINT		= @LINT@
-LINTFLAGS	=
+LINTFLAGS	= @LINT_OPTS@
 
 prefix		= @prefix@
 exec_prefix	= @exec_prefix@

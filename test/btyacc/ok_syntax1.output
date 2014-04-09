@@ -459,3 +459,53 @@ state 32
 
 42 terminals, 5 nonterminals
 19 grammar rules, 33 states
+
+grammar parser grammar
+symbol# value# symbol
+     0      0  $end
+     1    256  error
+     2    257  DIGIT
+     3    258  LETTER
+     4    259  OCT1
+     5    127  '\177'
+     6    260  HEX1
+     7    255  '\377'
+     8    261  HEX2
+     9    262  HEX3
+    10    263  STR1
+    11    264  "\177\177\\\n"
+    12    265  STR2
+    13    266  BELL
+    14      7  '\a'
+    15    267  BS
+    16      8  '\b'
+    17    268  NL
+    18     10  '\n'
+    19    269  LF
+    20     12  '\f'
+    21    270  CR
+    22     13  '\r'
+    23    271  TAB
+    24      9  '\t'
+    25    272  VT
+    26     11  '\v'
+    27     64  '@'
+    28    126  '~'
+    29     94  '^'
+    30     35  '#'
+    31    124  '|'
+    32     38  '&'
+    33     43  '+'
+    34     45  '-'
+    35     42  '*'
+    36     47  '/'
+    37     37  '%'
+    38    273  UMINUS
+    39     61  '='
+    40     40  '('
+    41     41  ')'
+    42    274  $accept
+    43    275  list
+    44    276  stat
+    45    277  expr
+    46    278  number

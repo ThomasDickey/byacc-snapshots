@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140408-gcov
+MANIFEST for byacc, version t20140409-gcov
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -35,7 +35,6 @@ mstring.c                       string-utilities
 output.c                        original version of byacc - 1993
 reader.c                        original version of byacc - 1993
 skel2c                          awk script to transform yaccpar.skel into skeleton.c
-skeleton.c                      original version of byacc - 1993
 symtab.c                        original version of byacc - 1993
 verbose.c                       original version of byacc - 1993
 vmsbuild.com                    build-script for VMS
@@ -68,6 +67,10 @@ package/pkgsrc/distinfo         scripts from NetBSD pkgsrc, for test-builds
 test                            subdirectory
 test/README                     describe contents of "test" subdirectory
 test/btyacc                     subdirectory
+test/btyacc/big_b.error         exercise -L/-B options
+test/btyacc/big_b.output        exercise -L/-B options
+test/btyacc/big_l.error         exercise -L/-B options
+test/btyacc/big_l.output        exercise -L/-B options
 test/btyacc/btyacc_calc1.error  reference output for testing
 test/btyacc/btyacc_calc1.output reference output for testing
 test/btyacc/btyacc_calc1.tab.c  reference output for testing
@@ -302,6 +305,10 @@ test/btyacc/no_verbose.error    reference output for testing
 test/btyacc/no_verbose.output   reference output for testing
 test/btyacc/nostdin.error       reference output for testing
 test/btyacc/nostdin.output      reference output for testing
+test/btyacc/ok_syntax1.error    reference output for testing
+test/btyacc/ok_syntax1.output   reference output for testing
+test/btyacc/ok_syntax1.tab.c    reference output for testing
+test/btyacc/ok_syntax1.tab.h    reference output for testing
 test/btyacc/pure_calc.error     reference output for testing
 test/btyacc/pure_calc.output    reference output for testing
 test/btyacc/pure_calc.tab.c     reference output for testing
@@ -342,6 +349,11 @@ test/btyacc/quote_calc4.error   reference output for testing
 test/btyacc/quote_calc4.output  reference output for testing
 test/btyacc/quote_calc4.tab.c   reference output for testing
 test/btyacc/quote_calc4.tab.h   reference output for testing
+test/btyacc/rename_debug.c      reference output for testing
+test/btyacc/rename_debug.error  reference output for testing
+test/btyacc/rename_debug.h      reference output for testing
+test/btyacc/rename_debug.i      reference output for testing
+test/btyacc/rename_debug.output reference output for testing
 test/btyacc/varsyntax_calc1.error  reference output for testing
 test/btyacc/varsyntax_calc1.output  reference output for testing
 test/btyacc/varsyntax_calc1.tab.c  reference output for testing
@@ -434,11 +446,6 @@ test/yacc/code_calc.error       reference output for testing
 test/yacc/code_calc.output      reference output for testing
 test/yacc/code_calc.tab.c       reference output for testing
 test/yacc/code_calc.tab.h       reference output for testing
-test/yacc/code_debug.c          reference output for testing
-test/yacc/code_debug.error      reference output for testing
-test/yacc/code_debug.h          reference output for testing
-test/yacc/code_debug.i          reference output for testing
-test/yacc/code_debug.output     reference output for testing
 test/yacc/code_error.code.c     reference output for testing
 test/yacc/code_error.error      reference output for testing
 test/yacc/code_error.output     reference output for testing
@@ -651,6 +658,11 @@ test/yacc/quote_calc4.error     reference output for testing
 test/yacc/quote_calc4.output    reference output for testing
 test/yacc/quote_calc4.tab.c     reference output for testing
 test/yacc/quote_calc4.tab.h     reference output for testing
+test/yacc/rename_debug.c        reference output for testing
+test/yacc/rename_debug.error    reference output for testing
+test/yacc/rename_debug.h        reference output for testing
+test/yacc/rename_debug.i        reference output for testing
+test/yacc/rename_debug.output   reference output for testing
 test/yacc/varsyntax_calc1.error reference output for testing
 test/yacc/varsyntax_calc1.output  reference output for testing
 test/yacc/varsyntax_calc1.tab.c reference output for testing

@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140407
+MANIFEST for byacc, version t20140408-gcov
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -397,6 +397,7 @@ test/grammar.y                  grammar from cproto
 test/inherit0.y                 testcase for btyacc
 test/inherit1.y                 testcase for btyacc
 test/inherit2.y                 testcase for btyacc
+test/ok_syntax1.y               testcase for valid literal syntax
 test/pure_calc.y                reference input for testing
 test/pure_error.y               reference input for testing
 test/quote_calc.y               test-case for %token using quoted name
@@ -408,6 +409,10 @@ test/run_make.sh                do a test-compile of each ".c" file in the test-
 test/run_test.sh                test-script for byacc
 test/varsyntax_calc1.y          testcase for btyacc
 test/yacc                       subdirectory
+test/yacc/big_b.error           exercise -L/-B options
+test/yacc/big_b.output          exercise -L/-B options
+test/yacc/big_l.error           exercise -L/-B options
+test/yacc/big_l.output          exercise -L/-B options
 test/yacc/calc.error            reference output for testing
 test/yacc/calc.output           reference output for testing
 test/yacc/calc.tab.c            reference output for testing
@@ -602,6 +607,10 @@ test/yacc/no_verbose.error      reference output for testing
 test/yacc/no_verbose.output     reference output for testing
 test/yacc/nostdin.error         reference output for testing
 test/yacc/nostdin.output        reference output for testing
+test/yacc/ok_syntax1.error      reference output for testing
+test/yacc/ok_syntax1.output     reference output for testing
+test/yacc/ok_syntax1.tab.c      reference output for testing
+test/yacc/ok_syntax1.tab.h      reference output for testing
 test/yacc/pure_calc.error       reference output for testing
 test/yacc/pure_calc.output      reference output for testing
 test/yacc/pure_calc.tab.c       reference output for testing

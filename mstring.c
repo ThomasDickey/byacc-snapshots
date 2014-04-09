@@ -1,4 +1,4 @@
-/* $Id: mstring.c,v 1.2 2014/04/06 20:13:44 tom Exp $ */
+/* $Id: mstring.c,v 1.3 2014/04/08 20:37:26 tom Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -78,12 +78,17 @@ msnew(void)
 {
     struct mstring *n = malloc(sizeof(struct mstring));
 
-    if (n && (n->base = n->ptr = malloc(HEAD)))
-	n->end = n->base + HEAD;
-    else if (n)
+    if (n)
     {
-	free(n);
-	n = 0;
+	if ((n->base = n->ptr = malloc(HEAD)) != 0)
+	{
+	    n->end = n->base + HEAD;
+	}
+	else
+	{
+	    free(n);
+	    n = 0;
+	}
     }
     return n;
 }

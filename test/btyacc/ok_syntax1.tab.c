@@ -294,10 +294,6 @@ static const YYINT ok_syntax1_check[] = {                40,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,  256,  257,  258,  257,  258,
 };
-#if YYBTYACC
-static const YYINT ok_syntax1_ctable[] = {                0,
-};
-#endif
 #define YYFINAL 1
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -471,7 +467,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 475 "ok_syntax1.tab.c"
+#line 471 "ok_syntax1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1238,7 +1234,7 @@ case 18:
 #line 101 "ok_syntax1.y"
 	{  yyval.ival = (*base) * yystack.l_mark[-1].ival + yystack.l_mark[0].ival; }
 break;
-#line 1242 "ok_syntax1.tab.c"
+#line 1238 "ok_syntax1.tab.c"
     default:
         break;
     }

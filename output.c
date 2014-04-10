@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.63 2014/04/07 18:49:35 tom Exp $ */
+/* $Id: output.c,v 1.65 2014/04/09 21:10:48 tom Exp $ */
 
 #include "defs.h"
 
@@ -280,35 +280,38 @@ output_accessing_symbols(void)
     int i, j;
     int *translate;
 
-    translate = TMALLOC(int, nstates);
-    NO_SPACE(translate);
-
-    for (i = 0; i < nstates; ++i)
+    if (nstates != 0)
     {
-	int gsymb = accessing_symbol[i];
+	translate = TMALLOC(int, nstates);
+	NO_SPACE(translate);
 
-	translate[i] = symbol_pval[gsymb];
-    }
-
-    /* yystos[] may be unused, depending on compile-time defines */
-    start_int_table("stos", translate[0]);
-
-    j = 10;
-    for (i = 1; i < nstates; ++i)
-    {
-	if (j < 10)
-	    ++j;
-	else
+	for (i = 0; i < nstates; ++i)
 	{
-	    output_newline();
-	    j = 1;
+	    int gsymb = accessing_symbol[i];
+
+	    translate[i] = symbol_pval[gsymb];
 	}
 
-	output_int(translate[i]);
-    }
+	/* yystos[] may be unused, depending on compile-time defines */
+	start_int_table("stos", translate[0]);
 
-    end_table();
-    FREE(translate);
+	j = 10;
+	for (i = 1; i < nstates; ++i)
+	{
+	    if (j < 10)
+		++j;
+	    else
+	    {
+		output_newline();
+		j = 1;
+	    }
+
+	    output_int(translate[i]);
+	}
+
+	end_table();
+	FREE(translate);
+    }
 }
 
 static Value_t
@@ -336,7 +339,9 @@ token_actions(void)
     int i, j;
     Value_t shiftcount, reducecount;
 #if defined(YYBTYACC)
-    Value_t conflictcount, csym, cbase;
+    Value_t conflictcount = 0;
+    Value_t csym = -1;
+    Value_t cbase = 0;
 #endif
     int max, min;
     Value_t *actionrow, *r, *s;
@@ -1003,26 +1008,29 @@ output_ctable(void)
     int i;
     int j;
 
-    output_line("#if YYBTYACC");
-    start_int_table("ctable", conflicts ? conflicts[0] : 0);
-
-    j = 10;
-    for (i = 1; i < nconflicts; i++)
+    if (conflicts)
     {
-	if (j >= 10)
+	output_line("#if YYBTYACC");
+	start_int_table("ctable", conflicts[0]);
+
+	j = 10;
+	for (i = 1; i < nconflicts; i++)
 	{
-	    output_newline();
-	    j = 1;
+	    if (j >= 10)
+	    {
+		output_newline();
+		j = 1;
+	    }
+	    else
+		++j;
+
+	    output_int(conflicts[i]);
 	}
-	else
-	    ++j;
 
-	output_int(conflicts[i]);
+	end_table();
+	output_line("#endif");
+	FREE(conflicts);
     }
-
-    end_table();
-    output_line("#endif");
-    FREE(conflicts);
 }
 #endif
 

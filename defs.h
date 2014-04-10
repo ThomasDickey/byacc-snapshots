@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.45 2014/04/06 17:34:51 tom Exp $ */
+/* $Id: defs.h,v 1.47 2014/04/09 21:23:45 Rick.Spates Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -419,7 +419,7 @@ extern void arg_number_disagree_warning(int a_lineno, char *a_name);
 extern void arg_type_disagree_warning(int a_lineno, int i, char *a_name);
 extern void at_error(int a_lineno, char *a_line, char *a_cptr) GCC_NORETURN;
 extern void at_warning(int a_lineno, int i);
-extern void bad_formals(void);
+extern void bad_formals(void) GCC_NORETURN;
 extern void default_action_warning(void);
 extern void destructor_redeclared_warning(int a_lineno, char *a_line, char *a_cptr);
 extern void dollar_error(int a_lineno, char *a_line, char *a_cptr) GCC_NORETURN;
@@ -457,7 +457,7 @@ extern void untyped_arg_warning(int a_lineno, const char *dlr_opt, const char *a
 extern void untyped_lhs(void) GCC_NORETURN;
 extern void untyped_rhs(int i, char *s) GCC_NORETURN;
 extern void used_reserved(char *s) GCC_NORETURN;
-extern void unterminated_arglist(int a_lineno, char *a_line, char *a_cptr);
+extern void unterminated_arglist(int a_lineno, char *a_line, char *a_cptr) GCC_NORETURN;
 extern void wrong_number_args_warning(const char *which, const char *a_name);
 extern void wrong_type_for_arg_warning(int i, char *a_name);
 
@@ -520,6 +520,15 @@ extern void verbose(void);
 
 /* warshall.c */
 extern void reflexive_transitive_closure(unsigned *R, int n);
+
+#ifdef DEBUG
+    /* closure.c */
+extern void print_closure(int n);
+extern void print_EFF(void);
+extern void print_first_derives(void);
+    /* lr0.c */
+extern void print_derives(void);
+#endif
 
 #ifdef NO_LEAKS
 extern void lr0_leaks(void);

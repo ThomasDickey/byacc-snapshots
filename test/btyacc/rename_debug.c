@@ -52,10 +52,6 @@ static const YYINT yytable[] = {                          1,
 };
 static const YYINT yycheck[] = {                        256,
 };
-#if YYBTYACC
-static const YYINT yyctable[] = {                         0,
-};
-#endif
 #define YYFINAL 2
 #ifndef YYDEBUG
 #define YYDEBUG 1
@@ -231,7 +227,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 236 "rename_debug.c"
+#line 232 "rename_debug.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

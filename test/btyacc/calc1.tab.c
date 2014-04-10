@@ -310,10 +310,6 @@ static const YYINT calc1_check[] = {                     40,
    -1,   -1,   -1,   -1,   -1,  256,  257,  258,  259,  257,
   258,  259,  257,   -1,  259,
 };
-#if YYBTYACC
-static const YYINT calc1_ctable[] = {                     0,
-};
-#endif
 #define YYFINAL 7
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -623,7 +619,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 627 "calc1.tab.c"
+#line 623 "calc1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1443,7 +1439,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 1447 "calc1.tab.c"
+#line 1443 "calc1.tab.c"
     default:
         break;
     }

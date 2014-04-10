@@ -794,10 +794,6 @@ static const YYINT grammar_check[] = {                   38,
   269,  270,  271,  272,  273,  274,  275,  276,  277,  278,
   279,  280,  281,  282,
 };
-#if YYBTYACC
-static const YYINT grammar_ctable[] = {                   0,
-};
-#endif
 #define YYFINAL 33
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -1248,7 +1244,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1252 "grammar.tab.c"
+#line 1248 "grammar.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -2579,7 +2575,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 2583 "grammar.tab.c"
+#line 2579 "grammar.tab.c"
     default:
         break;
     }

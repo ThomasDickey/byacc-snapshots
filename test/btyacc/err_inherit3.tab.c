@@ -243,10 +243,6 @@ static const YYINT err_inherit3_check[] = {             257,
   258,  259,  260,   14,  259,  260,   17,  261,  261,    6,
    12,
 };
-#if YYBTYACC
-static const YYINT err_inherit3_ctable[] = {              0,
-};
-#endif
 #define YYFINAL 5
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -415,7 +411,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 419 "err_inherit3.tab.c"
+#line 415 "err_inherit3.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -435,7 +431,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 439 "err_inherit3.tab.c"
+#line 435 "err_inherit3.tab.c"
 	case 264:
 #line 30 "err_inherit3.y"
 	{
@@ -447,7 +443,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 451 "err_inherit3.tab.c"
+#line 447 "err_inherit3.tab.c"
 	case 265:
 #line 30 "err_inherit3.y"
 	{
@@ -459,7 +455,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 463 "err_inherit3.tab.c"
+#line 459 "err_inherit3.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1180,7 +1176,7 @@ case 14:
 #line 75 "err_inherit3.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1184 "err_inherit3.tab.c"
+#line 1180 "err_inherit3.tab.c"
     default:
         break;
     }

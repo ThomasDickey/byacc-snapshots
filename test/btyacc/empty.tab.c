@@ -197,10 +197,6 @@ static const YYINT empty_table[] = {                      0,
 };
 static const YYINT empty_check[] = {                     -1,
 };
-#if YYBTYACC
-static const YYINT empty_ctable[] = {                     0,
-};
-#endif
 #define YYFINAL 1
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -364,7 +360,7 @@ static void
 YYERROR_DECL() {
   printf("%s\n",s);
 }
-#line 368 "empty.tab.c"
+#line 364 "empty.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

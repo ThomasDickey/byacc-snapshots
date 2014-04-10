@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.44 2014/04/07 00:22:49 tom Exp $ */
+/* $Id: reader.c,v 1.47 2014/04/09 21:09:27 tom Exp $ */
 
 #include "defs.h"
 
@@ -1130,7 +1130,6 @@ declare_tokens(int assoc)
 	if (c == EOF)
 	    unexpected_EOF();
 
-	value = UNDEFINED;
 	if (isdigit(c))
 	{
 	    value = get_number();
@@ -2036,8 +2035,8 @@ copy_action(void)
     int depth;
 #if defined(YYBTYACC)
     int trialaction = 0;
-#endif
     int haveyyval = 0;
+#endif
     char *tag;
     FILE *f = action_file;
     int a_lineno = lineno;
@@ -2086,8 +2085,12 @@ copy_action(void)
 	NO_SPACE(offsets);
     }
     for (j = 0, i++; i < nitems; i++)
+    {
 	if (pitem[i]->class != ARGUMENT)
+	{
 	    offsets[++j] = (Value_t) (i - nitems + 1);
+	}
+    }
     rhs = pitem + nitems - 1;
 
     depth = 0;
@@ -2121,7 +2124,7 @@ copy_action(void)
 		    dollar_warning(d_lineno, i);
 		    fprintf(f, "yystack.l_mark[%d].%s", i - maxoffset, tag);
 		}
-		else
+		else if (offsets)
 		    fprintf(f, "yystack.l_mark[%d].%s", offsets[i], tag);
 		FREE(d_line);
 		goto loop;
@@ -2164,7 +2167,9 @@ copy_action(void)
 	    else
 		fprintf(f, "yyval");
 	    cptr += 2;
+#if defined(YYBTYACC)
 	    haveyyval = 1;
+#endif
 	    goto loop;
 	}
 	else if (isdigit(UCH(cptr[1])))
@@ -2189,7 +2194,7 @@ copy_action(void)
 		    dollar_warning(lineno, i);
 		    fprintf(f, "yystack.l_mark[%d]", i - maxoffset);
 		}
-		else
+		else if (offsets)
 		    fprintf(f, "yystack.l_mark[%d]", offsets[i]);
 	    }
 	    goto loop;
@@ -2251,7 +2256,7 @@ copy_action(void)
 		at_warning(lineno, i);
 		fprintf(f, "yystack.p_mark[%d]", i - maxoffset);
 	    }
-	    else
+	    else if (offsets)
 		fprintf(f, "yystack.p_mark[%d]", offsets[i]);
 	    goto loop;
 	}
@@ -2521,8 +2526,9 @@ copy_destructor(void)
 		cptr += 2;
 		if ((bp = default_destructor[UNTYPED_DEFAULT]) == NULL)
 		{
+		    static char untyped_default[] = "<>";
 		    bp = make_bucket("untyped default");
-		    bp->tag = (char *)"<>";
+		    bp->tag = untyped_default;
 		    default_destructor[UNTYPED_DEFAULT] = bp;
 		}
 		if (bp->destructor != NULL)
@@ -2536,8 +2542,9 @@ copy_destructor(void)
 		cptr += 3;
 		if ((bp = default_destructor[TYPED_DEFAULT]) == NULL)
 		{
+		    static char typed_default[] = "<*>";
 		    bp = make_bucket("typed default");
-		    bp->tag = (char *)"<*>";
+		    bp->tag = typed_default;
 		    default_destructor[TYPED_DEFAULT] = bp;
 		}
 		if (bp->destructor != NULL)

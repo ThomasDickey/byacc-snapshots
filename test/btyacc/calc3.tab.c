@@ -273,10 +273,6 @@ static const YYINT calc3_check[] = {                     40,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,  256,  257,  258,  257,  258,
 };
-#if YYBTYACC
-static const YYINT calc3_ctable[] = {                     0,
-};
-#endif
 #define YYFINAL 1
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -448,7 +444,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 452 "calc3.tab.c"
+#line 448 "calc3.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1215,7 +1211,7 @@ case 18:
 #line 73 "calc3.y"
 	{  yyval = (*base) * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1219 "calc3.tab.c"
+#line 1215 "calc3.tab.c"
     default:
         break;
     }

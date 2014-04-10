@@ -217,10 +217,6 @@ static const YYINT inherit0_check[] = {                 257,
   258,  259,  260,  259,  260,    0,  261,  261,    0,    6,
    13,
 };
-#if YYBTYACC
-static const YYINT inherit0_ctable[] = {                  0,
-};
-#endif
 #define YYFINAL 5
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -386,7 +382,7 @@ static short  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 390 "inherit0.tab.c"
+#line 386 "inherit0.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1087,7 +1083,7 @@ case 11:
 #line 43 "inherit0.y"
 	{ yyval = yystack.l_mark[0]; }
 break;
-#line 1091 "inherit0.tab.c"
+#line 1087 "inherit0.tab.c"
     default:
         break;
     }

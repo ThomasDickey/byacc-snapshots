@@ -280,10 +280,6 @@ static const YYINT quote_calc4_check[] = {               10,
   264,   -1,  266,   -1,  268,   -1,   -1,  258,  258,  260,
   260,  262,  262,  264,  264,  266,  266,  268,  268,
 };
-#if YYBTYACC
-static const YYINT quote_calc4_ctable[] = {               0,
-};
-#endif
 #define YYFINAL 1
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -495,7 +491,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 499 "quote_calc4-s.tab.c"
+#line 495 "quote_calc4-s.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1212,7 +1208,7 @@ case 18:
 #line 70 "quote_calc4.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1216 "quote_calc4-s.tab.c"
+#line 1212 "quote_calc4-s.tab.c"
     default:
         break;
     }

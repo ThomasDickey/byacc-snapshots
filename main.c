@@ -1,7 +1,11 @@
-/* $Id: main.c,v 1.48 2014/04/07 23:52:45 tom Exp $ */
+/* $Id: main.c,v 1.49 2014/04/09 21:25:20 Rick.Spates Exp $ */
 
 #include <signal.h>
+#ifndef _WIN32
 #include <unistd.h>		/* for _exit() */
+#else
+#include <stdlib.h>		/* for _exit() */
+#endif
 
 #include "defs.h"
 

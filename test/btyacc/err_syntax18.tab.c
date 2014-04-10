@@ -195,10 +195,6 @@ static const YYINT err_syntax18_table[] = {               1,
 static const YYINT err_syntax18_check[] = {              40,
    -1,   41,    1,
 };
-#if YYBTYACC
-static const YYINT err_syntax18_ctable[] = {              0,
-};
-#endif
 #define YYFINAL 2
 #ifndef YYDEBUG
 #define YYDEBUG 0
@@ -371,7 +367,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 375 "err_syntax18.tab.c"
+#line 371 "err_syntax18.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1032,7 +1028,7 @@ case 1:
 #line 9 "err_syntax18.y"
 	{  yyval = yystack.l_mark[1]; }
 break;
-#line 1036 "err_syntax18.tab.c"
+#line 1032 "err_syntax18.tab.c"
     default:
         break;
     }

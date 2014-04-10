@@ -33,10 +33,6 @@ const YYINT error_table[] = {                      1,
 };
 const YYINT error_check[] = {                    256,
 };
-#if YYBTYACC
-const YYINT error_ctable[] = {                     0,
-};
-#endif
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif

@@ -1,3 +1,36 @@
+2014-04-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2014-04-03
+
+	* config.guess: 2014-03-23
+
+2014-04-09  Rick.Spates
+
+	* main.c, defs.h: patch to allow DEBUG build with WIN32 system
+
+2014-04-09  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c, reader.c: gcc warnings
+
+	* reader.c: fix const-cast warnings
+
+	* output.c:
+	fix a few clang --analyze warnings; one was a case where output_ctable emitted
+	an empty table (which should be an error).
+
+	* reader.c: appease clang --analyze
+
+	* defs.h: mark two functions as no-return.
+
+	* VERSION: bump
+
+	* makefile.in: use $LINT_OPTS from environment via configure script
+
+	* yaccpar.c: regen
+
+	* yacc.1:
+	clarify relationship of btyacc features to default configuration.
+
 2014-04-08  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* mstring.c: minor reformatting to make coverage analysis simpler

@@ -1,3 +1,43 @@
+2014-05-27  Tom.Shields
+
+	* main.c: remove obsolete -D option from usage message
+
+2014-05-27  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+2014-04-22  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* mstring.c:
+	use vsnprintf() to ensure that msprintf's buffer is large enough.
+
+	* main.c, defs.h: add mstring_leaks()
+
+	* configure: regen
+
+	* output.c: fix a complementary warning
+
+	* mstring.c: introduce vsnprintf
+
+	* configure.in, config_h.in: add check for vsnprintf
+
+	* output.c: quiet a type-conversion warning
+
+	* mstring.c: fix a potential memory leak on ENOMEM
+	quiet a couple of type-conversion warnings
+
+	* defs.h: add/use GCC_PRINTFLIKE for msprintf()
+
+2014-04-22  Tom.Shields
+
+	* README.BTYACC:
+	drop "NOTES-btyacc-Changes" and "NOTES-btyacc-Disposition", merging relevant
+	content into README.BTYACC
+
+2014-04-22  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
 2014-04-19  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.sub: 2014-04-03

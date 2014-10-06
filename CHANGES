@@ -1,3 +1,101 @@
+2014-10-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c:
+	make change to umask before calling mkstemp, as suggested in Coverity #56902
+
+	* reader.c:
+	adjust logic in copy_action to avoid potential null-pointer dereference
+	(Coverity #56901)
+
+	* reader.c:
+	adjust logic to avoid potential null-pointer dereference in compile_args
+	(Coverity #63407)
+
+	* reader.c: eliminate strcpy into fixed-size buffer (Coverity #63408)
+
+	* yacc.1: document changes made with respect to %parse-param
+
+	* output.c:
+	add parameters from %parse-param to destructor.  The order of the parameters
+	is intentionally inconsistent with yyparse/yyerror, for "compatibility" with
+	bison.
+
+	* output.c:
+	use puts_param_types/puts_param_names to output lex_param data.
+
+	* btyaccpar.c: add casts, change types to fix strict compiler warnings
+
+	* output.c: gcc-warning
+
+	* output.c: fix limit when merging real/workaround tables
+
+	* output.c:
+	for btyacc, it is possible to have no conflicts - but in that case, the
+	"ctable" was not generated at all, while the skeleton uses the table.
+	The most straightforward (workaround) is generating a dummy table which
+	rejects any state.
+
+	* reader.c:
+	trim blanks from interim value in copy_param() to handle special case when
+	a space precedes a comma.
+
+	* output.c:
+	use two new functions, puts_param_types and puts_param_names, to improve
+	format of the parse_param list (by trimming space after "*") as well as
+	correcting the output of the comma-separated names (only the last name
+	was output).
+
+	* reader.c:
+	modify copy_param() to handle resulting comma-separated list.  Before, it
+	only expected a single parameter.
+
+2014-10-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: split-out save_param() from copy_param()
+
+	* reader.c: trim_blanks() did not always convert spaces - fix.
+
+	* reader.c: fix some minor regressions with error-reporting
+
+	* aclocal.m4: update CF_XOPEN_SOURCE for Unixware change from lynx
+
+	* VERSION: bump
+
+	* reader.c:
+	modify copy_param() to accept multiple parameters, each in curly braces like
+	recent bison, as well as honoring bison's undocumented feature to accept the
+	parameters as a comma-separated list.
+
+2014-10-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c, reader.c, defs.h:
+	use calloc in get_line() when allocating line to ensure it is fully initialized,
+	fixes a later uninitialized value in copy_param() (FreeBSD #193499).
+
+2014-09-17  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* closure.c, lalr.c, output.c, defs.h:
+	rephrase odd addressing to fix Coverity #48848, #38950, #38860, not actually
+	a bug.
+
+2014-09-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: update to 2014-07-28
+
+2014-07-27  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4: modified to support port to Minix3.2
+
+	* VERSION: bump
+
+2014-07-15  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4: resync with my-autoconf (no change to configure script)
+
+	* VERSION: bump
+
 2014-05-27  Tom.Shields
 
 	* main.c: remove obsolete -D option from usage message

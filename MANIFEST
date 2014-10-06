@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20140715
+MANIFEST for byacc, version t20141005
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -77,6 +77,22 @@ test/btyacc/btyacc_demo.error   reference output for testing
 test/btyacc/btyacc_demo.output  reference output for testing
 test/btyacc/btyacc_demo.tab.c   reference output for testing
 test/btyacc/btyacc_demo.tab.h   reference output for testing
+test/btyacc/btyacc_demo2.error  reference output for testing
+test/btyacc/btyacc_demo2.output reference output for testing
+test/btyacc/btyacc_demo2.tab.c  reference output for testing
+test/btyacc/btyacc_demo2.tab.h  reference output for testing
+test/btyacc/btyacc_destroy1.error  reference output for testing
+test/btyacc/btyacc_destroy1.output  reference output for testing
+test/btyacc/btyacc_destroy1.tab.c  reference output for testing
+test/btyacc/btyacc_destroy1.tab.h  reference output for testing
+test/btyacc/btyacc_destroy2.error  reference output for testing
+test/btyacc/btyacc_destroy2.output  reference output for testing
+test/btyacc/btyacc_destroy2.tab.c  reference output for testing
+test/btyacc/btyacc_destroy2.tab.h  reference output for testing
+test/btyacc/btyacc_destroy3.error  reference output for testing
+test/btyacc/btyacc_destroy3.output  reference output for testing
+test/btyacc/btyacc_destroy3.tab.c  reference output for testing
+test/btyacc/btyacc_destroy3.tab.h  reference output for testing
 test/btyacc/calc.error          reference output for testing
 test/btyacc/calc.output         reference output for testing
 test/btyacc/calc.tab.c          reference output for testing
@@ -359,6 +375,9 @@ test/btyacc/varsyntax_calc1.tab.h  reference output for testing
 test                            subdirectory
 test/btyacc_calc1.y             testcase for btyacc
 test/btyacc_demo.y              testcase for btyacc
+test/btyacc_destroy1.y          btyacc test-case for %parse-param
+test/btyacc_destroy2.y          btyacc test-case for %parse-param
+test/btyacc_destroy3.y          btyacc test-case for %parse-param
 test/calc.y                     example from VMS freeware version of byacc
 test/calc1.y                    advanced example from Steve Johnson's paper.
 test/calc2.y                    test-cases and reference files for %lex-param / %parse-param

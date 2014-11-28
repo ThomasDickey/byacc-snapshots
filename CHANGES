@@ -1,3 +1,34 @@
+2014-11-13  Jouk.Jansen
+
+	* descrip.mms:
+	I sucessfully compiled byacc on my OpenVMS systems. However, I had to update
+	the descrip.mms to include some extra c-source files and some dependenxcies
+	so that it also works when the distribution is located on an ODS5 disk.
+
+	The patched descrip.mms file can be found at:
+	  http://nchrem.tnw.tudelft.nl/openvms/software2.html#BYACC
+
+	Please feel free to insert the file in your distribution.
+
+	             Regards
+	                 Jouk.
+
+2014-10-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION: bump
+
+	* configure: regen
+
+	* main.c:
+	correct parameter for umask - for very old mkstemp's - and use type mode_t
+	to quiet compiler warning
+
+	* configure.in: add configure check for mode_t
+
+	* reader.c:
+	better fix for get_line, by ensuring there is enough space to null-terminate
+	its result (prompted by discussion with Craig Rodrigues).
+
 2014-10-05  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c:

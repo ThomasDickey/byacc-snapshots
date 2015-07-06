@@ -1,3 +1,15 @@
+2015-05-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2015-03-04
+
+	* config.sub: 2015-03-08
+
+2014-11-28  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* lr0.c: coverity #39181: memory leak
+
+	* VERSION: bump
+
 2014-11-13  Jouk.Jansen
 
 	* descrip.mms:

@@ -1,3 +1,30 @@
+2015-07-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* lr0.c: fix a duplicate-free in the leak-checking
+
+	* VERSION: bump
+
+	* reader.c:
+	make cache-size clearer (prompted by discussion with Pedro Giffuni,
+	Oliver Pinter)
+
+	* main.c:
+	make relationship with format/size clearer (prompted by discussion
+	with Pedro Giffuni, Oliver Pinter)
+
+2015-07-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* VERSION: bump
+
+	* aclocal.m4: resync with my-autoconf
+	add configure option --with-man2html
+
+	* makefile.in: add configure options --with-man2html
+
+	* configure.in: add configure option --with-man2html
+
 2015-05-02  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.guess: 2015-03-04

@@ -1,3 +1,25 @@
+2016-03-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: unused variable
+
+2016-03-24  Jung-uk.Kim
+
+	* main.c:
+	correct logic for finding output suffix in the "-o" option, which matched
+	the first occurrence of ".c" in the name in 2005-08-13 changes rather than
+	at the end of the filename (patch by Jung-uk Kim)
+
+2016-03-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4:
+	update CF_WITH_MAN2HTML to use configured shell rather than /bin/sh
+
+	* VERSION: bump
+
+2016-01-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2016-01-01
+
 2015-07-10  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* lr0.c: fix a duplicate-free in the leak-checking

@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20161202
+MANIFEST for byacc, version t20170201
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -272,6 +272,10 @@ test/btyacc/error.error         reference output for testing
 test/btyacc/error.output        reference output for testing
 test/btyacc/error.tab.c         reference output for testing
 test/btyacc/error.tab.h         reference output for testing
+test/btyacc/expr.oxout.error    reference output for testing
+test/btyacc/expr.oxout.output   reference output for testing
+test/btyacc/expr.oxout.tab.c    reference output for testing
+test/btyacc/expr.oxout.tab.h    reference output for testing
 test/btyacc/grammar.dot         reference output for testing
 test/btyacc/grammar.error       reference output for testing
 test/btyacc/grammar.output      reference output for testing
@@ -422,6 +426,7 @@ test/err_syntax8.y              testcase for used_reserved()
 test/err_syntax8a.y             testcase for used_reserved()
 test/err_syntax9.y              testcase for tokenized_start()
 test/error.y                    original version of byacc - 1993
+test/expr.oxout.y               test-case for "#line" feature
 test/grammar.y                  grammar from cproto
 test/inherit0.y                 testcase for btyacc
 test/inherit1.y                 testcase for btyacc
@@ -596,6 +601,10 @@ test/yacc/error.error           reference output for testing
 test/yacc/error.output          reference output for testing
 test/yacc/error.tab.c           reference output for testing
 test/yacc/error.tab.h           reference output for testing
+test/yacc/expr.oxout.error      reference output for testing
+test/yacc/expr.oxout.output     reference output for testing
+test/yacc/expr.oxout.tab.c      reference output for testing
+test/yacc/expr.oxout.tab.h      reference output for testing
 test/yacc/grammar.dot           reference output for testing
 test/yacc/grammar.error         reference output for testing
 test/yacc/grammar.output        reference output for testing

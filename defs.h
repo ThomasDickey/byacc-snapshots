@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.57 2017/04/30 23:29:11 tom Exp $ */
+/* $Id: defs.h,v 1.59 2017/07/09 18:12:46 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -146,7 +146,9 @@
 
 /*  character macros  */
 
-#define IS_IDENT(c)	(isalnum(c) || (c) == '_' || (c) == '.' || (c) == '$')
+#define IS_NAME1(c)	(isalpha(UCH(c)) || (c) == '_' || (c) == '$')
+#define IS_NAME2(c)	(isalnum(UCH(c)) || (c) == '_' || (c) == '$')
+#define IS_IDENT(c)	(isalnum(UCH(c)) || (c) == '_' || (c) == '.' || (c) == '$')
 #define	IS_OCTAL(c)	((c) >= '0' && (c) <= '7')
 #define	NUMERIC_VALUE(c)	((c) - '0')
 

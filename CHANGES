@@ -1,3 +1,31 @@
+2017-07-09  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/byacc.spec, package/mingw-byacc.spec:
+	use predefined "configure"
+
+	* reader.c: remove unused assignment
+
+	* package/debian/rules: use dpkg-buildflags
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
+	* reader.c, output.c, defs.h:
+	add/use IS_NAME1() and IS_NAME2() to reduce clutter
+
+	* reader.c, output.c, defs.h:
+	guard against sign-extension in ctype-macros
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+	* reader.c: check for numeric overflow in get_number()
+
+	* reader.c:
+	correct limit-checks for input filename and line-number, in case no valid
+	filename and/or number was found.
+
 2017-04-30  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/varsyntax_calc1.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/error.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/pure_calc.tab.c, test/btyacc/pure_error.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/code_calc.code.c, test/btyacc/code_error.code.c, test/btyacc/empty.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/err_syntax10.tab.c, test/btyacc/err_syntax11.tab.c, test/btyacc/err_syntax12.tab.c, test/btyacc/rename_debug.c, btyaccpar.c, btyaccpar.skel:
@@ -21,6 +49,10 @@
 
 	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
 	bump
+
+2017-04-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2017-04-02
 
 2017-03-18  Thomas E. Dickey  <dickey@invisible-island.net>
 

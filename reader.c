@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.73 2017/07/09 19:15:35 tom Exp $ */
+/* $Id: reader.c,v 1.74 2017/12/04 17:50:02 tom Exp $ */
 
 #include "defs.h"
 
@@ -437,7 +437,7 @@ nextc(void)
 /* *INDENT-OFF* */
 static struct keyword
 {
-    char name[14];
+    char name[16];
     int token;
 }
 keywords[] = {
@@ -1353,8 +1353,7 @@ get_number(void)
 	if (n > MAXYYINT)
 	{
 	    syntax_error(lineno, line, base);
-	    n = 0;
-	    break;
+	    /*NOTREACHED */
 	}
     }
 

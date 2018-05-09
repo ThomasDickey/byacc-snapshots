@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.24 2014/10/06 00:03:48 tom Exp $
+.\" $Id: yacc.1,v 1.25 2017/09/14 22:52:19 Tom.Shields Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -58,7 +58,7 @@ The default prefix is the character
 .IR y.
 .TP
 .B \-B
-create a backtracking parser (compile-type configuration for \fBbtyacc\fP).
+create a backtracking parser (compile-time configuration for \fBbtyacc\fP).
 .TP
 .B \-d
 The \fB-d\fR option causes the header file
@@ -102,7 +102,7 @@ will not insert the \fI#line\fP directives.
 \&\fI#line\fP directives specified by the user will be retained.
 .TP
 .B \-L
-enable position processing, e.g., \*(``%locations\*('' (compile-type configuration for \fBbtyacc\fP).
+enable position processing, e.g., \*(``%locations\*('' (compile-time configuration for \fBbtyacc\fP).
 .TP
 \fB\-o \fP\fIoutput_file\fR
 specify the filename for the parser file.

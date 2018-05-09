@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20170709
+MANIFEST for byacc, version t20180508
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -382,6 +382,7 @@ test/btyacc_demo.y              testcase for btyacc
 test/btyacc_destroy1.y          btyacc test-case for %parse-param
 test/btyacc_destroy2.y          btyacc test-case for %parse-param
 test/btyacc_destroy3.y          btyacc test-case for %parse-param
+test/calc.tab.c                 c-file for calc.y
 test/calc.y                     example from VMS freeware version of byacc
 test/calc1.y                    advanced example from Steve Johnson's paper.
 test/calc2.y                    test-cases and reference files for %lex-param / %parse-param

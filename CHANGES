@@ -1,3 +1,58 @@
+2018-05-08  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/btyacc/grammar.tab.c, test/yacc/grammar.tab.c: regen
+
+	* test/grammar.y:
+	quiet some warnings from gcc 7 when doing "make check_make"
+
+	* package/debian/watch, package/pkgsrc/Makefile: update ftp-url
+
+	* test/btyacc/ok_syntax1.tab.h, test/btyacc/btyacc_calc1.tab.h: regen
+
+	* output.c:
+	provide yylex() declaration for simple case (request by "Mutiny")
+
+	* test/yacc/err_syntax20.tab.c, test/yacc/error.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/ok_syntax1.tab.c, test/yacc/ok_syntax1.tab.h, test/yacc/pure_calc.tab.c, test/yacc/pure_error.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/varsyntax_calc1.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/code_calc.code.c, test/yacc/code_error.code.c, test/yacc/empty.tab.c, test/yacc/err_syntax10.tab.c, test/yacc/err_syntax11.tab.c, test/yacc/err_syntax12.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/rename_debug.c, test/yacc/rename_debug.i, yaccpar.c:
+	regen
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/debian/copyright, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2018-05-06  Guy.Harris
+
+	* yaccpar.skel: two fixes:
+	1) define yydebug only if YYDEBUG is defined and
+	2) make yynerrs a parser-local variable if the parser is reentrant.
+
+2018-02-24  Guy.Harris
+
+	* output.c: do not emit "extern YYSTYPE yylval;" for pure parsers
+
+2018-02-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2018-01-15
+
+	* config.guess: 2018-01-26
+
+2017-12-04  erik.b.andersen
+
+	* main.c: A proper path for temporary files is needed by byacc under 
+	Windows commandline, otherwise there's a risk of empty files. 
+	The TEMP environment variable is always defined in Windows.
+
+	* defs.h: The noreturn attribute needs to be specified before function 
+	to be portable among compilers (gcc, clang, msvc).
+
+2017-12-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: adapted fix by Erik B:
+	 a) increase the length of name[] to account for a trailing null
+	 b) note that calling syntax_error() from get_number() does not return
+
+2017-09-14  Tom.Shields
+
+	* yacc.1: fix typo
+
 2017-07-09  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* package/byacc.spec, package/mingw-byacc.spec:
@@ -2620,7 +2675,7 @@
 
 	* test/ftp.output, test/ftp.tab.c, test/ftp.tab.h: RCS_BASE
 
-1993-02-22  Thomas E. Dickey  <dickey@software.org>
+1993-02-22  dickey@software.org
 
 	* test/yacc/error.output, test/yacc/error.tab.h:
 	reference output for testing
@@ -2660,7 +2715,7 @@
 
 	* symtab.c, lalr.c, error.c: original version
 
-1990-01-16  Thomas E. Dickey  <dickey@software.org>
+1990-01-16  dickey@software.org
 
 	* test/code_error.y, test/pure_error.y: RCS_BASE
 

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.83 2017/07/09 18:13:42 tom Exp $ */
+/* $Id: output.c,v 1.85 2018/05/09 00:31:26 tom Exp $ */
 
 #include "defs.h"
 
@@ -1259,7 +1259,8 @@ output_defines(FILE * fp)
 		while ((c = getc(union_file)) != EOF)
 		    putc_code(fp, c);
 	    }
-	    fprintf(fp, "extern YYSTYPE %slval;\n", symbol_prefix);
+	    if (!pure_parser)
+		fprintf(fp, "extern YYSTYPE %slval;\n", symbol_prefix);
 	}
 #if defined(YYBTYACC)
 	if (locations)
@@ -1793,6 +1794,19 @@ output_lex_decl(FILE * fp)
 	putl_code(fp, "# define YYLEX yylex()\n");
     }
     putl_code(fp, "#endif\n");
+
+    /* provide a prototype for yylex for the simplest case */
+    if (!pure_parser
+#if defined(YYBTYACC)
+	&& !backtrack
+#endif
+	&& !symbol_prefix)
+    {
+	putl_code(fp, "\n");
+	putl_code(fp, "#if !(defined(yylex) || defined(FLEX_SCANNER))\n");
+	putl_code(fp, "YYLEX_DECL();\n");
+	putl_code(fp, "#endif\n");
+    }
 }
 
 static void

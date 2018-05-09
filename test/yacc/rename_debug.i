@@ -47,10 +47,12 @@ typedef int YYSTYPE;
 
 extern int YYPARSE_DECL();
 
+#if YYDEBUG
 extern	int      yydebug;
-extern	int      yynerrs;
+#endif
 
 extern	int      yyerrflag;
 extern	int      yychar;
 extern	YYSTYPE  yyval;
 extern	YYSTYPE  yylval;
+extern	int      yynerrs;

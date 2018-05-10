@@ -83,13 +83,16 @@ static const char *const yyrule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -233,7 +236,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 238 "rename_debug.c"
+#line 241 "rename_debug.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)

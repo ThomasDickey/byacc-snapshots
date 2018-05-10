@@ -345,13 +345,16 @@ static const char *const expr.oxout_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -1790,7 +1793,7 @@ void yyyUnsolvedInstSearchTrav(yyyGNT *pNode)
 
 
 
-#line 1794 "expr.oxout.tab.c"
+#line 1797 "expr.oxout.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -2518,7 +2521,7 @@ case 10:
 yyyGenIntNode(8,1,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(8,1,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
 break;
-#line 2522 "expr.oxout.tab.c"
+#line 2525 "expr.oxout.tab.c"
     default:
         break;
     }

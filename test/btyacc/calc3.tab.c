@@ -345,8 +345,9 @@ static const char *const calc3_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 #ifndef YYLLOC_DEFAULT
@@ -472,7 +473,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 476 "calc3.tab.c"
+#line 477 "calc3.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -609,6 +610,8 @@ YYPARSE_DECL()
     int      yychar;
     YYSTYPE  yyval;
     YYSTYPE  yylval;
+    int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
     YYLTYPE  yyloc; /* position returned by actions */
     YYLTYPE  yylloc; /* position from the lexer */
@@ -1261,7 +1264,7 @@ case 18:
 #line 73 "calc3.y"
 	{  yyval = (*base) * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1265 "calc3.tab.c"
+#line 1268 "calc3.tab.c"
     default:
         break;
     }

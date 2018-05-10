@@ -338,13 +338,16 @@ static const char *const calc_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -504,7 +507,7 @@ yylex(void)
     }
     return( c );
 }
-#line 508 "calc.tab.c"
+#line 511 "calc.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1234,7 +1237,7 @@ case 18:
 #line 63 "calc.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1238 "calc.tab.c"
+#line 1241 "calc.tab.c"
     default:
         break;
     }

@@ -223,13 +223,16 @@ static const char *const err_syntax20_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -369,7 +372,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 373 "err_syntax20.tab.c"
+#line 376 "err_syntax20.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1043,7 +1046,7 @@ case 1:
 #line 12 "err_syntax20.y"
 	{ yystack.l_mark[-1].rechk = 3; }
 break;
-#line 1047 "err_syntax20.tab.c"
+#line 1050 "err_syntax20.tab.c"
     default:
         break;
     }

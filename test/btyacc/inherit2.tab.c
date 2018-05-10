@@ -289,13 +289,16 @@ static const char *const inherit2_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -417,7 +420,7 @@ static YYINT  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 421 "inherit2.tab.c"
+#line 424 "inherit2.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -437,7 +440,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 441 "inherit2.tab.c"
+#line 444 "inherit2.tab.c"
 	case 264:
 #line 30 "inherit2.y"
 	{
@@ -449,7 +452,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 453 "inherit2.tab.c"
+#line 456 "inherit2.tab.c"
 	case 265:
 #line 30 "inherit2.y"
 	{
@@ -461,7 +464,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 465 "inherit2.tab.c"
+#line 468 "inherit2.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1187,7 +1190,7 @@ case 12:
 #line 75 "inherit2.y"
 	{ yyval.nlist = yystack.l_mark[0].nlist; }
 break;
-#line 1191 "inherit2.tab.c"
+#line 1194 "inherit2.tab.c"
     default:
         break;
     }

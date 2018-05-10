@@ -393,13 +393,16 @@ static const char *const calc1_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -648,7 +651,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 652 "calc1.tab.c"
+#line 655 "calc1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1481,7 +1484,7 @@ case 28:
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
 break;
-#line 1485 "calc1.tab.c"
+#line 1488 "calc1.tab.c"
     default:
         break;
     }

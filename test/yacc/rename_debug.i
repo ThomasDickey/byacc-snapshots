@@ -51,6 +51,10 @@ int YYLEX_DECL();
 
 extern int YYPARSE_DECL();
 
+#ifndef YYDEBUG
+#define YYDEBUG 1
+#endif
+
 #if YYDEBUG
 extern	int      yydebug;
 #endif

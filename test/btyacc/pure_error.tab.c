@@ -236,8 +236,9 @@ static const char *const error_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 #ifndef YYLLOC_DEFAULT
@@ -336,7 +337,7 @@ yyerror(const char* s)
 {
     printf("%s\n", s);
 }
-#line 340 "pure_error.tab.c"
+#line 341 "pure_error.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -473,6 +474,8 @@ YYPARSE_DECL()
     int      yychar;
     YYSTYPE  yyval;
     YYSTYPE  yylval;
+    int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
     YYLTYPE  yyloc; /* position returned by actions */
     YYLTYPE  yylloc; /* position from the lexer */

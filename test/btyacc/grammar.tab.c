@@ -1049,13 +1049,16 @@ static const char *const grammar_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -1344,7 +1347,7 @@ free_parser(void)
 #endif
 }
 #endif
-#line 1348 "grammar.tab.c"
+#line 1351 "grammar.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -2688,7 +2691,7 @@ case 114:
 	    yyval.declarator->func_def = FUNC_ANSI;
 	}
 break;
-#line 2692 "grammar.tab.c"
+#line 2695 "grammar.tab.c"
     default:
         break;
     }

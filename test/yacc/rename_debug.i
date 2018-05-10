@@ -37,6 +37,10 @@ typedef int YYSTYPE;
 # define YYLEX yylex()
 #endif
 
+#if !(defined(yylex) || defined(YYSTATE))
+int YYLEX_DECL();
+#endif
+
 /* Parameters sent to yyerror. */
 #ifndef YYERROR_DECL
 #define YYERROR_DECL() yyerror(const char *s)

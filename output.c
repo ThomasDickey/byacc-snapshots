@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.85 2018/05/09 00:31:26 tom Exp $ */
+/* $Id: output.c,v 1.86 2018/05/09 08:52:58 tom Exp $ */
 
 #include "defs.h"
 
@@ -1795,16 +1795,20 @@ output_lex_decl(FILE * fp)
     }
     putl_code(fp, "#endif\n");
 
-    /* provide a prototype for yylex for the simplest case */
+    /*
+     * Provide a prototype for yylex for the simplest case.  This is done for
+     * better compatibility with older yacc's, but can be a problem if someone
+     * uses "static int yylex(void);"
+     */
     if (!pure_parser
 #if defined(YYBTYACC)
 	&& !backtrack
 #endif
-	&& !symbol_prefix)
+	&& !strcmp(symbol_prefix, "yy"))
     {
 	putl_code(fp, "\n");
-	putl_code(fp, "#if !(defined(yylex) || defined(FLEX_SCANNER))\n");
-	putl_code(fp, "YYLEX_DECL();\n");
+	putl_code(fp, "#if !(defined(yylex) || defined(YYSTATE))\n");
+	putl_code(fp, "int YYLEX_DECL();\n");
 	putl_code(fp, "#endif\n");
     }
 }

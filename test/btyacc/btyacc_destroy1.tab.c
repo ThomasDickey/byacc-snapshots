@@ -357,13 +357,16 @@ static const char *const destroy1_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -485,7 +488,7 @@ static YYINT  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 489 "btyacc_destroy1.tab.c"
+#line 492 "btyacc_destroy1.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -505,7 +508,7 @@ YYDESTRUCT_DECL()
 		  }
 		}
 	break;
-#line 509 "btyacc_destroy1.tab.c"
+#line 512 "btyacc_destroy1.tab.c"
     }
 }
 #define YYDESTRUCT_IS_DECLARED 1
@@ -1228,7 +1231,7 @@ case 9:
 #line 86 "btyacc_destroy1.y"
 	{ yyval.nlist = yystack.l_mark[-5].nlist; }
 break;
-#line 1232 "btyacc_destroy1.tab.c"
+#line 1235 "btyacc_destroy1.tab.c"
     default:
         break;
     }

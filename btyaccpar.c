@@ -2,7 +2,7 @@
  * @Id: skel2c,v 1.4 2016/06/07 00:26:09 tom Exp @
  */
 
-/* @Id: btyaccpar.skel,v 1.6 2017/04/30 23:40:34 tom Exp @ */
+/* @Id: btyaccpar.skel,v 1.7 2017/05/01 00:13:19 tom Exp @ */
 
 #include "defs.h"
 
@@ -78,8 +78,9 @@ const char *const tables[] =
 const char *const global_vars[] =
 {
     "",
+    "#if YYDEBUG",
     "int      yydebug;",
-    "int      yynerrs;",
+    "#endif",
     0
 };
 
@@ -90,6 +91,8 @@ const char *const impure_vars[] =
     "int      yychar;",
     "YYSTYPE  yyval;",
     "YYSTYPE  yylval;",
+    "int      yynerrs;",
+    "",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "YYLTYPE  yyloc; /* position returned by actions */",
     "YYLTYPE  yylloc; /* position from the lexer */",
@@ -232,6 +235,8 @@ const char *const body_vars[] =
     "    int      yychar;",
     "    YYSTYPE  yyval;",
     "    YYSTYPE  yylval;",
+    "    int      yynerrs;",
+    "",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "    YYLTYPE  yyloc; /* position returned by actions */",
     "    YYLTYPE  yylloc; /* position from the lexer */",

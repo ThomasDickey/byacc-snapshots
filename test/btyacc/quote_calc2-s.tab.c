@@ -357,13 +357,16 @@ static const char *const quote_calc2_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -522,7 +525,7 @@ yylex(void) {
     }
     return( c );
 }
-#line 526 "quote_calc2-s.tab.c"
+#line 529 "quote_calc2-s.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1252,7 +1255,7 @@ case 18:
 #line 70 "quote_calc2.y"
 	{  yyval = base * yystack.l_mark[-1] + yystack.l_mark[0]; }
 break;
-#line 1256 "quote_calc2-s.tab.c"
+#line 1259 "quote_calc2-s.tab.c"
     default:
         break;
     }

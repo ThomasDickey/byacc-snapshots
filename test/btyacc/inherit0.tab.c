@@ -261,13 +261,16 @@ static const char *const inherit0_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 int      yyerrflag;
 int      yychar;
 YYSTYPE  yyval;
 YYSTYPE  yylval;
+int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 YYLTYPE  yyloc; /* position returned by actions */
 YYLTYPE  yylloc; /* position from the lexer */
@@ -389,7 +392,7 @@ static YYINT  *yylexemes = 0;
 
 extern int YYLEX_DECL();
 extern void YYERROR_DECL();
-#line 393 "inherit0.tab.c"
+#line 396 "inherit0.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -1103,7 +1106,7 @@ case 11:
 #line 43 "inherit0.y"
 	{ yyval = yystack.l_mark[0]; }
 break;
-#line 1107 "inherit0.tab.c"
+#line 1110 "inherit0.tab.c"
     default:
         break;
     }

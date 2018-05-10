@@ -368,8 +368,9 @@ static const char *const ok_syntax1_rule[] = {
 };
 #endif
 
+#if YYDEBUG
 int      yydebug;
-int      yynerrs;
+#endif
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 #ifndef YYLLOC_DEFAULT
@@ -495,7 +496,7 @@ YYLEX_DECL()
     }
     return( c );
 }
-#line 499 "ok_syntax1.tab.c"
+#line 500 "ok_syntax1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -632,6 +633,8 @@ YYPARSE_DECL()
     int      yychar;
     YYSTYPE  yyval;
     YYSTYPE  yylval;
+    int      yynerrs;
+
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
     YYLTYPE  yyloc; /* position returned by actions */
     YYLTYPE  yylloc; /* position from the lexer */
@@ -1284,7 +1287,7 @@ case 18:
 #line 101 "ok_syntax1.y"
 	{  yyval.ival = (*base) * yystack.l_mark[-1].ival + yystack.l_mark[0].ival; }
 break;
-#line 1288 "ok_syntax1.tab.c"
+#line 1291 "ok_syntax1.tab.c"
     default:
         break;
     }

@@ -1,3 +1,13 @@
+2018-05-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* output.c:
+	add a fallback definition for YYDEBUG to the -i externs file.
+
+	* test/btyacc/rename_debug.i, test/yacc/rename_debug.i: regen
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
 2018-05-09  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* configure: regen

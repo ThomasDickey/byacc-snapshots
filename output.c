@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.86 2018/05/09 08:52:58 tom Exp $ */
+/* $Id: output.c,v 1.87 2018/05/10 09:08:46 tom Exp $ */
 
 #include "defs.h"
 
@@ -1289,6 +1289,15 @@ output_stored_text(FILE * fp)
     write_code_lineno(fp);
 }
 
+static int
+output_yydebug(FILE * fp)
+{
+    fprintf(fp, "#ifndef YYDEBUG\n");
+    fprintf(fp, "#define YYDEBUG %d\n", tflag);
+    fprintf(fp, "#endif\n");
+    return 3;
+}
+
 static void
 output_debug(void)
 {
@@ -1299,16 +1308,11 @@ output_debug(void)
     ++outline;
     fprintf(code_file, "#define YYFINAL %d\n", final_state);
 
-    putl_code(code_file, "#ifndef YYDEBUG\n");
-    ++outline;
-    fprintf(code_file, "#define YYDEBUG %d\n", tflag);
-    putl_code(code_file, "#endif\n");
+    outline += output_yydebug(code_file);
 
     if (rflag)
     {
-	fprintf(output_file, "#ifndef YYDEBUG\n");
-	fprintf(output_file, "#define YYDEBUG %d\n", tflag);
-	fprintf(output_file, "#endif\n");
+	output_yydebug(output_file);
     }
 
     maxtok = 0;
@@ -2039,6 +2043,8 @@ output(void)
 
     if (iflag)
     {
+	fprintf(externs_file, "\n");
+	output_yydebug(externs_file);
 	output_externs(externs_file, global_vars);
 	if (!pure_parser)
 	    output_externs(externs_file, impure_vars);

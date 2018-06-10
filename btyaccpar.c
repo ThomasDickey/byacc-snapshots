@@ -2,7 +2,7 @@
  * @Id: skel2c,v 1.4 2016/06/07 00:26:09 tom Exp @
  */
 
-/* @Id: btyaccpar.skel,v 1.9 2018/05/21 22:59:38 Christos.Zoulas Exp @ */
+/* @Id: btyaccpar.skel,v 1.10 2018/05/25 01:03:46 tom Exp @ */
 
 #include "defs.h"
 
@@ -530,10 +530,10 @@ const char *const body_3[] =
     "                size_t s = (size_t) (yylvlim - yylvals);",
     "",
     "                s += YYLVQUEUEGROWTH;",
-    "                if ((yylexemes = realloc(yylexemes, s * sizeof(YYINT))) == NULL) goto yyenomem;",
-    "                if ((yylvals   = realloc(yylvals, s * sizeof(YYSTYPE))) == NULL) goto yyenomem;",
+    "                if ((yylexemes = (YYINT *)realloc(yylexemes, s * sizeof(YYINT))) == NULL) goto yyenomem;",
+    "                if ((yylvals   = (YYSTYPE *)realloc(yylvals, s * sizeof(YYSTYPE))) == NULL) goto yyenomem;",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
-    "                if ((yylpsns   = realloc(yylpsns, s * sizeof(YYLTYPE))) == NULL) goto yyenomem;",
+    "                if ((yylpsns   = (YYLTYPE *)realloc(yylpsns, s * sizeof(YYLTYPE))) == NULL) goto yyenomem;",
     "#endif",
     "                yylvp   = yylve = yylvals + p;",
     "                yylvlim = yylvals + s;",
@@ -650,7 +650,7 @@ const char *const body_3[] =
     "                /* If this is a first conflict in the stack, start saving lexemes */",
     "                if (!yylexemes)",
     "                {",
-    "                    yylexemes = malloc((YYLVQUEUEGROWTH) * sizeof(YYINT));",
+    "                    yylexemes = (YYINT *) malloc((YYLVQUEUEGROWTH) * sizeof(YYINT));",
     "                    if (yylexemes == NULL) goto yyenomem;",
     "                    yylvals   = (YYSTYPE *) malloc((YYLVQUEUEGROWTH) * sizeof(YYSTYPE));",
     "                    if (yylvals == NULL) goto yyenomem;",
@@ -1073,12 +1073,12 @@ const char *const trailer[] =
     "                    size_t s = (size_t) (yylvlim - yylvals);",
     "",
     "                    s += YYLVQUEUEGROWTH;",
-    "                    if ((yylexemes = realloc(yylexemes, s * sizeof(YYINT))) == NULL)",
+    "                    if ((yylexemes = (YYINT *)realloc(yylexemes, s * sizeof(YYINT))) == NULL)",
     "                        goto yyenomem;",
-    "                    if ((yylvals   = realloc(yylvals, s * sizeof(YYSTYPE))) == NULL)",
+    "                    if ((yylvals   = (YYSTYPE *)realloc(yylvals, s * sizeof(YYSTYPE))) == NULL)",
     "                        goto yyenomem;",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
-    "                    if ((yylpsns   = realloc(yylpsns, s * sizeof(YYLTYPE))) == NULL)",
+    "                    if ((yylpsns   = (YYLTYPE *)realloc(yylpsns, s * sizeof(YYLTYPE))) == NULL)",
     "                        goto yyenomem;",
     "#endif",
     "                    yylvp   = yylve = yylvals + p;",

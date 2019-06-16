@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.60 2017/12/04 17:50:02 erik.b.andersen Exp $ */
+/* $Id: defs.h,v 1.61 2019/06/16 15:07:51 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -274,6 +274,7 @@ struct param
 
 /* global variables */
 
+extern char dflag2;
 extern char dflag;
 extern char gflag;
 extern char iflag;
@@ -455,7 +456,7 @@ struct ainfo
 
 extern void arg_number_disagree_warning(int a_lineno, char *a_name);
 extern void arg_type_disagree_warning(int a_lineno, int i, char *a_name);
-ATTRIBUTE_NORETURN 
+ATTRIBUTE_NORETURN
 extern void at_error(int a_lineno, char *a_line, char *a_cptr) GCC_NORETURN;
 extern void at_warning(int a_lineno, int i);
 ATTRIBUTE_NORETURN
@@ -500,7 +501,9 @@ extern void undefined_goal(char *s) GCC_NORETURN;
 extern void undefined_symbol_warning(char *s);
 ATTRIBUTE_NORETURN
 extern void unexpected_EOF(void) GCC_NORETURN;
-extern void unknown_arg_warning(int d_lineno, const char *dlr_opt, const char *d_arg, const char *d_line, const char *d_cptr);
+extern void unknown_arg_warning(int d_lineno, const char *dlr_opt,
+				const char *d_arg, const char *d_line,
+				const char *d_cptr);
 ATTRIBUTE_NORETURN
 extern void unknown_rhs(int i) GCC_NORETURN;
 extern void unsupported_flag_warning(const char *flag, const char *details);

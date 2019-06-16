@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.61 2017/12/04 17:50:02 erik.b.andersen Exp $ */
+/* $Id: main.c,v 1.64 2019/06/16 17:12:39 tom Exp $ */
 
 #include <signal.h>
 #ifndef _WIN32
@@ -33,6 +33,7 @@ static MY_TMPFILES *my_tmpfiles;
 #endif /* USE_MKSTEMP */
 
 char dflag;
+char dflag2;
 char gflag;
 char iflag;
 char lflag;
@@ -150,7 +151,7 @@ done(int k)
     if (rflag)
 	DO_FREE(code_file_name);
 
-    if (dflag)
+    if (dflag && !dflag2)
 	DO_FREE(defines_file_name);
 
     if (iflag)
@@ -210,6 +211,7 @@ usage(void)
 	,"  -b file_prefix        set filename prefix (default \"y.\")"
 	,"  -B                    create a backtracking parser"
 	,"  -d                    write definitions (" DEFINES_SUFFIX ")"
+	,"  -D defines_file       write definitions to defines_file"
 	,"  -i                    write interface (y.tab.i)"
 	,"  -g                    write a graphical description"
 	,"  -l                    suppress #line directives"
@@ -248,6 +250,7 @@ setflag(int ch)
 
     case 'd':
 	dflag = 1;
+	dflag2 = 0;
 	break;
 
     case 'g':
@@ -336,6 +339,16 @@ getargs(int argc, char *argv[])
 		file_prefix = s;
 	    else if (++i < argc)
 		file_prefix = argv[i];
+	    else
+		usage();
+	    continue;
+
+	case 'D':
+	    dflag = dflag2 = 1;
+	    if (*++s)
+		defines_file_name = s;
+	    else if (++i < argc)
+		defines_file_name = argv[i];
 	    else
 		usage();
 	    continue;
@@ -476,7 +489,7 @@ create_file_names(void)
     else
 	code_file_name = output_file_name;
 
-    if (dflag)
+    if (dflag && !dflag2)
     {
 	CREATE_FILE_NAME(defines_file_name, defines_suffix);
     }
@@ -679,7 +692,7 @@ open_files(void)
 	fprintf(graph_file, "\t*/\n");
     }
 
-    if (dflag)
+    if (dflag || dflag2)
     {
 	defines_file = fopen(defines_file_name, "w");
 	if (defines_file == 0)

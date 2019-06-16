@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20180609
+MANIFEST for byacc, version t20190616
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -115,6 +115,18 @@ test/btyacc/code_error.error    reference output for testing
 test/btyacc/code_error.output   reference output for testing
 test/btyacc/code_error.tab.c    reference output for testing
 test/btyacc/code_error.tab.h    reference output for testing
+test/btyacc/defines1.calc.c     reference output for testing
+test/btyacc/defines1.calc.h     reference output for testing
+test/btyacc/defines1.error      reference output for testing
+test/btyacc/defines1.output     reference output for testing
+test/btyacc/defines2.calc.c     reference output for testing
+test/btyacc/defines2.calc.h     reference output for testing
+test/btyacc/defines2.error      reference output for testing
+test/btyacc/defines2.output     reference output for testing
+test/btyacc/defines3.calc.c     reference output for testing
+test/btyacc/defines3.calc.h     reference output for testing
+test/btyacc/defines3.error      reference output for testing
+test/btyacc/defines3.output     reference output for testing
 test/btyacc/empty.error         reference output for testing
 test/btyacc/empty.output        reference output for testing
 test/btyacc/empty.tab.c         reference output for testing
@@ -363,6 +375,12 @@ test/btyacc/rename_debug.error  reference output for testing
 test/btyacc/rename_debug.h      reference output for testing
 test/btyacc/rename_debug.i      reference output for testing
 test/btyacc/rename_debug.output reference output for testing
+test/btyacc/stdin1.calc.c       reference output for testing
+test/btyacc/stdin1.error        reference output for testing
+test/btyacc/stdin1.output       reference output for testing
+test/btyacc/stdin2.calc.c       reference output for testing
+test/btyacc/stdin2.error        reference output for testing
+test/btyacc/stdin2.output       reference output for testing
 test/btyacc/varsyntax_calc1.error  reference output for testing
 test/btyacc/varsyntax_calc1.output  reference output for testing
 test/btyacc/varsyntax_calc1.tab.c  reference output for testing
@@ -465,6 +483,18 @@ test/yacc/code_error.error      reference output for testing
 test/yacc/code_error.output     reference output for testing
 test/yacc/code_error.tab.c      reference output for testing
 test/yacc/code_error.tab.h      reference output for testing
+test/yacc/defines1.calc.c       reference output for testing
+test/yacc/defines1.calc.h       reference output for testing
+test/yacc/defines1.error        reference output for testing
+test/yacc/defines1.output       reference output for testing
+test/yacc/defines2.calc.c       reference output for testing
+test/yacc/defines2.calc.h       reference output for testing
+test/yacc/defines2.error        reference output for testing
+test/yacc/defines2.output       reference output for testing
+test/yacc/defines3.calc.c       reference output for testing
+test/yacc/defines3.calc.h       reference output for testing
+test/yacc/defines3.error        reference output for testing
+test/yacc/defines3.output       reference output for testing
 test/yacc/empty.error           reference output for testing
 test/yacc/empty.output          reference output for testing
 test/yacc/empty.tab.c           reference output for testing
@@ -681,6 +711,12 @@ test/yacc/rename_debug.error    reference output for testing
 test/yacc/rename_debug.h        reference output for testing
 test/yacc/rename_debug.i        reference output for testing
 test/yacc/rename_debug.output   reference output for testing
+test/yacc/stdin1.calc.c         reference output for testing
+test/yacc/stdin1.error          reference output for testing
+test/yacc/stdin1.output         reference output for testing
+test/yacc/stdin2.calc.c         reference output for testing
+test/yacc/stdin2.error          reference output for testing
+test/yacc/stdin2.output         reference output for testing
 test/yacc/varsyntax_calc1.error reference output for testing
 test/yacc/varsyntax_calc1.output  reference output for testing
 test/yacc/varsyntax_calc1.tab.c reference output for testing

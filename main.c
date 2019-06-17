@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.64 2019/06/16 17:12:39 tom Exp $ */
+/* $Id: main.c,v 1.65 2019/06/16 19:59:58 tom Exp $ */
 
 #include <signal.h>
 #ifndef _WIN32
@@ -211,7 +211,7 @@ usage(void)
 	,"  -b file_prefix        set filename prefix (default \"y.\")"
 	,"  -B                    create a backtracking parser"
 	,"  -d                    write definitions (" DEFINES_SUFFIX ")"
-	,"  -D defines_file       write definitions to defines_file"
+	,"  -H defines_file       write definitions to defines_file"
 	,"  -i                    write interface (y.tab.i)"
 	,"  -g                    write a graphical description"
 	,"  -l                    suppress #line directives"
@@ -232,7 +232,7 @@ usage(void)
     for (n = 0; n < sizeof(msg) / sizeof(msg[0]); ++n)
 	fprintf(stderr, "%s\n", msg[n]);
 
-    exit(1);
+    exit(EXIT_FAILURE);
 }
 
 static void
@@ -343,7 +343,7 @@ getargs(int argc, char *argv[])
 		usage();
 	    continue;
 
-	case 'D':
+	case 'H':
 	    dflag = dflag2 = 1;
 	    if (*++s)
 		defines_file_name = s;

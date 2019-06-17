@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.28 2019/06/16 17:03:33 tom Exp $
+.\" $Id: yacc.1,v 1.29 2019/06/16 19:58:03 tom Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -33,7 +33,7 @@
 .SH SYNOPSIS
 .B \*n [ -BdgilLPrtvVy ] [ \-b
 .I file_prefix
-.B ] [ \-D
+.B ] [ \-H
 .I defines_file
 .B ] [ \-o
 .I output_file
@@ -72,7 +72,7 @@ causes the header file
 to be written.
 It contains #define's for the token identifiers.
 .TP
-\fB\-D \fP\fIdefines_file\fR
+\fB\-H \fP\fIdefines_file\fR
 causes #define's for the token identifiers
 to be written to the given \fIdefines_file\fP rather
 than the \fBy.tab.h\fP file used by the \fB\-d\fP option.

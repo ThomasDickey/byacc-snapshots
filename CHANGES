@@ -1,4 +1,17 @@
+2019-06-17  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/btyacc/big_b.error, test/btyacc/big_l.error, test/btyacc/help.error, test/btyacc/no_b_opt.error, test/btyacc/no_output2.error, test/btyacc/no_p_opt.error, test/btyacc/nostdin.error, test/yacc/big_b.error, test/yacc/big_l.error, test/yacc/help.error, test/yacc/no_b_opt.error, test/yacc/no_output2.error, test/yacc/no_p_opt.error, test/yacc/nostdin.error:
+	regen
+
+	* test/run_test.sh: test "-H" rather than "-D"
+
 2019-06-16  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c, yacc.1:
+	change "-D" option to "-H" (discussion with Ethan Sommer)
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
 
 	* test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c:
 	RCS_BASE

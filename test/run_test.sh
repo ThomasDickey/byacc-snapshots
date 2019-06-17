@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.28 2019/06/16 18:02:08 tom Exp $
+# $Id: run_test.sh,v 1.29 2019/06/17 08:12:47 tom Exp $
 # vi:ts=4 sw=4:
 
 errors=0
@@ -89,7 +89,7 @@ test_defines() {
 	done
 	head=`echo "$1"|sed -e 's/y$/h/' -e "s,${TEST_DIR}/,,"`
 	code=`echo "$1"|sed -e 's/y$/c/' -e "s,${TEST_DIR}/,,"`
-	$YACC $opts -D $ROOT.$head $1 >$ROOT.output 2>$ROOT.error
+	$YACC $opts -H $ROOT.$head $1 >$ROOT.output 2>$ROOT.error
 	for name in prefix.tab.c y.tab.c
 	do
 		if test -f $name

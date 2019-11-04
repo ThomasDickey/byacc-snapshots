@@ -1,3 +1,68 @@
+2019-11-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: build-fix for MinGW cross-compiling
+
+	* output.c, reader.c: gcc-warnings
+
+	* output.c: check validity of text_file before rewind
+	remove redundant check of iflag
+
+	* main.c: fix memory-leak reported by clang
+
+	* mkpar.c: guard against a null-reference reported by clang (unlikely)
+
+	* reader.c: fix two coverity warnings:
+	a) resource leak on malloc-failure
+	b) possible null-pointer dereference on parse-error
+
+	* test/btyacc/err_inherit4.tab.h, test/btyacc/btyacc_demo.tab.h: regen
+
+	* defs.h: use enum's to simplify recent change
+
+	* mstring.c:
+	enable mstring() in regular byacc, since Zoulas' change relies upon it
+
+2019-11-03  Christos.Zoulas
+
+	* defs.h, reader.c, output.c: add support for bison's "%code" feature
+	also fix a small bug: declare YYLTYPE externally when producing locations
+
+2019-11-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/btyacc/help.error, test/btyacc/no_b_opt.error, test/btyacc/no_output2.error, test/btyacc/no_p_opt.error, test/yacc/help.error, test/yacc/no_b_opt.error, test/yacc/no_output2.error, test/yacc/no_p_opt.error:
+	regen
+
+	* test/run_test.sh:
+	there's no standard wording for the options-errors from getopt;
+	filter that to "error message" in the test reference files.
+
+	* main.c:
+	provide for using getopt(), to accommodate a case where developers have
+	relied upon non-POSIX behavior.
+
+	* test/run_test.sh:
+	getopt's messages do not print the full pathname of yacc in some cases;
+	adjust the sed-script which changes those to "YACC"
+
+	* configure: regen
+
+	* config_h.in: regen, using autoheader-252
+
+	* configure.in: add configure check for getopt
+
+	* configure: regen
+
+	* aclocal.m4:
+	resync with my-autoconf adds a fix which accommodates a difference in
+	warning options between gcc/clang when --enable-warnings is not set.
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2019-09-11  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2019-09-10
+
 2019-06-17  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* test/btyacc/big_b.error, test/btyacc/big_l.error, test/btyacc/help.error, test/btyacc/no_b_opt.error, test/btyacc/no_output2.error, test/btyacc/no_p_opt.error, test/btyacc/nostdin.error, test/yacc/big_b.error, test/yacc/big_l.error, test/yacc/help.error, test/yacc/no_b_opt.error, test/yacc/no_output2.error, test/yacc/no_p_opt.error, test/yacc/nostdin.error:

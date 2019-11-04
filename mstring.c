@@ -1,4 +1,4 @@
-/* $Id: mstring.c,v 1.7 2016/12/02 17:57:21 tom Exp $ */
+/* $Id: mstring.c,v 1.8 2019/11/04 00:34:26 tom Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,13 +12,11 @@
 #define HEAD	24
 #define TAIL	8
 
-#if defined(YYBTYACC)
-
 static char *buf_ptr;
 static size_t buf_len;
 
 void
-msprintf(struct mstring *s, const char *fmt,...)
+msprintf(struct mstring *s, const char *fmt, ...)
 {
     va_list args;
     size_t len;
@@ -91,7 +89,6 @@ msprintf(struct mstring *s, const char *fmt,...)
     memcpy(s->ptr, buf_ptr, len);
     s->ptr += len;
 }
-#endif
 
 int
 mputchar(struct mstring *s, int ch)
@@ -198,10 +195,8 @@ strnshash(const char *s)
 void
 mstring_leaks(void)
 {
-#if defined(YYBTYACC)
     free(buf_ptr);
     buf_ptr = 0;
     buf_len = 0;
-#endif
 }
 #endif

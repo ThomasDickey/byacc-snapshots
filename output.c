@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.87 2018/05/10 09:08:46 tom Exp $ */
+/* $Id: output.c,v 1.90 2019/11/04 02:02:13 tom Exp $ */
 
 #include "defs.h"
 
@@ -30,6 +30,16 @@ static Value_t *table;
 static Value_t *check;
 static int lowzero;
 static long high;
+
+static void
+output_code_lines(FILE * fp, int cl)
+{
+    if (code_lines[cl].lines == NULL)
+	return;
+    if (fp == code_file)
+	outline += (int)code_lines[cl].num;
+    fputs(code_lines[cl].lines, fp);
+}
 
 static void
 putc_code(FILE * fp, int c)
@@ -1239,6 +1249,12 @@ output_defines(FILE * fp)
     if (fp != defines_file || iflag)
 	fprintf(fp, "#define YYERRCODE %d\n", symbol_value[1]);
 
+    if (fp == defines_file)
+    {
+	output_code_lines(fp, CODE_REQUIRES);
+	output_code_lines(fp, CODE_PROVIDES);
+    }
+
     if (token_table && rflag && fp != externs_file)
     {
 	if (fp == code_file)
@@ -1264,7 +1280,10 @@ output_defines(FILE * fp)
 	}
 #if defined(YYBTYACC)
 	if (locations)
+	{
 	    output_ltype(fp);
+	    fprintf(fp, "extern YYLTYPE %slloc;\n", symbol_prefix);
+	}
 #endif
     }
 }
@@ -1275,9 +1294,9 @@ output_stored_text(FILE * fp)
     int c;
     FILE *in;
 
-    rewind(text_file);
     if (text_file == NULL)
 	open_error("text_file");
+    rewind(text_file);
     in = text_file;
     if ((c = getc(in)) == EOF)
 	return;
@@ -2002,6 +2021,7 @@ output(void)
     free_shifts();
     free_reductions();
 
+    output_code_lines(code_file, CODE_TOP);
 #if defined(YYBTYACC)
     output_backtracking_parser(output_file);
     if (rflag)
@@ -2017,6 +2037,9 @@ output(void)
     }
     else
 	fp = code_file;
+
+    output_code_lines(code_file, CODE_REQUIRES);
+    output_code_lines(code_file, CODE_PROVIDES);
 
     output_prefix(fp);
     output_pure_parser(fp);
@@ -2048,10 +2071,6 @@ output(void)
 	output_externs(externs_file, global_vars);
 	if (!pure_parser)
 	    output_externs(externs_file, impure_vars);
-    }
-
-    if (iflag)
-    {
 	if (dflag)
 	{
 	    ++outline;

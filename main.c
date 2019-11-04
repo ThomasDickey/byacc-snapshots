@@ -1,7 +1,7 @@
-/* $Id: main.c,v 1.65 2019/06/16 19:59:58 tom Exp $ */
+/* $Id: main.c,v 1.68 2019/11/04 02:13:12 tom Exp $ */
 
 #include <signal.h>
-#ifndef _WIN32
+#if !defined(_WIN32) || defined(__MINGW32__)
 #include <unistd.h>		/* for _exit() */
 #else
 #include <stdlib.h>		/* for _exit() */
@@ -311,6 +311,42 @@ static void
 getargs(int argc, char *argv[])
 {
     int i;
+#ifdef HAVE_GETOPT
+    int ch;
+    while ((ch = getopt(argc, argv, "Bb:dgH:ilLo:Pp:rstVvy")) != -1)
+    {
+	switch (ch)
+	{
+	case 'b':
+	    file_prefix = optarg;
+	    break;
+	case 'H':
+	    dflag = dflag2 = 1;
+	    defines_file_name = optarg;
+	    break;
+	case 'o':
+	    output_file_name = optarg;
+	    break;
+	case 'p':
+	    symbol_prefix = optarg;
+	    break;
+	default:
+	    setflag(ch);
+	    break;
+	}
+    }
+    if ((i = optind) < argc)
+    {
+	/* getopt handles "--" specially, while we handle "-" specially */
+	if (!strcmp(argv[i], "-"))
+	{
+	    if ((i + 1) < argc)
+		usage();
+	    input_file = stdin;
+	    return;
+	}
+    }
+#else
     char *s;
     int ch;
 
@@ -391,7 +427,9 @@ getargs(int argc, char *argv[])
       end_of_option:;
     }
 
-  no_more_options:;
+  no_more_options:
+
+#endif /* HAVE_GETOPT */
     if (i + 1 != argc)
 	usage();
     input_file_name_len = strlen(argv[i]);
@@ -619,27 +657,28 @@ open_tmpfile(const char *label)
 
 	sprintf(name, MY_FMT, tmpdir, (int)(mark - label), label);
 	fd = mkstemp(name);
-	if (fd >= 0)
+	if (fd >= 0
+	    && (result = fdopen(fd, "w+")) != 0)
 	{
-	    result = fdopen(fd, "w+");
-	    if (result != 0)
+	    MY_TMPFILES *item;
+
+	    if (my_tmpfiles == 0)
 	    {
-		MY_TMPFILES *item;
-
-		if (my_tmpfiles == 0)
-		{
-		    atexit(close_tmpfiles);
-		}
-
-		item = NEW(MY_TMPFILES);
-		NO_SPACE(item);
-
-		item->name = name;
-		NO_SPACE(item->name);
-
-		item->next = my_tmpfiles;
-		my_tmpfiles = item;
+		atexit(close_tmpfiles);
 	    }
+
+	    item = NEW(MY_TMPFILES);
+	    NO_SPACE(item);
+
+	    item->name = name;
+	    NO_SPACE(item->name);
+
+	    item->next = my_tmpfiles;
+	    my_tmpfiles = item;
+	}
+	else
+	{
+	    FREE(name);
 	}
 	(void)umask(save_umask);
     }

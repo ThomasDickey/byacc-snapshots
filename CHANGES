@@ -1,3 +1,42 @@
+2019-11-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* yacc.1: new version of manpage
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+	* yacc.1: document %code
+
+	* test/btyacc/calc_code_all.error, test/btyacc/calc_code_all.output, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_all.tab.h, test/btyacc/calc_code_default.error, test/btyacc/calc_code_default.output, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_default.tab.h, test/btyacc/calc_code_imports.error, test/btyacc/calc_code_imports.output, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_imports.tab.h, test/btyacc/calc_code_provides.error, test/btyacc/calc_code_provides.output, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_provides.tab.h, test/btyacc/calc_code_requires.error, test/btyacc/calc_code_requires.output, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_requires.tab.h, test/btyacc/calc_code_top.error, test/btyacc/calc_code_top.output, test/btyacc/calc_code_top.tab.c, test/btyacc/calc_code_top.tab.h, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_all.tab.h, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_provides.tab.h, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_requires.tab.h, test/yacc/calc_code_top.tab.c:
+	RCS_BASE
+
+	* output.c:
+	amend updates for 'outline' when processing "%code" in code-file
+
+	* output.c:
+	modify output_code_lines() to show begin/end block comments which were in
+	reader.c, and to generate a #line for the code-file.
+
+	* reader.c:
+	modify copy_code() to allow for multiple %code directives for a given
+	section, recording the input line-number for each directive as a #line
+	in the resulting string.  remove the block start/end comments, since those
+	will be done for a whole section in output.c
+
+	* mstring.c, defs.h: add msrenew()
+
+	* test/yacc/calc_code_all.error, test/yacc/calc_code_all.output, test/yacc/calc_code_default.error, test/yacc/calc_code_default.output, test/yacc/calc_code_default.tab.h, test/yacc/calc_code_imports.error, test/yacc/calc_code_imports.output, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_imports.tab.h, test/yacc/calc_code_provides.error, test/yacc/calc_code_provides.output, test/yacc/calc_code_requires.error, test/yacc/calc_code_requires.output, test/yacc/calc_code_top.error, test/yacc/calc_code_top.output, test/yacc/calc_code_top.tab.h:
+	RCS_BASE
+
+2019-11-18  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/calc_code_imports.y, test/calc_code_all.y, test/calc_code_default.y, test/calc_code_top.y, test/calc_code_provides.y, test/calc_code_requires.y:
+	RCS_BASE
+
+2019-11-04  Michael.Forney
+
+	* defs.h: add missing "extern" for new variable "code_lines"
+
 2019-11-03  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c: build-fix for MinGW cross-compiling

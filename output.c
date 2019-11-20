@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.90 2019/11/04 02:02:13 tom Exp $ */
+/* $Id: output.c,v 1.92 2019/11/20 00:55:05 tom Exp $ */
 
 #include "defs.h"
 
@@ -30,16 +30,6 @@ static Value_t *table;
 static Value_t *check;
 static int lowzero;
 static long high;
-
-static void
-output_code_lines(FILE * fp, int cl)
-{
-    if (code_lines[cl].lines == NULL)
-	return;
-    if (fp == code_file)
-	outline += (int)code_lines[cl].num;
-    fputs(code_lines[cl].lines, fp);
-}
 
 static void
 putc_code(FILE * fp, int c)
@@ -193,6 +183,27 @@ output_prefix(FILE * fp)
     if (CountLine(fp))
 	++outline;
     fprintf(fp, "#define YYPREFIX \"%s\"\n", symbol_prefix);
+}
+
+static void
+output_code_lines(FILE * fp, int cl)
+{
+    if (code_lines[cl].lines != NULL)
+    {
+	if (fp == code_file)
+	{
+	    outline += (int)code_lines[cl].num;
+	    outline += 3;
+	    fprintf(fp, "\n");
+	}
+	fprintf(fp, "/* %%code \"%s\" block start */\n", code_lines[cl].name);
+	fputs(code_lines[cl].lines, fp);
+	fprintf(fp, "/* %%code \"%s\" block end */\n", code_lines[cl].name);
+	if (fp == code_file)
+	{
+	    write_code_lineno(fp);
+	}
+    }
 }
 
 static void
@@ -1216,6 +1227,11 @@ output_defines(FILE * fp)
     int c, i;
     char *s;
 
+    if (fp == defines_file)
+    {
+	output_code_lines(fp, CODE_REQUIRES);
+    }
+
     for (i = 2; i < ntokens; ++i)
     {
 	s = symbol_name[i];
@@ -1251,7 +1267,6 @@ output_defines(FILE * fp)
 
     if (fp == defines_file)
     {
-	output_code_lines(fp, CODE_REQUIRES);
 	output_code_lines(fp, CODE_PROVIDES);
     }
 
@@ -2038,9 +2053,6 @@ output(void)
     else
 	fp = code_file;
 
-    output_code_lines(code_file, CODE_REQUIRES);
-    output_code_lines(code_file, CODE_PROVIDES);
-
     output_prefix(fp);
     output_pure_parser(fp);
 #if defined(YY_NO_LEAKS)
@@ -2100,22 +2112,30 @@ output(void)
     output_actions();
     free_parser();
     output_debug();
+
     if (rflag)
     {
 	write_section(code_file, xdecls);
 	output_YYINT_typedef(code_file);
 	write_section(code_file, tables);
     }
+
     write_section(code_file, global_vars);
     if (!pure_parser)
     {
 	write_section(code_file, impure_vars);
     }
+    output_code_lines(code_file, CODE_REQUIRES);
+
     write_section(code_file, hdr_defs);
     if (!pure_parser)
     {
 	write_section(code_file, hdr_vars);
     }
+
+    output_code_lines(code_file, CODE_PROVIDES);
+    output_code_lines(code_file, CODE_HEADER);
+
     output_trailing_text();
 #if defined(YYBTYACC)
     if (destructor)

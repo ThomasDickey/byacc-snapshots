@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.63 2019/11/04 00:44:38 tom Exp $ */
+/* $Id: defs.h,v 1.65 2019/11/19 23:47:49 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -568,6 +568,7 @@ struct mstring
 extern void msprintf(struct mstring *, const char *, ...) GCC_PRINTFLIKE(2,3);
 extern int mputchar(struct mstring *, int);
 extern struct mstring *msnew(void);
+extern struct mstring *msrenew(char *);
 extern char *msdone(struct mstring *);
 extern int strnscmp(const char *, const char *);
 extern unsigned int strnshash(const char *);
@@ -592,8 +593,9 @@ typedef enum
     ,CODE_MAX		/* this must be last */
 }
 CODE_CASES;
-struct code_lines
+extern struct code_lines
 {
+    const char *name;
     char *lines;
     size_t num;
 }

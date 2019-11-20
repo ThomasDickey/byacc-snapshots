@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.77 2019/11/04 01:49:56 tom Exp $ */
+/* $Id: reader.c,v 1.78 2019/11/20 00:12:32 tom Exp $ */
 
 #include "defs.h"
 
@@ -457,7 +457,7 @@ keywords[] = {
     { "error-verbose",ERROR_VERBOSE },
     { "expect",      EXPECT },
     { "expect-rr",   EXPECT_RR },
-    { "ident",       IDENT }, 
+    { "ident",       IDENT },
 #if defined(YYBTYACC)
     { "initial-action", INITIAL_ACTION },
 #endif
@@ -469,11 +469,11 @@ keywords[] = {
     { "nonassoc",    NONASSOC },
     { "parse-param", PARSE_PARAM },
     { "pure-parser", PURE_PARSER },
-    { "right",       RIGHT }, 
+    { "right",       RIGHT },
     { "start",       START },
     { "term",        TOKEN },
     { "token",       TOKEN },
-    { "token-table", TOKEN_TABLE }, 
+    { "token-table", TOKEN_TABLE },
     { "type",        TYPE },
     { "union",       UNION },
     { "yacc",        POSIX_YACC },
@@ -686,7 +686,8 @@ copy_code(void)
 {
     int c;
     int curl;
-    int cline = 0;
+    int cline;
+    int on_line = 0;
     int pos = CODE_HEADER;
     struct mstring *code_mstr;
 
@@ -736,9 +737,17 @@ copy_code(void)
     curl = 1;			/* nesting count */
 
     /* gather text */
-    code_mstr = msnew();
+    code_lines[pos].name = code_keys[pos];
+    if ((cline = (int)code_lines[pos].num) != 0)
+    {
+	code_mstr = msrenew(code_lines[pos].lines);
+    }
+    else
+    {
+	code_mstr = msnew();
+    }
     cline++;
-    msprintf(code_mstr, "/* %%code %s block start */\n", code_keys[pos]);
+    msprintf(code_mstr, line_format, lineno, input_file_name);
     for (;;)
     {
 	c = *cptr++;
@@ -754,6 +763,7 @@ copy_code(void)
 	    continue;
 	case '\n':
 	    cline++;
+	    on_line = 0;
 	    break;
 	case L_CURL:
 	    curl++;
@@ -761,9 +771,11 @@ copy_code(void)
 	case R_CURL:
 	    if (--curl == 0)
 	    {
-		cline++;
-		msprintf(code_mstr, "/* %%code %s block end */\n",
-			 code_keys[pos]);
+		if (on_line > 1)
+		{
+		    mputc(code_mstr, '\n');
+		    cline++;
+		}
 		code_lines[pos].lines = msdone(code_mstr);
 		code_lines[pos].num = (size_t) cline;
 		return;
@@ -773,6 +785,7 @@ copy_code(void)
 	    break;
 	}
 	mputc(code_mstr, c);
+	on_line++;
     }
 }
 

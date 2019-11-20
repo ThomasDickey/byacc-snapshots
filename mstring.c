@@ -1,4 +1,4 @@
-/* $Id: mstring.c,v 1.8 2019/11/04 00:34:26 tom Exp $ */
+/* $Id: mstring.c,v 1.9 2019/11/19 23:54:53 tom Exp $ */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -131,6 +131,20 @@ msnew(void)
 	}
     }
     return n;
+}
+
+struct mstring *
+msrenew(char *value)
+{
+    struct mstring *r = 0;
+    if (value != 0)
+    {
+	r = msnew();
+	r->base = value;
+	r->end = value + strlen(value);
+	r->ptr = r->end;
+    }
+    return r;
 }
 
 char *

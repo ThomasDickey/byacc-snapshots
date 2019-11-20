@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.29 2019/06/16 19:58:03 tom Exp $
+.\" $Id: yacc.1,v 1.31 2019/11/20 01:41:29 tom Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -27,7 +27,7 @@
 .ie n  .IP \(bu 4
 .el    .IP \(bu 2
 ..
-.TH YACC 1 "June 16, 2019" "Berkeley Yacc" "User Commands"
+.TH YACC 1 "November 19, 2019" "Berkeley Yacc" "User Commands"
 .SH NAME
 \*N \- an LALR(1) parser generator
 .SH SYNOPSIS
@@ -204,9 +204,34 @@ A single \fIfilename\fP parameter is expected after a \*(``\-\-\*('' marker.
 provides some extensions for
 compatibility with bison and other implementations of yacc.
 The \fB%destructor\fP and \fB%locations\fP features are available
-only if \fByacc\fP has been configured and compiled to support the
+only if \fB\*n\fP has been configured and compiled to support the
 back-tracking (\fBbtyacc\fP) functionality.
 The remaining features are always available:
+.TP
+\fB %code\fP \fIkeyword\fP { \fIcode\fP }
+Adds the indicated source \fIcode\fP at a given point in the output file.
+The optional \fIkeyword\fP tells \fB\*n\fP where to insert the \fIcode\fP:
+.RS 7
+.TP 5
+\fBtop\fP
+just after the version-definition in the generated code-file.
+.TP 5
+\fBrequires\fP
+just after the declaration of public parser variables.
+If the \fB\-d\fP option is given, the code is inserted at the
+beginning of the defines-file.
+.TP 5
+\fBprovides\fP
+just after the declaration of private parser variables.
+If the \fB\-d\fP option is given, the code is inserted at the
+end of the defines-file.
+.RE
+.IP
+If no \fIkeyword\fP is given, the code is inserted at the
+beginning of the section of code copied verbatim from the source file.
+Multiple \fB%code\fP directives may be given;
+\fB\*n\fP inserts those into the corresponding code- or defines-file
+in the order that they appear in the source file.
 .TP
 \fB %destructor\fP { \fIcode\fP } \fIsymbol+\fP
 defines code that is invoked when a symbol is automatically

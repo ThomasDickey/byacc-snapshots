@@ -1,3 +1,17 @@
+2019-11-25  Tom.Shields
+
+	* main.c:
+	fix an inconsistency between the getopt and non-getopt configuration.
+	In the former, getopt always used "yacc", not the name of the executable.
+
+2019-11-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/run_make.sh:
+	suppress bison's -Wyacc warning, which is not useful.
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
 2019-11-19  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* yacc.1: new version of manpage

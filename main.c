@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.68 2019/11/04 02:13:12 tom Exp $ */
+/* $Id: main.c,v 1.69 2019/11/25 23:24:36 Tom.Shields Exp $ */
 
 #include <signal.h>
 #if !defined(_WIN32) || defined(__MINGW32__)
@@ -313,6 +313,10 @@ getargs(int argc, char *argv[])
     int i;
 #ifdef HAVE_GETOPT
     int ch;
+
+    if (argc > 0)
+	myname = argv[0];
+
     while ((ch = getopt(argc, argv, "Bb:dgH:ilLo:Pp:rstVvy")) != -1)
     {
 	switch (ch)

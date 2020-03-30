@@ -1,11 +1,11 @@
-/* $Id: reader.c,v 1.78 2019/11/20 00:12:32 tom Exp $ */
+/* $Id: reader.c,v 1.79 2020/03/30 23:54:13 tom Exp $ */
 
 #include "defs.h"
 
 /*  The line size must be a positive integer.  One hundred was chosen	*/
 /*  because few lines in Yacc input grammars exceed 100 characters.	*/
 /*  Note that if a line exceeds LINESIZE characters, the line buffer	*/
-/*  will be expanded to accomodate it.					*/
+/*  will be expanded to accommodate it.					*/
 
 #define LINESIZE 100
 

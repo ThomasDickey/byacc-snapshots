@@ -1,3 +1,58 @@
+2020-09-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* LICENSE: RCS_BASE
+
+	* reader.c, output.c: cppcheck -- reduce scope
+
+	* defs.h: update to 2.0
+
+	* test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_top.tab.c, test/btyacc/code_calc.code.c, test/btyacc/code_error.code.c, test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c, test/btyacc/empty.tab.c, test/btyacc/err_inherit1.tab.c, test/btyacc/err_inherit2.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/err_inherit5.tab.c, test/btyacc/err_syntax1.tab.c, test/btyacc/err_syntax10.tab.c, test/btyacc/err_syntax11.tab.c, test/btyacc/err_syntax12.tab.c, test/btyacc/err_syntax13.tab.c, test/btyacc/err_syntax14.tab.c, test/btyacc/err_syntax15.tab.c, test/btyacc/err_syntax16.tab.c, test/btyacc/err_syntax17.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax19.tab.c, test/btyacc/err_syntax2.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/err_syntax21.tab.c, test/btyacc/err_syntax22.tab.c, test/btyacc/err_syntax23.tab.c, test/btyacc/err_syntax24.tab.c, test/btyacc/err_syntax25.tab.c, test/btyacc/err_syntax26.tab.c, test/btyacc/err_syntax27.tab.c, test/btyacc/err_syntax3.tab.c, test/btyacc/err_syntax4.tab.c, test/btyacc/err_syntax5.tab.c, test/btyacc/err_syntax6.tab.c, test/btyacc/err_syntax7.tab.c, test/btyacc/err_syntax7a.tab.c, test/btyacc/err_syntax7b.tab.c, test/btyacc/err_syntax8.tab.c, test/btyacc/err_syntax8a.tab.c, test/btyacc/err_syntax9.tab.c, test/btyacc/error.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/pure_calc.tab.c, test/btyacc/pure_error.tab.c, test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/rename_debug.c, test/btyacc/stdin1.calc.c, test/btyacc/stdin2.calc.c, test/btyacc/varsyntax_calc1.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_top.tab.c, test/yacc/code_calc.code.c, test/yacc/code_error.code.c, test/yacc/defines1.calc.c, test/yacc/defines2.calc.c, test/yacc/defines3.calc.c, test/yacc/empty.tab.c, test/yacc/err_syntax1.tab.c, test/yacc/err_syntax10.tab.c, test/yacc/err_syntax11.tab.c, test/yacc/err_syntax12.tab.c, test/yacc/err_syntax13.tab.c, test/yacc/err_syntax14.tab.c, test/yacc/err_syntax15.tab.c, test/yacc/err_syntax16.tab.c, test/yacc/err_syntax17.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/err_syntax19.tab.c, test/yacc/err_syntax2.tab.c, test/yacc/err_syntax20.tab.c, test/yacc/err_syntax21.tab.c, test/yacc/err_syntax22.tab.c, test/yacc/err_syntax23.tab.c, test/yacc/err_syntax24.tab.c, test/yacc/err_syntax25.tab.c, test/yacc/err_syntax26.tab.c, test/yacc/err_syntax27.tab.c, test/yacc/err_syntax3.tab.c, test/yacc/err_syntax4.tab.c, test/yacc/err_syntax5.tab.c, test/yacc/err_syntax6.tab.c, test/yacc/err_syntax7.tab.c, test/yacc/err_syntax7a.tab.c, test/yacc/err_syntax7b.tab.c, test/yacc/err_syntax8.tab.c, test/yacc/err_syntax8a.tab.c, test/yacc/err_syntax9.tab.c, test/yacc/error.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/ok_syntax1.tab.c, test/yacc/pure_calc.tab.c, test/yacc/pure_error.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/rename_debug.c, test/yacc/stdin1.calc.c, test/yacc/stdin2.calc.c, test/yacc/varsyntax_calc1.tab.c:
+	update to version 2.0
+
+	* reader.c:
+	improve loop which skips backward through a (possibly nested) sequence of
+	square-brackets.
+
+	* reader.c: simplify a check to quiet a bogus cppcheck-warning
+
+	* yacc.1: bump date
+
+	* reader.c: add a note about a bogus cppcheck warning
+
+	* configure: regen
+
+	* configure.in:
+	always check for gcc attributes, to work around defect in clang's imitation
+	of this feature
+
+	* reader.c: cppcheck -- scope reduction
+	cppcheck -- eliminate bogus returns after no-return functions
+
+	* verbose.c, output.c, mkpar.c, main.c, warshall.c, lr0.c, lalr.c, graph.c, closure.c:
+	cppcheck -- scope reduction
+
+	* package/debian/compat: quiet compatibility-warning
+
+	* yacc.1: use "ASCII" for dashes which are part of proper names
+
+	* configure: regen
+
+	* configure.in: switch to --enable-warnings, for consistency
+
+	* aclocal.m4:
+	resync with my-autoconf, for compiler-warning fixes with macOS
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2020-06-28  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2020/06/28
+
+2020-06-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2020/04/26
+
 2020-03-30  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* package/debian/copyright: bump
@@ -1706,7 +1761,7 @@
 	* package/debian/changelog, VERSION, package/byacc.spec: bump
 
 	* aclocal.m4:
-	adapt tweak from Dave Becket to work around long-ago breakage in "new" autoconf.
+	adapt tweak from Dave Beckett to work around long-ago breakage in "new" autoconf.
 
 	* output.c:
 	fix bogus #include if "-i" is given but not "-d" (report by Richard Mitton).

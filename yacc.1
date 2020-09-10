@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.33 2020/03/30 23:36:40 tom Exp $
+.\" $Id: yacc.1,v 1.35 2020/09/10 19:30:12 tom Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -27,7 +27,7 @@
 .ie n  .IP \(bu 4
 .el    .IP \(bu 2
 ..
-.TH YACC 1 "November 19, 2019" "Berkeley Yacc" "User Commands"
+.TH YACC 1 "September 10, 2020" "Berkeley Yacc" "User Commands"
 .SH NAME
 \*N \- an LALR(1) parser generator
 .SH SYNOPSIS
@@ -133,7 +133,7 @@ The default prefix is the string
 .B yy.
 .TP
 .B \-P
-create a reentrant parser, e.g., \*(``%pure-parser\*(''.
+create a reentrant parser, e.g., \*(``%pure\-parser\*(''.
 .TP
 .B \-r
 The
@@ -280,7 +280,7 @@ for grammar symbols that have no declared semantic type tag.
 tells \fByacc\fP the expected number of shift/reduce conflicts.
 That makes it only report the number if it differs.
 .TP
-\fB %expect-rr\fP \fInumber\fP
+\fB %expect\-rr\fP \fInumber\fP
 tell \fByacc\fP the expected number of reduce/reduce conflicts.
 That makes it only report the number if it differs.
 This is (unlike bison) allowable in LALR parsers.
@@ -320,23 +320,23 @@ the rule, before the associated action is executed; this macro can be
 redefined by the user.
 .IP
 This directive adds a \fBYYLTYPE\fP parameter to \fByyerror()\fP.
-If the \fB%pure-parser\fP directive is present,
+If the \fB%pure\-parser\fP directive is present,
 a \fBYYLTYPE\fP parameter is added to \fByylex()\fP calls.
 .TP
-\fB %lex-param\fP { \fIargument-declaration\fP }
+\fB %lex\-param\fP { \fIargument-declaration\fP }
 By default, the lexer accepts no parameters, e.g., \fByylex()\fP.
 Use this directive to add parameter declarations for your customized lexer.
 .TP
-\fB %parse-param\fP { \fIargument-declaration\fP }
+\fB %parse\-param\fP { \fIargument-declaration\fP }
 By default, the parser accepts no parameters, e.g., \fByyparse()\fP.
 Use this directive to add parameter declarations for your customized parser.
 .TP
-\fB %pure-parser\fP
+\fB %pure\-parser\fP
 Most variables (other than \fByydebug\fP and \fByynerrs\fP) are
 allocated on the stack within \fByyparse\fP, making the parser reasonably
 reentrant.
 .TP
-\fB %token-table\fP
+\fB %token\-table\fP
 Make the parser's names for tokens available in the \fByytname\fP array.
 However,
 .B \*n
@@ -389,7 +389,7 @@ Bison's \*(``\fB\-y\fP\*('' option does not affect bison's lack of support for
 features of AT&T yacc which were deemed obsolescent.
 .bP
 \fBYacc\fP accepts multiple parameters
-with \fB%lex-param\fP and \fB%parse-param\fP in two forms
+with \fB%lex\-param\fP and \fB%parse\-param\fP in two forms
 .Ex
 {type1 name1} {type2 name2} ...
 {type1 name1,  type2 name2 ...}
@@ -398,7 +398,7 @@ with \fB%lex-param\fP and \fB%parse-param\fP in two forms
 Bison accepts the latter (though undocumented), but depending on the
 release may generate bad code.
 .bP
-Like bison, \fByacc\fP will add parameters specified via \fB%parse-param\fP
+Like bison, \fByacc\fP will add parameters specified via \fB%parse\-param\fP
 to \fByyparse\fP, \fByyerror\fP and (if configured for back-tracking)
 to the destructor declared using \fB%destructor\fP.
 Bison puts the additional parameters \fIfirst\fP for

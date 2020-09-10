@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.65 2019/11/19 23:47:49 tom Exp $ */
+/* $Id: defs.h,v 1.66 2020/09/10 20:21:20 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -16,8 +16,8 @@
 #define class myClass
 #endif
 
-#define YYMAJOR 1
-#define YYMINOR 9
+#define YYMAJOR 2
+#define YYMINOR 0
 
 #define CONCAT(first,second)    first #second
 #define CONCAT1(string,number)  CONCAT(string, number)

@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.69 2019/11/25 23:24:36 Tom.Shields Exp $ */
+/* $Id: main.c,v 1.70 2020/09/10 17:32:55 tom Exp $ */
 
 #include <signal.h>
 #if !defined(_WIN32) || defined(__MINGW32__)
@@ -628,10 +628,8 @@ open_tmpfile(const char *label)
 #define MY_FMT "%s/%.*sXXXXXX"
     FILE *result;
 #if USE_MKSTEMP
-    int fd;
     const char *tmpdir;
     char *name;
-    const char *mark;
 
     if (((tmpdir = getenv("TMPDIR")) == 0 || access(tmpdir, W_OK) != 0) ||
 	((tmpdir = getenv("TEMP")) == 0 || access(tmpdir, W_OK) != 0))
@@ -654,6 +652,9 @@ open_tmpfile(const char *label)
     result = 0;
     if (name != 0)
     {
+	int fd;
+	const char *mark;
+
 	mode_t save_umask = umask(0177);
 
 	if ((mark = strrchr(label, '_')) == 0)

@@ -1,3 +1,9 @@
+2020-09-22  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* closure.c, warshall.c:
+	fix undefined-behavior diagnosed with gcc -fsanitize=undefined (report by
+	Alexander Richardson)
+
 2020-09-10  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* LICENSE: RCS_BASE
@@ -44,6 +50,10 @@
 
 	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
 	bump
+
+2020-08-16  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2020-08-17
 
 2020-06-28  Thomas E. Dickey  <dickey@invisible-island.net>
 

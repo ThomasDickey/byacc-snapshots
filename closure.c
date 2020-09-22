@@ -1,4 +1,4 @@
-/* $Id: closure.c,v 1.12 2020/09/10 17:22:08 tom Exp $ */
+/* $Id: closure.c,v 1.13 2020/09/22 20:17:00 tom Exp $ */
 
 #include "defs.h"
 
@@ -85,7 +85,7 @@ set_first_derives(void)
 		k = 0;
 	    }
 
-	    if (cword & (unsigned)(1 << k))
+	    if (cword & (1U << k))
 	    {
 		rp = derives[j];
 		while ((rule = *rp++) >= 0)
@@ -149,7 +149,7 @@ closure(Value_t *nucleus, int n)
 	{
 	    for (i = 0; i < BITS_PER_WORD; ++i)
 	    {
-		if (word & (unsigned)(1 << i))
+		if (word & (1U << i))
 		{
 		    itemno = rrhs[ruleno + i];
 		    while (csp < csend && *csp < itemno)

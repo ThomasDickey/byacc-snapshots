@@ -1,3 +1,14 @@
+2021-01-09  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/debian/copyright, VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2021-01-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
 2020-09-22  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* closure.c, warshall.c:

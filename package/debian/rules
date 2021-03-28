@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $Id: rules,v 1.3 2018/05/25 20:03:37 tom Exp $
+# $Id: rules,v 1.4 2021/03/28 15:15:33 tom Exp $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -42,6 +42,7 @@ configure = \
 		--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
 		--sysconfdir=/etc \
+		--enable-stdnoreturn \
 		--program-transform-name='s,^,b,'
 
 all: build

@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.35 2020/09/10 19:30:12 tom Exp $
+.\" $Id: yacc.1,v 1.36 2021/03/28 16:39:46 tom Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -27,7 +27,7 @@
 .ie n  .IP \(bu 4
 .el    .IP \(bu 2
 ..
-.TH YACC 1 "September 10, 2020" "Berkeley Yacc" "User Commands"
+.TH YACC 1 "March 28, 2021" "Berkeley Yacc" "User Commands"
 .SH NAME
 \*N \- an LALR(1) parser generator
 .SH SYNOPSIS
@@ -252,7 +252,7 @@ pointers to dynamically allocated memory.
 The bracketed \fIcode\fP is invoked whenever the parser discards one of
 the symbols.
 Within \fIcode\fP, \*(``\fB$$\fP\*('' or
-\*(``\fB$<tag>$\fP\*('' designates the semantic value associated with the
+\*(``\fB$<\fP\fItag\fP\fB>$\fP\*('' designates the semantic value associated with the
 discarded symbol, and \*(``\fB@$\fP\*('' designates its location (see
 \fB%locations\fP directive).
 .IP
@@ -291,8 +291,8 @@ with each token, provided by the lexer in the global variable \fByylloc\fP,
 similar to management of semantic value information provided in \fByylval\fP.
 .IP
 As for semantic values, locations can be referenced within actions using
-\fB@$\fP to refer to the location of the left hand side symbol, and \fB@N\fP
-(\fBN\fP an integer) to refer to the location of one of the right hand side
+\fB@$\fP to refer to the location of the left hand side symbol, and \fB@\fP\fIN\fP
+(\fIN\fP an integer) to refer to the location of one of the right hand side
 symbols.
 Also as for semantic values, when a rule is matched, a default
 action is used the compute the location represented by \fB@$\fP as the

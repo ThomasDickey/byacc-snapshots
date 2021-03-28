@@ -1,9 +1,9 @@
 Summary: byacc - public domain Berkeley LALR Yacc parser generator
 %define AppProgram byacc
 %define AltProgram btyacc
-%define AppVersion 20210109
+%define AppVersion 20210328
 %define UseProgram yacc
-# $Id: byacc.spec,v 1.51 2021/01/09 14:32:51 tom Exp $
+# $Id: byacc.spec,v 1.53 2021/03/28 15:15:53 tom Exp $
 Name: %{AppProgram}
 Version: %{AppVersion}
 Release: 1
@@ -43,6 +43,7 @@ This package has the backtracking extension.
 %define CFG_OPTS \\\
   --verbose \\\
   --disable-echo \\\
+  --enable-stdnoreturn \\\
   --target %{_target_platform} \\\
   --prefix=%{_prefix} \\\
   --srcdir=%{my_srcdir} \\\

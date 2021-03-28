@@ -1,3 +1,39 @@
+2021-03-28  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: ignore bison's "%empty" extension
+
+	* reader.c, defs.h:
+	%debug was a trivial bison "extension", mark it as such
+
+	* yacc.1: use italics in a few places where bold was inappropriate
+
+	* test/btyacc/varsyntax_calc1.tab.c, test/btyacc/varsyntax_calc1.tab.h, test/btyacc/expr.oxout.tab.c, test/btyacc/expr.oxout.tab.h, test/btyacc/inherit1.tab.c, test/btyacc/inherit1.tab.h, test/btyacc/inherit2.tab.c, test/btyacc/inherit2.tab.h, test/btyacc/ok_syntax1.tab.c, test/btyacc/ok_syntax1.tab.h, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit3.tab.h, test/btyacc/err_inherit4.tab.c, test/btyacc/err_inherit4.tab.h, test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_calc1.tab.h, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_demo.tab.h, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy1.tab.h, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy2.tab.h, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/btyacc_destroy3.tab.h, test/btyacc/calc1.tab.c, test/btyacc/calc1.tab.h, test/yacc/varsyntax_calc1.tab.c, test/yacc/varsyntax_calc1.tab.h, test/yacc/expr.oxout.tab.c, test/yacc/expr.oxout.tab.h, test/yacc/ok_syntax1.tab.c, test/yacc/ok_syntax1.tab.h, test/yacc/calc1.tab.c, test/yacc/calc1.tab.h:
+	regen
+
+	* reader.c:
+	add union tag to YYSTYPE structure for compatibility with a feature which
+	bison copied from Solaris yacc (request by Ella Stanforth)
+
+	* configure: regen
+
+	* config_h.in: update for _Noreturn feature
+
+	* aclocal.m4: updated to work with autoheader
+
+	* defs.h: apply syntax change needed for _Noreturn keyword
+
+	* package/byacc.spec, package/debian/rules: use stdnoreturn
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2021-03-20  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4:
+	resync with my-autoconf (adds --enable-stdnoreturn option)
+
 2021-01-09  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* package/debian/copyright, VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:

@@ -1,3 +1,99 @@
+2021-05-20  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_top.tab.c, test/btyacc/code_calc.code.c, test/btyacc/code_calc.tab.c, test/btyacc/code_error.code.c, test/btyacc/code_error.tab.c, test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c, test/btyacc/empty.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/err_syntax10.tab.c, test/btyacc/err_syntax11.tab.c, test/btyacc/err_syntax12.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/error.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/pure_calc.tab.c, test/btyacc/pure_error.tab.c, test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/rename_debug.c, test/btyacc/stdin1.calc.c, test/btyacc/stdin2.calc.c, test/btyacc/varsyntax_calc1.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_top.tab.c, test/yacc/code_calc.code.c, test/yacc/code_calc.tab.c, test/yacc/code_error.code.c, test/yacc/code_error.tab.c, test/yacc/defines1.calc.c, test/yacc/defines2.calc.c, test/yacc/defines3.calc.c, test/yacc/empty.tab.c, test/yacc/err_syntax10.tab.c, test/yacc/err_syntax11.tab.c, test/yacc/err_syntax12.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/err_syntax20.tab.c, test/yacc/error.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/ok_syntax1.tab.c, test/yacc/pure_calc.tab.c, test/yacc/pure_error.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/rename_debug.c, test/yacc/stdin1.calc.c, test/yacc/stdin2.calc.c, test/yacc/varsyntax_calc1.tab.c:
+	regen
+
+	* mkpar.c, reader.c: change printf format to allow for long-YYINT
+
+	* lalr.c, lr0.c: change type, fix gcc warnings
+
+	* verbose.c: change type, fix gcc warnings
+	also change printf format, to allow for long YYINT
+
+	* output.c: change type, fix gcc warnings
+	also change printf format, to allow for long-YYINT
+
+	* package/debian/rules, package/byacc.spec:
+	change max-table-size to correspond with switch of YYINT from short to int
+
+	* defs.h:
+	change default for MAXTABLE to INT_MAX, like the FreeBSD port.
+	that requires changing some types to eliminate type-mismatches.
+
+	* configure: regen
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2021-05-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4: resync with my-autoconf
+
+2021-04-30  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-04-30 (repaired)
+	    From: Maciej W. Rozycki <macro@orcam.me.uk>
+	    config.sub: Handle MIPS R3 and R5 ISA levels with CPU names
+
+	    Complement binutils commit ae52f4830604 ("Add MIPS r3 and r5 support.")
+	    and recognize MIPS CPU patterns for the R3 and R5 ISA levels, used by
+	    GAS to set defaults.
+
+	    * config.sub (mipsisa32r3, mipsisa32r3el, mipsisa32r5, mipsisa32r5el,
+	    mipsisa64r3, mipsisa64r3el, mipsisa64r5, mipsisa64r5el): Recognize.
+	    * doc/config.sub.1: Regenerate.
+	    * testsuite/config-sub.data: Add test cases.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-04-21  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2021-04-21 (repaired)
+	    From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+	    Recognize arc64
+
+	    This paves way for setting up arc64 software ecosystem.
+
+	    $ make check
+	    cd testsuite && bash config-guess.sh && rm uname
+	    PASS: config.guess checks (136 tests)
+	    cd testsuite && bash config-sub.sh
+	    PASS: config.sub checks (853 tests)
+	    PASS: config.sub idempotency checks (790 tests)
+	    PASS: config.sub canonicalise each config.guess testcase (136 tests)
+
+	    * config.guess (arc64:Linux:*:*): Recognize.
+	    * config.sub (arc64): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add a test case for arc64.
+	    * testsuite/config-sub.data (arc64, arc*-elf): Add test cases.
+
+	    Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-04-16  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-04-16 (repaired)
+	    From: Purple Rain <purplerain@secbsd.org>
+	    config.guess: add SecBSD support
+
+	    * config.guess (*:SecBSD:*:*): Recognize.
+	    * doc/config.guess.1: Regenerate.
+	    * testsuite/config-guess.data: Add a test case.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+	* config.sub: 2021-04-16 (repaired)
+	    From: Purple Rain <purplerain@secbsd.org>
+	    config.sub: add SecBSD support
+
+	    * config.sub (secbsd*): Recognize.
+	    * doc/config.sub.1: Regenerate.
+	    * testsuite/config-sub.data: Add x86_64-secbsd.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
 2021-03-28  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* reader.c: ignore bison's "%empty" extension
@@ -34,10 +130,88 @@
 	* aclocal.m4:
 	resync with my-autoconf (adds --enable-stdnoreturn option)
 
+2021-03-10  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-03-10 (repaired)
+	    From: Idan Horo <idan.horowitz@gmail.com>
+	    config.sub: Add support for SerenityOS
+
+	    * config.sub (serenity*): Recognize.
+	    * doc/config.sub.1: Regenerate.
+	    * testsuite/config-sub.data: Add i386-serenity.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-01-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-01-25 (repaired)
+	    From: Kalamatee <kalamatee@gmail.com>
+	    config.guess: update AROS system detection
+
+	    * config.guess: Recognize *:AROS:*:*.
+	    * doc/config.guess.1: Regenerate.
+	    * testsuite/config-guess.data: Add test cases.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-01-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-01-19 (repaired)
+	    From: M. Levinson <mlevins@users.sourceforge.net>
+	    config.guess: fix shell variable quoting bug
+
+	    * config.guess (*:NetBSD:*:*): Spell out the full sysctl command twice
+	    instead of using a shell variable.
+	    * doc/config.guess.1: Regenerate.
+
+	    Fixes: 827c77253b396c07306927b2a4b794a3251c48eb
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
 2021-01-09  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* package/debian/copyright, VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
 	bump
+
+2021-01-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-01-08 (repaired)
+	    From: Peixing Xin <peixing.xin@windriver.com>
+	    config.sub: recognize four-part configuration name for VxWorks
+
+	    For example:
+
+	      armv7m-wrs-vxworks-eabihf
+	      armv7-wrs-vxworks-eabihf
+	      i686-wrs-vxworks-simlinux
+	      i686-wrs-vxworks-simwindows
+	      powerpc-wrs-vxworks-spe
+	      x86_64-wrs-vxworks-simlinux
+	      x86_64-wrs-vxworks-simwindows
+
+	    * config.sub: Recognize four-part configuration name for VxWorks.
+	    * doc/config.guess.1: Regenerate.
+	    * testsuite/config-sub.data: Add test cases.
+
+	    Co-authored-by: John Ericson <git@JohnEricson.me>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-01-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-01-07 (repaired)
+	    From: Alan Modra <amodra@gmail.com>
+	    config.sub: accept OS of eabi* and gnueabi*
+
+	    Commit 5e531d391852 broke powerpc-eabivle:
+
+	    $ ./config.sub powerpc-eabivle
+	    Invalid configuration `powerpc-eabivle': OS `eabivle' not recognized
+
+	    Also powerpc-eabisim and probably some arm configurations.
+
+	    * config.sub: Accept OS of eabi* and gnueabi*.
+	    * testsuite/config-sub.data: Add powerpc-eabisim and powerpc-eabivle.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
 
 2021-01-05  Thomas E. Dickey  <dickey@invisible-island.net>
 
@@ -45,11 +219,161 @@
 
 	* aclocal.m4: resync with my-autoconf
 
+2021-01-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2021-01-01 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    Update copyright years
+
+	    * config.guess: Update copyright years.
+	    * config.sub: Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+
+2020-12-31  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2020-12-31 (repaired)
+	    From: Kito Cheng <kito.cheng@sifive.com>
+	    Recognize riscv32be and riscv64be
+
+	    Recently RISC-V community got patches big-endian support for binutils,
+	    and we'd like to accept that, however before accepting that I think it
+	    would be better to upstream config.sub and config.guess change here :)
+
+	    It's my check result on Ubuntu 18.04:
+
+	     $ make check
+	     cd testsuite && bash config-guess.sh && rm uname
+	     PASS: config.guess checks (131 tests)
+	     cd testsuite && bash config-sub.sh
+	     PASS: config.sub checks (830 tests)
+	     PASS: config.sub idempotency checks (767 tests)
+	     PASS: config.sub canonicalise each config.guess testcase (131 tests)
+
+	    * config.guess (riscv32be:Linux:*:*, riscv64be:Linux:*:*): Recognize.
+	    * config.sub (riscv32be, riscv64be): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add test cases for riscv32be, and riscv64be.
+	    * testsuite/config-sub.data (riscv32be, riscv64be): Add test cases.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2020-12-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2020-12-22 (repaired)
+	    From: Xiaotian Wu <wuxiaotian@loongson.cn>
+	    Recognize loongarch32, loongarch64, and loongarchx32
+
+	    * config.guess (loongarch32:Linux:*:*, loongarch64:Linux:*:*,
+	    loongarchx32:Linux:*:*): Recognize.
+	    * config.sub (loongarch32, loongarch64, loongarchx32): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add test cases for loongarch32,
+	    loongarch64, and loongarchx32.
+	    * testsuite/config-sub.data (loongarch32, loongarch64, loongarchx32):
+	    Add test cases.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2020-12-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2020-12-02 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    config.sub: recognize thumbv7*
+
+	    * config.sub (thumbv7*): Recognize.
+	    * testsuite/config-sub.data (thumbv7): New test.
+
+	    Reported-by: Karl Berry <karl@freefriends.org>
+	    Link: https://lists.gnu.org/archive/html/config-patches/2020-12/msg00001.html
+
+2020-11-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2020-11-17 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    .gitattributes: specify a custom git merge driver for the ChangeLog file
+
+	* config.guess, config.sub: 2020-11-19 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    Update URLs of the latest version of config.guess and config.sub scripts
+
+	    Prefer cgit URLs over gitweb as the former are usually served faster:
+	    $ time -f %e wget -q 'https://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess'
+	    1.06
+	    $ time -f %e wget -q 'https://git.savannah.gnu.org/cgit/config.git/plain/config.guess'
+	    0.73
+
+	    * config.guess: Prefer cgit URLs over gitweb.
+	    (timestamp): Update.
+	    * config.sub: Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+
+2020-11-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: 2020-11-07 (repaired)
+	    From: Ben Elliston <bje@gnu.org>
+	    Update timestamps.
+
+	* config.sub: 2020-10-13 (repaired)
+	    From: Ben Elliston <bje@gnu.org>
+	            * config.sub, config.guess: Replace backtick `..` substitutions
+	            with POSIX $(..) command substitutions throughout.
+	            * Makefile (shellcheck): Don't exclude message SC2006.
+
+	* config.guess: 2020-10-22 (repaired)
+	    From: Ben Elliston <bje@gnu.org>
+	            * config.sub, config.guess: Replace backtick `..` substitutions
+	            with POSIX $(..) command substitutions throughout.
+	            * Makefile (shellcheck): Don't exclude message SC2006.
+
+2020-10-21  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2020-10-22
+	    From: Rin Okuyama <rin@netbsd.org>
+	            * config.guess (*:NetBSD:*:*): Handle aarch64eb.
+	            * testsuite/config-guess.data: Add test cases.
+
+	    Signed-off-by: Ben Elliston <bje@gnu.org>
+
+2020-10-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2020-10-13
+	    From: Ben Elliston <bje@gnu.org>
+	    Fix whitespace problem in config.sub.
+
+2020-10-13  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2020-10-13
+	    From: Ben Elliston <bje@gnu.org>
+	            * config.sub (i*86-pc-os2-emx): Recognise correctly.
+	            * testsuite/config-sub.data: Add OS/2 tests to avoid regressions.
+
+2020-09-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2020-09-08
+	    From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+	            * config.sub (uclinux-uclibc*): Fix detection.
+	            * testsuite/config-sub.data: Add a test case to avoid regression.
+
+	    Signed-off-by: Ben Elliston <bje@gnu.org>
+
 2020-09-22  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* closure.c, warshall.c:
 	fix undefined-behavior diagnosed with gcc -fsanitize=undefined (report by
 	Alexander Richardson)
+
+2020-09-20  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2020-09-19
+	    From: Bruno Haible <bruno@clisp.org>
+	            * config.guess: Don't use 'ldd --version' to determine the presence of
+	            musl libc, as this fails on Alpine Linux 3.10.
+
+	    Signed-off-by: Ben Elliston <bje@gnu.org>
 
 2020-09-10  Thomas E. Dickey  <dickey@invisible-island.net>
 
@@ -97,6 +421,15 @@
 
 	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
 	bump
+
+2020-09-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2020-09-08
+	    From: Elad Lahav <e2lahav@gmail.com>
+	            * config.sub: Fix regression in QNX recognition.
+	            * testsuite/config-sub.data: Add some test cases.
+
+	    Signed-off-by: Ben Elliston <bje@gnu.org>
 
 2020-08-16  Thomas E. Dickey  <dickey@invisible-island.net>
 

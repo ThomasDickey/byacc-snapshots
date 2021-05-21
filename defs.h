@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.68 2021/03/28 17:42:58 tom Exp $ */
+/* $Id: defs.h,v 1.69 2021/05/20 23:39:26 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -48,7 +48,7 @@
 
 #define	MAXCHAR		UCHAR_MAX
 #ifndef MAXTABLE
-#define MAXTABLE	32500
+#define MAXTABLE	INT_MAX
 #endif
 #if MAXTABLE <= SHRT_MAX
 #define YYINT		short
@@ -58,6 +58,10 @@
 #define YYINT		int
 #define MAXYYINT	INT_MAX
 #define MINYYINT	INT_MIN
+#elif MAXTABLE <= LONG_MAX
+#define YYINT		long
+#define MAXYYINT	LONG_MAX
+#define MINYYINT	LONG_MIN
 #else
 #error "MAXTABLE is too large for this machine architecture!"
 #endif
@@ -379,7 +383,7 @@ extern char *nullable;
 extern bucket *first_symbol;
 extern bucket *last_symbol;
 
-extern int nstates;
+extern Value_t nstates;
 extern core *first_state;
 extern shifts *first_shift;
 extern reductions *first_reduction;

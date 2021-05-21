@@ -171,7 +171,7 @@ extern int YYPARSE_DECL();
 #define INTEGER 260
 #define NAME 261
 #define YYERRCODE 256
-typedef short YYINT;
+typedef int YYINT;
 static const YYINT inherit0_lhs[] = {                    -1,
     0,    0,    1,    1,    2,    2,    3,    3,    5,    6,
     4,

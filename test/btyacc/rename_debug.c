@@ -19,7 +19,7 @@
 #line 20 "rename_debug.c"
 #include "rename_debug.i"
 #include "rename_debug.h"
-typedef short YYINT;
+typedef int YYINT;
 static const YYINT yylhs[] = {                           -1,
     0,
 };

@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $Id: rules,v 1.4 2021/03/28 15:15:33 tom Exp $
+# $Id: rules,v 1.5 2021/05/20 23:48:03 tom Exp $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -72,7 +72,7 @@ config-btyacc-stamp:
 	mkdir -p $(BTYACC_TMP)
 	cd $(BTYACC_TMP); $(configure) \
 		--enable-btyacc \
-		--with-max-table-size=18000 \
+		--with-max-table-size=123456 \
 		--program-transform-name='s,^,bt,'
 
 	touch $@

@@ -231,7 +231,7 @@ extern int YYPARSE_DECL();
 #define ELSE 268
 #define CLCL 269
 #define YYERRCODE 256
-typedef short YYINT;
+typedef int YYINT;
 static const YYINT demo_lhs[] = {                        -1,
    15,   15,   15,   12,   18,    0,    4,   19,    4,    2,
    20,    2,   10,   10,   13,   13,   11,   11,   11,   11,

@@ -1,9 +1,9 @@
 Summary: byacc - public domain Berkeley LALR Yacc parser generator
 %define AppProgram byacc
 %define AltProgram btyacc
-%define AppVersion 20210328
+%define AppVersion 20210520
 %define UseProgram yacc
-# $Id: byacc.spec,v 1.53 2021/03/28 15:15:53 tom Exp $
+# $Id: byacc.spec,v 1.55 2021/05/20 23:47:46 tom Exp $
 Name: %{AppProgram}
 Version: %{AppVersion}
 Release: 1
@@ -68,7 +68,7 @@ CONFIGURE_TOP=%{my_srcdir} \
 %configure %{CFG_OPTS} \
   --enable-btyacc \
   --program-prefix=bt \
-  --with-max-table-size=18000 \
+  --with-max-table-size=123456 \
   --program-transform-name='s,\^,bt,'
 make
 popd

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.94 2020/09/10 20:24:30 tom Exp $ */
+/* $Id: output.c,v 1.95 2021/05/20 23:57:23 tom Exp $ */
 
 #include "defs.h"
 
@@ -442,7 +442,7 @@ token_actions(void)
     Value_t csym = -1;
     Value_t cbase = 0;
 #endif
-    int max, min;
+    Value_t max, min;
     Value_t *actionrow, *r, *s;
     action *p;
 
@@ -834,7 +834,7 @@ pack_vector(int vector)
 {
     int i, j, k, l;
     int t;
-    int loc;
+    Value_t loc;
     int ok;
     Value_t *from;
     Value_t *to;
@@ -1051,7 +1051,7 @@ output_table(void)
     if (high >= MAXYYINT)
     {
 	fprintf(stderr, "YYTABLESIZE: %ld\n", high);
-	fprintf(stderr, "Table is longer than %d elements.\n", MAXYYINT);
+	fprintf(stderr, "Table is longer than %ld elements.\n", (long)MAXYYINT);
 	done(1);
     }
 
@@ -1259,14 +1259,14 @@ output_defines(FILE * fp)
 	    }
 	    if (fp == code_file)
 		++outline;
-	    fprintf(fp, " %d\n", symbol_value[i]);
+	    fprintf(fp, " %ld\n", (long)symbol_value[i]);
 	}
     }
 
     if (fp == code_file)
 	++outline;
     if (fp != defines_file || iflag)
-	fprintf(fp, "#define YYERRCODE %d\n", symbol_value[1]);
+	fprintf(fp, "#define YYERRCODE %ld\n", (long)symbol_value[1]);
 
     if (fp == defines_file)
     {
@@ -1343,7 +1343,7 @@ output_debug(void)
     const char *s;
 
     ++outline;
-    fprintf(code_file, "#define YYFINAL %d\n", final_state);
+    fprintf(code_file, "#define YYFINAL %ld\n", (long)final_state);
 
     outline += output_yydebug(code_file);
 

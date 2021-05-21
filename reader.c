@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.87 2021/03/28 17:58:37 tom Exp $ */
+/* $Id: reader.c,v 1.88 2021/05/20 23:57:23 tom Exp $ */
 
 #include "defs.h"
 
@@ -2687,7 +2687,7 @@ copy_action(void)
     trialaction = (*cptr == L_BRAC);
 #endif
 
-    fprintf(f, "case %d:\n", nrules - 2);
+    fprintf(f, "case %ld:\n", (long)(nrules - 2));
 #if defined(YYBTYACC)
     if (backtrack)
     {
@@ -2759,10 +2759,12 @@ copy_action(void)
 		else if (i > maxoffset)
 		{
 		    dollar_warning(d_lineno, i);
-		    fprintf(f, "yystack.l_mark[%d].%s", i - maxoffset, tag);
+		    fprintf(f, "yystack.l_mark[%ld].%s",
+			    (long)(i - maxoffset), tag);
 		}
 		else if (offsets)
-		    fprintf(f, "yystack.l_mark[%d].%s", offsets[i], tag);
+		    fprintf(f, "yystack.l_mark[%ld].%s",
+			    (long)offsets[i], tag);
 		FREE(d_line);
 		goto loop;
 	    }
@@ -2820,7 +2822,7 @@ copy_action(void)
 		tag = rhs[offsets[i]]->tag;
 		if (tag == 0)
 		    untyped_rhs(i, rhs[offsets[i]]->name);
-		fprintf(f, "yystack.l_mark[%d].%s", offsets[i], tag);
+		fprintf(f, "yystack.l_mark[%ld].%s", (long)offsets[i], tag);
 	    }
 	    else
 	    {
@@ -2829,10 +2831,10 @@ copy_action(void)
 		else if (i > maxoffset)
 		{
 		    dollar_warning(lineno, i);
-		    fprintf(f, "yystack.l_mark[%d]", i - maxoffset);
+		    fprintf(f, "yystack.l_mark[%ld]", (long)(i - maxoffset));
 		}
 		else if (offsets)
-		    fprintf(f, "yystack.l_mark[%d]", offsets[i]);
+		    fprintf(f, "yystack.l_mark[%ld]", (long)offsets[i]);
 	    }
 	    goto loop;
 	}

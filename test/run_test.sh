@@ -201,7 +201,7 @@ test_defines defines1 ${TEST_DIR}/calc.y
 test_defines defines2 -d ${TEST_DIR}/calc.y
 test_defines defines3 -b prefix ${TEST_DIR}/calc.y
 
-for input in ${TEST_DIR}/*.y
+for input in "${TEST_DIR}"/*.y
 do
 	case $input in
 	test-*)

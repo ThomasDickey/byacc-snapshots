@@ -126,7 +126,7 @@ YACC_escaped=`echo "$PROG_DIR/yacc" | sed -e 's/\./\\\./g'`
 
 tmpfile=temp$$
 
-ifBTYACC=`fgrep -l 'define YYBTYACC' $PROG_DIR/config.h > /dev/null; test $? != 0; echo $?`
+ifBTYACC=`grep -F -l 'define YYBTYACC' $PROG_DIR/config.h > /dev/null; test $? != 0; echo $?`
 
 if test $ifBTYACC = 0; then
 	REF_DIR=${TEST_DIR}/yacc

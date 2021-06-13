@@ -25,6 +25,7 @@ test_diffs() {
 			-e 's,#line \([1-9][0-9]*\) "'$REF_DIR'/,#line \1 ",' \
 			-e 's,#line \([1-9][0-9]*\) "'$TEST_DIR'/,#line \1 ",' \
 			-e 's,\(YACC:.* line [0-9][0-9]* of "\)'$TEST_DIR/',\1./,' \
+			-e 's/^typedef \(short\|long\) YYINT;$/typedef int YYINT;/' \
 			< $CMP >$tmpfile \
 			&& mv $tmpfile $CMP
 		if test ! -f $REF

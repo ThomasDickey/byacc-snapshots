@@ -341,12 +341,12 @@ YYPARSE_DECL()
     memset(&yyval,  0, sizeof(yyval));
     memset(&yylval, 0, sizeof(yylval));
 
-    yym = 0;
-    yyn = 0;
+    /* yym is set below */
+    /* yyn is set below */
     yynerrs = 0;
     yyerrflag = 0;
     yychar = YYEMPTY;
-    yystate = 0;
+    /* yystate is set below */
 
 #if YYPURE
     memset(&yystack, 0, sizeof(yystack));

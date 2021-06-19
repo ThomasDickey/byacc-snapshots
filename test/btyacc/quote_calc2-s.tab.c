@@ -687,11 +687,11 @@ YYPARSE_DECL()
     yyps->save = 0;
 #endif /* YYBTYACC */
     yym = 0;
-    yyn = 0;
+    /* yyn is set below */
     yynerrs = 0;
     yyerrflag = 0;
     yychar = YYEMPTY;
-    yystate = 0;
+    /* yystate is set below */
 
 #if YYPURE
     memset(&yystack, 0, sizeof(yystack));

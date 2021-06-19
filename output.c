@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.95 2021/05/20 23:57:23 tom Exp $ */
+/* $Id: output.c,v 1.96 2021/06/19 19:51:49 tom Exp $ */
 
 #include "defs.h"
 
@@ -858,7 +858,7 @@ pack_vector(int vector)
 	ok = 1;
 	for (k = 0; ok && k < t; k++)
 	{
-	    loc = j + from[k];
+	    loc = (Value_t)(j + from[k]);
 	    if (loc >= maxtable - 1)
 	    {
 		if (loc >= MAXTABLE - 1)
@@ -897,7 +897,7 @@ pack_vector(int vector)
 	{
 	    for (k = 0; k < t; k++)
 	    {
-		loc = j + from[k];
+		loc = (Value_t)(j + from[k]);
 		table[loc] = to[k];
 		check[loc] = from[k];
 		if (loc > high)

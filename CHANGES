@@ -1,3 +1,76 @@
+2021-06-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
+	* test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/varsyntax_calc1.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/error.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/pure_calc.tab.c, test/btyacc/pure_error.tab.c, test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_top.tab.c, test/btyacc/code_calc.code.c, test/btyacc/code_error.code.c, test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c, test/btyacc/empty.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/err_syntax10.tab.c, test/btyacc/err_syntax11.tab.c, test/btyacc/err_syntax12.tab.c, test/btyacc/rename_debug.c, btyaccpar.c, test/btyacc/stdin1.calc.c, test/btyacc/stdin2.calc.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/varsyntax_calc1.tab.c, test/yacc/err_syntax11.tab.c, test/yacc/err_syntax12.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/err_syntax20.tab.c, test/yacc/error.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/ok_syntax1.tab.c, test/yacc/pure_calc.tab.c, test/yacc/pure_error.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_top.tab.c, test/yacc/code_calc.code.c, test/yacc/code_error.code.c, test/yacc/defines1.calc.c, test/yacc/defines2.calc.c, test/yacc/defines3.calc.c, test/yacc/empty.tab.c, test/yacc/err_syntax10.tab.c, test/yacc/rename_debug.c, test/yacc/stdin1.calc.c, test/yacc/stdin2.calc.c, yaccpar.c:
+	regen
+
+	* btyaccpar.skel, yaccpar.skel: cancel unused assignments
+
+	* output.c: gcc warning
+
+	* test/run_test.sh, test/run_lint.sh, test/run_make.sh:
+	shellcheck-warnings
+
+2021-06-19  jannick0
+
+	* test/run_test.sh: changes suggested at
+		https://github.com/jannick0/byacc-snapshots/tree/YYINT-fix-20210520
+
+2021-06-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2021-06-13  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4: resync with my-autoconf
+
+2021-05-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    config.guess: fix shellcheck warning SC2154
+
+	    While, according to Plan 9 documentation, the environment variable
+	    $cputype is set to the name of the kernel's CPU's architecture,
+	    shellcheck warns that cputype is referenced but not assigned.
+	    Be on the safe side and do not use cputype if it is not defined
+	    or empty.
+
+	    * config.guess (*:Plan9:*:*): Fix shellcheck warning SC2154.
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    config.guess: remove redundant quotes in case commands
+
+	    According to the GNU Autoconf Portable Shell Programming manual,
+	    the Bourne shell does not systematically split variables and back-quoted
+	    expressions, in particular on the right-hand side of assignments and in
+	    the argument of 'case'.
+
+	    The change is made automatically using the following command:
+	    $ sed -E -i 's/(\<case )"(\$[^"]+)"( in\>)/\1\2\3/' config.guess
+
+	    * config.guess: Simplify case commands by removing quotes around the
+	    argument.
+
+	    Suggested-by: Jacob Bachmeyer <jcb@gnu.org>
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    config.guess: simplify exit status workaround on alphaev67-dec-osf5.1
+
+	    Commit 29865ea8a5622cdd80b7a69a0afa78004b4cd311 introduced an exit trap
+	    reset before exiting to avoid a spurious non-zero exit status on
+	    alphaev67-dec-osf5.1.  Simplify that code a bit by moving the exit trap
+	    reset around.
+
+	    * config.guess (alpha:OSF1:*:*): Reset exit trap earlier.
+	    * doc/config.guess.1: Regenerate.
+
 2021-05-20  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_top.tab.c, test/btyacc/code_calc.code.c, test/btyacc/code_calc.tab.c, test/btyacc/code_error.code.c, test/btyacc/code_error.tab.c, test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c, test/btyacc/empty.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/err_syntax10.tab.c, test/btyacc/err_syntax11.tab.c, test/btyacc/err_syntax12.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/error.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/pure_calc.tab.c, test/btyacc/pure_error.tab.c, test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/rename_debug.c, test/btyacc/stdin1.calc.c, test/btyacc/stdin2.calc.c, test/btyacc/varsyntax_calc1.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_top.tab.c, test/yacc/code_calc.code.c, test/yacc/code_calc.tab.c, test/yacc/code_error.code.c, test/yacc/code_error.tab.c, test/yacc/defines1.calc.c, test/yacc/defines2.calc.c, test/yacc/defines3.calc.c, test/yacc/empty.tab.c, test/yacc/err_syntax10.tab.c, test/yacc/err_syntax11.tab.c, test/yacc/err_syntax12.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/err_syntax20.tab.c, test/yacc/error.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/ok_syntax1.tab.c, test/yacc/pure_calc.tab.c, test/yacc/pure_error.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/rename_debug.c, test/yacc/stdin1.calc.c, test/yacc/stdin2.calc.c, test/yacc/varsyntax_calc1.tab.c:

@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.69 2021/05/20 23:39:26 tom Exp $ */
+/* $Id: defs.h,v 1.70 2021/08/01 22:21:53 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -357,6 +357,10 @@ extern int ntags;
 
 extern char unionized;
 extern char line_format[];
+
+#define fprintf_lineno(f, n, s) \
+	    if (!lflag) \
+		fprintf(f, line_format, (n), (s))
 
 extern Value_t start_symbol;
 extern char **symbol_name;

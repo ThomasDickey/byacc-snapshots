@@ -1,3 +1,100 @@
+2021-08-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/btyacc/inherit2.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c:
+	regen
+
+	* output.c:
+	fix a misplaced #line, which was after a generated line in the code-file
+
+	* test/yacc/ok_syntax1.tab.c, test/yacc/pure_calc.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/varsyntax_calc1.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/err_syntax20.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_top.tab.c, test/yacc/code_calc.code.c, test/yacc/defines1.calc.c, test/yacc/defines2.calc.c, test/yacc/defines3.calc.c, test/yacc/stdin1.calc.c, test/yacc/stdin2.calc.c:
+	regen
+
+	* output.c:
+	add a state-machine to output_semantic_actions() to detect and replace
+	the "#line" directives added by Roland Illig's change, making them show
+	the actual line-numbers in the code-file.
+
+	* test/btyacc/pure_calc.tab.c, test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/varsyntax_calc1.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_top.tab.c, test/btyacc/code_calc.code.c, test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/stdin1.calc.c, test/btyacc/stdin2.calc.c:
+	regen
+
+	* reader.c:
+	adapt a patch by Roland Illig which added #line directives with dummy
+	filename and line number, because the debug information was incorrect.
+	The actual fix (see output_semantic_actions) is to emit #line directives
+	which correspond to the code-file.
+
+	* reader.c: simplify an ifdef so I can balance {/}
+
+	* output.c: use new macro
+
+	* defs.h: add fprintf_lineno macro
+
+	* reader.c:
+	make that a little simpler - but I see that this should be using the
+	code-file's line-numbering rather than ""
+
+	* reader.c:
+	make that into a macro, and add a begin_case() to more/less match (the
+	#line's are not together in some btyacc cases...)
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2021-07-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c: From: Roland Illig <roland.illig@gmx.de>
+	Subject: small patch for byacc
+	...
+	this splits up "\nbreak;\n" output to put #line directives after first "\n"
+
+2021-07-03  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-07-03
+	    From: Ozkan Sezer <sezero@users.sourceforge.net>
+	    config.sub: disable shellcheck SC2006 / SC2268 warnings
+
+	    This is in line with the recent config.guess change in commit
+	    12fcf67c9108f4c4b581eaa302088782f0ee40ea
+
+	    * config.sub (shellcheck disable): Add SC2006,SC2268.
+
+	    Suggested-by: Jacob Bachmeyer <jcb@gnu.org>
+	    Signed-off-by: Ozkan Sezer <sezero@users.sourceforge.net>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+	* config.sub: 2021-07-03
+	    From: Ozkan Sezer <sezero@users.sourceforge.net>
+	    config.sub: normalize the quoting in the `echo FOO | sed ...`
+
+	    Some cases quote the argument to echo and some do not.  At runtime
+	    it probably does not matter because the substituted values will never
+	    contain whitespace, but quoting them all would make shellcheck more
+	    useful.
+
+	    * config.sub: Consistently quote the argument of echo.
+	    * doc/config.sub.1: Regenerate.
+
+	    Suggested-by: Jacob Bachmeyer <jcb@gnu.org>
+	    Signed-off-by: Ozkan Sezer <sezero@users.sourceforge.net>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-07-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-06-03
+	    From: Ozkan Sezer <sezero@users.sourceforge.net>
+	    config.sub: replace POSIX $( ) with classic ` ` throughout
+
+	    This is in line with the recent config.guess change in commit
+	    d70c4fa934de164178054c3a60aaa0024ed07c91.
+
+	    The patch was generated using patch-6.gawk script introduced in that
+	    commit.
+
+	    * config.sub: Revert POSIX command substitutions to classic form.
+
+	    Signed-off-by: Ozkan Sezer <sezero@users.sourceforge.net>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
 2021-06-19  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* configure: regen
@@ -27,6 +124,158 @@
 2021-06-13  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* aclocal.m4: resync with my-autoconf
+
+2021-06-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-06-03
+	    From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+	    Recognize arc32
+
+	    This is the 32-bit variant of ARCv3 ISA (which is not compatible with the
+	    32-bit ARCv2 ISA)
+
+	    | make check
+	    | cd testsuite && bash config-guess.sh && rm uname
+	    | PASS: config.guess checks (136 tests)
+	    | cd testsuite && bash config-sub.sh
+	    | PASS: config.sub checks (864 tests)
+	    | PASS: config.sub idempotency checks (801 tests)
+	    | PASS: config.sub canonicalise each config.guess testcase (136 tests)
+
+	    * config.guess (arc32:Linux:*:*): Recognize.
+	    * config.sub (arc32): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add a test case for arc32.
+	    * testsuite/config-sub.data (arc32, arc*-elf): Add test cases.
+
+	    Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+	* config.sub: 2021-06-03 (repaired)
+	    From: Vineet Gupta <Vineet.Gupta1@synopsys.com>
+	    Recognize arc32
+
+	    This is the 32-bit variant of ARCv3 ISA (which is not compatible with the
+	    32-bit ARCv2 ISA)
+
+	    | make check
+	    | cd testsuite && bash config-guess.sh && rm uname
+	    | PASS: config.guess checks (136 tests)
+	    | cd testsuite && bash config-sub.sh
+	    | PASS: config.sub checks (864 tests)
+	    | PASS: config.sub idempotency checks (801 tests)
+	    | PASS: config.sub canonicalise each config.guess testcase (136 tests)
+
+	    * config.guess (arc32:Linux:*:*): Recognize.
+	    * config.sub (arc32): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add a test case for arc32.
+	    * testsuite/config-sub.data (arc32, arc*-elf): Add test cases.
+
+	    Signed-off-by: Vineet Gupta <vgupta@synopsys.com>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-05-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-05-24
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: manual fixups after previous automatic patch
+
+	    The tool could not handle command substitutions that span lines, but
+	    fortunately there were only two such substitutions in the script.
+
+	    The test for which universe is active on Pyramid is rewritten into a
+	    case block because it was the only use of a command substitution as an
+	    argument to the test command, which would require quoting.
+
+	    * config.guess: Rewrite "if" for Pyramid systems to "case".
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: replace POSIX $( ) with classic ` ` throughout
+
+	    The previous replacement of backticks with POSIX command substitutions
+	    was ill-considered and illogical: this script recognizes many archaic
+	    machine types that probably never had POSIX shells, therefore it needs
+	    to be able to run successfully under pre-POSIX shells.
+
+	    This patch was generated using the included GNU Awk program.
+
+	    * config.guess: Revert POSIX command substitutions to classic form.
+	    * patch-6.gawk: Store the tool that produced the automated patch.
+
+2021-05-25  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: manual fixup after previous automated patches
+
+	    This patch provides the special handling for the GNU system.  As these
+	    were two small and unique edits, they were not included in the scripts.
+
+	    This patch also cleans up other minor issues that must be addressed
+	    before reverting to classic command substitutions and updates
+	    "shellcheck" directives to account for changes in this script and the
+	    change in "shellcheck" towards reporting individual portability issues.
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: automatic fixups after previous automated patch
+
+	    This patch was generated using the following command:
+
+	      sed -i config.guess \
+	          -e '/="[^"]\+"\(-\|$\)/s/="\([^"([:space:])]\+\)"/=\1/' \
+	          -e '/="[^"]\+"[[:alnum:]]/s/="\$\([^([:space:])]\+\)"/=${\1}/' \
+	          -e \
+	    '/\$(echo[^|]\+|/s/\([^[:space:]]\)[[:space:]]*|[[:space:]]*sed/\1 | sed/g'
+
+	    * config.guess: Remove unneeded quotes in other variable assignments,
+	    standardize spacing for "echo ... | sed" substitutions.
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: remove unneeded quotes and factor command substitutions
+
+	    This is further cleanup and simplifies some constructs that can confuse
+	    Emacs' syntax highlighting while generally reducing required quoting.
+
+	    This patch was generated using the included GNU Awk program.
+
+	    * config.guess: Remove unneeded variable quotes and factor out command
+	    substitutions when setting GUESS.
+	    * patch-3.gawk: Store the tool that produced the automated patch.
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: manual fixups after previous automatic patch
+
+	    * config.guess: Adjust a few "leftover" cases that the tool could not
+	    easily recognize and fixes comment indentation in a few other special
+	    cases.
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: introduce intermediate variable with uname results
+
+	    This will allow quoting to be significantly simplified in another
+	    pass through the file.
+
+	    * config.guess: Introduce GUESS variable to hold results of uname analysis.
+
+	* config.guess: 2021-05-24 (repaired)
+	    From: Jacob Bachmeyer <jcb@gnu.org>
+	    config.guess: use intermediate variable with uname results
+
+	    This will allow quoting to be significantly simplified in another
+	    pass through the file.
+
+	    This patch was generated using the included GNU Awk program.
+
+	    * config.guess: Use GUESS variable to hold results of uname analysis.
+	    * patch-1.gawk: Store the tool that produced the automated patch.
 
 2021-05-24  Thomas E. Dickey  <dickey@invisible-island.net>
 

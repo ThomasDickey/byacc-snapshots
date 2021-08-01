@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.88 2021/05/20 23:57:23 tom Exp $ */
+/* $Id: reader.c,v 1.89 2021/08/01 22:36:09 tom Exp $ */
 
 #include "defs.h"
 
@@ -19,6 +19,13 @@
 /* the maximum number of arguments (inherited attributes) to a non-terminal */
 /* this is a hard limit, but seems more than adequate */
 #define MAXARGS	20
+
+#define begin_case(f,n) fprintf(f, "case %d:\n", (int)(n))
+
+#define end_case(f) \
+	    fprintf(f, "\n"); \
+	    fprintf_lineno(f, 1, ""); \
+	    fprintf(f, "break;\n")
 
 static void start_rule(bucket *bp, int s_lineno);
 #if defined(YYBTYACC)
@@ -749,7 +756,8 @@ copy_code(void)
 	code_mstr = msnew();
     }
     cline++;
-    msprintf(code_mstr, line_format, lineno, input_file_name);
+    if (!lflag)
+	msprintf(code_mstr, line_format, lineno, input_file_name);
     for (;;)
     {
 	c = *cptr++;
@@ -808,8 +816,7 @@ copy_text(void)
 	if (line == NULL)
 	    unterminated_text(&a);
     }
-    if (!lflag)
-	fprintf(f, line_format, lineno, input_file_name);
+    fprintf_lineno(f, lineno, input_file_name);
 
   loop:
     c = *cptr++;
@@ -900,8 +907,7 @@ copy_union(void)
     puts_both("#ifndef YYSTYPE_IS_DECLARED\n");
     puts_both("#define YYSTYPE_IS_DECLARED 1\n");
 
-    if (!lflag)
-	fprintf(text_file, line_format, lineno, input_file_name);
+    fprintf_lineno(text_file, lineno, input_file_name);
     puts_both("typedef union YYSTYPE");
 
     depth = 0;
@@ -2547,11 +2553,10 @@ insert_arg_rule(char *arg, char *tag)
 	rule = nrules;
 	insert_arg_cache(code, rule);
 	trialaction = 1;	/* arg rules always run in trial mode */
-	fprintf(f, "case %d:\n", rule - 2);
-	if (!lflag)
-	    fprintf(f, line_format, line_number, input_file_name);
-	fprintf(f, "%s;\n", code);
-	fprintf(f, "break;\n");
+	begin_case(f, rule - 2);
+	fprintf_lineno(f, line_number, input_file_name);
+	fprintf(f, "%s;", code);
+	end_case(f);
 	insert_empty_rule();
 	plhs[rule]->tag = cache_tag(tag, strlen(tag));
 	plhs[rule]->class = ARGUMENT;
@@ -2687,7 +2692,7 @@ copy_action(void)
     trialaction = (*cptr == L_BRAC);
 #endif
 
-    fprintf(f, "case %ld:\n", (long)(nrules - 2));
+    begin_case(f, nrules - 2);
 #if defined(YYBTYACC)
     if (backtrack)
     {
@@ -2695,8 +2700,7 @@ copy_action(void)
 	    fprintf(f, "  if (!yytrial)\n");
     }
 #endif
-    if (!lflag)
-	fprintf(f, line_format, lineno, input_file_name);
+    fprintf_lineno(f, lineno, input_file_name);
     if (*cptr == '=')
 	++cptr;
 
@@ -2940,12 +2944,11 @@ copy_action(void)
 	    if (c == L_CURL && !haveyyval)
 	    {
 		fprintf(f, "  if (!yytrial)\n");
-		if (!lflag)
-		    fprintf(f, line_format, lineno, input_file_name);
+		fprintf_lineno(f, lineno, input_file_name);
 		trialaction = 0;
 		goto loop;
 	    }
-	    fprintf(f, "\nbreak;\n");
+	    end_case(f);
 	    FREE(a.a_line);
 	    if (maxoffset > 0)
 		FREE(offsets);
@@ -2965,7 +2968,7 @@ copy_action(void)
     case ';':
 	if (depth > 0)
 	    goto loop;
-	fprintf(f, "\nbreak;\n");
+	end_case(f);
 	free(a.a_line);
 	if (maxoffset > 0)
 	    FREE(offsets);
@@ -3002,13 +3005,12 @@ copy_action(void)
 	    if (c == L_CURL && !haveyyval)
 	    {
 		fprintf(f, "  if (!yytrial)\n");
-		if (!lflag)
-		    fprintf(f, line_format, lineno, input_file_name);
+		fprintf_lineno(f, lineno, input_file_name);
 		goto loop;
 	    }
 	}
 #endif
-	fprintf(f, "\nbreak;\n");
+	end_case(f);
 	free(a.a_line);
 	if (maxoffset > 0)
 	    FREE(offsets);
@@ -3406,13 +3408,17 @@ read_grammar(void)
 	    || c == '$'
 	    || c == '\''
 	    || c == '"')
+	{
 	    add_symbol();
+	}
+	else if (c == L_CURL || c == '='
 #if defined(YYBTYACC)
-	else if (c == L_CURL || c == '=' || (backtrack && c == L_BRAC))
-#else
-	else if (c == L_CURL || c == '=')
+		 || (backtrack && c == L_BRAC)
 #endif
+	    )
+	{
 	    copy_action();
+	}
 	else if (c == '|')
 	{
 	    end_rule();

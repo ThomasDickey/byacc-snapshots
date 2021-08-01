@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.96 2021/06/19 19:51:49 tom Exp $ */
+/* $Id: output.c,v 1.99 2021/08/01 23:45:04 tom Exp $ */
 
 #include "defs.h"
 
@@ -96,7 +96,7 @@ write_code_lineno(FILE * fp)
     if (!lflag && (fp == code_file))
     {
 	++outline;
-	fprintf(fp, line_format, outline + 1, code_file_name);
+	fprintf_lineno(fp, outline + 1, code_file_name);
     }
 }
 
@@ -106,7 +106,7 @@ write_input_lineno(void)
     if (!lflag)
     {
 	++outline;
-	fprintf(code_file, line_format, lineno, input_file_name);
+	fprintf_lineno(code_file, lineno, input_file_name);
     }
 }
 
@@ -1688,15 +1688,49 @@ static void
 output_semantic_actions(void)
 {
     int c, last;
+    int state;
+    char line_state[20];
 
     rewind(action_file);
     if ((c = getc(action_file)) == EOF)
 	return;
 
+    if (!lflag)
+    {
+	state = -1;
+	sprintf(line_state, line_format, 1, "");
+    }
+
     last = c;
     putc_code(code_file, c);
     while ((c = getc(action_file)) != EOF)
     {
+	/*
+	 * When writing the action file, we did not know the line-numbers in
+	 * the code-file, but wrote empty #line directives.  Detect those and
+	 * replace with proper #line directives.
+	 */
+	if (!lflag && (last == '\n' || state >= 0))
+	{
+	    if (c == line_state[state + 1])
+	    {
+		++state;
+		if (line_state[state + 1] == '\0')
+		{
+		    write_code_lineno(code_file);
+		    state = -1;
+		}
+		last = c;
+		continue;
+	    }
+	    else
+	    {
+		int n;
+		for (n = 0; n <= state; ++n)
+		    putc_code(code_file, line_state[n]);
+		state = -1;
+	    }
+	}
 	putc_code(code_file, c);
 	last = c;
     }
@@ -1959,8 +1993,8 @@ output_yydestruct_impl(void)
 		++outline;
 	    puts_code(code_file, destructor_code);
 	    putc_code(code_file, '\n');
-	    putl_code(code_file, "\tbreak;\n");
 	    write_code_lineno(code_file);
+	    putl_code(code_file, "\tbreak;\n");
 	    FREE(destructor_code);
 	}
     }

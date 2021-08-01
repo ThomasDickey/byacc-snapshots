@@ -1845,62 +1845,72 @@ yyreduce:
 case 1:
 #line 64 "expr.oxout.y"
 	{yyyYoxInit();}
+#line 1849 "expr.oxout.tab.c"
 break;
 case 2:
 #line 66 "expr.oxout.y"
 	{
 		 yyyDecorate(); yyyExecuteRRsection(yystack.l_mark[0].yyyOxAttrbs.yyyOxStackItem->node);
 		}
+#line 1856 "expr.oxout.tab.c"
 break;
 case 3:
 #line 73 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(1,1,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(1,1,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1863 "expr.oxout.tab.c"
 break;
 case 4:
 #line 80 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(2,3,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(2,3,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1870 "expr.oxout.tab.c"
 break;
 case 5:
 #line 87 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(3,3,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(3,3,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1877 "expr.oxout.tab.c"
 break;
 case 6:
 #line 94 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(4,3,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(4,3,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1884 "expr.oxout.tab.c"
 break;
 case 7:
 #line 101 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(5,3,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(5,3,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1891 "expr.oxout.tab.c"
 break;
 case 8:
 #line 108 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(6,3,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(6,3,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[-2].yyyOxAttrbs,&yystack.l_mark[-1].yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1898 "expr.oxout.tab.c"
 break;
 case 9:
 #line 114 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(7,1,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(7,1,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1905 "expr.oxout.tab.c"
 break;
 case 10:
 #line 121 "expr.oxout.y"
 	{if(yyyYok){
 yyyGenIntNode(8,1,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);
 yyyAdjustINRC(8,1,0,0,&yyval.yyyOxAttrbs,&yystack.l_mark[0].yyyOxAttrbs);}}
+#line 1912 "expr.oxout.tab.c"
 break;
-#line 1904 "expr.oxout.tab.c"
+#line 1914 "expr.oxout.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

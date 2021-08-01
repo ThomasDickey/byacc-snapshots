@@ -1050,8 +1050,9 @@ yyreduce:
 case 1:
 #line 9 "err_syntax18.y"
 	{  yyval = yystack.l_mark[1]; }
+#line 1054 "err_syntax18.tab.c"
 break;
-#line 1055 "err_syntax18.tab.c"
+#line 1056 "err_syntax18.tab.c"
     default:
         break;
     }

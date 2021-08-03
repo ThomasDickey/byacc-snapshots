@@ -1,4 +1,4 @@
-.\" $Id: yacc.1,v 1.36 2021/03/28 16:39:46 tom Exp $
+.\" $Id: yacc.1,v 1.37 2021/08/02 23:55:03 tom Exp $
 .\"
 .\" .TH YACC 1 "July\ 15,\ 1990"
 .\" .UC 6
@@ -31,7 +31,7 @@
 .SH NAME
 \*N \- an LALR(1) parser generator
 .SH SYNOPSIS
-.B \*n [ \-BdgilLPrtvVy ] [ \-b
+.B \*n [ \-BdghilLPrtvVy ] [ \-b
 .I file_prefix
 .B ] [ \-H
 .I defines_file
@@ -71,6 +71,9 @@ causes the header file
 .B y.tab.h
 to be written.
 It contains #define's for the token identifiers.
+.TP
+.B \-h
+print a usage message.
 .TP
 \fB\-H \fP\fIdefines_file\fR
 causes #define's for the token identifiers
@@ -204,6 +207,7 @@ A single \fIfilename\fP parameter is expected after a \*(``\-\-\*('' marker.
 .B \*N
 provides some extensions for
 compatibility with bison and other implementations of yacc.
+It accepts several \fIlong options\fP which have equivalents in \*n.
 The \fB%destructor\fP and \fB%locations\fP features are available
 only if \fB\*n\fP has been configured and compiled to support the
 back-tracking (\fBbtyacc\fP) functionality.

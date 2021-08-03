@@ -1,8 +1,8 @@
 Summary: byacc - public domain Berkeley LALR Yacc parser generator
 %define AppProgram byacc
-%define AppVersion 20210801
+%define AppVersion 20210802
 %define UseProgram yacc
-# $Id: mingw-byacc.spec,v 1.35 2021/08/01 19:30:22 tom Exp $
+# $Id: mingw-byacc.spec,v 1.36 2021/08/02 20:50:01 tom Exp $
 Name: %{AppProgram}
 Version: %{AppVersion}
 Release: 1

@@ -1,3 +1,21 @@
+2021-08-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c, yacc.1: add "-h" option
+
+	* test/btyacc/no_b_opt.error, test/btyacc/no_output2.error, test/btyacc/no_p_opt.error, test/btyacc/big_b.error, test/btyacc/big_l.error, test/btyacc/help.error, test/btyacc/nostdin.error, test/yacc/big_b.error, test/yacc/big_l.error, test/yacc/help.error, test/yacc/no_b_opt.error, test/yacc/no_output2.error, test/yacc/no_p_opt.error, test/yacc/nostdin.error:
+	regen
+
+	* main.c:
+	map any of bison's long-options which have a corresponding yacc option
+	into the latter, without depending upon getopt_long().
+
+	* main.c: suggested patch:
+	From: Boris Kolpackov <boris@codesynthesis.com>
+	Subject: Re: [PATCH] support bison's --defines and --output options in byacc
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
 2021-08-01  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* test/btyacc/inherit2.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c:

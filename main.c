@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.72 2021/08/03 00:01:28 tom Exp $ */
+/* $Id: main.c,v 1.73 2021/08/08 20:39:34 tom Exp $ */
 
 #include <signal.h>
 #if !defined(_WIN32) || defined(__MINGW32__)
@@ -148,6 +148,8 @@ done(int k)
 	_exit(EXIT_FAILURE);
 
 #ifdef NO_LEAKS
+    DO_FREE(input_file_name);
+
     if (rflag)
 	DO_FREE(code_file_name);
 

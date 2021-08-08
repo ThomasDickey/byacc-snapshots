@@ -1,3 +1,21 @@
+2021-08-08  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* reader.c:
+	fix memory-leak when replacing $$'s in destructor code (report/testcase
+	by Boris Kolpackov).
+
+	* main.c: account for a memory-leak
+
+	* test/btyacc/btyacc_calc1.tab.c, test/btyacc/btyacc_demo.tab.c, test/btyacc/btyacc_destroy1.tab.c, test/btyacc/btyacc_destroy2.tab.c, test/btyacc/btyacc_destroy3.tab.c, test/btyacc/calc.tab.c, test/btyacc/calc1.tab.c, test/btyacc/calc2.tab.c, test/btyacc/calc3.tab.c, test/btyacc/calc_code_all.tab.c, test/btyacc/calc_code_default.tab.c, test/btyacc/calc_code_imports.tab.c, test/btyacc/calc_code_provides.tab.c, test/btyacc/calc_code_requires.tab.c, test/btyacc/calc_code_top.tab.c, test/btyacc/code_calc.code.c, test/btyacc/code_error.code.c, test/btyacc/defines1.calc.c, test/btyacc/defines2.calc.c, test/btyacc/defines3.calc.c, test/btyacc/empty.tab.c, test/btyacc/err_inherit3.tab.c, test/btyacc/err_inherit4.tab.c, test/btyacc/err_syntax10.tab.c, test/btyacc/err_syntax11.tab.c, test/btyacc/err_syntax12.tab.c, test/btyacc/err_syntax18.tab.c, test/btyacc/err_syntax20.tab.c, test/btyacc/error.tab.c, test/btyacc/expr.oxout.tab.c, test/btyacc/grammar.tab.c, test/btyacc/inherit0.tab.c, test/btyacc/inherit1.tab.c, test/btyacc/inherit2.tab.c, test/btyacc/ok_syntax1.tab.c, test/btyacc/pure_calc.tab.c, test/btyacc/pure_error.tab.c, test/btyacc/quote_calc-s.tab.c, test/btyacc/quote_calc.tab.c, test/btyacc/quote_calc2-s.tab.c, test/btyacc/quote_calc2.tab.c, test/btyacc/quote_calc3-s.tab.c, test/btyacc/quote_calc3.tab.c, test/btyacc/quote_calc4-s.tab.c, test/btyacc/quote_calc4.tab.c, test/btyacc/rename_debug.c, test/btyacc/stdin1.calc.c, test/btyacc/stdin2.calc.c, test/btyacc/varsyntax_calc1.tab.c, test/yacc/calc.tab.c, test/yacc/calc1.tab.c, test/yacc/calc2.tab.c, test/yacc/calc3.tab.c, test/yacc/calc_code_all.tab.c, test/yacc/calc_code_default.tab.c, test/yacc/calc_code_imports.tab.c, test/yacc/calc_code_provides.tab.c, test/yacc/calc_code_requires.tab.c, test/yacc/calc_code_top.tab.c, test/yacc/code_calc.code.c, test/yacc/code_error.code.c, test/yacc/defines1.calc.c, test/yacc/defines2.calc.c, test/yacc/defines3.calc.c, test/yacc/empty.tab.c, test/yacc/err_syntax10.tab.c, test/yacc/err_syntax11.tab.c, test/yacc/err_syntax12.tab.c, test/yacc/err_syntax18.tab.c, test/yacc/err_syntax20.tab.c, test/yacc/error.tab.c, test/yacc/expr.oxout.tab.c, test/yacc/grammar.tab.c, test/yacc/ok_syntax1.tab.c, test/yacc/pure_calc.tab.c, test/yacc/pure_error.tab.c, test/yacc/quote_calc-s.tab.c, test/yacc/quote_calc.tab.c, test/yacc/quote_calc2-s.tab.c, test/yacc/quote_calc2.tab.c, test/yacc/quote_calc3-s.tab.c, test/yacc/quote_calc3.tab.c, test/yacc/quote_calc4-s.tab.c, test/yacc/quote_calc4.tab.c, test/yacc/rename_debug.c, test/yacc/stdin1.calc.c, test/yacc/stdin2.calc.c, test/yacc/varsyntax_calc1.tab.c, btyaccpar.c, yaccpar.c:
+	regen
+
+	* btyaccpar.skel, yaccpar.skel:
+	revert change to initialization of yystate, which confuses gcc, making a
+	different warning
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
 2021-08-02  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c, yacc.1: add "-h" option

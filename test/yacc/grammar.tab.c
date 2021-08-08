@@ -1171,7 +1171,7 @@ YYPARSE_DECL()
     yynerrs = 0;
     yyerrflag = 0;
     yychar = YYEMPTY;
-    /* yystate is set below */
+    yystate = 0;
 
 #if YYPURE
     memset(&yystack, 0, sizeof(yystack));

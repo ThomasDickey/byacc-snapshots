@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.89 2021/08/01 22:36:09 tom Exp $ */
+/* $Id: reader.c,v 1.90 2021/08/08 22:11:04 tom Exp $ */
 
 #include "defs.h"
 
@@ -3886,8 +3886,10 @@ finalize_destructors(void)
 	}
 	else
 	{			/* replace "$$" with "(*val)[.tag]" in destructor code */
+	    char *destructor_source = symbol_destructor[i];
 	    symbol_destructor[i]
-		= process_destructor_XX(symbol_destructor[i], tag);
+		= process_destructor_XX(destructor_source, tag);
+	    FREE(destructor_source);
 	}
     }
     /* 'symbol_type_tag[]' elements are freed by 'free_tags()' */

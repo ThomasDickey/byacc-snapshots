@@ -1,4 +1,4 @@
-/* $Id: btyaccpar.skel,v 1.12 2021/06/19 20:46:31 tom Exp $ */
+/* $Id: btyaccpar.skel,v 1.13 2021/08/08 19:56:28 tom Exp $ */
 
 #include "defs.h"
 
@@ -414,7 +414,7 @@ YYPARSE_DECL()
     yynerrs = 0;
     yyerrflag = 0;
     yychar = YYEMPTY;
-    /* yystate is set below */
+    yystate = 0;
 
 #if YYPURE
     memset(&yystack, 0, sizeof(yystack));

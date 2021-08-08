@@ -2,7 +2,7 @@
  * @Id: skel2c,v 1.4 2016/06/07 00:26:09 tom Exp @
  */
 
-/* @Id: yaccpar.skel,v 1.10 2018/05/06 21:28:14 Guy.Harris Exp @ */
+/* @Id: yaccpar.skel,v 1.11 2021/06/19 20:45:25 tom Exp @ */
 
 #include "defs.h"
 
@@ -232,7 +232,7 @@ const char *const body_3[] =
     "    yynerrs = 0;",
     "    yyerrflag = 0;",
     "    yychar = YYEMPTY;",
-    "    /* yystate is set below */",
+    "    yystate = 0;",
     "",
     "#if YYPURE",
     "    memset(&yystack, 0, sizeof(yystack));",

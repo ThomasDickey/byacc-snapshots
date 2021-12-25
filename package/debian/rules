@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $Id: rules,v 1.5 2021/05/20 23:48:03 tom Exp $
+# $Id: rules,v 1.6 2021/12/25 01:55:41 tom Exp $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -48,13 +48,15 @@ configure = \
 all: build
 
 config: config-arch
-build: build-arch
+build: build-indep build-arch
 install: install-arch
-binary: binary-arch
+binary: binary-indep binary-arch
 
 config-arch:  $(PACKAGES.arch:%=config-%-stamp)
 build-arch:   $(PACKAGES.arch:%=build-%-stamp)
 install-arch: $(PACKAGES.arch:%=install-%-stamp)
+
+build-indep:
 
 config-byacc-stamp:
 	dh_testdir
@@ -97,6 +99,7 @@ install-byacc-stamp: build-byacc-stamp
 	dh_installdirs
 
 	cd $(BYACC_TMP); $(MAKE) install DESTDIR=$(BYACC_DIR)
+	sed -i '/- an LALR/s,^..N,byacc,' $(BYACC_DIR)/usr/share/man/man1/byacc.1
 
 	touch $@
 
@@ -106,6 +109,7 @@ install-btyacc-stamp: build-btyacc-stamp
 	dh_installdirs
 
 	cd $(BTYACC_TMP); $(MAKE) install DESTDIR=$(BTYACC_DIR)
+	sed -i '/- an LALR/s,^..N,btyacc,' $(BTYACC_DIR)/usr/share/man/man1/btyacc.1
 
 	touch $@
 
@@ -117,6 +121,15 @@ clean:
 
 	rm -rf t
 
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_lintian           $(verbose) $(PACKAGES.arch:%=-p%)
+	dh_installdocs	     $(verbose) $(PACKAGES.arch:%=-p%)
+	dh_installexamples   $(verbose) $(PACKAGES.arch:%=-p%)
+	dh_installchangelogs $(verbose) $(PACKAGES.arch:%=-p%) CHANGES
+
 # Build architecture-dependent files here.
 binary-arch: build install
 ifneq ($(PACKAGES.arch),)
@@ -124,9 +137,6 @@ ifneq ($(PACKAGES.arch),)
 	dh_testdir
 	dh_testroot
 	dh_lintian           $(verbose) $(PACKAGES.arch:%=-p%)
-	dh_installdocs	     $(verbose) $(PACKAGES.arch:%=-p%)
-	dh_installexamples   $(verbose) $(PACKAGES.arch:%=-p%)
-	dh_installchangelogs $(verbose) $(PACKAGES.arch:%=-p%) CHANGES
 	dh_strip	     $(verbose) $(PACKAGES.arch:%=-p%)
 	dh_compress	     $(verbose) $(PACKAGES.arch:%=-p%)
 	dh_fixperms	     $(verbose) $(PACKAGES.arch:%=-p%)
@@ -137,4 +147,4 @@ ifneq ($(PACKAGES.arch),)
 	dh_builddeb	     $(verbose) $(PACKAGES.arch:%=-p%)
 endif
 
-.PHONY: build clean config config-arch binary binary-arch install install-arch
+.PHONY: build clean config config-arch binary binary-indep binary-arch install install-arch

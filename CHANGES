@@ -1,3 +1,183 @@
+2021-12-24  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/debian/rules: fixes from Debian package for lintian warnings
+
+	* package/debian/control: updates for Debian standard
+
+	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+	* package/debian/docs, package/debian/copyright, package/debian/control:
+	errata from Debian package
+
+	* config.sub: 2021-12-24
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    config.sub: alias aarch64le to aarch64
+
+	    Apparently, QNX reports aarch64 as aarch64le on little-endian machines.
+
+	    * config.sub (aarch64le-*): Set cpu to aarch64.
+	    (timestamp): Update.
+	    * doc/config.sub.1: Regenerate.
+	    * testsuite/config-sub.data (aarch64le-qnx): New test.
+
+	    Reported-by: Elad Lahav <e2lahav@gmail.com>
+	    Link: https://lists.gnu.org/archive/html/config-patches/2021-12/msg00009.html
+
+2021-12-16  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
+2021-12-13  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-10-27
+	    From: Dmitry V. Levin <ldv@altlinux.org>
+	    config.sub: fix typo in timestamp
+
+	    * config.sub: Fix timestamp.
+	    * doc/config.sub.1: Regenerate.
+
+	    Reported-by: Jordi Sanfeliu <jordi@fibranet.cat>
+	    Fixes: a013aac61edfa2a03727521508286480010e7bf3
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-11-30  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-11-30
+	    From: Andreas F. Borchert <github@andreas-borchert.de>
+	    config.guess: x86_64-pc-solaris2.11 is not properly recognized
+
+	    config.guess guesses Solaris 11 to run on a 32-bit platform
+	    despite Solaris 11 no longer supporting any 32-bit platform.
+
+	    See the following code at lines 434 to 445:
+
+	    | SUN_ARCH=i386
+	    | # If there is a compiler, see if it is configured for 64-bit objects.
+	    | # Note that the Sun cc does not turn __LP64__ into 1 like gcc does.
+	    | # This test works for both compilers.
+	    | if test "$CC_FOR_BUILD" != no_compiler_found; then
+	    |     if (echo '#ifdef __amd64'; echo IS_64BIT_ARCH; echo '#endif') | \
+	    |         (CCOPTS="" $CC_FOR_BUILD -E - 2>/dev/null) | \
+	    |         grep IS_64BIT_ARCH >/dev/null
+	    |     then
+	    |         SUN_ARCH=x86_64
+	    |     fi
+	    | fi
+
+	    If "cc" is installed, i.e. the Oracle Studio compiler, this one is
+	    chosen for $CC_FOR_BUILD.  This compiler, the gcc provided by Oracle
+	    and also gcc bootstrapped from sources on that platform with a default
+	    configuration will by default generate 32-bit binaries -- even on
+	    a 64-bit platform.  And __amd64 will not be defined for compilations
+	    targeting a 32-bit platform.  This is different from the corresponding
+	    behaviour on GNU/Linux systems where the local platform is targeted by
+	    default.
+
+	    Thus, as long as you do not add "-m64" or if you have a custom-built
+	    gcc which defaults to 64 bit, you will get 32-bit binaries on Solaris
+	    despite living on a 64-bit platform.
+
+	    * config.guess (i86pc:SunOS:5.*:* || i86xen:SunOS:5.*:*): Adapt the
+	    test by adding the "-m64" flag.  This will work properly for Solaris
+	    10 as well (the last Solaris release that supported x86 32-bit
+	    platforms).
+	    * doc/config.guess.1: Regenerate.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-10-27  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess: 2021-10-27
+	    From: Jordi Sanfeliu <jordi@fibranet.cat>
+	    Recognize Fiwix
+
+	    $ make check
+	    cd testsuite && bash config-guess.sh && rm uname
+	    PASS: config.guess checks (137 tests)
+	    cd testsuite && bash config-sub.sh
+	    PASS: config.sub checks (882 tests)
+	    PASS: config.sub idempotency checks (819 tests)
+	    PASS: config.sub canonicalise each config.guess testcase (137 tests)
+
+	    * config.guess (i*86:Fiwix:*:*): Recognize.
+	    * config.sub (fiwix*): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add a test case for Fiwix.
+	    * testsuite/config-sub.data (i386-fiwix): New test.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+	* config.sub: 2021-20-27
+	    From: Jordi Sanfeliu <jordi@fibranet.cat>
+	    Recognize Fiwix
+
+	    $ make check
+	    cd testsuite && bash config-guess.sh && rm uname
+	    PASS: config.guess checks (137 tests)
+	    cd testsuite && bash config-sub.sh
+	    PASS: config.sub checks (882 tests)
+	    PASS: config.sub idempotency checks (819 tests)
+	    PASS: config.sub canonicalise each config.guess testcase (137 tests)
+
+	    * config.guess (i*86:Fiwix:*:*): Recognize.
+	    * config.sub (fiwix*): Likewise.
+	    * doc/config.guess.1: Regenerate.
+	    * doc/config.sub.1: Likewise.
+	    * testsuite/config-guess.data: Add a test case for Fiwix.
+	    * testsuite/config-sub.data (i386-fiwix): New test.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-10-18  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-08-14
+	    From: Kinshuk Dua <kinshukdua@gmail.com>
+	    config.sub: Fix typo in comment
+
+	    Fixes: 5e531d391852a54e7fab2d8ff55625fca514b305
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
+2021-08-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-08-14
+	    From: Nick Bowler <nbowler@draconx.ca>
+	    config.sub: work around command assignment bug in some shells
+
+	    When combining variable assignments with a shell command, some older
+	    shells (notably heirloom-sh and presumably also Solaris 10 /bin/sh)
+	    have a bug which causes the assignment to alter the current execution
+	    environment whenever the command is a shell built-in.  For example:
+
+	      % dash -c 'x=good; x=bad echo >/dev/null; echo $x'
+	      good
+
+	      % jsh -c 'x=good; x=bad echo >/dev/null; echo $x'
+	      bad
+
+	    The config.sub script contains a few commands of the form:
+
+	      IFS=- read ...
+
+	    which triggers this bug, causing the IFS assignment to persist for the
+	    remainder of the script.  This can cause misbehaviour in certain cases,
+	    for example:
+
+	      % jsh config.sub i386-linux-gnu
+	      config.sub: test: unknown operator gnu
+
+	      % jsh config.sub i386-gnu/linux
+	      sed: can't read s|gnu/linux|gnu|: No such file or directory
+	      Invalid configuration `i386-gnu/linux': OS `' not recognized
+
+	    * config.sub: Save and restore IFS explicitly to avoid shell bugs.
+	    * doc/config.sub.1: Regenerate.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
+
 2021-08-08  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* reader.c:
@@ -15,6 +195,26 @@
 
 	* VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
 	bump
+
+2021-08-04  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-08-04
+	    From: Jeremy Soller <jackpot51@gmail.com>
+	    config.sub: add Linux Relibc Target
+
+	    $ make check
+	    cd testsuite && bash config-guess.sh && rm uname
+	    PASS: config.guess checks (136 tests)
+	    cd testsuite && bash config-sub.sh
+	    PASS: config.sub checks (881 tests)
+	    PASS: config.sub idempotency checks (818 tests)
+	    PASS: config.sub canonicalise each config.guess testcase (136 tests)
+
+	    * config.sub (relibc*): Recognize.
+	    * doc/config.sub.1: Regenerate.
+	    * testsuite/config-sub.data (x86_64-linux-relibc): New test.
+
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
 
 2021-08-02  Thomas E. Dickey  <dickey@invisible-island.net>
 
@@ -82,6 +282,30 @@
 	Subject: small patch for byacc
 	...
 	this splits up "\nbreak;\n" output to put #line directives after first "\n"
+
+2021-07-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.sub: 2021-07-06
+	    From: Stephanos Ioannidis <root@stephanos.io>
+	    config.sub: add Zephyr RTOS support
+
+	    This adds the Zephyr RTOS targets in preparation for implementing the
+	    Zephyr RTOS-specific toolchain support.
+
+	    $ make check
+	    cd testsuite && bash config-guess.sh && rm uname
+	    PASS: config.guess checks (136 tests)
+	    cd testsuite && bash config-sub.sh
+	    PASS: config.sub checks (880 tests)
+	    PASS: config.sub idempotency checks (817 tests)
+	    PASS: config.sub canonicalise each config.guess testcase (136 tests)
+
+	    * config.sub (zephyr*): Recognize.
+	    * doc/config.sub.1: Regenerate.
+	    * testsuite/config-sub.data: Add testcases for *-zephyr.
+
+	    Signed-off-by: Stephanos Ioannidis <root@stephanos.io>
+	    Signed-off-by: Dmitry V. Levin <ldv@altlinux.org>
 
 2021-07-03  Thomas E. Dickey  <dickey@invisible-island.net>
 

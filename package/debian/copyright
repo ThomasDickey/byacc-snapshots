@@ -96,7 +96,7 @@ Licence: other-BSD
     from scratch.  It can only install one file at a time, a restriction
     shared with many OS's install programs.
 
-Files: debian/*
+Files: package/debian/*
 Copyright:  2012-2020,2021 Thomas E. Dickey
 Licence: other-BSD
     Permission to use, copy, modify, and distribute this software and its

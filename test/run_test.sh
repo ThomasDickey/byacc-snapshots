@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.33 2021/06/19 19:33:05 tom Exp $
+# $Id: run_test.sh,v 1.35 2022/01/01 22:28:17 tom Exp $
 # vi:ts=4 sw=4:
 
 errors=0
@@ -19,6 +19,7 @@ test_diffs() {
 			-e "s%$YACC_escaped%YACC%" \
 			-e "s%^yacc\>%YACC%" \
 			-e "s%YACC:.*option.*$%YACC: error message%" \
+			-e "s%yacc:.*option.*$%YACC: error message%" \
 			-e "s%^Usage: yacc\>%Usage: YACC%" \
 			-e '/YYPATCH/s/[0-9][0-9]*/"yyyymmdd"/' \
 			-e '/#define YYPATCH/s/PATCH/CHECK/' \
@@ -210,7 +211,7 @@ do
 	*)
 		root=`basename "$input" .y`
 		ROOT="test-$root"
-		prefix=${root}_
+		prefix=`echo "${root}_" | sed -e 's/[.]/_/g'`
 
 		OPTS=
 		OPT2=

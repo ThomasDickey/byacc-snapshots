@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_make.sh,v 1.19 2021/06/19 19:27:47 tom Exp $
+# $Id: run_make.sh,v 1.20 2022/01/01 20:53:16 tom Exp $
 # vi:ts=4 sw=4:
 
 # do a test-compile on each of the ".c" files in the test-directory
@@ -30,8 +30,10 @@ run_make() {
 	C_FILE=`basename "$1"`
 	O_FILE=`basename "$C_FILE" .c`.o
 	shift
+	RETEST=`unset CDPATH; cd $TEST_DIR; pwd`
 	cd "$REF_DIR"
-	make -f "$PROG_DIR/makefile" srcdir="$PROG_DIR" "$O_FILE" "$@"
+	test -f "$I_FILE" && rm "$I_FILE"
+	make -f "$PROG_DIR/makefile" EXTRA_CFLAGS=-I$RETEST srcdir="$PROG_DIR" "$O_FILE" "$@"
 	test -f "$O_FILE" && rm "$O_FILE"
 	cd "$THIS_DIR"
 }

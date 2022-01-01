@@ -5,6 +5,7 @@ set -e
 
 if [ $1 != "upgrade" ]; then
 	update-alternatives --remove yacc /usr/bin/byacc
+	update-alternatives --remove yacc /usr/bin/byacc2
 fi
 
 #DEBHELPER#

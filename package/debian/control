@@ -8,6 +8,7 @@ Homepage: https://invisible-island.net/byacc/
 Vcs-Git: https://salsa.debian.org/dickey/byacc
 
 Package: byacc
+Provides: yacc
 Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -18,7 +19,8 @@ Description: public domain Berkeley LALR Yacc parser generator
  routine written in the C programming language.  It has a public domain
  license which includes the generated C.
 
-Package: btyacc
+Package: byacc2
+Provides: yacc
 Architecture: any
 Multi-Arch: foreign
 Depends: ${shlibs:Depends}, ${misc:Depends}

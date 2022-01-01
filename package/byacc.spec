@@ -1,9 +1,9 @@
 Summary: byacc - public domain Berkeley LALR Yacc parser generator
 %define AppProgram byacc
-%define AltProgram btyacc
-%define AppVersion 20211224
+%define AltProgram byacc2
+%define AppVersion 20220101
 %define UseProgram yacc
-# $Id: byacc.spec,v 1.60 2021/12/25 00:13:22 tom Exp $
+# $Id: byacc.spec,v 1.62 2022/01/01 14:59:55 tom Exp $
 Name: %{AppProgram}
 Version: %{AppVersion}
 Release: 1
@@ -20,10 +20,10 @@ parsers consist of a set of LALR(1) parsing tables and a driver
 routine written in the C programming language.  It has a public domain
 license which includes the generated C.
 
-%package -n btyacc
+%package -n byacc2
 Summary:        Curses library with POSIX thread support.
 
-%description -n btyacc
+%description -n byacc2
 This package provides a parser generator utility that reads a grammar
 specification from a file and generates an LR(1) parser for it.  The
 parsers consist of a set of LALR(1) parsing tables and a driver
@@ -58,18 +58,16 @@ pushd BUILD-byacc
 CONFIGURE_TOP=%{my_srcdir} \
 %configure %{CFG_OPTS} \
   --program-prefix=b \
-  --program-transform-name='s,\^,b,'
 make
 popd
 
-mkdir BUILD-btyacc
-pushd BUILD-btyacc
+mkdir BUILD-byacc2
+pushd BUILD-byacc2
 CONFIGURE_TOP=%{my_srcdir} \
 %configure %{CFG_OPTS} \
   --enable-btyacc \
-  --program-prefix=bt \
+  --program-transform-name='s,\<yacc,byacc2,g' \
   --with-max-table-size=123456 \
-  --program-transform-name='s,\^,bt,'
 make
 popd
 
@@ -81,7 +79,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 ( cd $RPM_BUILD_ROOT%{_bindir} && ln -vs %{AppProgram} %{UseProgram} )
 popd
 
-pushd BUILD-btyacc
+pushd BUILD-byacc2
 make install DESTDIR=$RPM_BUILD_ROOT
 popd
 
@@ -94,13 +92,16 @@ popd
 %{_prefix}/bin/%{UseProgram}
 %{_mandir}/man1/%{AppProgram}.*
 
-%files -n btyacc
+%files -n byacc2
 %defattr(-,root,root)
 %{_prefix}/bin/%{AltProgram}
 %{_mandir}/man1/%{AltProgram}.*
 
 %changelog
 # each patch should add its ChangeLog entries here
+
+* Sat Jan 01 2022 Thomas Dickey
+- rename btyacc package to byacc2 to co-exist with traditional btyacc
 
 * Fri May 25 2018 Thomas Dickey
 - add btyacc package

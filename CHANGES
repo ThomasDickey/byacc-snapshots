@@ -1,3 +1,43 @@
+2022-01-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/run_test.sh:
+	adjust to ignore NetBSD's difference in getopt warnings.
+
+	* package/pkgsrc/Makefile: resync with pkgsrc
+
+	* test/yacc/expr.oxout.tab.c, test/btyacc/expr.oxout.tab.c: regen
+
+	* test/expr.oxout.y, test/expr.oxout.h: fix gcc warnings
+
+	* test/yacc/expr.oxout.tab.c, test/yacc/expr.oxout.tab.h: regen
+
+	* test/run_make.sh: workaround for compiling the expr.oxout.y files
+
+	* test/expr.oxout.y: fix syntax error
+
+	* test/btyacc/expr.oxout.tab.c: regen
+
+	* test/expr.oxout.h: RCS_BASE
+
+	* test/yacc/expr.oxout.tab.c: fix syntax error
+
+	* test/btyacc/expr.oxout.tab.c: regen, s/expr.oxout/expr_oxout/g
+
+	* test/btyacc/expr.oxout.tab.h: regen
+
+	* test/run_test.sh:
+	filter the default prefix to change "." to "_", so that the generated
+	files will compile consistently with run_make.sh
+
+	* package/debian/control, package/debian/prerm, package/debian/postinst:
+	add "byacc2" as an alternative for "yacc"
+
+	* package/byacc.spec, package/debian/control, package/debian/rules:
+	rename "btyacc" to "byacc2" to co-exist with traditional "btyacc" package
+
+	* package/debian/copyright, VERSION, package/byacc.spec, package/debian/changelog, package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
 2021-12-24  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* package/debian/rules: fixes from Debian package for lintian warnings

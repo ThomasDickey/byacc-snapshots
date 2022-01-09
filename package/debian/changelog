@@ -1,3 +1,16 @@
+byacc (1:2.0.20220109) unstable; urgency=low
+
+  * maintenance updates, modify packaging to more closely match distributors.
+    In particular, correct versioning using an epoch.
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Sun, 09 Jan 2022 10:49:20 -0500
+
+byacc (20220102) unstable; urgency=low
+
+  * maintenance updates
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Sun, 02 Jan 2022 11:12:56 -0500
+
 byacc (20220101) unstable; urgency=low
 
   * maintenance updates

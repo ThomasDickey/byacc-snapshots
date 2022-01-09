@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.90 2021/08/08 22:11:04 tom Exp $ */
+/* $Id: reader.c,v 1.91 2022/01/09 18:04:58 tom Exp $ */
 
 #include "defs.h"
 
@@ -2162,7 +2162,7 @@ compile_arg(char **theptr, char *yyvaltag)
     {
 	int j;
 
-	offsets = TMALLOC(Value_t, maxoffset + 1);
+	offsets = TCMALLOC(Value_t, maxoffset + 1);
 	NO_SPACE(offsets);
 
 	for (j = 0, i++; i < nitems; i++)
@@ -2273,7 +2273,7 @@ can_elide_arg(char **theptr, char *yyvaltag)
     {
 	int j;
 
-	offsets = TMALLOC(Value_t, maxoffset + 1);
+	offsets = TCMALLOC(Value_t, maxoffset + 1);
 	NO_SPACE(offsets);
 
 	for (j = 0, i++; i < nitems; i++)

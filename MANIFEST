@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20220101
+MANIFEST for byacc, version t20220109
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -44,13 +44,15 @@ yaccpar.skel                    data which can be transformed into skeleton.c
 package                         subdirectory
 package/byacc.spec              RPM file for byacc
 package/debian                  subdirectory
+package/debian/byacc.docs       extra docs for byacc package
+package/debian/byacc.postinst   post-install script for byacc package
+package/debian/byacc.prerm      pre-removal script for byacc package
+package/debian/byacc2.docs      extra docs for byacc2 package
+package/debian/byacc2.postinst  post-install script for byacc2 package
+package/debian/byacc2.prerm     pre-removal script for byacc2 package
 package/debian/changelog        scripts from Debian package
-package/debian/compat           scripts from Debian package
 package/debian/control          scripts from Debian package
 package/debian/copyright        scripts from Debian package
-package/debian/docs             scripts from Debian package
-package/debian/postinst         scripts from Debian package
-package/debian/prerm            scripts from Debian package
 package/debian/rules            scripts from Debian package
 package/debian/source           subdirectory
 package/debian/source/format    scripts from Debian package

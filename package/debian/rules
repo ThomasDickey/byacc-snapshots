@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $Id: rules,v 1.7 2022/01/01 13:01:37 tom Exp $
+# $Id: rules,v 1.8 2022/01/08 19:53:07 tom Exp $
 #
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
@@ -11,9 +11,11 @@ DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 
 PACKAGES.arch  = byacc byacc2
 
-CPPFLAGS	:= $(shell dpkg-buildflags --get CPPFLAGS)
-CFLAGS		:= $(shell dpkg-buildflags --get CFLAGS)
-LDFLAGS		:= $(shell dpkg-buildflags --get LDFLAGS)
+QA_FIX		= DEB_BUILD_MAINT_OPTIONS="hardening=+all qa=+bug reproducible=+all"
+
+CPPFLAGS	:= $(shell $(QA_FIX) dpkg-buildflags --get CPPFLAGS)
+CFLAGS		:= $(shell $(QA_FIX) dpkg-buildflags --get CFLAGS)
+LDFLAGS		:= $(shell $(QA_FIX) dpkg-buildflags --get LDFLAGS)
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
         CFLAGS += -O0

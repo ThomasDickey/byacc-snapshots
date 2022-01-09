@@ -1,10 +1,9 @@
 #! /bin/sh
-# prerm script for byacc
+# prerm script for byacc2
 
 set -e
 
 if [ $1 != "upgrade" ]; then
-	update-alternatives --remove yacc /usr/bin/byacc
 	update-alternatives --remove yacc /usr/bin/byacc2
 fi
 

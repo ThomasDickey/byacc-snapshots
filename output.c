@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.99 2021/08/01 23:45:04 tom Exp $ */
+/* $Id: output.c,v 1.100 2022/01/09 18:03:56 tom Exp $ */
 
 #include "defs.h"
 
@@ -377,7 +377,7 @@ output_accessing_symbols(void)
 	int i, j;
 	int *translate;
 
-	translate = TMALLOC(int, nstates);
+	translate = TCMALLOC(int, nstates);
 	NO_SPACE(translate);
 
 	for (i = 0; i < nstates; ++i)
@@ -1375,7 +1375,7 @@ output_debug(void)
     fprintf(code_file, "#define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? "
 	    "YYUNDFTOKEN : (a))\n");
 
-    symnam = TMALLOC(const char *, max + 2);
+    symnam = TCMALLOC(const char *, max + 2);
     NO_SPACE(symnam);
 
     /* Note that it is not necessary to initialize the element          */

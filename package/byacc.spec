@@ -1,17 +1,18 @@
-Summary: byacc - public domain Berkeley LALR Yacc parser generator
-%define AppProgram byacc
-%define AltProgram byacc2
-%define AppVersion 20220101
-%define UseProgram yacc
-# $Id: byacc.spec,v 1.62 2022/01/01 14:59:55 tom Exp $
-Name: %{AppProgram}
-Version: %{AppVersion}
+Summary: public domain Berkeley LALR Yacc parser generator
+
+%global AppVersion 2.0
+%global AppPatched 20220109
+
+%global AltProgram byacc2
+%global UseProgram yacc
+
+# $Id: byacc.spec,v 1.65 2022/01/09 20:03:07 tom Exp $
+Name: byacc
+Version: %{AppVersion}.%{AppPatched}
 Release: 1
 License: Public Domain, MIT
-Group: Applications/Development
-URL: ftp://invisible-island.net/%{AppProgram}
-Source0: %{AppProgram}-%{AppVersion}.tgz
-Packager: Thomas E. Dickey <dickey@invisible-island.net>
+URL: https://invisible-island.net/%{name}/
+Source0: https://invisible-mirror.net/archives/%{name}/%{name}-%{AppPatched}.tgz
 
 %description
 This package provides a parser generator utility that reads a grammar
@@ -21,7 +22,7 @@ routine written in the C programming language.  It has a public domain
 license which includes the generated C.
 
 %package -n byacc2
-Summary:        Curses library with POSIX thread support.
+Summary: public domain Berkeley LALR Yacc parser generator with backtracking
 
 %description -n byacc2
 This package provides a parser generator utility that reads a grammar
@@ -34,9 +35,9 @@ This package has the backtracking extension.
 
 %prep
 
-%define debug_package %{nil}
+%global debug_package %{nil}
 
-%setup -q -n %{AppProgram}-%{AppVersion}
+%setup -q -n %{name}-%{AppPatched}
 
 %build
 %define my_srcdir ..
@@ -76,7 +77,7 @@ popd
 
 pushd BUILD-byacc
 make install DESTDIR=$RPM_BUILD_ROOT
-( cd $RPM_BUILD_ROOT%{_bindir} && ln -vs %{AppProgram} %{UseProgram} )
+( cd $RPM_BUILD_ROOT%{_bindir} && ln -vs %{name} %{UseProgram} )
 popd
 
 pushd BUILD-byacc2
@@ -87,18 +88,23 @@ popd
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 
 %files
-%defattr(-,root,root)
-%{_prefix}/bin/%{AppProgram}
-%{_prefix}/bin/%{UseProgram}
-%{_mandir}/man1/%{AppProgram}.*
+%doc ACKNOWLEDGEMENTS CHANGES NEW_FEATURES NOTES NO_WARRANTY README
+%license LICENSE
+%{_bindir}/%{name}
+%{_bindir}/%{UseProgram}
+%{_mandir}/man1/%{name}.*
 
 %files -n byacc2
-%defattr(-,root,root)
-%{_prefix}/bin/%{AltProgram}
+%doc ACKNOWLEDGEMENTS CHANGES NEW_FEATURES NOTES NO_WARRANTY README README.BTYACC
+%license LICENSE
+%{_bindir}/%{AltProgram}
 %{_mandir}/man1/%{AltProgram}.*
 
 %changelog
 # each patch should add its ChangeLog entries here
+
+* Sun Jan 09 2022 Thomas Dickey
+- rpmlint
 
 * Sat Jan 01 2022 Thomas Dickey
 - rename btyacc package to byacc2 to co-exist with traditional btyacc

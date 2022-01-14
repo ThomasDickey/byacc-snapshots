@@ -1,4 +1,4 @@
-MANIFEST for byacc, version t20220109
+MANIFEST for byacc, version t20220114
 --------------------------------------------------------------------------------
 MANIFEST                        this file
 ACKNOWLEDGEMENTS                original version of byacc - 1993
@@ -43,21 +43,21 @@ yaccpar.c                       generated from yaccpar.skel
 yaccpar.skel                    data which can be transformed into skeleton.c
 package                         subdirectory
 package/byacc.spec              RPM file for byacc
-package/debian                  subdirectory
-package/debian/byacc.docs       extra docs for byacc package
-package/debian/byacc.postinst   post-install script for byacc package
-package/debian/byacc.prerm      pre-removal script for byacc package
-package/debian/byacc2.docs      extra docs for byacc2 package
-package/debian/byacc2.postinst  post-install script for byacc2 package
-package/debian/byacc2.prerm     pre-removal script for byacc2 package
-package/debian/changelog        scripts from Debian package
-package/debian/control          scripts from Debian package
-package/debian/copyright        scripts from Debian package
-package/debian/rules            scripts from Debian package
-package/debian/source           subdirectory
-package/debian/source/format    scripts from Debian package
-package/debian                  subdirectory
-package/debian/watch            scripts from Debian package
+package/detest                  subdirectory
+package/detest/byacc.docs       extra docs for byacc package
+package/detest/byacc.postinst   post-install script for byacc package
+package/detest/byacc.prerm      pre-removal script for byacc package
+package/detest/byacc2.docs      extra docs for byacc2 package
+package/detest/byacc2.postinst  post-install script for byacc2 package
+package/detest/byacc2.prerm     pre-removal script for byacc2 package
+package/detest/changelog        scripts from Debian package
+package/detest/control          scripts from Debian package
+package/detest/copyright        scripts from Debian package
+package/detest/rules            scripts from Debian package
+package/detest/source           subdirectory
+package/detest/source/format    scripts from Debian package
+package/detest                  subdirectory
+package/detest/watch            scripts from Debian package
 package                         subdirectory
 package/mingw-byacc.spec        mingw spec-file, for cross-compiles
 package/pkgsrc                  subdirectory

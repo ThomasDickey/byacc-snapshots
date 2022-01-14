@@ -1,6 +1,24 @@
+2022-01-14  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION, package/byacc.spec, package/detest/changelog,
+	  package/pkgsrc/Makefile:
+	bump
+
 2022-01-09  Thomas E. Dickey  <dickey@invisible-island.net>
 
-	* package/debian/changelog, package/debian/watch, package/debian/control:
+	* package/detest/changelog: build-script
+
+	* package/debian/changelog:
+	update to use oldstable-compatible rules/config, for testing version upgrade
+
+	* package/detest/watch: build-script
+
+	* package/debian/watch:
+	update to use oldstable-compatible rules/config, for testing version upgrade
+
+	* package/detest/control: build-script
+
+	* package/debian/control:
 	update to use oldstable-compatible rules/config, for testing version upgrade
 
 	* package/byacc.spec, package/mingw-byacc.spec:
@@ -21,6 +39,8 @@
 
 2022-01-08  Thomas E. Dickey  <dickey@invisible-island.net>
 
+	* package/detest/copyright, package/detest/rules: build-script
+
 	* package/debian/copyright, package/debian/rules:
 	update to use oldstable-compatible rules/config, for testing version upgrade
 
@@ -28,10 +48,25 @@
 
 	* package/debian/control: minor fixes adapted from btyacc package
 
-	* package/debian/byacc.docs, package/debian/byacc2.prerm,
-	  package/debian/byacc2.postinst, package/debian/byacc.postinst,
-	  package/debian/byacc.prerm:
-	RCS_BASE
+	* package/debian/byacc.docs: RCS_BASE
+
+	* package/detest/byacc.docs: build-script
+
+	* package/debian/byacc2.prerm: RCS_BASE
+
+	* package/detest/byacc2.prerm: build-script
+
+	* package/debian/byacc2.postinst: RCS_BASE
+
+	* package/detest/byacc2.postinst: build-script
+
+	* package/debian/byacc.postinst: RCS_BASE
+
+	* package/detest/byacc.postinst: build-script
+
+	* package/debian/byacc.prerm: RCS_BASE
+
+	* package/detest/byacc.prerm: build-script
 
 	* VERSION, package/byacc.spec, package/debian/changelog,
 	  package/pkgsrc/Makefile:
@@ -90,6 +125,8 @@
 	bump
 
 	* package/debian/byacc2.docs: RCS_BASE
+
+	* package/detest/byacc2.docs: build-script
 
 	* package/debian/docs, package/debian/copyright, package/debian/control:
 	errata from Debian package
@@ -2466,6 +2503,8 @@
 	                 Jouk.
 
 2014-10-06  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/detest/source/format: build-script
 
 	* package/debian/source/format:
 	change to native format to work around regression in Debian packaging.

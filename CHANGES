@@ -1,3 +1,26 @@
+2022-01-28  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/debian/copyright: update, fix typo
+
+	* package/debian/rules, package/debian/control:
+	adapt from current Debian package
+
+	* configure: regen
+
+	* configure.in:
+	change default for the backtracking option to match the most-common usage
+	of byacc
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/pkgsrc/Makefile:
+	update packaging, renaming debian folder back to its original location to
+	verify that the version-mangling used in the accepted Debian package will work
+	with the continuous-integration system.
+
+2022-01-18  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/debian/watch: adapt from current Debian package
+
 2022-01-14  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* VERSION, package/byacc.spec, package/detest/changelog,
@@ -386,6 +409,8 @@
 2021-08-02  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* main.c, yacc.1: add "-h" option
+
+	* yacc.1: fix date
 
 	* test/btyacc/no_b_opt.error, test/btyacc/no_output2.error,
 	  test/btyacc/no_p_opt.error, test/btyacc/big_b.error,

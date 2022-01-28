@@ -12,12 +12,9 @@ version=4
 # The introduction of the back-tracking configuration motivated the change of
 # major/minor numbers; for compatibility the parser skeleton still says "1.9".
 #
-# Patch-dates are always # in yyyymmdd format. 
+# Patch-dates are always # in yyyymmdd format.
 
-opts=pgpsigurlmangle=s/.*/$0.asc/,\
-dversionmangle=s/^\d\.\d\.(\d+)/$1/,\
-filenamemangle=s/^.*\/(byacc)-(\d+)\.tgz/$1_2.0.$2.orig.tar.gz/ \
+opts=pgpmode=auto,\
+dversionmangle=s/^2\.0\.//,\
+oversionmangle=s/^(.*)/2.0.$1/ \
  https://invisible-mirror.net/archives/byacc/byacc-(\d+)\.tgz
-
-#opts=pgpsigurlmangle=s/.*/$0.asc/
-# https://invisible-mirror.net/archives/byacc/byacc-(\d+)\.tgz

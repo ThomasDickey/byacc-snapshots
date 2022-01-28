@@ -1,5 +1,5 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: luit
+Upstream-Name: byacc
 Upstream-Contact: <dickey@invisible-island.net> (Thomas E. Dickey)
 Source: https://invisible-island.net/byacc/
 
@@ -103,7 +103,7 @@ License: other-BSD
     shared with many OS's install programs.
 
 Files: package/debian/*
-Copyright:  2012-2020,2021 Thomas E. Dickey
+Copyright:  2012-2021,2022 Thomas E. Dickey
 License: other-BSD
     Permission to use, copy, modify, and distribute this software and its
     documentation for any purpose and without fee is hereby granted,

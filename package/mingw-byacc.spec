@@ -1,11 +1,11 @@
 Summary: public domain Berkeley LALR Yacc parser generator
 
 %global AppVersion 2.0
-%global AppPatched 20220114
+%global AppPatched 20220128
 
 %global UseProgram yacc
 
-# $Id: mingw-byacc.spec,v 1.43 2022/01/14 21:34:52 tom Exp $
+# $Id: mingw-byacc.spec,v 1.44 2022/01/28 13:38:52 tom Exp $
 Name: byacc
 Version: %{AppVersion}.%{AppPatched}
 Release: 1

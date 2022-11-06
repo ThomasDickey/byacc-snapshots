@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: run_test.sh,v 1.35 2022/01/01 22:28:17 tom Exp $
+# $Id: run_test.sh,v 1.37 2022/11/06 21:55:25 tom Exp $
 # vi:ts=4 sw=4:
 
 errors=0
@@ -39,7 +39,7 @@ test_diffs() {
 			rm -f "$CMP"
 		else
 			echo "...diff $REF"
-			diff -u "$REF" "$CMP"
+			diff -c "$REF" "$CMP"
 			errors=1
 		fi
 	fi
@@ -127,7 +127,8 @@ YACC_escaped=`echo "$PROG_DIR/yacc" | sed -e 's/\./\\\./g'`
 
 tmpfile=temp$$
 
-ifBTYACC=`grep -F -l 'define YYBTYACC' $PROG_DIR/config.h > /dev/null; test $? != 0; echo $?`
+: "${FGREP:=grep -F}"
+ifBTYACC=`$FGREP -l 'define YYBTYACC' $PROG_DIR/config.h > /dev/null; test $? != 0; echo $?`
 
 if test "$ifBTYACC" = 0; then
 	REF_DIR=${TEST_DIR}/yacc

@@ -1,3 +1,20 @@
+2022-12-29  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* configure.in:
+	correct help-message for --disable-btyacc option, and fix the reporting of
+	the selected option value in the configure script's output (report by Daniel
+	Weaver)
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2022-12-02  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4: resync with my-autconf
+
 2022-11-06  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* test/run_test.sh: use context diff, to work with AIX

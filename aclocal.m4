@@ -1,4 +1,4 @@
-dnl $Id: aclocal.m4,v 1.57 2022/10/02 23:55:56 tom Exp $
+dnl $Id: aclocal.m4,v 1.58 2022/12/02 21:33:40 tom Exp $
 dnl Macros for byacc configure script (Thomas E. Dickey)
 dnl ---------------------------------------------------------------------------
 dnl Copyright 2004-2021,2022 Thomas E. Dickey
@@ -635,6 +635,7 @@ then
 	AC_CHECKING([for $CC __attribute__ directives])
 cat > "conftest.$ac_ext" <<EOF
 #line __oline__ "${as_me:-configure}"
+#include <stdio.h>
 #include "confdefs.h"
 #include "conftest.h"
 #include "conftest.i"

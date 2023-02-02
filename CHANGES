@@ -1,3 +1,18 @@
+2023-02-01  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* configure.in: initialize $ac_includes_default
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/debian/copyright, package/mingw-byacc.spec,
+	  package/pkgsrc/Makefile:
+	bump
+
+2023-01-05  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* aclocal.m4: resync with my-autoconf
+
 2022-12-29  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* configure: regen

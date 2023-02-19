@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.91 2022/01/09 18:04:58 tom Exp $ */
+/* $Id: reader.c,v 1.92 2023/02/19 14:58:11 tom Exp $ */
 
 #include "defs.h"
 
@@ -19,6 +19,9 @@
 /* the maximum number of arguments (inherited attributes) to a non-terminal */
 /* this is a hard limit, but seems more than adequate */
 #define MAXARGS	20
+
+/* limit the size of optional names for %union */
+#define NAME_LEN 32
 
 #define begin_case(f,n) fprintf(f, "case %d:\n", (int)(n))
 
@@ -873,9 +876,12 @@ copy_text(void)
 static void
 puts_both(const char *s)
 {
-    fputs(s, text_file);
-    if (dflag)
-	fputs(s, union_file);
+    if (s && *s)
+    {
+	fputs(s, text_file);
+	if (dflag)
+	    fputs(s, union_file);
+    }
 }
 
 static void
@@ -892,6 +898,12 @@ copy_union(void)
     int c;
     int depth;
     struct ainfo a;
+    char prefix_buf[NAME_LEN + 1];
+    size_t prefix_len = 0;
+    char filler_buf[NAME_LEN + 1];
+    size_t filler_len = 0;
+    int in_prefix = 1;
+
     a.a_lineno = lineno;
     a.a_line = dup_line();
     a.a_cptr = a.a_line + (cptr - line - 6);
@@ -908,12 +920,51 @@ copy_union(void)
     puts_both("#define YYSTYPE_IS_DECLARED 1\n");
 
     fprintf_lineno(text_file, lineno, input_file_name);
-    puts_both("typedef union YYSTYPE");
 
     depth = 0;
   loop:
     c = *cptr++;
-    putc_both(c);
+    if (in_prefix)
+    {
+	if (c == L_CURL)
+	{
+	    in_prefix = 0;
+	    if (prefix_len)
+	    {
+		puts_both("union ");
+		puts_both(prefix_buf);
+		puts_both(filler_buf);
+	    }
+	    else
+	    {
+		puts_both("typedef union YYSTYPE");
+		puts_both(filler_buf);
+	    }
+	}
+	else if (isspace(c))
+	{
+	    if (filler_len >= sizeof(filler_buf) - 1)
+	    {
+		puts_both(filler_buf);
+		filler_len = 0;
+	    }
+	    filler_buf[filler_len++] = (char) c;
+	    filler_buf[filler_len] = 0;
+	    if (c != '\n')
+		goto loop;
+	}
+	else if (IS_IDENT(c))
+	{
+	    if (prefix_len < NAME_LEN)
+	    {
+		prefix_buf[prefix_len++] = (char) c;
+		prefix_buf[prefix_len] = 0;
+	    }
+	    goto loop;
+	}
+    }
+    if (c != '\n' || !in_prefix)
+	putc_both(c);
     switch (c)
     {
     case '\n':
@@ -929,7 +980,13 @@ copy_union(void)
     case R_CURL:
 	if (--depth == 0)
 	{
-	    puts_both(" YYSTYPE;\n");
+	    puts_both(prefix_len ? "; " : " YYSTYPE;\n");
+	    if (prefix_len)
+	    {
+		puts_both("typedef union ");
+		puts_both(prefix_buf);
+		puts_both(" YYSTYPE;\n");
+	    }
 	    puts_both("#endif /* !YYSTYPE_IS_DECLARED */\n");
 	    FREE(a.a_line);
 	    return;

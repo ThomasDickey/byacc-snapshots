@@ -1,3 +1,21 @@
+2023-02-19  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* test/yacc/ok_syntax1.tab.h, test/yacc/ok_syntax1.tab.c,
+	  test/btyacc/ok_syntax1.tab.h, test/btyacc/ok_syntax1.tab.c:
+	regen
+
+	* test/ok_syntax1.y:
+	modify test for %union to add tag for testing reader.c
+
+	* reader.c:
+	provide for a named union, e.g., "%union foo" by detecting the name and
+	deferring the typedef in that case until the end of copying the union
+	definition (report by Dag-Erling Smørgrav).
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
 2023-02-01  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* configure: regen

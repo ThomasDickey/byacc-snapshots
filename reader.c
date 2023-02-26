@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.92 2023/02/19 14:58:11 tom Exp $ */
+/* $Id: reader.c,v 1.94 2023/02/26 10:14:44 tom Exp $ */
 
 #include "defs.h"
 
@@ -709,6 +709,16 @@ copy_code(void)
 	c = *++cptr;
 	if (c == EOF)
 	    unexpected_EOF();
+	if (c == '\0')
+	{
+	    get_line();
+	    if (line == NULL)
+	    {
+		unexpected_EOF();
+		/*NOTREACHED */
+	    }
+	    c = *cptr;
+	}
 	if (isspace(UCH(c)))
 	    continue;
 
@@ -948,7 +958,7 @@ copy_union(void)
 		puts_both(filler_buf);
 		filler_len = 0;
 	    }
-	    filler_buf[filler_len++] = (char) c;
+	    filler_buf[filler_len++] = (char)c;
 	    filler_buf[filler_len] = 0;
 	    if (c != '\n')
 		goto loop;
@@ -957,7 +967,7 @@ copy_union(void)
 	{
 	    if (prefix_len < NAME_LEN)
 	    {
-		prefix_buf[prefix_len++] = (char) c;
+		prefix_buf[prefix_len++] = (char)c;
 		prefix_buf[prefix_len] = 0;
 	    }
 	    goto loop;

@@ -1,3 +1,24 @@
+2023-02-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* mstring.c, reader.c: yak-indent
+
+2023-02-26  mingodad
+
+	* reader.c:
+	patch for byacc #6: Segmentation fault when trying to parse bison-3.8.2 grammar
+
+2023-02-26  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2023-02-20  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
 2023-02-19  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* test/yacc/ok_syntax1.tab.h, test/yacc/ok_syntax1.tab.c,

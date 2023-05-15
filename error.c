@@ -1,4 +1,4 @@
-/* $Id: error.c,v 1.14 2016/12/02 18:35:55 tom Exp $ */
+/* $Id: error.c,v 1.15 2023/05/11 07:45:34 tom Exp $ */
 
 /* routines for printing error messages  */
 
@@ -12,10 +12,13 @@ fatal(const char *msg)
 }
 
 void
-no_space(void)
+on_error(void)
 {
-    fprintf(stderr, "%s: f - out of space\n", myname);
-    done(2);
+    const char *msg;
+    if (errno && (msg = strerror(errno)) != NULL)
+	fatal(msg);
+    else
+	fatal("unknown error");
 }
 
 void

@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.71 2022/11/06 21:44:54 tom Exp $ */
+/* $Id: defs.h,v 1.72 2023/05/11 07:43:15 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -187,7 +187,7 @@ SYM_CASES;
 
 #define DO_FREE(x)	if (x) { FREE(x); x = 0; }
 
-#define NO_SPACE(p)	if (p == 0) no_space(); assert(p != 0)
+#define NO_SPACE(p)	do { if (p == 0) on_error(); assert(p != 0); } while (0)
 
 /* messages */
 #define PLURAL(n) ((n) > 1 ? "s" : "")
@@ -484,7 +484,7 @@ extern GCC_NORETURN void illegal_character(char *c_cptr);
 extern GCC_NORETURN void illegal_tag(int t_lineno, char *t_line, char *t_cptr);
 extern GCC_NORETURN void missing_brace(void);
 extern GCC_NORETURN void no_grammar(void);
-extern GCC_NORETURN void no_space(void);
+extern GCC_NORETURN void on_error(void);
 extern GCC_NORETURN void open_error(const char *filename);
 extern GCC_NORETURN void over_unionized(char *u_cptr);
 extern void prec_redeclared(void);

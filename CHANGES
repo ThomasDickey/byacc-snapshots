@@ -1,3 +1,26 @@
+2023-05-15  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+	* reader.c:
+	when copying parameters, check for a case where the last token is not a
+	name, e.g., "foo [1]" would have "[1]".  In this case, scan back to find
+	the actual parameter name.
+
+	* reader.c:
+	correct a use-after-free in more_curly, which could occur if a %lex-param
+	or %parse-param was multi-line (Redhat #2183006).
+
+2023-05-11  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: rename no_space() to on_error()
+
+	* error.c: rename no_space() to no_error(), handling any errno
+
+	* defs.h: rename no_space() to on_error()
+
 2023-02-26  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* mstring.c, reader.c: yak-indent

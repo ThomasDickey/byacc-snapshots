@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.94 2023/02/26 10:14:44 tom Exp $ */
+/* $Id: reader.c,v 1.96 2023/05/15 23:34:53 tom Exp $ */
 
 #include "defs.h"
 
@@ -22,6 +22,8 @@
 
 /* limit the size of optional names for %union */
 #define NAME_LEN 32
+
+#define IS_ALNUM(c) (isalnum(c) || (c) == '_')
 
 #define begin_case(f,n) fprintf(f, "case %d:\n", (int)(n))
 
@@ -47,8 +49,22 @@ static char **tag_table;
 
 static char saw_eof;
 char unionized;
-char *cptr, *line;
-static int linesize;
+
+char *line;		/* current input-line */
+char *cptr;		/* position within current input-line */
+static int linesize;	/* length of current input-line */
+
+typedef struct
+{
+    char *line_data;	/* saved input-line */
+    size_t line_used;	/* position within saved input-line */
+    size_t line_size;	/* length of saved input-line */
+    fpos_t line_fpos;	/* pointer before reading past saved input-line */
+}
+SAVE_LINE;
+
+static SAVE_LINE save_area;
+static int must_save;	/* request > 0, triggered < 0, inactive 0 */
 
 static bucket *goal;
 static Value_t prec;
@@ -268,9 +284,53 @@ line_directive(void)
 }
 
 static void
+save_line(void)
+{
+    /* remember to save the input-line if we call get_line() */
+    if (!must_save)
+    {
+	must_save = 1;
+	save_area.line_used = (cptr - line);
+    }
+}
+
+static void
+restore_line(void)
+{
+    /* if we saved the line, restore it */
+    if (must_save < 0)
+    {
+	free(line);
+	line = save_area.line_data;
+	cptr = save_area.line_used + line;
+	linesize = save_area.line_size;
+	if (fsetpos(input_file, &save_area.line_fpos) != 0)
+	    on_error();
+	memset(&save_area, 0, sizeof(save_area));
+    }
+    else if (must_save > 0)
+    {
+	cptr = line + save_area.line_used;
+    }
+    must_save = 0;
+}
+
+static void
 get_line(void)
 {
     FILE *f = input_file;
+
+    if (must_save > 0)
+    {
+	save_area.line_data = TMALLOC(char, linesize);
+	save_area.line_used = (cptr - line);
+	save_area.line_size = linesize;
+	NO_SPACE(save_area.line_data);
+	memcpy(save_area.line_data, line, linesize);
+	if (fgetpos(f, &save_area.line_fpos) != 0)
+	    on_error();
+	must_save = -must_save;
+    }
 
     do
     {
@@ -428,6 +488,7 @@ nextc(void)
     {
 	switch (ch = next_inline())
 	{
+	case '\0':
 	case '\n':
 	    get_line();
 	    break;
@@ -1084,9 +1145,9 @@ trim_blanks(char *buffer)
 static int
 more_curly(void)
 {
-    char *save = cptr;
     int result = 0;
     int finish = 0;
+    save_line();
     do
     {
 	switch (next_inline())
@@ -1103,7 +1164,7 @@ more_curly(void)
 	++cptr;
     }
     while (!finish);
-    cptr = save;
+    restore_line();
     return result;
 }
 
@@ -1120,6 +1181,24 @@ save_param(int k, char *buffer, int name, int type2)
     buffer[type2] = '\0';
     (void)trim_blanks(p->type2);
 
+    if (!IS_ALNUM(buffer[name]))
+    {
+	int n;
+	for (n = name - 1; n >= 0; --n)
+	{
+	    if (!isspace(UCH(buffer[n])))
+	    {
+		break;
+	    }
+	}
+	while (n > 0)
+	{
+	    if (!IS_ALNUM(UCH(buffer[n - 1])))
+		break;
+	    --n;
+	}
+	name = n;
+    }
     p->name = strdup(buffer + name);
     NO_SPACE(p->name);
     buffer[name] = '\0';
@@ -1307,7 +1386,7 @@ copy_param(int k)
 	    type2 = i + 1;
 	}
 
-	while (i > 0 && (isalnum(UCH(parms[i])) || UCH(parms[i]) == '_'))
+	while (i > 0 && IS_ALNUM(UCH(parms[i])))
 	    i--;
 
 	if (!isspace(UCH(parms[i])) && parms[i] != '*')

@@ -7060,7 +7060,7 @@ case "$cf_item" in
 	;;
 (gzip)
 	cf_manpage_so_strip="gz"
-	cf_manpage_compress=gzip
+	cf_manpage_compress="gzip -n"
 	;;
 (bzip2)
 	cf_manpage_so_strip="bz2"

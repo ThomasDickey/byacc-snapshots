@@ -343,17 +343,29 @@ static const YYINT calc1_ctable[] = {                    20,
 #define YYUNDFTOKEN 266
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
+#ifndef NULL
+#define NULL (void*)0
+#endif
 static const char *const calc1_name[] = {
 
-"$end",0,0,0,0,0,0,0,0,0,"'\\n'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,"'('","')'","'*'","'+'","','","'-'",0,"'/'",0,0,0,0,0,0,0,0,0,0,0,0,
-0,"'='",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-"error","DREG","VREG","CONST","UMINUS","$accept","lines","dexp","vexp","line",
-"illegal-symbol",
+"$end",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"'\\n'",NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"'('","')'","'*'","'+'","','",
+"'-'",NULL,"'/'",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,"'='",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,"error","DREG","VREG","CONST","UMINUS","$accept",
+"lines","dexp","vexp","line","illegal-symbol",
 };
 static const char *const calc1_rule[] = {
 "$accept : lines",
@@ -616,7 +628,7 @@ vdiv(double a, double b, INTERVAL v)
 {
     return (hilo(a / v.hi, a / v.lo, b / v.hi, b / v.lo));
 }
-#line 620 "btyacc_calc1.tab.c"
+#line 632 "btyacc_calc1.tab.c"
 
 /* For use in generated program */
 #define yydepth (int)(yystack.s_mark - yystack.s_base)
@@ -651,14 +663,14 @@ static int yygrowstack(YYSTACKDATA *data)
 
     i = (int) (data->s_mark - data->s_base);
     newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));
-    if (newss == 0)
+    if (newss == NULL)
         return YYENOMEM;
 
     data->s_base = newss;
     data->s_mark = newss + i;
 
     newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));
-    if (newvs == 0)
+    if (newvs == NULL)
         return YYENOMEM;
 
     data->l_base = newvs;
@@ -666,7 +678,7 @@ static int yygrowstack(YYSTACKDATA *data)
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
     newps = (YYLTYPE *)realloc(data->p_base, newsize * sizeof(*newps));
-    if (newps == 0)
+    if (newps == NULL)
         return YYENOMEM;
 
     data->p_base = newps;
@@ -765,41 +777,41 @@ YYPARSE_DECL()
 #if YYBTYACC
 
     /* Current parser state */
-    static YYParseState *yyps = 0;
+    static YYParseState *yyps = NULL;
 
     /* yypath != NULL: do the full parse, starting at *yypath parser state. */
-    static YYParseState *yypath = 0;
+    static YYParseState *yypath = NULL;
 
     /* Base of the lexical value queue */
-    static YYSTYPE *yylvals = 0;
+    static YYSTYPE *yylvals = NULL;
 
     /* Current position at lexical value queue */
-    static YYSTYPE *yylvp = 0;
+    static YYSTYPE *yylvp = NULL;
 
     /* End position of lexical value queue */
-    static YYSTYPE *yylve = 0;
+    static YYSTYPE *yylve = NULL;
 
     /* The last allocated position at the lexical value queue */
-    static YYSTYPE *yylvlim = 0;
+    static YYSTYPE *yylvlim = NULL;
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
     /* Base of the lexical position queue */
-    static YYLTYPE *yylpsns = 0;
+    static YYLTYPE *yylpsns = NULL;
 
     /* Current position at lexical position queue */
-    static YYLTYPE *yylpp = 0;
+    static YYLTYPE *yylpp = NULL;
 
     /* End position of lexical position queue */
-    static YYLTYPE *yylpe = 0;
+    static YYLTYPE *yylpe = NULL;
 
     /* The last allocated position at the lexical position queue */
-    static YYLTYPE *yylplim = 0;
+    static YYLTYPE *yylplim = NULL;
 #endif
 
     /* Current position at lexical token queue */
-    static YYINT  *yylexp = 0;
+    static YYINT  *yylexp = NULL;
 
-    static YYINT  *yylexemes = 0;
+    static YYINT  *yylexemes = NULL;
 #endif /* YYBTYACC */
     int yym, yyn, yystate, yyresult;
 #if YYBTYACC
@@ -812,7 +824,7 @@ YYPARSE_DECL()
 #if YYDEBUG
     const char *yys;
 
-    if ((yys = getenv("YYDEBUG")) != 0)
+    if ((yys = getenv("YYDEBUG")) != NULL)
     {
         yyn = *yys;
         if (yyn >= '0' && yyn <= '9')
@@ -835,8 +847,8 @@ YYPARSE_DECL()
 #endif
 
 #if YYBTYACC
-    yyps = yyNewState(0); if (yyps == 0) goto yyenomem;
-    yyps->save = 0;
+    yyps = yyNewState(0); if (yyps == NULL) goto yyenomem;
+    yyps->save = NULL;
 #endif /* YYBTYACC */
     yym = 0;
     /* yyn is set below */
@@ -1350,7 +1362,7 @@ yyreduce:
 case 2:
 #line 51 "btyacc_calc1.y"
 {YYVALID;}
-#line 1354 "btyacc_calc1.tab.c"
+#line 1366 "btyacc_calc1.tab.c"
 break;
 case 3:
 #line 52 "btyacc_calc1.y"
@@ -1359,7 +1371,7 @@ case 3:
 {
 		yyerrok;
 	}
-#line 1363 "btyacc_calc1.tab.c"
+#line 1375 "btyacc_calc1.tab.c"
 break;
 case 4:
   if (!yytrial)
@@ -1367,7 +1379,7 @@ case 4:
 	{
 		(void) printf("%15.8f\n", yystack.l_mark[0].dval);
 	}
-#line 1371 "btyacc_calc1.tab.c"
+#line 1383 "btyacc_calc1.tab.c"
 break;
 case 5:
   if (!yytrial)
@@ -1375,7 +1387,7 @@ case 5:
 	{
 		(void) printf("(%15.8f, %15.8f)\n", yystack.l_mark[0].vval.lo, yystack.l_mark[0].vval.hi);
 	}
-#line 1379 "btyacc_calc1.tab.c"
+#line 1391 "btyacc_calc1.tab.c"
 break;
 case 6:
   if (!yytrial)
@@ -1383,7 +1395,7 @@ case 6:
 	{
 		dreg[yystack.l_mark[-2].ival] = yystack.l_mark[0].dval;
 	}
-#line 1387 "btyacc_calc1.tab.c"
+#line 1399 "btyacc_calc1.tab.c"
 break;
 case 7:
   if (!yytrial)
@@ -1391,7 +1403,7 @@ case 7:
 	{
 		vreg[yystack.l_mark[-2].ival] = yystack.l_mark[0].vval;
 	}
-#line 1395 "btyacc_calc1.tab.c"
+#line 1407 "btyacc_calc1.tab.c"
 break;
 case 9:
   if (!yytrial)
@@ -1399,7 +1411,7 @@ case 9:
 	{
 		yyval.dval = dreg[yystack.l_mark[0].ival];
 	}
-#line 1403 "btyacc_calc1.tab.c"
+#line 1415 "btyacc_calc1.tab.c"
 break;
 case 10:
   if (!yytrial)
@@ -1407,7 +1419,7 @@ case 10:
 	{
 		yyval.dval = yystack.l_mark[-2].dval + yystack.l_mark[0].dval;
 	}
-#line 1411 "btyacc_calc1.tab.c"
+#line 1423 "btyacc_calc1.tab.c"
 break;
 case 11:
   if (!yytrial)
@@ -1415,7 +1427,7 @@ case 11:
 	{
 		yyval.dval = yystack.l_mark[-2].dval - yystack.l_mark[0].dval;
 	}
-#line 1419 "btyacc_calc1.tab.c"
+#line 1431 "btyacc_calc1.tab.c"
 break;
 case 12:
   if (!yytrial)
@@ -1423,7 +1435,7 @@ case 12:
 	{
 		yyval.dval = yystack.l_mark[-2].dval * yystack.l_mark[0].dval;
 	}
-#line 1427 "btyacc_calc1.tab.c"
+#line 1439 "btyacc_calc1.tab.c"
 break;
 case 13:
   if (!yytrial)
@@ -1431,7 +1443,7 @@ case 13:
 	{
 		yyval.dval = yystack.l_mark[-2].dval / yystack.l_mark[0].dval;
 	}
-#line 1435 "btyacc_calc1.tab.c"
+#line 1447 "btyacc_calc1.tab.c"
 break;
 case 14:
   if (!yytrial)
@@ -1439,7 +1451,7 @@ case 14:
 	{
 		yyval.dval = -yystack.l_mark[0].dval;
 	}
-#line 1443 "btyacc_calc1.tab.c"
+#line 1455 "btyacc_calc1.tab.c"
 break;
 case 15:
   if (!yytrial)
@@ -1447,7 +1459,7 @@ case 15:
 	{
 		yyval.dval = yystack.l_mark[-1].dval;
 	}
-#line 1451 "btyacc_calc1.tab.c"
+#line 1463 "btyacc_calc1.tab.c"
 break;
 case 16:
   if (!yytrial)
@@ -1455,7 +1467,7 @@ case 16:
 	{
 		yyval.vval.hi = yyval.vval.lo = yystack.l_mark[0].dval;
 	}
-#line 1459 "btyacc_calc1.tab.c"
+#line 1471 "btyacc_calc1.tab.c"
 break;
 case 17:
   if (!yytrial)
@@ -1463,13 +1475,13 @@ case 17:
 	{
 		yyval.vval.lo = yystack.l_mark[-3].dval;
 		yyval.vval.hi = yystack.l_mark[-1].dval;
-		if ( yyval.vval.lo > yyval.vval.hi ) 
+		if ( yyval.vval.lo > yyval.vval.hi )
 		{
 			(void) printf("interval out of order\n");
 			YYERROR;
 		}
 	}
-#line 1473 "btyacc_calc1.tab.c"
+#line 1485 "btyacc_calc1.tab.c"
 break;
 case 18:
   if (!yytrial)
@@ -1477,7 +1489,7 @@ case 18:
 	{
 		yyval.vval = vreg[yystack.l_mark[0].ival];
 	}
-#line 1481 "btyacc_calc1.tab.c"
+#line 1493 "btyacc_calc1.tab.c"
 break;
 case 19:
   if (!yytrial)
@@ -1486,7 +1498,7 @@ case 19:
 		yyval.vval.hi = yystack.l_mark[-2].vval.hi + yystack.l_mark[0].vval.hi;
 		yyval.vval.lo = yystack.l_mark[-2].vval.lo + yystack.l_mark[0].vval.lo;
 	}
-#line 1490 "btyacc_calc1.tab.c"
+#line 1502 "btyacc_calc1.tab.c"
 break;
 case 20:
   if (!yytrial)
@@ -1495,7 +1507,7 @@ case 20:
 		yyval.vval.hi = yystack.l_mark[-2].dval + yystack.l_mark[0].vval.hi;
 		yyval.vval.lo = yystack.l_mark[-2].dval + yystack.l_mark[0].vval.lo;
 	}
-#line 1499 "btyacc_calc1.tab.c"
+#line 1511 "btyacc_calc1.tab.c"
 break;
 case 21:
   if (!yytrial)
@@ -1504,7 +1516,7 @@ case 21:
 		yyval.vval.hi = yystack.l_mark[-2].vval.hi - yystack.l_mark[0].vval.lo;
 		yyval.vval.lo = yystack.l_mark[-2].vval.lo - yystack.l_mark[0].vval.hi;
 	}
-#line 1508 "btyacc_calc1.tab.c"
+#line 1520 "btyacc_calc1.tab.c"
 break;
 case 22:
   if (!yytrial)
@@ -1513,7 +1525,7 @@ case 22:
 		yyval.vval.hi = yystack.l_mark[-2].dval - yystack.l_mark[0].vval.lo;
 		yyval.vval.lo = yystack.l_mark[-2].dval - yystack.l_mark[0].vval.hi;
 	}
-#line 1517 "btyacc_calc1.tab.c"
+#line 1529 "btyacc_calc1.tab.c"
 break;
 case 23:
   if (!yytrial)
@@ -1521,7 +1533,7 @@ case 23:
 	{
 		yyval.vval = vmul( yystack.l_mark[-2].vval.lo, yystack.l_mark[-2].vval.hi, yystack.l_mark[0].vval );
 	}
-#line 1525 "btyacc_calc1.tab.c"
+#line 1537 "btyacc_calc1.tab.c"
 break;
 case 24:
   if (!yytrial)
@@ -1529,7 +1541,7 @@ case 24:
 	{
 		yyval.vval = vmul (yystack.l_mark[-2].dval, yystack.l_mark[-2].dval, yystack.l_mark[0].vval );
 	}
-#line 1533 "btyacc_calc1.tab.c"
+#line 1545 "btyacc_calc1.tab.c"
 break;
 case 25:
   if (!yytrial)
@@ -1538,7 +1550,7 @@ case 25:
 		if (dcheck(yystack.l_mark[0].vval)) YYERROR;
 		yyval.vval = vdiv ( yystack.l_mark[-2].vval.lo, yystack.l_mark[-2].vval.hi, yystack.l_mark[0].vval );
 	}
-#line 1542 "btyacc_calc1.tab.c"
+#line 1554 "btyacc_calc1.tab.c"
 break;
 case 26:
   if (!yytrial)
@@ -1547,7 +1559,7 @@ case 26:
 		if (dcheck ( yystack.l_mark[0].vval )) YYERROR;
 		yyval.vval = vdiv (yystack.l_mark[-2].dval, yystack.l_mark[-2].dval, yystack.l_mark[0].vval );
 	}
-#line 1551 "btyacc_calc1.tab.c"
+#line 1563 "btyacc_calc1.tab.c"
 break;
 case 27:
   if (!yytrial)
@@ -1556,7 +1568,7 @@ case 27:
 		yyval.vval.hi = -yystack.l_mark[0].vval.lo;
 		yyval.vval.lo = -yystack.l_mark[0].vval.hi;
 	}
-#line 1560 "btyacc_calc1.tab.c"
+#line 1572 "btyacc_calc1.tab.c"
 break;
 case 28:
   if (!yytrial)
@@ -1564,9 +1576,9 @@ case 28:
 	{
 		yyval.vval = yystack.l_mark[-1].vval;
 	}
-#line 1568 "btyacc_calc1.tab.c"
+#line 1580 "btyacc_calc1.tab.c"
 break;
-#line 1570 "btyacc_calc1.tab.c"
+#line 1582 "btyacc_calc1.tab.c"
     default:
         break;
     }

@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.101 2023/05/16 21:19:48 tom Exp $ */
+/* $Id: output.c,v 1.102 2024/12/14 16:52:47 tom Exp $ */
 
 #include "defs.h"
 
@@ -58,7 +58,7 @@ puts_param_types(FILE * fp, param *list, int more)
 {
     param *p;
 
-    if (list != 0)
+    if (list != NULL)
     {
 	for (p = list; p; p = p->next)
 	{
@@ -1109,7 +1109,7 @@ output_ctable(void)
 {
     int i;
     int j;
-    int limit = (conflicts != 0) ? nconflicts : 0;
+    int limit = (conflicts != NULL) ? nconflicts : 0;
 
     if (limit < high)
 	limit = (int)high;
@@ -1128,7 +1128,7 @@ output_ctable(void)
 	else
 	    ++j;
 
-	output_int((conflicts != 0 && i < nconflicts) ? conflicts[i] : -1);
+	output_int((conflicts != NULL && i < nconflicts) ? conflicts[i] : -1);
     }
 
     if (conflicts)
@@ -1287,7 +1287,7 @@ output_defines(FILE * fp)
     {
 	if (unionized)
 	{
-	    if (union_file != 0)
+	    if (union_file != NULL)
 	    {
 		rewind(union_file);
 		while ((c = getc(union_file)) != EOF)
@@ -1382,13 +1382,13 @@ output_debug(void)
     /* symnam[max].                                                     */
 #if defined(YYBTYACC)
     for (i = 0; i < max; ++i)
-	symnam[i] = 0;
+	symnam[i] = NULL;
     for (i = nsyms - 1; i >= 0; --i)
 	symnam[symbol_pval[i]] = symbol_name[i];
     symnam[max + 1] = "illegal-symbol";
 #else
     for (i = 0; i <= max; ++i)
-	symnam[i] = 0;
+	symnam[i] = NULL;
     for (i = ntokens - 1; i >= 2; --i)
 	symnam[symbol_value[i]] = symbol_name[i];
     symnam[0] = "end-of-file";
@@ -1415,11 +1415,14 @@ output_debug(void)
 	output_line("#if YYDEBUG");
     }
 
+    output_line("#ifndef NULL");
+    output_line("#define NULL (void*)0");
+    output_line("#endif");
     start_str_table("name");
     j = 80;
     for (i = 0; i <= max + 1; ++i)
     {
-	if ((s = symnam[i]) != 0)
+	if ((s = symnam[i]) != NULL)
 	{
 	    if (s[0] == '"')
 	    {
@@ -1526,13 +1529,13 @@ output_debug(void)
 	}
 	else
 	{
-	    j += 2;
+	    j += 5;
 	    if (j > 80)
 	    {
 		output_newline();
-		j = 2;
+		j = 5;
 	    }
-	    fprintf(output_file, "0,");
+	    fprintf(output_file, "NULL,");
 	}
     }
     end_table();
@@ -1638,7 +1641,7 @@ output_trailing_text(void)
     int c, last;
     FILE *in;
 
-    if (line == 0)
+    if (line == NULL)
 	return;
 
     in = input_file;
@@ -2045,7 +2048,7 @@ output_externs(FILE * fp, const char *const section[])
     int i;
     const char *s;
 
-    for (i = 0; (s = section[i]) != 0; ++i)
+    for (i = 0; (s = section[i]) != NULL; ++i)
     {
 	/* prefix non-blank lines that don't start with
 	   C pre-processor directives with 'extern ' */

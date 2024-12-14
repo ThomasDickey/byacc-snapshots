@@ -33,14 +33,14 @@ const char *const banner[] =
     "#define YYRECOVERING() (yyerrflag != 0)",
     "#define YYENOMEM       (-2)",
     "#define YYEOF          0",
-    0
+    NULL
 };
 
 const char *const xdecls[] =
 {
     "",
     "extern int YYPARSE_DECL();",
-    0
+    NULL
 };
 
 const char *const tables[] =
@@ -72,7 +72,7 @@ const char *const tables[] =
     "#if YYDEBUG",
     "extern const char *const yyrule[];",
     "#endif",
-    0
+    NULL
 };
 
 const char *const global_vars[] =
@@ -81,7 +81,7 @@ const char *const global_vars[] =
     "#if YYDEBUG",
     "int      yydebug;",
     "#endif",
-    0
+    NULL
 };
 
 const char *const impure_vars[] =
@@ -97,7 +97,7 @@ const char *const impure_vars[] =
     "YYLTYPE  yyloc; /* position returned by actions */",
     "YYLTYPE  yylloc; /* position from the lexer */",
     "#endif",
-    0
+    NULL
 };
 
 const char *const hdr_defs[] =
@@ -178,7 +178,7 @@ const char *const hdr_defs[] =
     "typedef struct YYParseState_s YYParseState;",
     "#endif /* YYBTYACC */",
 #endif			/* defined(YYBTYACC) */
-    0
+    NULL
 };
 
 const char *const hdr_vars[] =
@@ -189,44 +189,44 @@ const char *const hdr_vars[] =
     "#if YYBTYACC",
     "",
     "/* Current parser state */",
-    "static YYParseState *yyps = 0;",
+    "static YYParseState *yyps = NULL;",
     "",
     "/* yypath != NULL: do the full parse, starting at *yypath parser state. */",
-    "static YYParseState *yypath = 0;",
+    "static YYParseState *yypath = NULL;",
     "",
     "/* Base of the lexical value queue */",
-    "static YYSTYPE *yylvals = 0;",
+    "static YYSTYPE *yylvals = NULL;",
     "",
     "/* Current position at lexical value queue */",
-    "static YYSTYPE *yylvp = 0;",
+    "static YYSTYPE *yylvp = NULL;",
     "",
     "/* End position of lexical value queue */",
-    "static YYSTYPE *yylve = 0;",
+    "static YYSTYPE *yylve = NULL;",
     "",
     "/* The last allocated position at the lexical value queue */",
-    "static YYSTYPE *yylvlim = 0;",
+    "static YYSTYPE *yylvlim = NULL;",
     "",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "/* Base of the lexical position queue */",
-    "static YYLTYPE *yylpsns = 0;",
+    "static YYLTYPE *yylpsns = NULL;",
     "",
     "/* Current position at lexical position queue */",
-    "static YYLTYPE *yylpp = 0;",
+    "static YYLTYPE *yylpp = NULL;",
     "",
     "/* End position of lexical position queue */",
-    "static YYLTYPE *yylpe = 0;",
+    "static YYLTYPE *yylpe = NULL;",
     "",
     "/* The last allocated position at the lexical position queue */",
-    "static YYLTYPE *yylplim = 0;",
+    "static YYLTYPE *yylplim = NULL;",
     "#endif",
     "",
     "/* Current position at lexical token queue */",
-    "static YYINT  *yylexp = 0;",
+    "static YYINT  *yylexp = NULL;",
     "",
-    "static YYINT  *yylexemes = 0;",
+    "static YYINT  *yylexemes = NULL;",
     "#endif /* YYBTYACC */",
 #endif			/* defined(YYBTYACC) */
-    0
+    NULL
 };
 
 const char *const body_vars[] =
@@ -248,44 +248,44 @@ const char *const body_vars[] =
     "#if YYBTYACC",
     "",
     "    /* Current parser state */",
-    "    static YYParseState *yyps = 0;",
+    "    static YYParseState *yyps = NULL;",
     "",
     "    /* yypath != NULL: do the full parse, starting at *yypath parser state. */",
-    "    static YYParseState *yypath = 0;",
+    "    static YYParseState *yypath = NULL;",
     "",
     "    /* Base of the lexical value queue */",
-    "    static YYSTYPE *yylvals = 0;",
+    "    static YYSTYPE *yylvals = NULL;",
     "",
     "    /* Current position at lexical value queue */",
-    "    static YYSTYPE *yylvp = 0;",
+    "    static YYSTYPE *yylvp = NULL;",
     "",
     "    /* End position of lexical value queue */",
-    "    static YYSTYPE *yylve = 0;",
+    "    static YYSTYPE *yylve = NULL;",
     "",
     "    /* The last allocated position at the lexical value queue */",
-    "    static YYSTYPE *yylvlim = 0;",
+    "    static YYSTYPE *yylvlim = NULL;",
     "",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "    /* Base of the lexical position queue */",
-    "    static YYLTYPE *yylpsns = 0;",
+    "    static YYLTYPE *yylpsns = NULL;",
     "",
     "    /* Current position at lexical position queue */",
-    "    static YYLTYPE *yylpp = 0;",
+    "    static YYLTYPE *yylpp = NULL;",
     "",
     "    /* End position of lexical position queue */",
-    "    static YYLTYPE *yylpe = 0;",
+    "    static YYLTYPE *yylpe = NULL;",
     "",
     "    /* The last allocated position at the lexical position queue */",
-    "    static YYLTYPE *yylplim = 0;",
+    "    static YYLTYPE *yylplim = NULL;",
     "#endif",
     "",
     "    /* Current position at lexical token queue */",
-    "    static YYINT  *yylexp = 0;",
+    "    static YYINT  *yylexp = NULL;",
     "",
-    "    static YYINT  *yylexemes = 0;",
+    "    static YYINT  *yylexemes = NULL;",
     "#endif /* YYBTYACC */",
 #endif			/* defined(YYBTYACC) */
-    0
+    NULL
 };
 
 const char *const body_1[] =
@@ -326,14 +326,14 @@ const char *const body_1[] =
     "",
     "    i = (int) (data->s_mark - data->s_base);",
     "    newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));",
-    "    if (newss == 0)",
+    "    if (newss == NULL)",
     "        return YYENOMEM;",
     "",
     "    data->s_base = newss;",
     "    data->s_mark = newss + i;",
     "",
     "    newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));",
-    "    if (newvs == 0)",
+    "    if (newvs == NULL)",
     "        return YYENOMEM;",
     "",
     "    data->l_base = newvs;",
@@ -341,7 +341,7 @@ const char *const body_1[] =
     "",
     "#if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)",
     "    newps = (YYLTYPE *)realloc(data->p_base, newsize * sizeof(*newps));",
-    "    if (newps == 0)",
+    "    if (newps == NULL)",
     "        return YYENOMEM;",
     "",
     "    data->p_base = newps;",
@@ -428,7 +428,7 @@ const char *const body_1[] =
     "int",
     "YYPARSE_DECL()",
     "{",
-    0
+    NULL
 };
 
 const char *const body_2[] =
@@ -446,7 +446,7 @@ const char *const body_2[] =
     "#if YYDEBUG",
     "    const char *yys;",
     "",
-    "    if ((yys = getenv(\"YYDEBUG\")) != 0)",
+    "    if ((yys = getenv(\"YYDEBUG\")) != NULL)",
     "    {",
     "        yyn = *yys;",
     "        if (yyn >= '0' && yyn <= '9')",
@@ -459,7 +459,7 @@ const char *const body_2[] =
     "    memset(yyerror_loc_range, 0, sizeof(yyerror_loc_range));",
     "#endif",
     "",
-    0
+    NULL
 };
 
 const char *const init_vars[] =
@@ -473,15 +473,15 @@ const char *const init_vars[] =
     "    memset(&yylloc, 0, sizeof(yylloc));",
     "#endif",
     "",
-    0
+    NULL
 };
 
 const char *const body_3[] =
 {
 #if defined(YYBTYACC)
     "#if YYBTYACC",
-    "    yyps = yyNewState(0); if (yyps == 0) goto yyenomem;",
-    "    yyps->save = 0;",
+    "    yyps = yyNewState(0); if (yyps == NULL) goto yyenomem;",
+    "    yyps->save = NULL;",
     "#endif /* YYBTYACC */",
 #endif			/* defined(YYBTYACC) */
     "    yym = 0;",
@@ -1011,7 +1011,7 @@ const char *const body_3[] =
     "",
     "    switch (yyn)",
     "    {",
-    0
+    NULL
 };
 
 const char *const trailer[] =
@@ -1266,7 +1266,7 @@ const char *const trailer[] =
     "    yyfreestack(&yystack);",
     "    return (yyresult);",
     "}",
-    0
+    NULL
 };
 
 void
@@ -1275,7 +1275,7 @@ write_section(FILE * fp, const char *const section[])
     int i;
     const char *s;
 
-    for (i = 0; (s = section[i]) != 0; ++i)
+    for (i = 0; (s = section[i]) != NULL; ++i)
     {
 	if (fp == code_file)
 	    ++outline;

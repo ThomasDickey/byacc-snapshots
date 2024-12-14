@@ -135,11 +135,11 @@ typedef int Scope;
 typedef int Type;
 enum Operator { ADD, SUB, MUL, MOD, DIV, DEREF };
 
-typedef unsigned char bool;
+typedef unsigned char mybool;
 typedef struct Decl {
     Scope *scope;
     Type  *type;
-    bool (*istype)(void);
+    mybool (*istype)(void);
 } Decl;
 
 #include "btyacc_demo.tab.h"
@@ -426,18 +426,30 @@ static const YYINT demo_ctable[] = {                     18,
 #define YYUNDFTOKEN 299
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
+#ifndef NULL
+#define NULL (void*)0
+#endif
 static const char *const demo_name[] = {
 
-"$end",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-"'%'",0,0,"'('","')'","'*'","'+'","','","'-'","'.'","'/'",0,0,0,0,0,0,0,0,0,0,0,
-"';'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'['",0,
-"']'",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'{'",0,"'}'",0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,"error","PREFIX","POSTFIX","ID","CONSTANT","EXTERN",
-"REGISTER","STATIC","CONST","VOLATILE","IF","THEN","ELSE","CLCL","$accept",
-"input","expr","decl","declarator_list","decl_list","statement",
+"$end",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,"'%'",NULL,NULL,"'('","')'","'*'","'+'","','",
+"'-'","'.'","'/'",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,"';'",
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+"'['",NULL,"']'",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,"'{'",NULL,"'}'",NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,
+NULL,NULL,NULL,NULL,NULL,NULL,NULL,"error","PREFIX","POSTFIX","ID","CONSTANT",
+"EXTERN","REGISTER","STATIC","CONST","VOLATILE","IF","THEN","ELSE","CLCL",
+"$accept","input","expr","decl","declarator_list","decl_list","statement",
 "statement_list","block_statement","declarator","formal_arg","decl_specs",
 "decl_spec","typename","cv_quals","cv_qual","opt_scope","formal_arg_list",
 "nonempty_formal_arg_list","$$1","$$2","$$3","$$4","$$5","$$6","$$7","$$8",
@@ -599,41 +611,41 @@ static YYSTACKDATA yystack;
 #if YYBTYACC
 
 /* Current parser state */
-static YYParseState *yyps = 0;
+static YYParseState *yyps = NULL;
 
 /* yypath != NULL: do the full parse, starting at *yypath parser state. */
-static YYParseState *yypath = 0;
+static YYParseState *yypath = NULL;
 
 /* Base of the lexical value queue */
-static YYSTYPE *yylvals = 0;
+static YYSTYPE *yylvals = NULL;
 
 /* Current position at lexical value queue */
-static YYSTYPE *yylvp = 0;
+static YYSTYPE *yylvp = NULL;
 
 /* End position of lexical value queue */
-static YYSTYPE *yylve = 0;
+static YYSTYPE *yylve = NULL;
 
 /* The last allocated position at the lexical value queue */
-static YYSTYPE *yylvlim = 0;
+static YYSTYPE *yylvlim = NULL;
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
 /* Base of the lexical position queue */
-static YYLTYPE *yylpsns = 0;
+static YYLTYPE *yylpsns = NULL;
 
 /* Current position at lexical position queue */
-static YYLTYPE *yylpp = 0;
+static YYLTYPE *yylpp = NULL;
 
 /* End position of lexical position queue */
-static YYLTYPE *yylpe = 0;
+static YYLTYPE *yylpe = NULL;
 
 /* The last allocated position at the lexical position queue */
-static YYLTYPE *yylplim = 0;
+static YYLTYPE *yylplim = NULL;
 #endif
 
 /* Current position at lexical token queue */
-static YYINT  *yylexp = 0;
+static YYINT  *yylexp = NULL;
 
-static YYINT  *yylexemes = 0;
+static YYINT  *yylexemes = NULL;
 #endif /* YYBTYACC */
 #line 200 "btyacc_demo.y"
 
@@ -663,7 +675,7 @@ extern Expr * var_expr(Scope *scope, char *id);
 extern Code * build_expr_code(Expr *expr);
 extern Code * build_if(Expr *cond_expr, Code *then_stmt, Code *else_stmt);
 extern Code * code_append(Code *stmt_list, Code *stmt);
-#line 667 "btyacc_demo.tab.c"
+#line 679 "btyacc_demo.tab.c"
 
 /* Release memory associated with symbol. */
 #if ! defined YYDESTRUCT_IS_DECLARED
@@ -679,7 +691,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 683 "btyacc_demo.tab.c"
+#line 695 "btyacc_demo.tab.c"
 	break;
 	case 45:
 #line 83 "btyacc_demo.y"
@@ -688,7 +700,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 692 "btyacc_demo.tab.c"
+#line 704 "btyacc_demo.tab.c"
 	break;
 	case 42:
 #line 83 "btyacc_demo.y"
@@ -697,7 +709,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 701 "btyacc_demo.tab.c"
+#line 713 "btyacc_demo.tab.c"
 	break;
 	case 47:
 #line 83 "btyacc_demo.y"
@@ -706,7 +718,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 710 "btyacc_demo.tab.c"
+#line 722 "btyacc_demo.tab.c"
 	break;
 	case 37:
 #line 83 "btyacc_demo.y"
@@ -715,7 +727,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 719 "btyacc_demo.tab.c"
+#line 731 "btyacc_demo.tab.c"
 	break;
 	case 257:
 #line 83 "btyacc_demo.y"
@@ -724,7 +736,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 728 "btyacc_demo.tab.c"
+#line 740 "btyacc_demo.tab.c"
 	break;
 	case 258:
 #line 83 "btyacc_demo.y"
@@ -733,7 +745,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 737 "btyacc_demo.tab.c"
+#line 749 "btyacc_demo.tab.c"
 	break;
 	case 40:
 #line 83 "btyacc_demo.y"
@@ -742,7 +754,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 746 "btyacc_demo.tab.c"
+#line 758 "btyacc_demo.tab.c"
 	break;
 	case 91:
 #line 83 "btyacc_demo.y"
@@ -751,7 +763,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 755 "btyacc_demo.tab.c"
+#line 767 "btyacc_demo.tab.c"
 	break;
 	case 46:
 #line 83 "btyacc_demo.y"
@@ -760,7 +772,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 764 "btyacc_demo.tab.c"
+#line 776 "btyacc_demo.tab.c"
 	break;
 	case 259:
 #line 78 "btyacc_demo.y"
@@ -769,7 +781,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).id); }
-#line 773 "btyacc_demo.tab.c"
+#line 785 "btyacc_demo.tab.c"
 	break;
 	case 260:
 #line 78 "btyacc_demo.y"
@@ -778,7 +790,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).expr); }
-#line 782 "btyacc_demo.tab.c"
+#line 794 "btyacc_demo.tab.c"
 	break;
 	case 261:
 #line 83 "btyacc_demo.y"
@@ -787,7 +799,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 791 "btyacc_demo.tab.c"
+#line 803 "btyacc_demo.tab.c"
 	break;
 	case 262:
 #line 83 "btyacc_demo.y"
@@ -796,7 +808,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 800 "btyacc_demo.tab.c"
+#line 812 "btyacc_demo.tab.c"
 	break;
 	case 263:
 #line 83 "btyacc_demo.y"
@@ -805,7 +817,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 809 "btyacc_demo.tab.c"
+#line 821 "btyacc_demo.tab.c"
 	break;
 	case 264:
 #line 83 "btyacc_demo.y"
@@ -814,7 +826,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 818 "btyacc_demo.tab.c"
+#line 830 "btyacc_demo.tab.c"
 	break;
 	case 265:
 #line 83 "btyacc_demo.y"
@@ -823,7 +835,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 827 "btyacc_demo.tab.c"
+#line 839 "btyacc_demo.tab.c"
 	break;
 	case 266:
 #line 83 "btyacc_demo.y"
@@ -832,7 +844,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 836 "btyacc_demo.tab.c"
+#line 848 "btyacc_demo.tab.c"
 	break;
 	case 267:
 #line 83 "btyacc_demo.y"
@@ -841,7 +853,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 845 "btyacc_demo.tab.c"
+#line 857 "btyacc_demo.tab.c"
 	break;
 	case 268:
 #line 83 "btyacc_demo.y"
@@ -850,7 +862,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 854 "btyacc_demo.tab.c"
+#line 866 "btyacc_demo.tab.c"
 	break;
 	case 269:
 #line 83 "btyacc_demo.y"
@@ -859,7 +871,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 863 "btyacc_demo.tab.c"
+#line 875 "btyacc_demo.tab.c"
 	break;
 	case 59:
 #line 83 "btyacc_demo.y"
@@ -868,7 +880,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 872 "btyacc_demo.tab.c"
+#line 884 "btyacc_demo.tab.c"
 	break;
 	case 44:
 #line 83 "btyacc_demo.y"
@@ -877,7 +889,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 881 "btyacc_demo.tab.c"
+#line 893 "btyacc_demo.tab.c"
 	break;
 	case 41:
 #line 83 "btyacc_demo.y"
@@ -886,7 +898,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 890 "btyacc_demo.tab.c"
+#line 902 "btyacc_demo.tab.c"
 	break;
 	case 93:
 #line 83 "btyacc_demo.y"
@@ -895,7 +907,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 899 "btyacc_demo.tab.c"
+#line 911 "btyacc_demo.tab.c"
 	break;
 	case 123:
 #line 83 "btyacc_demo.y"
@@ -904,7 +916,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 908 "btyacc_demo.tab.c"
+#line 920 "btyacc_demo.tab.c"
 	break;
 	case 125:
 #line 83 "btyacc_demo.y"
@@ -913,7 +925,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 917 "btyacc_demo.tab.c"
+#line 929 "btyacc_demo.tab.c"
 	break;
 	case 270:
 #line 83 "btyacc_demo.y"
@@ -922,7 +934,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 926 "btyacc_demo.tab.c"
+#line 938 "btyacc_demo.tab.c"
 	break;
 	case 271:
 #line 83 "btyacc_demo.y"
@@ -931,7 +943,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 935 "btyacc_demo.tab.c"
+#line 947 "btyacc_demo.tab.c"
 	break;
 	case 272:
 #line 78 "btyacc_demo.y"
@@ -940,7 +952,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).expr); }
-#line 944 "btyacc_demo.tab.c"
+#line 956 "btyacc_demo.tab.c"
 	break;
 	case 273:
 #line 67 "btyacc_demo.y"
@@ -950,7 +962,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).decl->scope); free((*val).decl->type); }
-#line 954 "btyacc_demo.tab.c"
+#line 966 "btyacc_demo.tab.c"
 	break;
 	case 274:
 #line 83 "btyacc_demo.y"
@@ -959,7 +971,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 963 "btyacc_demo.tab.c"
+#line 975 "btyacc_demo.tab.c"
 	break;
 	case 275:
 #line 83 "btyacc_demo.y"
@@ -968,7 +980,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  /* in this example, we don't know what to do here */ }
-#line 972 "btyacc_demo.tab.c"
+#line 984 "btyacc_demo.tab.c"
 	break;
 	case 276:
 #line 78 "btyacc_demo.y"
@@ -977,7 +989,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).code); }
-#line 981 "btyacc_demo.tab.c"
+#line 993 "btyacc_demo.tab.c"
 	break;
 	case 277:
 #line 78 "btyacc_demo.y"
@@ -986,7 +998,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).code); }
-#line 990 "btyacc_demo.tab.c"
+#line 1002 "btyacc_demo.tab.c"
 	break;
 	case 278:
 #line 78 "btyacc_demo.y"
@@ -995,7 +1007,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).code); }
-#line 999 "btyacc_demo.tab.c"
+#line 1011 "btyacc_demo.tab.c"
 	break;
 	case 279:
 #line 73 "btyacc_demo.y"
@@ -1004,7 +1016,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).decl); }
-#line 1008 "btyacc_demo.tab.c"
+#line 1020 "btyacc_demo.tab.c"
 	break;
 	case 280:
 #line 73 "btyacc_demo.y"
@@ -1013,7 +1025,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).decl); }
-#line 1017 "btyacc_demo.tab.c"
+#line 1029 "btyacc_demo.tab.c"
 	break;
 	case 281:
 #line 78 "btyacc_demo.y"
@@ -1022,7 +1034,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1026 "btyacc_demo.tab.c"
+#line 1038 "btyacc_demo.tab.c"
 	break;
 	case 282:
 #line 78 "btyacc_demo.y"
@@ -1031,7 +1043,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1035 "btyacc_demo.tab.c"
+#line 1047 "btyacc_demo.tab.c"
 	break;
 	case 283:
 #line 78 "btyacc_demo.y"
@@ -1040,7 +1052,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1044 "btyacc_demo.tab.c"
+#line 1056 "btyacc_demo.tab.c"
 	break;
 	case 284:
 #line 78 "btyacc_demo.y"
@@ -1049,7 +1061,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1053 "btyacc_demo.tab.c"
+#line 1065 "btyacc_demo.tab.c"
 	break;
 	case 285:
 #line 78 "btyacc_demo.y"
@@ -1058,7 +1070,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1062 "btyacc_demo.tab.c"
+#line 1074 "btyacc_demo.tab.c"
 	break;
 	case 286:
 #line 78 "btyacc_demo.y"
@@ -1067,7 +1079,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1071 "btyacc_demo.tab.c"
+#line 1083 "btyacc_demo.tab.c"
 	break;
 	case 287:
 #line 78 "btyacc_demo.y"
@@ -1076,7 +1088,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).dlist); }
-#line 1080 "btyacc_demo.tab.c"
+#line 1092 "btyacc_demo.tab.c"
 	break;
 	case 288:
 #line 78 "btyacc_demo.y"
@@ -1085,7 +1097,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).dlist); }
-#line 1089 "btyacc_demo.tab.c"
+#line 1101 "btyacc_demo.tab.c"
 	break;
 	case 289:
 #line 78 "btyacc_demo.y"
@@ -1094,7 +1106,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1098 "btyacc_demo.tab.c"
+#line 1110 "btyacc_demo.tab.c"
 	break;
 	case 290:
 #line 78 "btyacc_demo.y"
@@ -1103,7 +1115,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1107 "btyacc_demo.tab.c"
+#line 1119 "btyacc_demo.tab.c"
 	break;
 	case 291:
 #line 78 "btyacc_demo.y"
@@ -1112,7 +1124,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1116 "btyacc_demo.tab.c"
+#line 1128 "btyacc_demo.tab.c"
 	break;
 	case 292:
 #line 78 "btyacc_demo.y"
@@ -1121,7 +1133,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1125 "btyacc_demo.tab.c"
+#line 1137 "btyacc_demo.tab.c"
 	break;
 	case 293:
 #line 78 "btyacc_demo.y"
@@ -1130,7 +1142,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1134 "btyacc_demo.tab.c"
+#line 1146 "btyacc_demo.tab.c"
 	break;
 	case 294:
 #line 78 "btyacc_demo.y"
@@ -1139,7 +1151,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1143 "btyacc_demo.tab.c"
+#line 1155 "btyacc_demo.tab.c"
 	break;
 	case 295:
 #line 78 "btyacc_demo.y"
@@ -1148,7 +1160,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).type); }
-#line 1152 "btyacc_demo.tab.c"
+#line 1164 "btyacc_demo.tab.c"
 	break;
 	case 296:
 #line 78 "btyacc_demo.y"
@@ -1157,7 +1169,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1161 "btyacc_demo.tab.c"
+#line 1173 "btyacc_demo.tab.c"
 	break;
 	case 297:
 #line 78 "btyacc_demo.y"
@@ -1166,7 +1178,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1170 "btyacc_demo.tab.c"
+#line 1182 "btyacc_demo.tab.c"
 	break;
 	case 298:
 #line 78 "btyacc_demo.y"
@@ -1175,7 +1187,7 @@ YYDESTRUCT_DECL()
 			 (*loc).first_line, (*loc).first_column,
 			 (*loc).last_line, (*loc).last_column);
 		  free((*val).scope); }
-#line 1179 "btyacc_demo.tab.c"
+#line 1191 "btyacc_demo.tab.c"
 	break;
     }
 }
@@ -1215,14 +1227,14 @@ static int yygrowstack(YYSTACKDATA *data)
 
     i = (int) (data->s_mark - data->s_base);
     newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));
-    if (newss == 0)
+    if (newss == NULL)
         return YYENOMEM;
 
     data->s_base = newss;
     data->s_mark = newss + i;
 
     newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));
-    if (newvs == 0)
+    if (newvs == NULL)
         return YYENOMEM;
 
     data->l_base = newvs;
@@ -1230,7 +1242,7 @@ static int yygrowstack(YYSTACKDATA *data)
 
 #if defined(YYLTYPE) || defined(YYLTYPE_IS_DECLARED)
     newps = (YYLTYPE *)realloc(data->p_base, newsize * sizeof(*newps));
-    if (newps == 0)
+    if (newps == NULL)
         return YYENOMEM;
 
     data->p_base = newps;
@@ -1324,7 +1336,7 @@ YYPARSE_DECL()
 #if YYDEBUG
     const char *yys;
 
-    if ((yys = getenv("YYDEBUG")) != 0)
+    if ((yys = getenv("YYDEBUG")) != NULL)
     {
         yyn = *yys;
         if (yyn >= '0' && yyn <= '9')
@@ -1338,8 +1350,8 @@ YYPARSE_DECL()
 #endif
 
 #if YYBTYACC
-    yyps = yyNewState(0); if (yyps == 0) goto yyenomem;
-    yyps->save = 0;
+    yyps = yyNewState(0); if (yyps == NULL) goto yyenomem;
+    yyps->save = NULL;
 #endif /* YYBTYACC */
     yym = 0;
     /* yyn is set below */
@@ -1853,46 +1865,46 @@ yyreduce:
 case 1:
 #line 93 "btyacc_demo.y"
 { yyval.scope = yystack.l_mark[0].scope; }
-#line 1857 "btyacc_demo.tab.c"
+#line 1869 "btyacc_demo.tab.c"
 break;
 case 2:
 #line 94 "btyacc_demo.y"
 { yyval.scope = global_scope; }
-#line 1862 "btyacc_demo.tab.c"
+#line 1874 "btyacc_demo.tab.c"
 break;
 case 3:
 #line 95 "btyacc_demo.y"
 { Decl *d = lookup(yystack.l_mark[-2].scope, yystack.l_mark[-1].id);
 			  if (!d || !d->scope) YYERROR;
 			  yyval.scope = d->scope; }
-#line 1869 "btyacc_demo.tab.c"
+#line 1881 "btyacc_demo.tab.c"
 break;
 case 4:
 #line 101 "btyacc_demo.y"
 { Decl *d = lookup(yystack.l_mark[-1].scope, yystack.l_mark[0].id);
 	if (d == NULL || d->istype() == 0) YYERROR;
 	yyval.type = d->type; }
-#line 1876 "btyacc_demo.tab.c"
+#line 1888 "btyacc_demo.tab.c"
 break;
 case 5:
 #line 106 "btyacc_demo.y"
-yyval.scope = global_scope = new_scope(0);
-#line 1881 "btyacc_demo.tab.c"
+yyval.scope = global_scope = new_scope(NULL);
+#line 1893 "btyacc_demo.tab.c"
 break;
 case 8:
 #line 107 "btyacc_demo.y"
 yyval.scope = yystack.l_mark[-1].scope;
-#line 1886 "btyacc_demo.tab.c"
+#line 1898 "btyacc_demo.tab.c"
 break;
 case 10:
 #line 109 "btyacc_demo.y"
 {YYVALID;}
-#line 1891 "btyacc_demo.tab.c"
+#line 1903 "btyacc_demo.tab.c"
 break;
 case 11:
 #line 110 "btyacc_demo.y"
 yyval.scope = start_fn_def(yystack.l_mark[-2].scope, yystack.l_mark[0].decl);
-#line 1896 "btyacc_demo.tab.c"
+#line 1908 "btyacc_demo.tab.c"
 break;
 case 12:
   if (!yytrial)
@@ -1904,266 +1916,266 @@ case 12:
 	yyloc.last_line    = yystack.p_mark[0].last_line;
 	yyloc.last_column  = yystack.p_mark[0].last_column;
 	finish_fn_def(yystack.l_mark[-2].decl, yystack.l_mark[0].code); }
-#line 1908 "btyacc_demo.tab.c"
+#line 1920 "btyacc_demo.tab.c"
 break;
 case 13:
 #line 121 "btyacc_demo.y"
 { yyval.type = yystack.l_mark[0].type; }
-#line 1913 "btyacc_demo.tab.c"
+#line 1925 "btyacc_demo.tab.c"
 break;
 case 14:
 #line 122 "btyacc_demo.y"
 { yyval.type = type_combine(yystack.l_mark[-2].type, yystack.l_mark[0].type); }
-#line 1918 "btyacc_demo.tab.c"
+#line 1930 "btyacc_demo.tab.c"
 break;
 case 15:
 #line 125 "btyacc_demo.y"
-{ yyval.type = 0; }
-#line 1923 "btyacc_demo.tab.c"
+{ yyval.type = NULL; }
+#line 1935 "btyacc_demo.tab.c"
 break;
 case 16:
 #line 126 "btyacc_demo.y"
 { yyval.type = type_combine(yystack.l_mark[-1].type, yystack.l_mark[0].type); }
-#line 1928 "btyacc_demo.tab.c"
+#line 1940 "btyacc_demo.tab.c"
 break;
 case 17:
 #line 130 "btyacc_demo.y"
 { yyval.type = yystack.l_mark[0].type; }
-#line 1933 "btyacc_demo.tab.c"
+#line 1945 "btyacc_demo.tab.c"
 break;
 case 18:
 #line 131 "btyacc_demo.y"
 { yyval.type = yystack.l_mark[0].type; }
-#line 1938 "btyacc_demo.tab.c"
+#line 1950 "btyacc_demo.tab.c"
 break;
 case 19:
 #line 132 "btyacc_demo.y"
 { yyval.type = bare_extern(); }
-#line 1943 "btyacc_demo.tab.c"
+#line 1955 "btyacc_demo.tab.c"
 break;
 case 20:
 #line 133 "btyacc_demo.y"
 { yyval.type = bare_register(); }
-#line 1948 "btyacc_demo.tab.c"
+#line 1960 "btyacc_demo.tab.c"
 break;
 case 21:
 #line 134 "btyacc_demo.y"
 { yyval.type = bare_static(); }
-#line 1953 "btyacc_demo.tab.c"
+#line 1965 "btyacc_demo.tab.c"
 break;
 case 22:
 #line 138 "btyacc_demo.y"
 { yyval.type = bare_const(); }
-#line 1958 "btyacc_demo.tab.c"
+#line 1970 "btyacc_demo.tab.c"
 break;
 case 23:
 #line 139 "btyacc_demo.y"
 { yyval.type = bare_volatile(); }
-#line 1963 "btyacc_demo.tab.c"
+#line 1975 "btyacc_demo.tab.c"
 break;
 case 24:
 #line 143 "btyacc_demo.y"
 yyval.scope = yystack.l_mark[-3].scope;
-#line 1968 "btyacc_demo.tab.c"
+#line 1980 "btyacc_demo.tab.c"
 break;
 case 25:
 #line 143 "btyacc_demo.y"
 yyval.type =  yystack.l_mark[-3].type;
-#line 1973 "btyacc_demo.tab.c"
+#line 1985 "btyacc_demo.tab.c"
 break;
 case 28:
 #line 148 "btyacc_demo.y"
 { if (!yystack.l_mark[0].type) YYERROR; }  if (!yytrial)
 #line 149 "btyacc_demo.y"
-{ yyval.decl = declare(yystack.l_mark[-1].scope, 0, yystack.l_mark[0].type); }
-#line 1980 "btyacc_demo.tab.c"
+{ yyval.decl = declare(yystack.l_mark[-1].scope, NULL, yystack.l_mark[0].type); }
+#line 1992 "btyacc_demo.tab.c"
 break;
 case 29:
   if (!yytrial)
 #line 150 "btyacc_demo.y"
 	{ yyval.decl = declare(yystack.l_mark[-2].scope, yystack.l_mark[0].id, yystack.l_mark[-1].type); }
-#line 1986 "btyacc_demo.tab.c"
+#line 1998 "btyacc_demo.tab.c"
 break;
 case 30:
 #line 151 "btyacc_demo.y"
 yyval.scope = yystack.l_mark[-2].scope;
-#line 1991 "btyacc_demo.tab.c"
+#line 2003 "btyacc_demo.tab.c"
 break;
 case 31:
 #line 151 "btyacc_demo.y"
 yyval.type =  yystack.l_mark[-2].type;
-#line 1996 "btyacc_demo.tab.c"
+#line 2008 "btyacc_demo.tab.c"
 break;
 case 32:
   if (!yytrial)
 #line 151 "btyacc_demo.y"
 	{ yyval.decl = yystack.l_mark[-1].decl; }
-#line 2002 "btyacc_demo.tab.c"
+#line 2014 "btyacc_demo.tab.c"
 break;
 case 33:
   if (!yytrial)
 #line 153 "btyacc_demo.y"
 	{ yyval.decl = make_pointer(yystack.l_mark[0].decl, yystack.l_mark[-3].type); }
-#line 2008 "btyacc_demo.tab.c"
+#line 2020 "btyacc_demo.tab.c"
 break;
 case 34:
   if (!yytrial)
 #line 155 "btyacc_demo.y"
 	{ yyval.decl = make_array(yystack.l_mark[-4].decl->type, yystack.l_mark[-1].expr); }
-#line 2014 "btyacc_demo.tab.c"
+#line 2026 "btyacc_demo.tab.c"
 break;
 case 35:
   if (!yytrial)
 #line 157 "btyacc_demo.y"
 	{ yyval.decl = build_function(yystack.l_mark[-5].decl, yystack.l_mark[-2].dlist, yystack.l_mark[0].type); }
-#line 2020 "btyacc_demo.tab.c"
+#line 2032 "btyacc_demo.tab.c"
 break;
 case 36:
   if (!yytrial)
 #line 160 "btyacc_demo.y"
-	{ yyval.dlist = 0; }
-#line 2026 "btyacc_demo.tab.c"
+	{ yyval.dlist = NULL; }
+#line 2038 "btyacc_demo.tab.c"
 break;
 case 37:
   if (!yytrial)
 #line 161 "btyacc_demo.y"
 	{ yyval.dlist = yystack.l_mark[0].dlist; }
-#line 2032 "btyacc_demo.tab.c"
+#line 2044 "btyacc_demo.tab.c"
 break;
 case 38:
   if (!yytrial)
 #line 164 "btyacc_demo.y"
 	{ yyval.dlist = append_dlist(yystack.l_mark[-3].dlist, yystack.l_mark[0].decl); }
-#line 2038 "btyacc_demo.tab.c"
+#line 2050 "btyacc_demo.tab.c"
 break;
 case 39:
   if (!yytrial)
 #line 165 "btyacc_demo.y"
 	{ yyval.dlist = build_dlist(yystack.l_mark[0].decl); }
-#line 2044 "btyacc_demo.tab.c"
+#line 2056 "btyacc_demo.tab.c"
 break;
 case 40:
   if (!yytrial)
 #line 168 "btyacc_demo.y"
 	{ yyval.decl = yystack.l_mark[0].decl; }
-#line 2050 "btyacc_demo.tab.c"
+#line 2062 "btyacc_demo.tab.c"
 break;
 case 41:
   if (!yytrial)
 #line 172 "btyacc_demo.y"
 	{ yyval.expr = build_expr(yystack.l_mark[-3].expr, ADD, yystack.l_mark[0].expr); }
-#line 2056 "btyacc_demo.tab.c"
+#line 2068 "btyacc_demo.tab.c"
 break;
 case 42:
   if (!yytrial)
 #line 173 "btyacc_demo.y"
 	{ yyval.expr = build_expr(yystack.l_mark[-3].expr, SUB, yystack.l_mark[0].expr); }
-#line 2062 "btyacc_demo.tab.c"
+#line 2074 "btyacc_demo.tab.c"
 break;
 case 43:
   if (!yytrial)
 #line 174 "btyacc_demo.y"
 	{ yyval.expr = build_expr(yystack.l_mark[-3].expr, MUL, yystack.l_mark[0].expr); }
-#line 2068 "btyacc_demo.tab.c"
+#line 2080 "btyacc_demo.tab.c"
 break;
 case 44:
   if (!yytrial)
 #line 175 "btyacc_demo.y"
 	{ yyval.expr = build_expr(yystack.l_mark[-3].expr, MOD, yystack.l_mark[0].expr); }
-#line 2074 "btyacc_demo.tab.c"
+#line 2086 "btyacc_demo.tab.c"
 break;
 case 45:
   if (!yytrial)
 #line 176 "btyacc_demo.y"
 	{ yyval.expr = build_expr(yystack.l_mark[-3].expr, DIV, yystack.l_mark[0].expr); }
-#line 2080 "btyacc_demo.tab.c"
+#line 2092 "btyacc_demo.tab.c"
 break;
 case 46:
   if (!yytrial)
 #line 177 "btyacc_demo.y"
-	{ yyval.expr = build_expr(0, DEREF, yystack.l_mark[0].expr); }
-#line 2086 "btyacc_demo.tab.c"
+	{ yyval.expr = build_expr(NULL, DEREF, yystack.l_mark[0].expr); }
+#line 2098 "btyacc_demo.tab.c"
 break;
 case 47:
   if (!yytrial)
 #line 178 "btyacc_demo.y"
 	{ yyval.expr = var_expr(yystack.l_mark[-1].scope, yystack.l_mark[0].id); }
-#line 2092 "btyacc_demo.tab.c"
+#line 2104 "btyacc_demo.tab.c"
 break;
 case 48:
   if (!yytrial)
 #line 179 "btyacc_demo.y"
 	{ yyval.expr = yystack.l_mark[0].expr; }
-#line 2098 "btyacc_demo.tab.c"
+#line 2110 "btyacc_demo.tab.c"
 break;
 case 49:
   if (!yytrial)
 #line 183 "btyacc_demo.y"
-	{ yyval.code = 0; }
-#line 2104 "btyacc_demo.tab.c"
+	{ yyval.code = NULL; }
+#line 2116 "btyacc_demo.tab.c"
 break;
 case 50:
 #line 184 "btyacc_demo.y"
 {YYVALID;}  if (!yytrial)
 #line 184 "btyacc_demo.y"
 { yyval.code = build_expr_code(yystack.l_mark[-1].expr); }
-#line 2111 "btyacc_demo.tab.c"
+#line 2123 "btyacc_demo.tab.c"
 break;
 case 51:
 #line 185 "btyacc_demo.y"
 yyval.scope = yystack.l_mark[-6].scope;
-#line 2116 "btyacc_demo.tab.c"
+#line 2128 "btyacc_demo.tab.c"
 break;
 case 52:
 #line 185 "btyacc_demo.y"
 yyval.scope = yystack.l_mark[-9].scope;
-#line 2121 "btyacc_demo.tab.c"
+#line 2133 "btyacc_demo.tab.c"
 break;
 case 53:
 #line 185 "btyacc_demo.y"
 {YYVALID;}  if (!yytrial)
 #line 186 "btyacc_demo.y"
 { yyval.code = build_if(yystack.l_mark[-7].expr, yystack.l_mark[-3].code, yystack.l_mark[0].code); }
-#line 2128 "btyacc_demo.tab.c"
+#line 2140 "btyacc_demo.tab.c"
 break;
 case 54:
 #line 187 "btyacc_demo.y"
 {YYVALID;}  if (!yytrial)
 #line 188 "btyacc_demo.y"
-{ yyval.code = build_if(yystack.l_mark[-4].expr, yystack.l_mark[0].code, 0); }
-#line 2135 "btyacc_demo.tab.c"
+{ yyval.code = build_if(yystack.l_mark[-4].expr, yystack.l_mark[0].code, NULL); }
+#line 2147 "btyacc_demo.tab.c"
 break;
 case 55:
 #line 189 "btyacc_demo.y"
 yyval.scope = new_scope(yystack.l_mark[0].scope);
-#line 2140 "btyacc_demo.tab.c"
+#line 2152 "btyacc_demo.tab.c"
 break;
 case 56:
 #line 189 "btyacc_demo.y"
 {YYVALID;}  if (!yytrial)
 #line 189 "btyacc_demo.y"
 { yyval.code = yystack.l_mark[0].code; }
-#line 2147 "btyacc_demo.tab.c"
+#line 2159 "btyacc_demo.tab.c"
 break;
 case 57:
   if (!yytrial)
 #line 192 "btyacc_demo.y"
-	{ yyval.code = 0; }
-#line 2153 "btyacc_demo.tab.c"
+	{ yyval.code = NULL; }
+#line 2165 "btyacc_demo.tab.c"
 break;
 case 58:
   if (!yytrial)
 #line 193 "btyacc_demo.y"
 	{ yyval.code = code_append(yystack.l_mark[-2].code, yystack.l_mark[0].code); }
-#line 2159 "btyacc_demo.tab.c"
+#line 2171 "btyacc_demo.tab.c"
 break;
 case 59:
   if (!yytrial)
 #line 197 "btyacc_demo.y"
 	{ yyval.code = yystack.l_mark[-1].code; }
-#line 2165 "btyacc_demo.tab.c"
+#line 2177 "btyacc_demo.tab.c"
 break;
-#line 2167 "btyacc_demo.tab.c"
+#line 2179 "btyacc_demo.tab.c"
     default:
         break;
     }

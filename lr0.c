@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.21 2021/05/20 23:57:23 tom Exp $ */
+/* $Id: lr0.c,v 1.22 2024/12/14 14:35:14 tom Exp $ */
 
 #include "defs.h"
 
@@ -233,8 +233,8 @@ initialize_states(void)
     p = (core *)MALLOC(sizeof(core) + i * sizeof(Value_t));
     NO_SPACE(p);
 
-    p->next = 0;
-    p->link = 0;
+    p->next = NULL;
+    p->link = NULL;
     p->number = 0;
     p->accessing_symbol = 0;
     p->nitems = (Value_t)i;
@@ -255,7 +255,7 @@ new_itemsets(void)
     Value_t *ksp;
 
     for (i = 0; i < nsyms; i++)
-	kernel_end[i] = 0;
+	kernel_end[i] = NULL;
 
     shiftcount = 0;
     isp = itemset;

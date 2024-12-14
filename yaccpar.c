@@ -33,14 +33,14 @@ const char *const banner[] =
     "#define YYRECOVERING() (yyerrflag != 0)",
     "#define YYENOMEM       (-2)",
     "#define YYEOF          0",
-    0
+    NULL
 };
 
 const char *const xdecls[] =
 {
     "",
     "extern int YYPARSE_DECL();",
-    0
+    NULL
 };
 
 const char *const tables[] =
@@ -61,7 +61,7 @@ const char *const tables[] =
     "#if YYDEBUG",
     "extern char *yyrule[];",
     "#endif",
-    0
+    NULL
 };
 
 const char *const global_vars[] =
@@ -70,7 +70,7 @@ const char *const global_vars[] =
     "#if YYDEBUG",
     "int      yydebug;",
     "#endif",
-    0
+    NULL
 };
 
 const char *const impure_vars[] =
@@ -81,7 +81,7 @@ const char *const impure_vars[] =
     "YYSTYPE  yyval;",
     "YYSTYPE  yylval;",
     "int      yynerrs;",
-    0
+    NULL
 };
 
 const char *const hdr_defs[] =
@@ -110,14 +110,14 @@ const char *const hdr_defs[] =
     "    YYSTYPE  *l_base;",
     "    YYSTYPE  *l_mark;",
     "} YYSTACKDATA;",
-    0
+    NULL
 };
 
 const char *const hdr_vars[] =
 {
     "/* variables for the parser stack */",
     "static YYSTACKDATA yystack;",
-    0
+    NULL
 };
 
 const char *const body_vars[] =
@@ -130,7 +130,7 @@ const char *const body_vars[] =
     "",
     "    /* variables for the parser stack */",
     "    YYSTACKDATA yystack;",
-    0
+    NULL
 };
 
 const char *const body_1[] =
@@ -160,14 +160,14 @@ const char *const body_1[] =
     "",
     "    i = (int) (data->s_mark - data->s_base);",
     "    newss = (YYINT *)realloc(data->s_base, newsize * sizeof(*newss));",
-    "    if (newss == 0)",
+    "    if (newss == NULL)",
     "        return YYENOMEM;",
     "",
     "    data->s_base = newss;",
     "    data->s_mark = newss + i;",
     "",
     "    newvs = (YYSTYPE *)realloc(data->l_base, newsize * sizeof(*newvs));",
-    "    if (newvs == 0)",
+    "    if (newvs == NULL)",
     "        return YYENOMEM;",
     "",
     "    data->l_base = newvs;",
@@ -197,7 +197,7 @@ const char *const body_1[] =
     "int",
     "YYPARSE_DECL()",
     "{",
-    0
+    NULL
 };
 
 const char *const body_2[] =
@@ -206,7 +206,7 @@ const char *const body_2[] =
     "#if YYDEBUG",
     "    const char *yys;",
     "",
-    "    if ((yys = getenv(\"YYDEBUG\")) != 0)",
+    "    if ((yys = getenv(\"YYDEBUG\")) != NULL)",
     "    {",
     "        yyn = *yys;",
     "        if (yyn >= '0' && yyn <= '9')",
@@ -214,7 +214,7 @@ const char *const body_2[] =
     "    }",
     "#endif",
     "",
-    0
+    NULL
 };
 
 const char *const init_vars[] =
@@ -222,7 +222,7 @@ const char *const init_vars[] =
     "    memset(&yyval,  0, sizeof(yyval));",
     "    memset(&yylval, 0, sizeof(yylval));",
     "",
-    0
+    NULL
 };
 
 const char *const body_3[] =
@@ -351,7 +351,7 @@ const char *const body_3[] =
     "",
     "    switch (yyn)",
     "    {",
-    0
+    NULL
 };
 
 const char *const trailer[] =
@@ -413,7 +413,7 @@ const char *const trailer[] =
     "    yyfreestack(&yystack);",
     "    return (0);",
     "}",
-    0
+    NULL
 };
 
 void
@@ -422,7 +422,7 @@ write_section(FILE * fp, const char *const section[])
     int i;
     const char *s;
 
-    for (i = 0; (s = section[i]) != 0; ++i)
+    for (i = 0; (s = section[i]) != NULL; ++i)
     {
 	if (fp == code_file)
 	    ++outline;

@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.74 2023/05/11 07:51:36 tom Exp $ */
+/* $Id: main.c,v 1.75 2024/12/14 14:36:50 tom Exp $ */
 
 #include <signal.h>
 #if !defined(_WIN32) || defined(__MINGW32__)
@@ -119,9 +119,9 @@ char *nullable;
  * if there is a problem closing a file.
  */
 #define DO_CLOSE(fp) \
-	if (fp != 0) { \
+	if (fp != NULL) { \
 	    FILE *use = fp; \
-	    fp = 0; \
+	    fp = NULL; \
 	    fclose(use); \
 	}
 
@@ -597,7 +597,7 @@ create_file_names(void)
     externs_suffix = EXTERNS_SUFFIX;
 
     /* compute the file_prefix from the user provided output_file_name */
-    if (output_file_name != 0)
+    if (output_file_name != NULL)
     {
 	if (!(suffix = find_suffix(output_file_name, OUTPUT_SUFFIX))
 	    && (suffix = find_suffix(output_file_name, ".c")))
@@ -618,7 +618,7 @@ create_file_names(void)
 	len = strlen(file_prefix);
 
     /* if "-o filename" was not given */
-    if (output_file_name == 0)
+    if (output_file_name == NULL)
     {
 	oflag = 1;
 	CREATE_FILE_NAME(output_file_name, OUTPUT_SUFFIX);
@@ -661,7 +661,7 @@ create_file_names(void)
 static void
 close_tmpfiles(void)
 {
-    while (my_tmpfiles != 0)
+    while (my_tmpfiles != NULL)
     {
 	MY_TMPFILES *next = my_tmpfiles->next;
 
@@ -731,8 +731,8 @@ open_tmpfile(const char *label)
     const char *tmpdir;
     char *name;
 
-    if (((tmpdir = getenv("TMPDIR")) == 0 || access(tmpdir, W_OK) != 0) ||
-	((tmpdir = getenv("TEMP")) == 0 || access(tmpdir, W_OK) != 0))
+    if (((tmpdir = getenv("TMPDIR")) == NULL || access(tmpdir, W_OK) != 0) ||
+	((tmpdir = getenv("TEMP")) == NULL || access(tmpdir, W_OK) != 0))
     {
 #ifdef P_tmpdir
 	tmpdir = P_tmpdir;
@@ -749,25 +749,25 @@ open_tmpfile(const char *label)
      */
     name = malloc(strlen(tmpdir) + sizeof(MY_FMT) + strlen(label));
 
-    result = 0;
-    if (name != 0)
+    result = NULL;
+    if (name != NULL)
     {
 	int fd;
 	const char *mark;
 
 	mode_t save_umask = umask(0177);
 
-	if ((mark = strrchr(label, '_')) == 0)
+	if ((mark = strrchr(label, '_')) == NULL)
 	    mark = label + strlen(label);
 
 	sprintf(name, MY_FMT, tmpdir, (int)(mark - label), label);
 	fd = mkstemp(name);
 	if (fd >= 0
-	    && (result = fdopen(fd, "w+")) != 0)
+	    && (result = fdopen(fd, "w+")) != NULL)
 	{
 	    MY_TMPFILES *item;
 
-	    if (my_tmpfiles == 0)
+	    if (my_tmpfiles == NULL)
 	    {
 		atexit(close_tmpfiles);
 	    }
@@ -791,7 +791,7 @@ open_tmpfile(const char *label)
     result = tmpfile();
 #endif
 
-    if (result == 0)
+    if (result == NULL)
 	open_error(label);
     return result;
 #undef MY_FMT
@@ -802,10 +802,10 @@ open_files(void)
 {
     create_file_names();
 
-    if (input_file == 0)
+    if (input_file == NULL)
     {
 	input_file = fopen(input_file_name, "r");
-	if (input_file == 0)
+	if (input_file == NULL)
 	    open_error(input_file_name);
     }
 
@@ -815,14 +815,14 @@ open_files(void)
     if (vflag)
     {
 	verbose_file = fopen(verbose_file_name, "w");
-	if (verbose_file == 0)
+	if (verbose_file == NULL)
 	    open_error(verbose_file_name);
     }
 
     if (gflag)
     {
 	graph_file = fopen(graph_file_name, "w");
-	if (graph_file == 0)
+	if (graph_file == NULL)
 	    open_error(graph_file_name);
 	fprintf(graph_file, "digraph %s {\n", file_prefix);
 	fprintf(graph_file, "\tedge [fontsize=10];\n");
@@ -839,7 +839,7 @@ open_files(void)
     if (dflag || dflag2)
     {
 	defines_file = fopen(defines_file_name, "w");
-	if (defines_file == 0)
+	if (defines_file == NULL)
 	    open_error(defines_file_name);
 	union_file = open_tmpfile("union_file");
     }
@@ -847,18 +847,18 @@ open_files(void)
     if (iflag)
     {
 	externs_file = fopen(externs_file_name, "w");
-	if (externs_file == 0)
+	if (externs_file == NULL)
 	    open_error(externs_file_name);
     }
 
     output_file = fopen(output_file_name, "w");
-    if (output_file == 0)
+    if (output_file == NULL)
 	open_error(output_file_name);
 
     if (rflag)
     {
 	code_file = fopen(code_file_name, "w");
-	if (code_file == 0)
+	if (code_file == NULL)
 	    open_error(code_file_name);
     }
     else

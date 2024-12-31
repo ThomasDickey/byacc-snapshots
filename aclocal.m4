@@ -1,4 +1,4 @@
-dnl $Id: aclocal.m4,v 1.66 2024/12/14 14:10:35 tom Exp $
+dnl $Id: aclocal.m4,v 1.67 2024/12/21 13:44:12 tom Exp $
 dnl Macros for byacc configure script (Thomas E. Dickey)
 dnl ---------------------------------------------------------------------------
 dnl Copyright 2004-2022,2023 Thomas E. Dickey
@@ -735,7 +735,7 @@ CF_INTEL_COMPILER(GCC,INTEL_COMPILER,CFLAGS)
 CF_CLANG_COMPILER(GCC,CLANG_COMPILER,CFLAGS)
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_GCC_WARNINGS version: 42 updated: 2024/12/14 09:09:41
+dnl CF_GCC_WARNINGS version: 43 updated: 2024/12/21 08:44:12
 dnl ---------------
 dnl Check if the compiler supports useful warning options.  There's a few that
 dnl we don't use, simply because they're too noisy:
@@ -761,7 +761,7 @@ AC_REQUIRE([CF_GCC_VERSION])
 if test "x$have_x" = xyes; then CF_CONST_X_STRING fi
 cat > "conftest.$ac_ext" <<EOF
 #line __oline__ "${as_me:-configure}"
-int main(int argc, char *argv[[]]) { return (argv[[argc-1]] == (void*)0) ; }
+int main(int argc, char *argv[[]]) { return (argv[[argc-1]] == 0) ; }
 EOF
 if test "$INTEL_COMPILER" = yes
 then

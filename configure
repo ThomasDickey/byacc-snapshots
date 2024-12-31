@@ -6027,7 +6027,7 @@ then
 if test "x$have_x" = xyes; then echo "skipping X-const check"; fi
 cat > "conftest.$ac_ext" <<EOF
 #line 6029 "${as_me:-configure}"
-int main(int argc, char *argv[]) { return (argv[argc-1] == (void*)0) ; }
+int main(int argc, char *argv[]) { return (argv[argc-1] == 0) ; }
 EOF
 if test "$INTEL_COMPILER" = yes
 then

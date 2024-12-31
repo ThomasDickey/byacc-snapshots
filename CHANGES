@@ -1,3 +1,43 @@
+2024-12-31  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/pkgsrc/distinfo: regen
+
+	* main.c: s/0/NULL/
+
+	* main.c: gcc warning
+
+	* reader.c:
+	make UCH() consistent wrt IS_xxxx macros (prompted by patch by Christos Zoulas)
+
+2024-12-31  Christos Zoulas <christos@NetBSD.org>
+
+	* main.c:
+	from NetBSD - if "-o" option is given, derive the filename of the ".h"
+	definitions-file by stripping commonly-used C/C++ suffixes such as ".c"
+	and then adding ".h"
+
+2024-12-31  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c: provide a fallback definition for W_OK, e.g., for Windows
+
+	* package/pkgsrc/Makefile:
+	resync with pkgsrc in NetBSD 10 (report by Roland Illig)
+
+	* yacc.1: minor typographical fixes
+
+	* main.c: correct condition for using $TEMP environment variable
+	(report by Johann 'Myrkraverk' Oskarsson)
+
+	* VERSION, package/byacc.spec, package/debian/changelog,
+	  package/mingw-byacc.spec, package/pkgsrc/Makefile:
+	bump
+
+2024-12-21  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+
 2024-12-14  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* output.c, yaccpar.c: gcc15 zero vs null warnings
@@ -97,6 +137,10 @@
 2023-08-22  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* config.guess: 2023-08-22
+
+2023-05-31  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* package/pkgsrc/distinfo: resync with pkgsrc
 
 2023-05-21  Thomas E. Dickey  <dickey@invisible-island.net>
 
@@ -780,10 +824,8 @@
 	regen
 
 	* reader.c:
-	adapt a patch by Roland Illig which added #line directives with dummy
-	filename and line number, because the debug information was incorrect.
-	The actual fix (see output_semantic_actions) is to emit #line directives
-	which correspond to the code-file.
+	Modify output_semantic_actions to emit #line directives which correspond to
+	the code-file (adapted from a patch by Roland Illig).
 
 	* reader.c: simplify an ifdef so I can balance {/}
 
@@ -1886,7 +1928,7 @@
 	* mstring.c:
 	enable mstring() in regular byacc, since Zoulas' change relies upon it
 
-2019-11-03  Christos.Zoulas
+2019-11-03  Christos Zoulas <christos@NetBSD.org>
 
 	* defs.h, reader.c, output.c: add support for bison's "%code" feature
 	also fix a small bug: declare YYLTYPE externally when producing locations
@@ -2180,7 +2222,7 @@
 
 	* btyaccpar.c: regen
 
-2018-05-21  Christos.Zoulas
+2018-05-21  Christos Zoulas <christos@NetBSD.org>
 
 	* btyaccpar.skel:
 	improve compatibility with bison by changing the YYLLOC_DEFAULT macro to use
@@ -4403,7 +4445,7 @@
 	amend the last change so that yytname is #define'd as needed rather than
 	permanent - to avoid breaking cproto for instance.
 
-2014-01-01  Christos.Zoulas
+2014-01-01  Christos Zoulas <christos@NetBSD.org>
 
 	* output.c, defs.h, main.c, reader.c, skeleton.c:
 	changes to build ntpd using byacc:
@@ -4911,7 +4953,7 @@
 
 	* test/ftp.tab.c: regen
 
-2010-12-29  Christos.Zoulas
+2010-12-29  Christos Zoulas <christos@NetBSD.org>
 
 	* test/ftp.y:
 	improve example, which was stuck in 19XX and assumed file sizes were longs.
@@ -4935,7 +4977,7 @@
 
 	* test/calc2.tab.c, test/calc3.tab.c: regen
 
-2010-12-29  Christos.Zoulas
+2010-12-29  Christos Zoulas <christos@NetBSD.org>
 
 	* output.c: correct definition for YYERROR_DECL()
 
@@ -5617,7 +5659,7 @@
 	* makefile.in: add "." to include-path to pickup config.h
 
 	* reader.c:
-	apply fix suggested by Steve Dum for end_rule() in Redhat Bugzilla #112617.
+	apply fix for end_rule() in Redhat Bugzilla #112617 (suggested by Steve Dum).
 
 	* output.c:
 	correct a limit check in pack_vector() - report/analysis by William Evans

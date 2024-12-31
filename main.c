@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.75 2024/12/14 14:36:50 tom Exp $ */
+/* $Id: main.c,v 1.80 2024/12/31 20:50:11 tom Exp $ */
 
 #include <signal.h>
 #if !defined(_WIN32) || defined(__MINGW32__)
@@ -16,6 +16,10 @@
 # include <fcntl.h>		/* for open(), O_EXCL, etc. */
 #else
 # define USE_MKSTEMP 0
+#endif
+
+#ifndef W_OK
+#define W_OK 02
 #endif
 
 #if USE_MKSTEMP
@@ -50,6 +54,7 @@ int lineno;
 int outline;
 
 static char default_file_prefix[] = "y";
+static int explicit_file_name;
 
 static char *file_prefix = default_file_prefix;
 
@@ -430,6 +435,7 @@ getargs(int argc, char *argv[])
 	    break;
 	case 'o':
 	    output_file_name = optarg;
+	    explicit_file_name = 1;
 	    break;
 	case 'p':
 	    symbol_prefix = optarg;
@@ -500,6 +506,7 @@ getargs(int argc, char *argv[])
 		output_file_name = argv[i];
 	    else
 		usage();
+	    explicit_file_name = 1;
 	    continue;
 
 	case 'p':
@@ -633,7 +640,40 @@ create_file_names(void)
 
     if (dflag && !dflag2)
     {
-	CREATE_FILE_NAME(defines_file_name, defines_suffix);
+	if (explicit_file_name)
+	{
+	    char *xsuffix;
+	    defines_file_name = strdup(output_file_name);
+	    if (defines_file_name == NULL)
+		on_error();
+	    /* does the output_file_name have a known suffix */
+	    xsuffix = strrchr(output_file_name, '.');
+	    if (xsuffix != NULL &&
+		(!strcmp(xsuffix, ".c") ||	/* good, old-fashioned C */
+		 !strcmp(xsuffix, ".C") ||	/* C++, or C on Windows */
+		 !strcmp(xsuffix, ".cc") ||	/* C++ */
+		 !strcmp(xsuffix, ".cxx") ||	/* C++ */
+		 !strcmp(xsuffix, ".cpp")))	/* C++ (Windows) */
+	    {
+		strncpy(defines_file_name, output_file_name,
+			(size_t) (xsuffix - output_file_name + 1));
+		defines_file_name[xsuffix - output_file_name + 1] = 'h';
+		defines_file_name[xsuffix - output_file_name + 2] = 0;
+	    }
+	    else
+	    {
+		fprintf(stderr, "%s: suffix of output file name %s"
+			" not recognized, no -d file generated.\n",
+			myname, output_file_name);
+		dflag = 0;
+		free(defines_file_name);
+		defines_file_name = NULL;
+	    }
+	}
+	else
+	{
+	    CREATE_FILE_NAME(defines_file_name, defines_suffix);
+	}
     }
 
     if (iflag)
@@ -731,7 +771,7 @@ open_tmpfile(const char *label)
     const char *tmpdir;
     char *name;
 
-    if (((tmpdir = getenv("TMPDIR")) == NULL || access(tmpdir, W_OK) != 0) ||
+    if (((tmpdir = getenv("TMPDIR")) == NULL || access(tmpdir, W_OK) != 0) &&
 	((tmpdir = getenv("TEMP")) == NULL || access(tmpdir, W_OK) != 0))
     {
 #ifdef P_tmpdir

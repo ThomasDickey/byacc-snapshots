@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.105 2024/12/14 16:48:04 tom Exp $ */
+/* $Id: reader.c,v 1.106 2024/12/31 19:39:49 tom Exp $ */
 
 #include "defs.h"
 
@@ -23,7 +23,7 @@
 /* limit the size of optional names for %union */
 #define NAME_LEN 32
 
-#define IS_ALNUM(c) (isalnum(c) || (c) == '_')
+#define IS_ALNUM(c) (isalnum(UCH(c)) || (c) == '_')
 
 #define begin_case(f,n) fprintf(f, "case %d:\n", (int)(n))
 
@@ -1203,7 +1203,7 @@ save_param(int k, char *buffer, int name, int type2)
 	}
 	while (n > 0)
 	{
-	    if (!IS_ALNUM(UCH(buffer[n - 1])))
+	    if (!IS_ALNUM(buffer[n - 1]))
 		break;
 	    --n;
 	}
@@ -1396,7 +1396,7 @@ copy_param(int k)
 	    type2 = i + 1;
 	}
 
-	while (i > 0 && IS_ALNUM(UCH(parms[i])))
+	while (i > 0 && IS_ALNUM(parms[i]))
 	    i--;
 
 	if (!isspace(UCH(parms[i])) && parms[i] != '*')
@@ -1737,7 +1737,7 @@ scan_id(void)
 {
     char *b = cptr;
 
-    while (IS_NAME2(UCH(*cptr)))
+    while (IS_NAME2(*cptr))
 	cptr++;
     return cache_tag(b, (size_t)(cptr - b));
 }
@@ -2277,7 +2277,7 @@ parse_id(char *p, char **save)
     if (!isalpha(UCH(*p)) && *p != '_')
 	return NULL;
     b = p;
-    while (IS_NAME2(UCH(*p)))
+    while (IS_NAME2(*p))
 	p++;
     if (save)
     {

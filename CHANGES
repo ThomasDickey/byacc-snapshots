@@ -1,3 +1,29 @@
+2025-10-07  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* main.c, closure.c, graph.c, lalr.c, lr0.c, mkpar.c, output.c,
+	  reader.c, verbose.c, warshall.c:
+	cppcheck
+
+	* package/debian/copyright, VERSION, package/byacc.spec,
+	  package/debian/changelog, package/mingw-byacc.spec,
+	  package/pkgsrc/Makefile:
+	bump
+
+	* configure: regen
+
+	* aclocal.m4: resync with my-autoconf
+	use CF_PROG_INSTALL
+
+	* configure.in: use CF_PROG_INSTALL
+
+2025-07-09  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* config.guess, config.sub: update to 2025-07-10
+
+2025-06-08  Thomas E. Dickey  <dickey@invisible-island.net>
+
+	* install-sh: fix license
+
 2024-12-31  Thomas E. Dickey  <dickey@invisible-island.net>
 
 	* package/pkgsrc/distinfo: regen

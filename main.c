@@ -1,4 +1,4 @@
-/* $Id: main.c,v 1.80 2024/12/31 20:50:11 tom Exp $ */
+/* $Id: main.c,v 1.81 2025/10/08 00:23:02 tom Exp $ */
 
 #include <signal.h>
 #if !defined(_WIN32) || defined(__MINGW32__)
@@ -380,7 +380,7 @@ getargs(int argc, char *argv[])
 
 	if (!strncmp(a, "--", 2))
 	{
-	    char *eqls;
+	    const char *eqls;
 	    size_t lc;
 	    size_t len;
 
@@ -597,7 +597,7 @@ create_file_names(void)
     size_t len;
     const char *defines_suffix;
     const char *externs_suffix;
-    char *suffix;
+    const char *suffix;
 
     suffix = NULL;
     defines_suffix = DEFINES_SUFFIX;
@@ -642,7 +642,7 @@ create_file_names(void)
     {
 	if (explicit_file_name)
 	{
-	    char *xsuffix;
+	    const char *xsuffix;
 	    defines_file_name = strdup(output_file_name);
 	    if (defines_file_name == NULL)
 		on_error();
@@ -656,7 +656,7 @@ create_file_names(void)
 		 !strcmp(xsuffix, ".cpp")))	/* C++ (Windows) */
 	    {
 		strncpy(defines_file_name, output_file_name,
-			(size_t) (xsuffix - output_file_name + 1));
+			(size_t)(xsuffix - output_file_name + 1));
 		defines_file_name[xsuffix - output_file_name + 1] = 'h';
 		defines_file_name[xsuffix - output_file_name + 2] = 0;
 	    }

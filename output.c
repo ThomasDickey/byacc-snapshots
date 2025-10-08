@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.102 2024/12/14 16:52:47 tom Exp $ */
+/* $Id: output.c,v 1.103 2025/10/08 00:22:08 tom Exp $ */
 
 #include "defs.h"
 
@@ -836,8 +836,8 @@ pack_vector(int vector)
     int t;
     Value_t loc;
     int ok;
-    Value_t *from;
-    Value_t *to;
+    const Value_t *from;
+    const Value_t *to;
     int newmax;
 
     i = order[vector];
@@ -1178,7 +1178,7 @@ output_actions(void)
 static int
 is_C_identifier(char *name)
 {
-    char *s;
+    const char *s;
     int c;
 
     s = name;

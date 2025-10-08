@@ -1,4 +1,4 @@
-/* $Id: lr0.c,v 1.22 2024/12/14 14:35:14 tom Exp $ */
+/* $Id: lr0.c,v 1.23 2025/10/08 00:22:08 tom Exp $ */
 
 #include "defs.h"
 
@@ -43,7 +43,7 @@ static void
 allocate_itemsets(void)
 {
     Value_t *itemp;
-    Value_t *item_end;
+    const Value_t *item_end;
     int i;
     int count;
     int max;
@@ -160,8 +160,8 @@ static Value_t
 get_state(int symbol)
 {
     int key;
-    Value_t *isp1;
-    Value_t *iend;
+    const Value_t *isp1;
+    const Value_t *iend;
     core *sp;
     int n;
 
@@ -184,7 +184,7 @@ get_state(int symbol)
 	{
 	    if (sp->nitems == n)
 	    {
-		Value_t *isp2;
+		const Value_t *isp2;
 
 		found = 1;
 		isp1 = kernel_base[symbol];
@@ -223,12 +223,14 @@ static void
 initialize_states(void)
 {
     unsigned i;
-    Value_t *start_derives;
+    const Value_t *start_derives;
     core *p;
 
     start_derives = derives[start_symbol];
     for (i = 0; start_derives[i] >= 0; ++i)
-	continue;
+    {
+	;
+    }
 
     p = (core *)MALLOC(sizeof(core) + i * sizeof(Value_t));
     NO_SPACE(p);
@@ -251,7 +253,7 @@ new_itemsets(void)
 {
     Value_t i;
     int shiftcount;
-    Value_t *isp;
+    const Value_t *isp;
     Value_t *ksp;
 
     for (i = 0; i < nsyms; i++)
@@ -286,9 +288,9 @@ new_state(int symbol)
 {
     unsigned n;
     core *p;
-    Value_t *isp1;
+    const Value_t *isp1;
     Value_t *isp2;
-    Value_t *iend;
+    const Value_t *iend;
 
 #ifdef	TRACE
     fprintf(stderr, "Entering new_state(%d)\n", symbol);
@@ -402,9 +404,9 @@ static void
 save_shifts(void)
 {
     shifts *p;
-    Value_t *sp1;
+    const Value_t *sp1;
     Value_t *sp2;
-    Value_t *send;
+    const Value_t *send;
 
     p = (shifts *)allocate((sizeof(shifts) +
 			      (unsigned)(nshifts - 1) * sizeof(Value_t)));
@@ -453,7 +455,7 @@ save_reductions(void)
     if (count)
     {
 	Value_t *rp2;
-	Value_t *rend;
+	const Value_t *rend;
 
 	p = (reductions *)allocate((sizeof(reductions) +
 				      (unsigned)(count - 1) *

@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.106 2024/12/31 19:39:49 tom Exp $ */
+/* $Id: reader.c,v 1.107 2025/10/08 00:22:08 tom Exp $ */
 
 #include "defs.h"
 
@@ -400,7 +400,8 @@ get_line(void)
 static char *
 dup_line(void)
 {
-    char *p, *s, *t;
+    const char *s;
+    char *p, *t;
 
     if (line == NULL)
 	return (NULL);
@@ -413,7 +414,9 @@ dup_line(void)
     s = line;
     t = p;
     while ((*t++ = *s++) != '\n')
-	continue;
+    {
+	;
+    }
     return (p);
 }
 
@@ -576,7 +579,7 @@ static int
 keyword(void)
 {
     int c;
-    char *t_cptr = cptr;
+    const char *t_cptr = cptr;
 
     c = *++cptr;
     if (isalpha(UCH(c)))
@@ -1450,7 +1453,7 @@ get_literal(void)
 	    unterminated_string(&a);
 	if (c == '\\')
 	{
-	    char *c_cptr = cptr - 1;
+	    const char *c_cptr = cptr - 1;
 
 	    c = *cptr++;
 	    switch (c)
@@ -1615,7 +1618,7 @@ is_reserved(char *name)
 
     if (name[0] == '$' && name[1] == '$' && isdigit(UCH(name[2])))
     {
-	char *s = name + 3;
+	const char *s = name + 3;
 
 	while (isdigit(UCH(*s)))
 	    ++s;
@@ -1647,7 +1650,7 @@ get_number(void)
 {
     int c;
     long n;
-    char *base = cptr;
+    const char *base = cptr;
 
     n = 0;
     for (c = *cptr; isdigit(UCH(c)); c = *++cptr)
@@ -1664,7 +1667,7 @@ get_number(void)
 }
 
 static char *
-cache_tag(char *tag, size_t len)
+cache_tag(const char *tag, size_t len)
 {
     int i;
     char *s;
@@ -1701,7 +1704,7 @@ get_tag(void)
     int c;
     int t_lineno = lineno;
     char *t_line = dup_line();
-    char *t_cptr = t_line + (cptr - line);
+    const char *t_cptr = t_line + (cptr - line);
 
     ++cptr;
     c = nextc();
@@ -1735,7 +1738,7 @@ get_tag(void)
 static char *
 scan_id(void)
 {
-    char *b = cptr;
+    const char *b = cptr;
 
     while (IS_NAME2(*cptr))
 	cptr++;
@@ -2269,7 +2272,7 @@ copy_args(int *alen)
 static char *
 parse_id(char *p, char **save)
 {
-    char *b;
+    const char *b;
 
     while (isspace(UCH(*p)))
 	if (*p++ == '\n')
@@ -2480,7 +2483,7 @@ compile_arg(char **theptr, char *yyvaltag)
 }
 
 static int
-can_elide_arg(char **theptr, char *yyvaltag)
+can_elide_arg(char **theptr, const char *yyvaltag)
 {
     char *p = *theptr;
     int rv = 0;
@@ -2578,7 +2581,7 @@ static struct arg_cache
  *arg_cache[ARG_CACHE_SIZE];
 
 static int
-lookup_arg_cache(char *code)
+lookup_arg_cache(const char *code)
 {
     struct arg_cache *entry;
 
@@ -2634,7 +2637,7 @@ advance_to_start(void)
 
     for (;;)
     {
-	char *s_cptr;
+	const char *s_cptr;
 
 	c = nextc();
 	if (c != '%')
@@ -2721,7 +2724,9 @@ end_rule(void)
 	    int i;
 
 	    for (i = nitems - 1; (i > 0) && pitem[i]; --i)
-		continue;
+	    {
+		;
+	    }
 	    if (pitem[i + 1] == NULL || pitem[i + 1]->tag != plhs[nrules]->tag)
 		default_action_warning(plhs[nrules]->name);
 	}
@@ -2908,7 +2913,7 @@ copy_action(void)
 #if defined(YYBTYACC)
     int haveyyval = 0;
 #endif
-    char *tag;
+    const char *tag;
     FILE *f = action_file;
     struct ainfo a;
     Value_t *offsets = NULL, maxoffset;
@@ -2974,7 +2979,7 @@ copy_action(void)
 	{
 	    int d_lineno = lineno;
 	    char *d_line = dup_line();
-	    char *d_cptr = d_line + (cptr - line);
+	    const char *d_cptr = d_line + (cptr - line);
 
 	    ++cptr;
 	    tag = get_tag();
@@ -3014,7 +3019,7 @@ copy_action(void)
 #if defined(YYBTYACC)
 	    else if (isalpha(UCH(c)) || c == '_')
 	    {
-		char *arg = scan_id();
+		const char *arg = scan_id();
 		for (i = plhs[nrules]->args - 1; i >= 0; i--)
 		    if (arg == plhs[nrules]->argnames[i])
 			break;
@@ -3085,7 +3090,7 @@ copy_action(void)
 #if defined(YYBTYACC)
 	else if (isalpha(UCH(cptr[1])) || cptr[1] == '_')
 	{
-	    char *arg;
+	    const char *arg;
 	    ++cptr;
 	    arg = scan_id();
 	    for (i = plhs[nrules]->args - 1; i >= 0; i--)
@@ -3297,7 +3302,7 @@ get_code(struct ainfo *a, const char *loc)
 	{
 	    int d_lineno = lineno;
 	    char *d_line = dup_line();
-	    char *d_cptr = d_line + (cptr - line);
+	    const char *d_cptr = d_line + (cptr - line);
 
 	    ++cptr;
 	    tag = get_tag();
@@ -3566,7 +3571,7 @@ static int
 mark_symbol(void)
 {
     int c;
-    bucket *bp = NULL;
+    const bucket *bp = NULL;
 
     c = cptr[1];
     if (c == '%' || c == '\\')
@@ -3700,11 +3705,13 @@ pack_names(void)
     t = name_pool + 13;
     for (bp = first_symbol; bp; bp = bp->next)
     {
-	char *s = bp->name;
+	const char *s = bp->name;
 
 	p = t;
 	while ((*t++ = *s++) != 0)
-	    continue;
+	{
+	    ;
+	}
 	FREE(bp->name);
 	bp->name = p;
     }
@@ -3734,7 +3741,7 @@ protect_string(char *src, char **des)
     *des = src;
     if (src)
     {
-	char *s;
+	const char *s;
 	char *d;
 
 	unsigned len = 1;
@@ -3875,7 +3882,9 @@ pack_symbols(void)
 	    while (j < k && n == symbol_value[j])
 	    {
 		while (++j < k && n == symbol_value[j])
-		    continue;
+		{
+		    ;
+		}
 		++n;
 	    }
 	    v[i]->value = n;

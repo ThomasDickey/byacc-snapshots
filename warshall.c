@@ -1,4 +1,4 @@
-/* $Id: warshall.c,v 1.9 2020/09/22 20:17:00 tom Exp $ */
+/* $Id: warshall.c,v 1.10 2025/10/08 00:22:08 tom Exp $ */
 
 #include "defs.h"
 
@@ -8,9 +8,9 @@ transitive_closure(unsigned *R, int n)
     int rowsize;
     unsigned i;
     unsigned *rowj;
-    unsigned *rp;
-    unsigned *rend;
-    unsigned *relend;
+    const unsigned *rp;
+    const unsigned *rend;
+    const unsigned *relend;
     unsigned *cword;
     unsigned *rowi;
 
@@ -59,7 +59,7 @@ reflexive_transitive_closure(unsigned *R, int n)
     int rowsize;
     unsigned i;
     unsigned *rp;
-    unsigned *relend;
+    const unsigned *relend;
 
     transitive_closure(R, n);
 

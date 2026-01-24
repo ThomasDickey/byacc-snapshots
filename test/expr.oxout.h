@@ -42,7 +42,7 @@ typedef struct yyyStackItem {
 
 yyyRSitem *yyyRSTop;
 yyyRSitem *yyyAfterRS;
-yyyRSitem *yyyRS; 
+yyyRSitem *yyyRS;
 
 #undef yyparse
 #undef yylex

@@ -1,4 +1,4 @@
-/* $Id: defs.h,v 1.75 2024/12/14 14:34:38 tom Exp $ */
+/* $Id: defs.h,v 1.76 2026/01/24 13:46:31 tom Exp $ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -563,6 +563,7 @@ extern unsigned int strnshash(const char *);
 			 : (*(m)->ptr++ = (char) (ch)))
 
 /* output.c */
+extern void puts_trim(const char *, FILE *);
 extern void output(void);
 
 /* reader.c */

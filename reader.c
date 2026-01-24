@@ -1,4 +1,4 @@
-/* $Id: reader.c,v 1.107 2025/10/08 00:22:08 tom Exp $ */
+/* $Id: reader.c,v 1.108 2026/01/24 13:45:39 tom Exp $ */
 
 #include "defs.h"
 
@@ -931,7 +931,7 @@ copy_text(void)
 	putc(c, f);
 	{
 	    char *s = copy_comment();
-	    fputs(s, f);
+	    puts_trim(s, f);
 	    free(s);
 	}
 	need_newline = 1;
@@ -961,9 +961,9 @@ puts_both(const char *s)
 {
     if (s && *s)
     {
-	fputs(s, text_file);
+	puts_trim(s, text_file);
 	if (dflag)
-	    fputs(s, union_file);
+	    puts_trim(s, union_file);
     }
 }
 
@@ -3262,7 +3262,7 @@ copy_action(void)
     case '/':
 	{
 	    char *s = copy_comment();
-	    fputs(s, f);
+	    puts_trim(s, f);
 	    free(s);
 	}
 	goto loop;

@@ -300,9 +300,9 @@ int      yynerrs;
 
 /* %code "requires" block start */
 #line 1 "calc_code_requires.y"
-/* CODE-REQUIRES */ 
+/* CODE-REQUIRES */
 #line 2 "calc_code_requires.y"
-/* CODE-REQUIRES2 */ 
+/* CODE-REQUIRES2 */
 /* %code "requires" block end */
 #line 308 "calc_code_requires.tab.c"
 

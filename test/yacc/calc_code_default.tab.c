@@ -326,9 +326,9 @@ static YYSTACKDATA yystack;
 
 /* %code "" block start */
 #line 1 "calc_code_default.y"
-/* CODE-DEFAULT */ 
+/* CODE-DEFAULT */
 #line 2 "calc_code_default.y"
-/* CODE-DEFAULT2 */ 
+/* CODE-DEFAULT2 */
 /* %code "" block end */
 #line 334 "calc_code_default.tab.c"
 #line 69 "calc_code_default.y"

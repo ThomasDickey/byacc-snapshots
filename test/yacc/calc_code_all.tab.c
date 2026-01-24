@@ -16,7 +16,7 @@
 
 /* %code "top" block start */
 #line 5 "calc_code_all.y"
-/* CODE-TOP */ 
+/* CODE-TOP */
 /* %code "top" block end */
 #line 22 "calc_code_all.tab.c"
 
@@ -306,7 +306,7 @@ int      yynerrs;
 
 /* %code "requires" block start */
 #line 3 "calc_code_all.y"
-/* CODE-REQUIRES */ 
+/* CODE-REQUIRES */
 /* %code "requires" block end */
 #line 312 "calc_code_all.tab.c"
 
@@ -338,17 +338,17 @@ static YYSTACKDATA yystack;
 
 /* %code "provides" block start */
 #line 4 "calc_code_all.y"
-/* CODE-PROVIDES */ 
+/* CODE-PROVIDES */
 #line 6 "calc_code_all.y"
-/* CODE-PROVIDES2 */ 
+/* CODE-PROVIDES2 */
 /* %code "provides" block end */
 #line 346 "calc_code_all.tab.c"
 
 /* %code "" block start */
 #line 1 "calc_code_all.y"
-/* CODE-DEFAULT2 */ 
+/* CODE-DEFAULT2 */
 #line 2 "calc_code_all.y"
-/* CODE-DEFAULT */ 
+/* CODE-DEFAULT */
 /* %code "" block end */
 #line 354 "calc_code_all.tab.c"
 #line 73 "calc_code_all.y"

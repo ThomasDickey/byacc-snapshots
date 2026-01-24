@@ -1,3 +1,9 @@
+byacc (1:2.0.20260126) unstable; urgency=low
+
+  * maintenance updates
+
+ -- Thomas E. Dickey <dickey@invisible-island.net>  Sat, 24 Jan 2026 07:09:51 -0500
+
 byacc (1:2.0.20251214) unstable; urgency=low
 
   * maintenance updates

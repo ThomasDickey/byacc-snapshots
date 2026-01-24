@@ -1,4 +1,4 @@
-/* $Id: output.c,v 1.103 2025/10/08 00:22:08 tom Exp $ */
+/* $Id: output.c,v 1.104 2026/01/24 13:47:41 tom Exp $ */
 
 #include "defs.h"
 
@@ -30,6 +30,44 @@ static Value_t *table;
 static Value_t *check;
 static int lowzero;
 static long high;
+
+void
+puts_trim(const char *s, FILE * fp)
+{
+    int ch;
+    int trim = 0;
+    const char *t = NULL;
+
+    while ((ch = *s++) != '\0')
+    {
+	if (ch == ' ' || ch == '\t')
+	{
+	    if (trim++ == 0)
+		t = s - 1;
+	}
+	else if (ch == '\r' || ch == '\n')
+	{
+	    trim = 0;
+	    fputc(ch, fp);
+	}
+	else
+	{
+	    if (trim)
+	    {
+		while (t != (s - 1))
+		{
+		    fputc(*t++, fp);
+		}
+		trim = 0;
+	    }
+	    fputc(ch, fp);
+	}
+    }
+    if (trim)
+    {
+	fputc(*t, fp);
+    }
+}
 
 static void
 putc_code(FILE * fp, int c)
@@ -197,7 +235,7 @@ output_code_lines(FILE * fp, int cl)
 	    fprintf(fp, "\n");
 	}
 	fprintf(fp, "/* %%code \"%s\" block start */\n", code_lines[cl].name);
-	fputs(code_lines[cl].lines, fp);
+	puts_trim(code_lines[cl].lines, fp);
 	fprintf(fp, "/* %%code \"%s\" block end */\n", code_lines[cl].name);
 	if (fp == code_file)
 	{

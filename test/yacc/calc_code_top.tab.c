@@ -16,9 +16,9 @@
 
 /* %code "top" block start */
 #line 1 "calc_code_top.y"
-/* CODE-TOP */ 
+/* CODE-TOP */
 #line 2 "calc_code_top.y"
-/* CODE-TOP2 */ 
+/* CODE-TOP2 */
 /* %code "top" block end */
 #line 24 "calc_code_top.tab.c"
 
